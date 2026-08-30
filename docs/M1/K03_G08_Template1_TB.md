@@ -7,7 +7,7 @@ TOPIC BRAINSTORMING
 </h1>
 <br>
 
-## *Nama Perangkat Lunak*
+## *FoodLink*
 
 ### Untuk: *Angel*
 
@@ -55,17 +55,23 @@ Berdasarkan kondisi tersebut, terdapat dua masalah utama yang belum sepenuhnya d
 
 Oleh karena itu, solusi perangkat lunak yang dikembangkan dalam proyek ini akan menggabungkan dua pendekatan. Pendekatan pertama adalah membantu pelaku usaha memperkirakan kebutuhan produksi agar jumlah makanan berlebih dapat dikurangi sejak awal. Pendekatan kedua adalah menyalurkan surplus yang tetap terjadi kepada pihak yang membutuhkan. Dengan menggabungkan pencegahan dan redistribusi, solusi yang dikembangkan diharapkan dapat mendukung pencapaian SDG 2 dan SDG 12 secara bersamaan.
 
-
-
 ---
 
 # BAB 2: Analisis Solusi
 
 ## 2.1 Deskripsi Perangkat Lunak
-Abstraksikan solusi perangkat lunak yang diusulkan dari sudut pandang pengguna. Jelaskan target platform yang akan digunakan (misalnya: desktop application) beserta alasan pemilihannya. Deskripsikan juga nilai unik (inovasi inti) dari perangkat lunak kalian dan apa yang membedakannya dari solusi yang sudah ada.
+FoodLink merupakan platform berbasis website yang bertujuan untuk mengurangi pemborosan makanan oleh pelaku usaha *Food and Beverage* (F&B) melalui pengelolaan surplus makanan secara preventif dan redistributif. Ada 2 kelompok pengguna utama dari platform ini, yaitu pelaku usaha itu sendiri dan *Non-Governmental Organization* (NGO).
+
+Dari sisi pelaku usaha, pengguna dapat melakukan pencatatan terkait jumlah stok dan penjualan, kemudian memperoleh rekomendasi jumlah produksi berdasarkan pola-pola penjualan sebelumnyha. Jadi, pelaku usaha dapat menyesuaikan produksi dengan rekomendasi untuk meminimalisir terjadinya *overproduction*. Pelaku usaha juga dapat memilih untuk mendonasikan surplusnya atau menjualnya kepada NGO dengan harga yang lebih murah. Dari sisi NGO, pengguna dapat melihat surplus makanan yang tersedia berdasarkan parameter-parameter seperti lokasi, jenis makanan, stok, batas waktu pengambilan, dan lain-lain. Jadi, produksi surplus memiliki peluang yang lebih besar untuk disalurkan ke pihak yang membutuhkan dibandingkan hanya menjadi limbah makanan 
+
+Platform berbasis web menjadi pilihan dikarenakan fleksibilitas yang ditawarkan. Dengan website, pengguna tidak perlu menginstall aplikasi terpisah serta developer tidak perlu memikirkan kompatibilitas antar perangkat. Website juga sudah jelas dapat diakses oleh seluruh smartphone dan desktop yang memiliki browser. 
+
+Nilai unik dari solusi ini adalah gabungan antara pencegahan serta redistribusi surplus. Berbeda dengan solusi yang hanya berfokus pada penanganan setelah terjadinya surplus, solusi ini membantu para pelaku usaha untuk meminimalisir terjadinya surplus sebelum produksi dilakukan. Ketika surplus tetap terjadi, solusi ini juga membuka jalur untuk redistribusi melalui donasi ataupun harga yang murah kepada NGO.
 
 ## 2.2 Asumsi dan Batasan
-Definisikan secara tegas asumsi (baik teknis maupun dari sisi pengguna) yang menjadi dasar pengembangan. Tuliskan batasan seperti regulasi/hukum, keterbatasan sumber daya, dan ruang lingkup solusi.
+Dalam pengembangan FoodLink, diasumsikan bahwa pelaku usaha memiliki data historis produksi dan penjualan yang cukup dan bersedia untuk memasukkan data tersebut secara berkala untuk digunakan sebagai dasar dari pemberian rekomendasi. Diasumsikan juga bahwa NGO dan komunitas yang menggunakan platform ini memiliki identitas yang dapat diverifikasi dan mampu untuk mengambil makanan yang di klaim. Pengguna juga diasumsikan  memiliki perangkat yang dapat mengakses browser dan koneksi internet yang memadai. Untuk surplus produksi, diasumsikan bahwa pelaku usaha hanya mencantumkan makanan yang layak konsumsi serta informasi yang benar mengenai jenis makanan, waktu pengambilan, dan lain-lain. Pihak pemberi dan penerima juga diasumsikan bertanggungg jawab dalam memastikan makanan ditangani sesuai dengan prosedur yang berlaku.
+
+Untuk batasan, FoodLink hanya menjadi sarana untuk membantu perencanaan produksi dan menghubungkan surplus makanan dengan NGO sehingga tidak mencakup proses pengangkutan, penyimpanan, ataupun pendistribusian secara langsung. Sistem juga hanya menangani surplus makanan yang layak produksi dan tidak melakukan pemeriksaan atau pengujian terhadap surplus yang ditawarkan. Rekomendasi produksi yang diberikan juga bergantung pada kualitas dan jumlah data historis yang diberikan sehingga sistem tidak menjamin keakuratan 100%. Keberhasilan distribusi juga bergantung pada keterediaan NGO atau komunitas yang bersedia menerima surplus dalam waktu yang tersedia, sehingga FoodLink tidak menjamin bahwa seluruh surplus dapat tersalurkan. Pengembangan FoodLink juga dibatasi oleh waktu, sumber daya, dan jumlah developer dalam ruang lingkup proyek akademik sehingga tidak mencakup integrasi dengan sistem internal seluruh pelaku usaha.
 
 ---
 

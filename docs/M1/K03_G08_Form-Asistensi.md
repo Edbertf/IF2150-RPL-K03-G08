@@ -4,12 +4,12 @@
 
 | Informasi | Keterangan |
 | --- | --- |
-| **Hari** | *\[Hari\]* |
-| **Tanggal** | *\[DD/MM/YYYY\]* |
+| **Hari** | *Senin* |
+| **Tanggal** | *31/08/2026* |
 | **Kelas** | *03* |
 | **Nomor Kelompok** | *08*  |
 | **Nama Kelompok** | *The Dragon Warrior*  |
-| **Nama Perangkat Lunak** | *\[Nama P/L\]*  |
+| **Nama Perangkat Lunak** | *FoodLink*  |
 | **Dokumen** | *\[Nama Dokumen yang diasistensikan\]*  |
 
 ### Anggota Kelompok
