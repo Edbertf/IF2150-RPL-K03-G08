@@ -15,9 +15,9 @@
 |---|---|
 | *13525024* | *Excell Timothy Josua Tariga* |
 | *13525036* | *Dylan Frederico Ketaren* |
-| *13525111* | *Edbert Fernando |
+| *13525111* | *Edbert Fernando* |
 | *13525114* | *Ernest Clarence Gunawan* |
-| *13525117* | *Abdur Rauuf Fawaaz |
+| *13525117* | *Abdur Rauuf Fawaaz* |
 
 ---
 
