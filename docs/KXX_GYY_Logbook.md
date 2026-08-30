@@ -4,20 +4,20 @@
 
 | Informasi | Keterangan |
 |---|---|
-| Kelas | *[Kelas]* |
-| Nomor Kelompok | *[Nomor Kelompok]* |
-| Nama Kelompok | *[Nama Kelompok]* |
+| Kelas | *03* |
+| Nomor Kelompok | *08* |
+| Nama Kelompok | *The Dragon Warrior* |
 | Nama Perangkat Lunak | *[Nama P/L]* |
 
 **Anggota Kelompok:**
 
 | NIM | Nama |
 |---|---|
-| *[NIM 1]* | *[Nama Anggota 1]* |
-| *[NIM 2]* | *[Nama Anggota 2]* |
-| *[NIM 3]* | *[Nama Anggota 3]* |
-| *[NIM 4]* | *[Nama Anggota 4]* |
-| *[NIM 5]* | *[Nama Anggota 5]* |
+| *13525024* | *Excell Timothy Josua Tariga* |
+| *13525036* | *Dylan Frederico Ketaren* |
+| *13525111* | *Edbert Fernando |
+| *13525114* | *Ernest Clarence Gunawan* |
+| *13525117* | *Abdur Rauuf Fawaaz |
 
 ---
 
