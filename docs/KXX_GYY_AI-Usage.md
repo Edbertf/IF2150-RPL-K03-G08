@@ -13,7 +13,7 @@
 
 | NIM | Nama |
 |---|---|
-| *13525024* | *Excell Timothy Josua Tariga* |
+| *13525024* | *Excell Timothy Josua Tarigan* |
 | *13525036* | *Dylan Frederico Ketaren* |
 | *13525111* | *Edbert Fernando* |
 | *13525114* | *Ernest Clarence Gunawan* |
