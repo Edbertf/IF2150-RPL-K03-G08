@@ -35,7 +35,7 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *04-05-2026* | *[Nama Mahasiswa]* | *[Jelaskan Pekerjaan secara Singkat]* | *[Durasi Pengerjaan]* | *[On Progress/Done]* | [Kendala yang dialami, jika tidak ada cukup tandai "-"] | 
 | *30-08-2026* | *Dylan Frederico K* | *mengerjakan bab 1.2* | *45 menit* | *Done* | *-* | 
-| | | | | | | |
+| *30-08-2026* | *Ernest Clarence Gunawan* | *mengerjakan bab 1.1* | *2 jam* | *Done* | *-* |
 
 **Catatan/Evaluasi Milestone 1:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
