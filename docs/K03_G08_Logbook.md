@@ -38,6 +38,7 @@
 | *30-08-2026* | *Ernest Clarence Gunawan* | *mengerjakan bab 1.1* | *2 jam* | *Done* | *-* |
 | *30-08-2026* | *Edbert Fernando* | *mengerjakan bab 2* | *2 jam* | *Done* | *-* |
 | *30-08-2026* | *Excell Timothy Josua Tarigan* | *mengerjakan bab 3.1 dan 3.2* | *2 jam* | *Done* | *-* |
+| *30-08-2026* | *Abdur Rauuf Fawaaz* | *membuat diagram swimlane* | *1 jam* | *Done* | *-* |
 
 **Catatan/Evaluasi Milestone 1:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*

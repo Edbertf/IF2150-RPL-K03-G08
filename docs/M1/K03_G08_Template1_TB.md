@@ -110,6 +110,15 @@ Buatlah *Activity Diagram* atau *Swimlane Diagram* yang menunjukkan alur kerja p
 
 <br>
 
+<p align="center">
+<img alt="Contoh Diagram Swinlane" src="./assets/diagram/diagram- swimlane-1.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 2. Contoh Diagram Swimlane</i>
+</p>
+
+<br>
+
 # Referensi
 - Diagram UML: https://www.drawio.com/, https://staruml.io/
 - Food Waste Index Report 2024: https://www.unep.org/resources/publication/food-waste-index-report-2024
