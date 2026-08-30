@@ -104,3 +104,7 @@ Buatlah *Activity Diagram* atau *Swimlane Diagram* yang menunjukkan alur kerja p
 
 # Referensi
 - Diagram UML: https://www.drawio.com/, https://staruml.io/
+- Food Waste Index Report 2024: https://www.unep.org/resources/publication/food-waste-index-report-2024
+- Data Komposisi Sampah Nasional: https://mahasiswaindonesia.id/mengungkap-krisis-food-waste-di-perkotaan-bukti-data-dampak-nyata-dan-strategi-mitigasi-berkelanjutan/
+- Surplus Indonesia: https://surplus.id/
+- Sustainable Development Goals: https://sdgs.un.org/goals
