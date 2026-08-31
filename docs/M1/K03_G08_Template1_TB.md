@@ -69,9 +69,35 @@ Platform berbasis web menjadi pilihan dikarenakan fleksibilitas yang ditawarkan.
 Nilai unik dari solusi ini adalah gabungan antara pencegahan serta redistribusi surplus. Berbeda dengan solusi yang hanya berfokus pada penanganan setelah terjadinya surplus, solusi ini membantu para pelaku usaha untuk meminimalisir terjadinya surplus sebelum produksi dilakukan. Ketika surplus tetap terjadi, solusi ini juga membuka jalur untuk redistribusi melalui donasi ataupun harga yang murah kepada NGO.
 
 ## 2.2 Asumsi dan Batasan
-Dalam pengembangan FoodLink, diasumsikan bahwa pelaku usaha memiliki data historis produksi dan penjualan yang cukup dan bersedia untuk memasukkan data tersebut secara berkala untuk digunakan sebagai dasar dari pemberian rekomendasi. Diasumsikan juga bahwa NGO dan komunitas yang menggunakan platform ini memiliki identitas yang dapat diverifikasi dan mampu untuk mengambil makanan yang di klaim. Pengguna juga diasumsikan  memiliki perangkat yang dapat mengakses browser dan koneksi internet yang memadai. Untuk surplus produksi, diasumsikan bahwa pelaku usaha hanya mencantumkan makanan yang layak konsumsi serta informasi yang benar mengenai jenis makanan, waktu pengambilan, dan lain-lain. Pihak pemberi dan penerima juga diasumsikan bertanggungg jawab dalam memastikan makanan ditangani sesuai dengan prosedur yang berlaku.
+1. Asumsi Pengguna:
+* Pelaku usaha diasumsikan memiliki data historis produksi dan penjualan yang cukup sebagai dasar pemberian rekomendasi
+* Pelaku usaha diasumsikan bersedia untuk memasukkan data produksi dan penjualan  tersebut secara berkala
+* Pelaku usaha diasumsikan mencantumkan informasi yang tepat mengenai jenis makanan, waktu, jumlah, dll
+* Pelaku usaha diasumsikan hanya mencantumkan makanan yang layak konsumsi 
+* NGO atau komunitas diasumsikan memiliki identitas yang dapat diverifikasi 
+* NGO atau komunitas diasumsikan mampu untuk mengambil makanan yang di klaim
 
-Untuk batasan, FoodLink hanya menjadi sarana untuk membantu perencanaan produksi dan menghubungkan surplus makanan dengan NGO sehingga tidak mencakup proses pengangkutan, penyimpanan, ataupun pendistribusian secara langsung. Sistem juga hanya menangani surplus makanan yang layak produksi dan tidak melakukan pemeriksaan atau pengujian terhadap surplus yang ditawarkan. Rekomendasi produksi yang diberikan juga bergantung pada kualitas dan jumlah data historis yang diberikan sehingga sistem tidak menjamin keakuratan 100%. Keberhasilan distribusi juga bergantung pada keterediaan NGO atau komunitas yang bersedia menerima surplus dalam waktu yang tersedia, sehingga FoodLink tidak menjamin bahwa seluruh surplus dapat tersalurkan. Pengembangan FoodLink juga dibatasi oleh waktu, sumber daya, dan jumlah developer dalam ruang lingkup proyek akademik sehingga tidak mencakup integrasi dengan sistem internal seluruh pelaku usaha.
+2. Asumsi Teknis:
+* Pengguna diasumsikan memiliki perangkat yang dapat mengakses browser dan memiliki koneksi internet yang memadai
+* Pengguna diasumsikan mampu mengoperasikan perangkat yang digunakan untuk mengakses web
+* Pengguna diasumsikan mampu melakukan navigasi saat menggunakan web 
+
+3. Batasan Resource:
+* Pengembangkan dibatasi oleh waktu, sumber daya, dan jumlah developer karena masih dalam ruang lingkup akademik sehingga fokus ada pada pengembangan fitur utama seperti rekomendasi produksi, pencatatan surplus, dll
+* Pengujian dilakukan dalam skala kecil sehingga tidak menjamin bahwa platform dapat bekerja secara efektif pada skala besar
+* Sistem tidak mencakup integrasi langsung terhadap sistem internal pelaku usaha maupun NGO
+* Sistem tidak menjamin keakuratan 100% mengenai rekomendasi jumlah produksi
+
+4. Batasan Ruang Lingkup:
+* Sistem tidak mengelola distribusi secara langsung kepada penerima manfaat
+* Sistem hanya berfungsi sebagai penghubung antara pelaku usaha dan NGO
+* Sistem tidak terlibat dalam pengangkutan atau penyimpanan makanan
+* Keberhasilan distribusi tergantung pada ketersediaan NGO atau komuntas yang bersedia menerima surplus sehingga platform tidak menjamin seluruh surplus akan tersalurkan
+* Sistem tidak melakukan pemeriksaan atau pengujian terhadap surplus yang dicantumkan
+
+5. Batasan Hukum:
+* Data pribadi yang terdapat pada sistem dikelola dengan mengacu pada UU No. 27 Tahun 2022 tentang Perlindungan Data Pribadi
+* Pelaku usaha bertanggung jawab atas keamanan dan kelayakan makanan sesuai dengan UU No. 12 Tahun 2012 tentang Pangan
 
 ---
 
