@@ -97,7 +97,15 @@ Untuk batasan, FoodLink hanya menjadi sarana untuk membantu perencanaan produksi
 | US-05 | *Perwakilan NGO* | *Mengklaim makanan yang sudah diambil* | *Mengamankan donasi agar tidak diklaim lagi oleh komunitas lain* |
 | US-06 | *Admin Sistem* | *Verifikasi identitas pengguna baru* | *Mencegah pihak yang tidak terpercaya/bertanggung jawab di software* |
 
-## 3.3 Model Proses Bisnis
+## 3.3 Deskripsi Aktivitas
+Buatlah daftar seluruh aktivitas yang terdapat dalam sistem solusi, lengkap dengan ID dan penjelasan. Telusuri hubungan aktivitas tersebut dengan *user story* yang sudah dituliskan sebelumnya. Bisa dibuat dalam bentuk tabel.
+| ID | Aktivitas | Penjelasan | ID User Story |
+| :--- | :--- | :--- | :--- |
+| A01 | *Melakukan Pemesanan* | *Pelanggan memulai proses dengan memesan produk.* | *US-01* |
+| A02 | *Memproses Pesanan* | *Sistem memproses dan menyiapkan detail sesuai dengan pesanan.* | *US-02*|
+| ... | ... | ... | ... |
+
+## 3.4. Model Proses Bisnis
 Buatlah *Activity Diagram* atau *Swimlane Diagram* yang menunjukkan alur kerja proses bisnis dari sistem solusi. Diagram ini harus memvisualisasikan bagaimana alur operasional di dunia nyata berjalan lebih efisien dengan adanya interaksi antara aktor (yang didefinisikan pada poin 3.1) dan sistem perangkat lunak. Perhatikan notasi yang digunakan dalam pembuatannya.
 <br>
 
