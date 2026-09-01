@@ -92,10 +92,11 @@ Untuk batasan, FoodLink hanya menjadi sarana untuk membantu perencanaan produksi
 | :--- | :--- | :--- | :--- |
 | US-01 | *Pemilik F&B* | *Memasukkan hasil data penjualan dan sisa produk harian* | *Sistem merekomendasikan prediksi produksi untuk hari berikutnya* |
 | US-02 | *Pemilik F&B* | *Melihat rekomendasi dan prediksi produksi bahan harian* | *Merencanakan kebutuhan produksi untuk mencegah overproduksi kedepannya* |
-| US-03 | *Pemilik F&B* | *Mengumumkan daftar produksi yang berlebih* | *Makanan layak konsumsi yang tak terjual dapat diberikan ke pihak yang membutuhkan* |
-| US-04 | *Perwakilan NGO* | *Melihat daftar makanan berlebih yang tersedia dan dekat dengan lokasi* | *Menemukan dan mengambil produksi makanan yang siap didonasikan* |
-| US-05 | *Perwakilan NGO* | *Mengklaim makanan yang sudah diambil* | *Mengamankan donasi agar tidak diklaim lagi oleh komunitas lain* |
-| US-06 | *Admin Sistem* | *Verifikasi identitas pengguna baru* | *Mencegah pihak yang tidak terpercaya/bertanggung jawab di software* |
+| US-03 | *Pemilik F&B* | *Memilih opsi menjual surplus makanan dengan harga yang lebih murah atau didonasikan* | *Makanan layak konsumsi yang tak terjual dapat diberikan ke pihak yang membutuhkan* |
+| US-04 | *Pemilik F&B* | *Mengumumkan daftar produksi yang berlebih* | *Pihak lain dapat ternotifikasi akan makanan surplus* |
+| US-05 | *Perwakilan NGO* | *Melihat daftar makanan berlebih yang tersedia dan dekat dengan lokasi* | *Menemukan dan mengambil produksi makanan yang siap dijual murah atau didonasikan* |
+| US-06 | *Perwakilan NGO* | *Mengklaim makanan yang sudah diambil* | *Mengamankan donasi agar tidak diklaim lagi oleh komunitas lain* |
+| US-07 | *Admin Sistem* | *Verifikasi identitas pengguna baru* | *Mencegah pihak yang tidak terpercaya/bertanggung jawab di software* |
 
 ## 3.3 Model Proses Bisnis
 Buatlah *Activity Diagram* atau *Swimlane Diagram* yang menunjukkan alur kerja proses bisnis dari sistem solusi. Diagram ini harus memvisualisasikan bagaimana alur operasional di dunia nyata berjalan lebih efisien dengan adanya interaksi antara aktor (yang didefinisikan pada poin 3.1) dan sistem perangkat lunak. Perhatikan notasi yang digunakan dalam pembuatannya.
