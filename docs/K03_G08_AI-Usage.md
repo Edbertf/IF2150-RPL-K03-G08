@@ -52,8 +52,8 @@ Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan A
 
 | Tanda Tangan | Nama Anggota |
 | :---: | :--- |
-| <img src="./assets/ttd-anggota1.png" width="100"> | **[NIM - Nama Anggota 1]** |
-| <img src="./assets/ttd-anggota2.png" width="100"> | **[NIM - Nama Anggota 2]** |
-| <img src="./assets/ttd-anggota3.png" width="100"> | **[NIM - Nama Anggota 3]** |
-| <img src="./assets/ttd-anggota4.png" width="100"> | **[NIM - Nama Anggota 4]** |
-| <img src="./assets/ttd-anggota5.png" width="100"> | **[NIM - Nama Anggota 5]** |
+| <img src="./assets/ttd-anggota1.png" width="100"> | **13525024 - Excell Timothy Josua Tarigan** |
+| <img src="./assets/ttd-anggota2.jpeg" width="100"> | **13525036 - Dylan Frederico Ketaren** |
+| <img src="./assets/ttd-anggota3.jpeg" width="100"> | **13525111 - Edbert Fernando** |
+| <img src="./assets/ttd-anggota4.jpeg" width="100"> | **13525114 - Ernest Clarence Gunawan** |
+| <img src="./assets/ttd-anggota5.jpeg" width="100"> | **13525117 - Abdur Rauuf Fawaaz** |

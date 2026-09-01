@@ -26,10 +26,11 @@
 
 | Catatan |
 | --- |
-| 1. *\[Berikan catatan hasil asistensi\]*  |
-| 2. ... |
-| 3. ... |
-| 4. ... |
+| 1. *tambahin terkait penjualan ke User Story*  |
+| 2. *Kelompokkan asumsi dan batasan (Asumsi teknis,pengguna dan Batasan ruang lingkup, resource, hukum)* |
+| 3. *Tambahin keterangan terkait SDG yang difokuskan* |
+| 4. *Update Swimlane, yang penjualan bisa dibuat decision aja* |
+| 5. *Bisa ditambahin yang terkait proses transaksi juga di swimlane* |
 
 **Notes for this section:**  
 *Catatan dapat dituliskan dalam bentuk paragraf atau poin-poin, disesuaikan saja.* 
