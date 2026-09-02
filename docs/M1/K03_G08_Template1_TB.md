@@ -32,24 +32,35 @@ Dipersiapkan oleh:
 # BAB 1: Analisis Permasalahan
 
 ## 1.1 Latar Belakang Masalah
+#### 1.1.1 Deskripsi Permasalahan
 Di satu sisi jutaan penduduk masih menghadapi kekurangan pangan, sementara di sisi lain jumlah makanan layak konsumsi yang terbuang malah terus meningkat setiap tahunnya. Berdasarkan laporan United Nations Environment Programme (UNEP) berjudul Food Waste Index 2024, total sampah makanan Indonesia per tahun mencapai 14,73 juta ton, setara dengan 54,33 kilogram per penduduk per tahun, menjadikan Indonesia sebagai negara penghasil sampah makanan rumah tangga terbanyak se-Asia Tenggara. Masalah ini terjelaskan dengan melihat komposisi sampah nasional, dimana data Kementerian Lingkungan Hidup dan Kehutanan (KLHK) mencatat bahwa pada 2023 sekitar 41% sampah di Indonesia merupakan sampah makanan, proporsi tertinggi dibandingkan jenis sampah lainnya, jauh lebih tinggi dibanding sampah plastik yang hanya 18,6%.
 
 Sebagian besar dari sampah makanan ini sebenarnya masih layak dikonsumsi, namun terbuang akibat tidak adanya sistem yang menghubungkan pihak dengan makanan berlebih (seperti restoran, kafe, toko roti) dengan pihak yang membutuhkan, serta kurangnya alat bantu bagi pelaku usaha untuk merencanakan produksi secara tepat sejak awal. Persoalan ini bukan sekadar isu lingkungan, melainkan juga masalah sosial dan ekonomi yang serius. Kajian Bappenas bersama Waste4Change dan World Resources Institute memperkirakan kerugian ekonomi akibat sampah makanan di Indonesia mencapai Rp213-551 triliun per tahun, dan bila dimanfaatkan, kandungan gizinya diproyeksikan mampu mencukupi kebutuhan pangan 61-125 juta penduduk Indonesia. Di tingkat perkotaan, keadaan ini justru terlihat lebih jelas. Lebih dari 22 juta penduduk mengalami kerawanan pangan, termasuk sekitar 11,64 juta orang miskin, sementara sampah makanan terus menumpuk dari sisa produksi yang tidak habis dikonsumsi.
 
+#### 1.1.2 SDG Terkait
+
 Permasalahan ini berkaitan langsung dengan dua Tujuan Pembangunan Berkelanjutan (SDGs). Fokus utama permasalahan ini adalah pada SDG 12 (Responsible Consumption and Production), yang memiliki tujuan pengurangan sebagian limbah pangan global di tingkat ritel dan konsumen pada 2030 (Target 12.3). Di sisi lain, upaya ini juga memberikan kontribusi terhadap SDG 2 (Zero Hunger) , khususnya pada Target 2.4 tentang keberlanjutan sistem produksi pangan. Sistem redistribusi makanan berlebih yang masih layak konsumsi kepada pihak yang membutuhkan adalah langkah konkret yang dapat dilakukan untuk memperkecil kesenjangan akses pangan tanpa harus menambah produksi baru. Mencegah produksi berlebih sejak awal, di samping menyalurkan kelebihan makanan ke yang membutuhkan, akan membantu dalam membuat sistem pangan lebih efisien dan berkelanjutan.
+
+#### 1.1.3 Urgensi Penyelesaian
 
 Urgensi penyelesaian masalah ini dapat diperhatikan dari beberapa aspek. Secara sosial, kesenjangan pangan terjadi bukan karena sedikitnya produksi, melainkan karena kurangnya perencanaan dan distribusi yang buruk. Makanan yang sebenarnya cukup untuk puluhan juta orang malah terbuang. Secara ekonomi pula, kerugian yang mencapai ratusan triliun rupiah per tahun merupakan pemborosan yang sangat besar bagi Indonesia. Kompleksnya masalah ini, yang melibatkan banyak pihak dan menuntut koordinasi waktu yang efisien (karena sifat makanan yang mudah rusak), menjadikannya sulit diselesaikan secara manual, sehingga diperlukan solusi berbasis perangkat lunak yang mampu membantu pelaku usaha merencanakan produksi secara lebih akurat sekaligus menghubungkan surplus yang tetap terjadi dengan pihak yang membutuhkan  secara cepat dan efisien.
 
 ## 1.2 Analisis Kondisi Saat Ini
 Saat ini, sebagian besar pelaku usaha F&B di Indonesia masih menangani surplus makanan setelah surplus tersebut terjadi. Restoran, kafe, dan toko roti biasanya menentukan jumlah produksi berdasarkan perkiraan atau kebiasaan sehari-hari. Perkiraan tersebut belum tentu mempertimbangkan data penjualan sebelumnya, hari dalam seminggu, musim, cuaca, atau hari libur. Akibatnya, jumlah produksi terkadang tidak sesuai dengan permintaan dan menyisakan makanan yang tidak terjual pada akhir hari.
 
-Salah satu solusi yang sudah tersedia di Indonesia adalah Surplus Indonesia atau Surplus.id. Aplikasi ini mempertemukan pelaku usaha F&B dengan konsumen yang ingin membeli makanan surplus dengan harga lebih murah. Melalui aplikasi tersebut, pelaku usaha dapat mengunggah produk yang belum terjual dan menawarkannya dengan diskon minimal 50% menjelang jam tutup. Surplus.id telah beroperasi di beberapa wilayah, seperti JABODETABEK, Bandung, Yogyakarta, dan Malang. Aplikasi ini memiliki misi untuk membantu mengurangi setengah jumlah sampah makanan di Indonesia pada 2030.
+#### 1.2.1 Solusi yang Sudah Ada
+
+Salah satu solusi yang sudah tersedia di Indonesia adalah **Surplus Indonesia** atau **Surplus.id**. Aplikasi ini mempertemukan pelaku usaha F&B dengan konsumen yang ingin membeli makanan surplus dengan harga lebih murah. Melalui aplikasi tersebut, pelaku usaha dapat mengunggah produk yang belum terjual dan menawarkannya dengan diskon minimal 50% menjelang jam tutup. Surplus.id telah beroperasi di beberapa wilayah, seperti JABODETABEK, Bandung, Yogyakarta, dan Malang. Aplikasi ini memiliki misi untuk membantu mengurangi setengah jumlah sampah makanan di Indonesia pada 2030.
+
+#### 1.2.2 Keterbatasan/Celah dari Kondisi Tersebut
 
 Walaupun memberikan dampak positif, Surplus.id masih memiliki beberapa keterbatasan. Pertama, aplikasi ini baru menangani makanan setelah surplus terjadi. Belum terdapat fitur yang membantu pelaku usaha memperkirakan jumlah produksi sebelum kegiatan produksi dilakukan. Artinya, aplikasi tersebut belum mencegah munculnya surplus dari awal, tetapi lebih berfokus pada menjual kembali makanan yang sudah terlanjur berlebih.
 
 Kedua, Surplus.id menggunakan model komersial karena makanan surplus tetap harus dibeli oleh pengguna, meskipun harganya sudah didiskon. Model tersebut memang dapat membantu konsumen memperoleh makanan dengan harga lebih murah. Namun, masyarakat yang sama sekali tidak memiliki kemampuan untuk membeli makanan tetap belum dapat merasakan manfaatnya. Menurut kami, bagian ini masih menjadi kekurangan karena kelompok yang paling membutuhkan justru belum sepenuhnya terjangkau.
 
 Selain itu, berdasarkan kajian terhadap ratusan ulasan pengguna, masih ditemukan beberapa masalah teknis dan operasional. Beberapa pengguna mengalami kendala pada proses transaksi. Fitur peta juga dinilai kurang tepat dalam menunjukkan lokasi mitra terdekat. Di sisi lain, harga produk terkadang dianggap tidak wajar karena pengawasan terhadap mitra masih terbatas. Metode pembayaran yang tersedia juga lebih banyak bergantung pada dompet digital. Jangkauan mitranya pun masih terkonsentrasi di kota-kota besar sehingga pengguna dari wilayah lain belum dapat menggunakan layanan ini secara maksimal.
+
+#### 1.2.3 Masalah yang Diselesaikan
 
 Berdasarkan kondisi tersebut, terdapat dua masalah utama yang belum sepenuhnya diselesaikan oleh solusi yang ada. Masalah pertama adalah belum adanya mekanisme prediksi yang membantu pelaku usaha mencegah surplus sejak tahap perencanaan produksi. Masalah kedua adalah belum tersedianya jalur donasi yang terintegrasi untuk menyalurkan makanan kepada masyarakat yang tidak memiliki daya beli.
 
@@ -69,7 +80,8 @@ Platform berbasis web menjadi pilihan dikarenakan fleksibilitas yang ditawarkan.
 Nilai unik dari solusi ini adalah gabungan antara pencegahan serta redistribusi surplus. Berbeda dengan solusi yang hanya berfokus pada penanganan setelah terjadinya surplus, solusi ini membantu para pelaku usaha untuk meminimalisir terjadinya surplus sebelum produksi dilakukan. Ketika surplus tetap terjadi, solusi ini juga membuka jalur untuk redistribusi melalui donasi ataupun harga yang murah kepada NGO.
 
 ## 2.2 Asumsi dan Batasan
-1. Asumsi Pengguna:
+### 2.2.1 Asumsi
+#### 1. Asumsi Pengguna:
 * Pelaku usaha diasumsikan memiliki data historis produksi dan penjualan yang cukup sebagai dasar pemberian rekomendasi
 * Pelaku usaha diasumsikan bersedia untuk memasukkan data produksi dan penjualan  tersebut secara berkala
 * Pelaku usaha diasumsikan mencantumkan informasi yang tepat mengenai jenis makanan, waktu, jumlah, dll
@@ -77,25 +89,26 @@ Nilai unik dari solusi ini adalah gabungan antara pencegahan serta redistribusi 
 * NGO atau komunitas diasumsikan memiliki identitas yang dapat diverifikasi 
 * NGO atau komunitas diasumsikan mampu untuk mengambil makanan yang di klaim
 
-2. Asumsi Teknis:
+#### 2. Asumsi Teknis:
 * Pengguna diasumsikan memiliki perangkat yang dapat mengakses browser dan memiliki koneksi internet yang memadai
 * Pengguna diasumsikan mampu mengoperasikan perangkat yang digunakan untuk mengakses web
 * Pengguna diasumsikan mampu melakukan navigasi saat menggunakan web 
 
-3. Batasan Resource:
+### 2.2.2 Batasan
+#### 1. Batasan Resource:
 * Pengembangkan dibatasi oleh waktu, sumber daya, dan jumlah developer karena masih dalam ruang lingkup akademik sehingga fokus ada pada pengembangan fitur utama seperti rekomendasi produksi, pencatatan surplus, dll
 * Pengujian dilakukan dalam skala kecil sehingga tidak menjamin bahwa platform dapat bekerja secara efektif pada skala besar
 * Sistem tidak mencakup integrasi langsung terhadap sistem internal pelaku usaha maupun NGO
 * Sistem tidak menjamin keakuratan 100% mengenai rekomendasi jumlah produksi
 
-4. Batasan Ruang Lingkup:
+#### 2. Batasan Ruang Lingkup:
 * Sistem tidak mengelola distribusi secara langsung kepada penerima manfaat
 * Sistem hanya berfungsi sebagai penghubung antara pelaku usaha dan NGO
 * Sistem tidak terlibat dalam pengangkutan atau penyimpanan makanan
 * Keberhasilan distribusi tergantung pada ketersediaan NGO atau komuntas yang bersedia menerima surplus sehingga platform tidak menjamin seluruh surplus akan tersalurkan
 * Sistem tidak melakukan pemeriksaan atau pengujian terhadap surplus yang dicantumkan
 
-5. Batasan Hukum:
+#### 3. Batasan Hukum:
 * Data pribadi yang terdapat pada sistem dikelola dengan mengacu pada UU No. 27 Tahun 2022 tentang Perlindungan Data Pribadi
 * Pelaku usaha bertanggung jawab atas keamanan dan kelayakan makanan sesuai dengan UU No. 12 Tahun 2012 tentang Pangan
 
