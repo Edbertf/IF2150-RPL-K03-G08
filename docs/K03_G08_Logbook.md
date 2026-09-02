@@ -33,13 +33,13 @@
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
-| *04-05-2026* | *[Nama Mahasiswa]* | *[Jelaskan Pekerjaan secara Singkat]* | *[Durasi Pengerjaan]* | *[On Progress/Done]* | [Kendala yang dialami, jika tidak ada cukup tandai "-"] | 
 | *30-08-2026* | *Dylan Frederico K* | *mengerjakan bab 1.2* | *45 menit* | *Done* | *-* | 
 | *30-08-2026* | *Ernest Clarence Gunawan* | *mengerjakan bab 1.1* | *2 jam* | *Done* | *-* |
 | *30-08-2026* | *Edbert Fernando* | *mengerjakan bab 2* | *2 jam* | *Done* | *-* |
 | *30-08-2026* | *Excell Timothy Josua Tarigan* | *mengerjakan bab 3.1 dan 3.2* | *2 jam* | *Done* | *-* |
 | *30-08-2026* | *Abdur Rauuf Fawaaz* | *membuat diagram swimlane* | *1 jam* | *Done* | *-* |
 | *31-08-2026* | *Edbert Fernando* | *revisi 2.2* | *45 menit* | *Done* | *sedikit bingung mengelompokkan asumsi & batasan* |
+| *02-09-2026* | *Ernest Clarence Gunawan* | *revisi 1.1 tentang fokus SDG dan merapikan struktur dokumen* | *1 jam* | *Done* | *bingung menentukan fokus SDG agar tidak terjadi tumpang tindih* |
 
 **Catatan/Evaluasi Milestone 1:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
