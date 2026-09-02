@@ -110,7 +110,7 @@ Nilai unik dari solusi ini adalah gabungan antara pencegahan serta redistribusi 
 
 #### 3. Batasan Hukum:
 * Data pribadi yang terdapat pada sistem dikelola dengan mengacu pada UU No. 27 Tahun 2022 tentang Perlindungan Data Pribadi
-* Pelaku usaha bertanggung jawab atas keamanan dan kelayakan makanan sesuai dengan UU No. 12 Tahun 2012 tentang Pangan
+* Pelaku usaha bertanggung jawab atas keamanan dan kelayakan makanan sesuai dengan UU No. 18 Tahun 2012 tentang Pangan
 
 ---
 
@@ -163,3 +163,5 @@ Buatlah daftar seluruh aktivitas yang terdapat dalam sistem solusi, lengkap deng
 - Data Komposisi Sampah Nasional: https://mahasiswaindonesia.id/mengungkap-krisis-food-waste-di-perkotaan-bukti-data-dampak-nyata-dan-strategi-mitigasi-berkelanjutan/
 - Surplus Indonesia: https://surplus.id/
 - Sustainable Development Goals: https://sdgs.un.org/goals
+- UU No. 27 Tahun 2022 = https://peraturan.bpk.go.id/Details/229798/uu-no-27-tahun-2022
+- UU No. 18 Tahun 2012 = https://peraturan.bpk.go.id/Details/39100/uu-no-18-tahun-2012
