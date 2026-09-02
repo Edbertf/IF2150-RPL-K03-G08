@@ -163,10 +163,37 @@ Buatlah daftar seluruh aktivitas yang terdapat dalam sistem solusi, lengkap deng
 <br>
 
 <p align="center">
-<img alt="Contoh Diagram Swimlane" src="./assets/diagram/diagram- swimlane-1.jpg" width="70%">
+<img alt="Diagram 1" src="./assets/diagram/Diagram 1.jpg" width="70%">
 </p>
 <p align="center">
-<i>Gambar 1. Contoh Diagram Swimlane</i>
+<i>Gambar 1. Diagram Swimlane Aktivitas Pendaftaran dan Verifikasi Pengguna</i>
+</p>
+
+<br>
+
+<p align="center">
+<img alt="Diagram 2" src="./assets/diagram/Diagram 2.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 2. Diagram Swimlane Aktivitas Merekomendasikan Produk</i>
+</p>
+
+<br>
+
+<p align="center">
+<img alt="Diagram 3" src="./assets/diagram/Diagram 3.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 3. Diagram Swimlane Aktivitas Koordinasi Produk Surplus</i>
+</p>
+
+<br>
+
+<p align="center">
+<img alt="Diagram 4" src="./assets/diagram/Diagram 4.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 4. Diagram Swimlane Aktivitas Mengklaim dan Mengambil Produk</i>
 </p>
 
 <br>
