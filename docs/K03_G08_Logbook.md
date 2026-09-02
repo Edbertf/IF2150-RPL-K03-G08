@@ -39,6 +39,7 @@
 | *30-08-2026* | *Excell Timothy Josua Tarigan* | *mengerjakan bab 3.1 dan 3.2* | *2 jam* | *Done* | *-* |
 | *30-08-2026* | *Abdur Rauuf Fawaaz* | *membuat diagram swimlane* | *1 jam* | *Done* | *-* |
 | *31-08-2026* | *Edbert Fernando* | *revisi 2.2* | *45 menit* | *Done* | *sedikit bingung mengelompokkan asumsi & batasan* |
+| *01-09-2026* | *Excell Timothy Josua Tarigan* | *penambahan opsi jual atau donasi surplus produk* | *15 menit* | *Done* | *-* |
 | *02-09-2026* | *Ernest Clarence Gunawan* | *revisi 1.1 tentang fokus SDG dan merapikan struktur dokumen* | *1 jam* | *Done* | *bingung menentukan fokus SDG agar tidak terjadi tumpang tindih* |
 
 **Catatan/Evaluasi Milestone 1:**
