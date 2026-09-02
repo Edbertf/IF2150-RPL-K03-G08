@@ -36,8 +36,8 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
 | :--- | :--- | :--- | :--- |
 | *[Nama AI]* | *[Sertakan Tujuan Penggunaan]* | *[Tuliskan Prompt Utama]* | *[Tuliskan Keputusan Hasil Validasi]* |
-| *Gemini* | *Mengecek relasi antar class* | *"Apakah relasi antara class User dan Order dalam UML ini seharusnya composition atau aggregation?"* | *AI menyarankan composition, tapi setelah dicek kembali ke requirement, kami menggunakan aggregation karena Order masih bisa eksis di history.* |
-| | | | | |
+| *ChatGPT* | *Memahami terkait asumsi dan batasan* | *"Coba berikan penjelasan terkait asumsi dan batasan saat sedang membuat perangkat lunak"* | *AI menyarankan banyak jenis asumsi dan batasan, namun akhirnya yang dipilih hanya asumsi teknis dan pengguna serta batasan ruang lingkup, resource, dan hukum* |
+|*Claude* |*Brainstorming nama perangkat lunak* |*Kami sedang membuat sebuah perangkat lunak sebagai berikut....... Sarankan nama yang cocok* |*Awalnya AI menyarankan nama FoodChain tetapi setelah dipertimbangkan lagi, nama lebih cocok FoodLink karena perangkat lunak yang dibua tidak begitu berhubungan dengan chain (melingkar) dan lebih cocok link (menghubungkan)*| |
 
 ### Milestone 2
 | Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
