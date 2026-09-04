@@ -50,12 +50,11 @@ Abstraksikan sistem solusi menurut sudut pandang pengguna yang telah ditentukan.
 
 ## 1.2 Deskripsi Pengguna Perangkat Lunak
 
-Buatlah daftar seluruh aktor (pengguna) yang akan berinteraksi langsung dengan sistem solusi yang kalian kembangkan. Berikan penjelasan singkat mengenai peran dan karakteristik dari masing-masing aktor tersebut.
-
 | Aktor | Deskripsi |
 | :--- | :--- |
-| *Kasir* | *Pengguna ini bertindak sebagai pihak yang bertanggung jawab untuk memproses transaksi harian dan melayani pembayaran pelanggan. Karakteristik dari pengguna ini adalah mengutamakan kecepatan dan keakuratan saat bertransaksi.* |
-| ... | ... |
+| *Pemilik F&B* | *Pengguna ini bertindak sebagai pihak perwakilan dari bisnis F&B. Karakteristik dari pengguna ini adalah ia butuh UI/UX yang bagus dan nyaman untuk memasukkan data harian juga mengumumkan makanan yang berlebih agar dapat diambil.* |
+| *Perwakilan NGO* | *Pengguna ini bertindak sebagai pihak penerima donasi yang telah terdaftar di FoodLink. Karakteristik dari pengguna ini adalah ia sering mengakses software, butuh informasi yang jelas terkait detail makanan, lokasi, dan batas waktu pengambilan makanan untuk segera diambil.* |
+| *Admin Sistem* | *Pengguna ini bertindah sebagai pihak yang mengelola software, mulai dari verifikasi akun baru hingga keamanan* |
 
 ---
 
@@ -63,13 +62,15 @@ Buatlah daftar seluruh aktor (pengguna) yang akan berinteraksi langsung dengan s
 
 ## 2.1 Kebutuhan Pengguna Awal
 
-Definisikan apa yang ingin dicapai oleh pengguna saat menggunakan sistem ini dalam format *User Story* (Sebagai [Aktor], saya ingin [Aktivitas/Kebutuhan], sehingga [Tujuan/Nilai]). Pastikan kalian berfokus pada "apa yang ingin dilakukan pengguna".
-
 | ID | Aktor | Kebutuhan / Aktivitas | Tujuan / Nilai |
 | :--- | :--- | :--- | :--- |
-| US-01 | *Kasir* | *Memindai barcode barang* | *Proses pembayaran berjalan cepat dan akurat* |
-| US-02 | *[Nama Aktor]* | *[Kebutuhan pengguna]* | *[Tujuan yang dicapai pengguna]* |
-| ... | ... | ... | ... |
+| US-01 | *Pemilik F&B* | *Memasukkan hasil data penjualan dan sisa produk harian* | *Sistem merekomendasikan prediksi produksi untuk hari berikutnya* |
+| US-02 | *Pemilik F&B* | *Melihat rekomendasi dan prediksi produksi bahan harian* | *Merencanakan kebutuhan produksi untuk mencegah overproduksi kedepannya* |
+| US-03 | *Pemilik F&B* | *Memilih opsi menjual surplus makanan dengan harga yang lebih murah atau didonasikan* | *Makanan layak konsumsi yang tak terjual dapat diberikan ke pihak yang membutuhkan* |
+| US-04 | *Pemilik F&B* | *Mengumumkan daftar produksi yang berlebih* | *Pihak lain dapat ternotifikasi akan makanan surplus* |
+| US-05 | *Perwakilan NGO* | *Melihat daftar makanan berlebih yang tersedia dan dekat dengan lokasi* | *Menemukan dan mengambil produksi makanan yang siap dijual murah atau didonasikan* |
+| US-06 | *Perwakilan NGO* | *Mengklaim makanan yang sudah diambil* | *Mengamankan donasi agar tidak diklaim lagi oleh komunitas lain* |
+| US-07 | *Admin Sistem* | *Verifikasi identitas pengguna baru* | *Mencegah pihak yang tidak terpercaya/bertanggung jawab di software* |
 
 ## 2.2 Deskripsi Aktivitas
 
