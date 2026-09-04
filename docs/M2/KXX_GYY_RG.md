@@ -74,11 +74,24 @@ Definisikan apa yang ingin dicapai oleh pengguna saat menggunakan sistem ini dal
 ## 2.2 Deskripsi Aktivitas
 
 Buatlah daftar seluruh aktivitas yang terdapat dalam sistem solusi, lengkap dengan ID dan penjelasan. Telusuri hubungan aktivitas tersebut dengan *user story* yang sudah dituliskan sebelumnya. Bisa dibuat dalam bentuk tabel.
-
 | ID | Aktivitas | Penjelasan | ID User Story |
 | :--- | :--- | :--- | :--- |
-| A01 | *Melakukan Pembayaran* | *Pelanggan melakukan pembayaran secara digital.* | *US-01* |
-| A02 | *Menerima Pembayaran* | *Toko menerima pembayaran secara real-time.* | *US-02* |
+| A01 | *Melakukan Registrasi Akun* | *Pemilik F&B atau Perwakilan NGO yang belum memiliki akun dapat mendaftarkan diri dengan mengisi identitas dan melampirkan dokumen yang dibutuhkan.* | *US-07* |
+| A02 | *Memverifikasi Identitas Pengguna Baru* | *Admin Sistem mengecek data dan dokumen yang diberikan oleh pengguna baru untuk menentukan apakah pendaftaran tersebut diterima atau ditolak.* | *US-07* |
+| A03 | *Menginput Data Penjualan dan Sisa Produk Harian* | *Pemilik F&B memasukkan jumlah produk yang berhasil terjual dan produk yang masih tersisa pada akhir hari.* | *US-01* |
+| A04 | *Menghasilkan Prediksi Produksi* | *Sistem menggunakan data penjualan sebelumnya untuk memperkirakan jumlah produk yang sebaiknya dibuat pada hari berikutnya.* | *US-01* |
+| A05 | *Menampilkan Rekomendasi Produksi* | *Sistem menampilkan hasil perkiraan jumlah produksi kepada Pemilik F&B melalui halaman dashboard.* | *US-02* |
+| A06 | *Meninjau Rekomendasi Produksi* | *Pemilik F&B dapat melihat rekomendasi dari sistem dan menjadikannya sebagai pertimbangan untuk menentukan jumlah produksi berikutnya.* | *US-02* |
+| A07 | *Menandai Produk Surplus* | *Pemilik F&B dapat menandai produk yang masih tersisa atau tidak berhasil terjual sebagai produk surplus yang bisa didistribusikan.* | *US-03* |
+| A08 | *Memilih Opsi Distribusi Surplus* | *Pemilik F&B dapat memilih apakah produk surplus tersebut akan dijual dengan harga yang lebih murah atau diberikan sebagai donasi.* | *US-03* |
+| A09 | *Mengumumkan Daftar Produk Berlebih* | *Sistem menampilkan produk surplus agar dapat dilihat oleh pengguna lain, termasuk informasi jenis produk, jumlah, lokasi, dan batas waktu pengambilannya.* | *US-04* |
+| A10 | *Mengirim Notifikasi kepada NGO Terdaftar* | *Sistem mengirimkan pemberitahuan kepada Perwakilan NGO yang berada di sekitar lokasi ketika ada produk surplus baru.* | *US-04* |
+| A11 | *Melihat Daftar Makanan Berlebih Terdekat* | *Perwakilan NGO dapat melihat dan mencari makanan surplus yang tersedia di lokasi terdekat.* | *US-05* |
+| A12 | *Mengklaim Makanan Surplus* | *Perwakilan NGO memilih makanan surplus yang dibutuhkan, kemudian mengajukan klaim untuk mengambil makanan tersebut.* | *US-06* |
+| A13 | *Mengunci Status Daftar yang Diklaim* | *Setelah makanan berhasil diklaim, sistem mengubah statusnya menjadi tidak tersedia supaya tidak dapat diklaim lagi oleh NGO lain.* | *US-06* |
+| A14 | *Mengambil Makanan di Lokasi* | *Perwakilan NGO datang ke lokasi Pemilik F&B untuk mengambil makanan sebelum melewati batas waktu yang telah ditentukan.* | *US-06* |
+| A15 | *Mengonfirmasi Pengambilan Selesai* | *Setelah makanan diambil, Pemilik F&B atau Perwakilan NGO mengubah status pengambilan menjadi selesai.* | *US-06* |
+| A16 | *Memantau Aktivitas dan Keamanan Sistem* | *Admin Sistem memantau aktivitas pengguna untuk memastikan sistem tetap aman dan tidak disalahgunakan.* | *US-07* |
 | ... | ... | ... | ... |
 
 ## 2.3 Pemetaan Kebutuhan
