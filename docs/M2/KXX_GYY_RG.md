@@ -107,11 +107,19 @@ Lengkapi juga dengan penjelasannya dan apakah keperluan tersebut perlu didukung 
 
 | ID Kebutuhan | ID Aktivitas | Jenis Kebutuhan | Deskripsi Kebutuhan | P/L |
 | :--- | :--- | :--- | :--- | :--- |
-| *R01* | *A01* | *User* | *Pengguna dapat memilih metode pembayaran dan melakukan pembayaran secara digital.* | *Ya* |
-| *R02* | *A01* | *Business* | *Transaksi digital sesuai dengan ketentuan UU ITE yang berlaku.* | *Tidak* |
-| *R03* | *A01* | *System* | *Sistem harus mengintegrasikan API Payment Gateway dengan prinsip ACID (Atomicity, Consistency, Isolation, Durability), jika terjadi kegagalan jaringan saat saldo terpotong, sistem harus secara otomatis membatalkan transaksi atau meneruskan dana (reliable).* | *Ya* |
-| *R04* | *A01* | *System* | *Kata sandi (password) atau PIN pengguna saat otorisasi pembayaran harus di-hash menggunakan algoritma SHA-256 dan tidak disimpan dalam bentuk plain-text.* | *Ya* |
-| *R05* | *A02* | *Business* | *Toko harus memiliki rekening bank aktif dan valid untuk menerima pencairan dana dari sistem.* | *Tidak* |
+| *R01* | *A01* | *User* | *Pemilik F&B atau Perwakilan NGO dapat melakukan registrasi akun dengan mengisi identitas dan melampirkan dokumen yang diperlukan.* | *Ya* |
+| *R02* | *A01* | *Business* | *Dokumen yang dilampirkan harus sesuai jenis akun (F&B: izin usaha; NGO: surat keterangan organisasi).* | *Tidak* |
+| *R03* | *A01* | *Business* | *Data-data pengguna dapat terjamin keamanannya sesuai dengan UU No. 27 Tahun 2022 tentang Pelindungan Data Pribadi.* | *Tidak* |
+| *R04* | *A01* | *System* | *Sistem harus mengenkripsi data pribadi pengguna (identitas dan dokumen) baik saat disimpan maupun saat dikirim.* | *Ya* |
+| *R05* | *A02* | *User* | *Admin dapat melakukan pengecekan terhadap identitas dan dokumen pendaftar, lalu menyetujui atau menolak pendaftaran.* | *Ya* |
+| *R06* | *A02* | *Business* | *Pendaftaran hanya diterima jika dokumen valid dan lengkap sesuai kriteria yang ditetapkan.* | *Tidak* |
+| *R07* | *A02* | *System* | *Sistem harus dapat menampilkan seluruh data dan dokumen pendaftar dengan rapi dan terstruktur untuk memudahkan pengecekan oleh admin.* | *Ya* |
+| *R08* | *A02* | *System* | *Sistem harus mengirim notifikasi status (diterima/ditolak) kepada pendaftar setelah admin memutuskan.* | *Ya* |
+| *R09* | *A03* | *User* | *Pemilik F&B dapat melakukan input data penjualan, berupa jumlah produk yang terjual dan sisa produk pada akhir hari.* | *Ya* |
+| *R10* | *A03* | *Business* | *Sistem membutuhkan data penjualan historis minimal 7 hari terakhir sebelum dapat menghasilkan prediksi produksi.* | *Tidak* |
+| *R11* | *A03* | *System* | *Sistem harus menyimpan data penjualan harian secara terstruktur per produk dan per tanggal agar bisa dipakai untuk prediksi.* | *Ya* |
+| *R12* | *A04* | *System* | *Sistem harus menghasilkan prediksi jumlah produksi harian berdasarkan data penjualan historis.* | *Ya* |
+| *R13* | *A05* | *User* | *Pemilik F&B mendapatkan rekomendasi jumlah produksi pada halaman dashboard.* | *Ya* |
 | ... | ... | ... | ... | ... |
 
 ## 2.4 Kebutuhan Fungsional (KF)
