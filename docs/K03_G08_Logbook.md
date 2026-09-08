@@ -23,6 +23,7 @@
 
 ### Daftar Isi
 * [Milestone 1](#milestone-1)
+* [Milestone 2](#milestone-2)
 * Notes: Copy bagian Daftar Isi seperti Milestone 1 untuk Milestone berikutnya, contoh ``* [Milestone 2](#milestone-2)``. Ketika Daftar isi diklik maka akan langsung diarahkan ke bagian bawah sesuai dengan Milestone tujuan.
 
 
@@ -42,9 +43,18 @@
 | *01-09-2026* | *Excell Timothy Josua Tarigan* | *penambahan opsi jual atau donasi surplus produk* | *15 menit* | *Done* | *-* |
 | *02-09-2026* | *Ernest Clarence Gunawan* | *revisi 1.1 tentang fokus SDG dan merapikan struktur dokumen* | *1 jam* | *Done* | *bingung menentukan fokus SDG agar tidak terjadi tumpang tindih* |
 | *02-09-2026* | *Abdur Rauuf Fawaaz* | *merevisi diagram swimlane* | *2 jam* | *Done* | *-* |
-| *08-09-2026* | *Abdur Rauuf Fawaaz* | *membuat pemetaan kebutuhan bagian R01-R13* | *2 jam* | *Done* | *-* |
 
 **Catatan/Evaluasi Milestone 1:**
+* *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
+
+### Milestone 2
+**Periode:** [Tanggal Mulai] - [Tanggal Selesai]
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
+| :--- | :--- | :--- | :--- | :--- | :--- | 
+| *08-09-2026* | *Abdur Rauuf Fawaaz* | *membuat pemetaan kebutuhan bagian R01-R13* | *2 jam* | *Done* | *-* |
+
+**Catatan/Evaluasi Milestone 2:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
 
 ---
