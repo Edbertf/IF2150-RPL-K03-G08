@@ -47,7 +47,7 @@
 **Catatan/Evaluasi Milestone 1:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
 
-
+<br>
 
 ### Milestone 2
 **Periode:** [Tanggal Mulai] - [Tanggal Selesai]
