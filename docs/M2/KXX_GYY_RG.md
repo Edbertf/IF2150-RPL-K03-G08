@@ -138,9 +138,11 @@ Uraikan dengan ringkas Kebutuhan Non-Fungsional dalam tabel sebagai berikut. Isi
 
 | ID KNF | ID Kebutuhan | Parameter | Deskripsi Kebutuhan |
 | :--- | :--- | :--- | :--- |
-| *KNF01* | *R03* | *Reliability* | *Proses transaksi pembayaran harus memenuhi prinsip ACID untuk mencegah terjadinya data tersangkut (lost update) apabila terjadi kegagalan jaringan di tengah proses.* |
-| *KNF02* | *R04* | *Security* | *Sistem harus mengenkripsi PIN atau password pengguna menggunakan algoritma SHA-256 sebelum data dikirimkan ke server, serta tidak menyimpannya dalam bentuk plain-text di database.* |
-| ... | ... | ... | ... |
+| *KNF01* | *R04* | *Security* | *Sistem harus mengencrypt data pribadi pengguna ketika dikirim dan disimpan* |
+| *KNF02* | *R12* | *Performance* | *Ketika sistem memproses prediksi jumlah produksi harian, harus ditampilkan dalam waktu kurang dari 3 detik* |
+| *KNF03* | *R19* | *Reliability* | *Ketika ada produk surplus baru yang didaftarkan, sistem harus mengirim notifikasi ke Pemilik F&B terdekat dengan tingkat keberhasilan pengiriman >= 99%* |
+| *KNF04* | *R07* | *Interaction* | *Ketika admin memuat halaman data dan dokumen pendaftar, sistem harus menampilkan layout antarmuka maksimal 50 baris data per halaman dengan waktu kurang dari 2 detik* |
+| *KNF05* | *R26* | *Reliability* | *Jika sistem gagal terhubung dengan database utama saat proses log aktivitas pengguna terjadi, sistem harus menyimpan log secara lokal di berkas sementara hingga ukuran maksimal 50 MB sebelum disinkronisasi ulang* |
 
 Silakan pilih yang relevan. Tidak perlu semua parameter menjadi kebutuhan non-fungsional. Berikut merupakan penjelasan dari setiap parameter. **Parameter dari Kebutuhan Non-Fungsional tidak terbatas hanya di bawah ini** karena hanya merupakan panduan sehingga dapat ditambah KNF yang lain, misalnya *constraint* dari sistem.
 
