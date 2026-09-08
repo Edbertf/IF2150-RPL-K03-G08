@@ -58,6 +58,7 @@
 | *08-09-2026* | *Ernest Clarence Gunawan* | *membuat pemetaan kebutuhan bagian R13-R26* | *2 jam* | *Done* | *-* |
 | *08-09-2026* | *Dylan Frederico Ketaern* | *membuat kebutuhan fungsional* | *2 jam* | *Done* | *-* |
 | *08-09-2026* | *Edbert Fernando* | *membuat deskripsi umum sistem* | *1.5 jam* | *Done* | *-* |
+| *08-09-2026* | *Excell Timothy Josua Tarigan* | *membuat kebutuhan non fungsional* | *1 jam* | *Done* | *-* |
 
 **Catatan/Evaluasi Milestone 2:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
