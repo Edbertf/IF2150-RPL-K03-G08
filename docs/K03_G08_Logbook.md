@@ -41,6 +41,8 @@
 | *31-08-2026* | *Edbert Fernando* | *revisi 2.2* | *45 menit* | *Done* | *sedikit bingung mengelompokkan asumsi & batasan* |
 | *01-09-2026* | *Excell Timothy Josua Tarigan* | *penambahan opsi jual atau donasi surplus produk* | *15 menit* | *Done* | *-* |
 | *02-09-2026* | *Ernest Clarence Gunawan* | *revisi 1.1 tentang fokus SDG dan merapikan struktur dokumen* | *1 jam* | *Done* | *bingung menentukan fokus SDG agar tidak terjadi tumpang tindih* |
+| *02-09-2026* | *Abdur Rauuf Fawaaz* | *merevisi diagram swimlane* | *2 jam* | *Done* | *-* |
+| *08-09-2026* | *Abdur Rauuf Fawaaz* | *membuat pemetaan kebutuhan bagian R01-R13* | *2 jam* | *Done* | *-* |
 
 **Catatan/Evaluasi Milestone 1:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
