@@ -23,7 +23,7 @@
 
 ### Daftar Isi
 * [Milestone 1](#milestone-1)
-* Notes: Copy bagian Daftar Isi seperti Milestone 1 untuk Milestone berikutnya, contoh ``* [Milestone 2](#milestone-2)``. Ketika Daftar isi diklik maka akan langsung diarahkan ke bagian bawah sesuai dengan Milestone tujuan.
+* [Milestone 2](#milestone-2)
 
 ---
 
@@ -35,15 +35,14 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 ### Milestone 1
 | Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
 | :--- | :--- | :--- | :--- |
-| *[Nama AI]* | *[Sertakan Tujuan Penggunaan]* | *[Tuliskan Prompt Utama]* | *[Tuliskan Keputusan Hasil Validasi]* |
 | *ChatGPT* | *Memahami terkait asumsi dan batasan* | *"Coba berikan penjelasan terkait asumsi dan batasan saat sedang membuat perangkat lunak"* | *AI menyarankan banyak jenis asumsi dan batasan, namun akhirnya yang dipilih hanya asumsi teknis dan pengguna serta batasan ruang lingkup, resource, dan hukum* |
-|*Claude* |*Brainstorming nama perangkat lunak* |*Kami sedang membuat sebuah perangkat lunak sebagai berikut....... Sarankan nama yang cocok* |*Awalnya AI menyarankan nama FoodChain tetapi setelah dipertimbangkan lagi, nama lebih cocok FoodLink karena perangkat lunak yang dibua tidak begitu berhubungan dengan chain (melingkar) dan lebih cocok link (menghubungkan)*| |
+|*Claude* |*Brainstorming nama perangkat lunak* |*Kami sedang membuat sebuah perangkat lunak sebagai berikut....... Sarankan nama yang cocok* |*Awalnya AI menyarankan nama FoodChain tetapi setelah dipertimbangkan lagi, nama lebih cocok FoodLink karena perangkat lunak yang dibua tidak begitu berhubungan dengan chain (melingkar) dan lebih cocok link (menghubungkan)*|
 
 ### Milestone 2
 | Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
 | :--- | :--- | :--- | :--- |
-| | | | | |
-| | | | | |
+| *Claude* | *Memvalidasi hasil pemetaan kebutuhan (2.3) agar sesuai dengan kriteria* | *Tabel pemetaan kebutuhan, tabel deskripsi aktivitas, kriteria requirement (user, business, system), "Apakah hasil pemetaan kebutuhan ini sudah sesuai dengan kriterianya? Berikan juga rekomendasi untuk revisi jika belum sesuai."* | *AI mengidentifikasi beberapa requirement yang mengandung kata-kata tidak terukur atau ambigu, antara lain R04, R07, R10, R25; kelompok merevisi mengikuti saran dari Claude* |
+| *ChatGPT* | *Membantu menentukan pola EARS yang tepat untuk setiap kebutuhan fungsional P/L* | *Tabel kebutuhan fungsional dan materi pemilihan pola EARS, "Apakah pola EARS pada setiap kebutuhan sudah sesuai dengan kriteria dalam PPT? Berikan saran pola yang lebih tepat beserta perbaikan kalimatnya."* | *AI meninjau kesesuaian pola berdasarkan pemicu, keadaan, dan respons sistem, serta memberikan rekomendasi penyesuaian pola dan kalimat kebutuhan untuk ditinjau oleh kelompok* |
 
 ---
 ### Pernyataan Integritas dan Persetujuan
