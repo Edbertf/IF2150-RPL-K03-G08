@@ -5,12 +5,12 @@
 | Informasi | Keterangan |
 | --- | --- |
 | **Hari** | *\[Hari\]* |
-| **Tanggal** | *\[DD/09/2026\]* |
+| **Tanggal** | *\[08/09/2026\]* |
 | **Kelas** | *03* |
 | **Nomor Kelompok** | *08*  |
 | **Nama Kelompok** | *The Dragon Warrior*  |
 | **Nama Perangkat Lunak** | *FoodLink*  |
-| **Dokumen** | *\[Nama Dokumen yang diasistensikan\]*  |
+| **Dokumen** | *K03_G08_RG.md*  |
 
 ### Anggota Kelompok
 
@@ -26,8 +26,8 @@
 
 | Catatan |
 | --- |
-| 1. *\[Berikan catatan hasil asistensi\]*  |
-| 2. ... |
+| 1. *Mengurangi KF sampai <20*  |
+| 2. *Menambah KNF (Bisa dipindah dari KF yang dihapus)* |
 | 3. ... |
 | 4. ... |
 
@@ -38,7 +38,7 @@
 
 <!-- ![](./assets/foto-asistensi.jpg) -->
 <p align="center">
-  <img src="./assets/foto-asistensi.jpg" width="100%">
+  <img src="./assets/foto-asistensi2.jpg" width="100%">
 </p>
 
 <p align="center">
