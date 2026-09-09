@@ -4,8 +4,8 @@
 
 | Informasi | Keterangan |
 | --- | --- |
-| **Hari** | *\[Hari\]* |
-| **Tanggal** | *\[08/09/2026\]* |
+| **Hari** | *Selasa* |
+| **Tanggal** | *08/09/2026* |
 | **Kelas** | *03* |
 | **Nomor Kelompok** | *08*  |
 | **Nama Kelompok** | *The Dragon Warrior*  |
@@ -28,8 +28,8 @@
 | --- |
 | 1. *Mengurangi KF sampai <20*  |
 | 2. *Menambah KNF (Bisa dipindah dari KF yang dihapus)* |
-| 3. ... |
-| 4. ... |
+| 3. *R10 dan R17 jadiin System Requirement dan status P/L menjadi "Ya"* |
+| 4. *KF harus bener-bener yang sanggup diimplementasiin* |
 
 **Notes for this section:**  
 *Catatan dapat dituliskan dalam bentuk paragraf atau poin-poin, disesuaikan saja.* 
