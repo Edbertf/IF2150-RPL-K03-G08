@@ -24,6 +24,7 @@
 ### Daftar Isi
 * [Milestone 1](#milestone-1)
 * [Milestone 2](#milestone-2)
+* [Milestone 3](#milestone-3)
 * Notes: Copy bagian Daftar Isi seperti Milestone 1 untuk Milestone berikutnya, contoh ``* [Milestone 2](#milestone-2)``. Ketika Daftar isi diklik maka akan langsung diarahkan ke bagian bawah sesuai dengan Milestone tujuan.
 
 
@@ -73,6 +74,7 @@
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *12-09-2026* | *Ernest Clarence Gunawan* | *membuat use case 3.2 UC02-UC07* | *2 jam* | *Done* | *-* |
+| *12-09-2026* | *Edbert Fernando* | *membuat use case 3.2 UC08-UC12* | *2 jam* | *Done* | *-* |
 
 ---
 
