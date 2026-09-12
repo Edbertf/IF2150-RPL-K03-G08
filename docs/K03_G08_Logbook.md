@@ -30,7 +30,7 @@
 ---
 
 ### Milestone 1
-**Periode:** [Tanggal Mulai] - [Tanggal Selesai]
+**Periode:** 28 Agustus 2026- 2 September 2026
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
@@ -50,7 +50,7 @@
 <br>
 
 ### Milestone 2
-**Periode:** [Tanggal Mulai] - [Tanggal Selesai]
+**Periode:** 2 September 2026 - 9 September 2026
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
@@ -64,6 +64,15 @@
 
 **Catatan/Evaluasi Milestone 2:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
+
+<br>
+
+### Milestone 3
+**Periode:** 9 September 2026 - 16 September 2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
+| :--- | :--- | :--- | :--- | :--- | :--- | 
+| *12-09-2026* | *Ernest Clarence Gunawan* | *membuat use case 3.2 UC02-UC07* | *2 jam* | *Done* | *-* |
 
 ---
 
