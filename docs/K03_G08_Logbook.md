@@ -76,6 +76,7 @@
 | *12-09-2026* | *Ernest Clarence Gunawan* | *membuat use case 3.2 UC02-UC07* | *2 jam* | *Done* | *-* |
 | *12-09-2026* | *Edbert Fernando* | *membuat use case 3.2 UC08-UC12* | *2 jam* | *Done* | *-* |
 | *15-09-2026* | *Dylan Frederico Ketaern* | *membuat Skenario Use Case 3.4.7 - 3.4.12* | *3 jam* | *Done* | *-* |
+| *15-09-2026* | *Excell Timothy Josua Tarigan* | *membuat Skenario Use Case 3.4.1 - 3.4.6* | *2 jam* | *Done* | *-* |
 
 ---
 
