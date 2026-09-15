@@ -35,7 +35,7 @@
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
-| *30-08-2026* | *Dylan Frederico K* | *mengerjakan bab 1.2* | *45 menit* | *Done* | *-* | 
+| *30-08-2026* | *Dylan Frederico Ketaren* | *mengerjakan bab 1.2* | *45 menit* | *Done* | *-* | 
 | *30-08-2026* | *Ernest Clarence Gunawan* | *mengerjakan bab 1.1* | *2 jam* | *Done* | *-* |
 | *30-08-2026* | *Edbert Fernando* | *mengerjakan bab 2* | *2 jam* | *Done* | *-* |
 | *30-08-2026* | *Excell Timothy Josua Tarigan* | *mengerjakan bab 3.1 dan 3.2* | *2 jam* | *Done* | *-* |
@@ -57,7 +57,7 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *08-09-2026* | *Abdur Rauuf Fawaaz* | *membuat pemetaan kebutuhan bagian R01-R13* | *2 jam* | *Done* | *-* |
 | *08-09-2026* | *Ernest Clarence Gunawan* | *membuat pemetaan kebutuhan bagian R13-R26* | *2 jam* | *Done* | *-* |
-| *08-09-2026* | *Dylan Frederico Ketaern* | *membuat kebutuhan fungsional* | *2 jam* | *Done* | *-* |
+| *08-09-2026* | *Dylan Frederico Ketaren* | *membuat kebutuhan fungsional* | *2 jam* | *Done* | *-* |
 | *08-09-2026* | *Edbert Fernando* | *membuat deskripsi umum sistem* | *1.5 jam* | *Done* | *-* |
 | *08-09-2026* | *Excell Timothy Josua Tarigan* | *membuat kebutuhan non fungsional* | *1 jam* | *Done* | *-* |
 | *09-09-2026* | *Excell Timothy Josua Tarigan* | *menambah kebutuhan non fungsional* | *1 jam* | *Done* | *-* |
@@ -75,10 +75,10 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *12-09-2026* | *Ernest Clarence Gunawan* | *membuat use case 3.2 UC02-UC07* | *2 jam* | *Done* | *-* |
 | *12-09-2026* | *Edbert Fernando* | *membuat use case 3.2 UC08-UC12* | *2 jam* | *Done* | *-* |
-| *15-09-2026* | *Dylan Frederico Ketaern* | *membuat Skenario Use Case 3.4.7 - 3.4.12* | *3 jam* | *Done* | *-* |
+| *15-09-2026* | *Dylan Frederico Ketaren* | *membuat Skenario Use Case 3.4.7 - 3.4.12* | *3 jam* | *Done* | *-* |
 | *15-09-2026* | *Excell Timothy Josua Tarigan* | *membuat Skenario Use Case 3.4.1 - 3.4.6* | *2 jam* | *Done* | *-* |
 | *15-09-2026* | *Abdur Rauuf Fawaaz* | *membuat use case diagram* | *1 jam* | *Done* | *-* |
-| *15-09-2026* | *Dylan Frederico Ketaern* | *memperbaiki Skenario Use Case 3.4.7 - 3.4.12* | *30 menit* | *Done* | *-* |
+| *15-09-2026* | *Dylan Frederico Ketaren* | *memperbaiki Skenario Use Case 3.4.7 - 3.4.12* | *30 menit* | *Done* | *-* |
 ---
 
 
