@@ -4,8 +4,8 @@
 
 | Informasi | Keterangan |
 | --- | --- |
-| **Hari** | *\[Hari\]* |
-| **Tanggal** | *\[DD/MM/YYYY\]* |
+| **Hari** | *Selasa]* |
+| **Tanggal** | *15/09/2026* |
 | **Kelas** | *03* |
 | **Nomor Kelompok** | *08*  |
 | **Nama Kelompok** | *The Dragon Warrior*  |
@@ -26,10 +26,10 @@
 
 | Catatan |
 | --- |
-| 1. *\[Berikan catatan hasil asistensi\]*  |
-| 2. ... |
-| 3. ... |
-| 4. ... |
+| 1. *Memperbaiki penulisan deskripsi singat di bab 3.2 Identifikasi Use Case *  |
+| 2. *Memperbaiki kebutuhan aktor,penempatan extend/include dan penggunaan arah panah. Pada bab 3.3 Diagram Use Case* |
+| 3. *Menambah fitur alternatif untuk 3.4.6 Skenario UC06* |
+| 4. *Memperbaiki format aksi aktor dan reaksi perangkat lunak pada sejumlah Skenario UC, yaitu UC07,UC09,UC11, dan UC12 * |
 
 **Notes for this section:**  
 *Catatan dapat dituliskan dalam bentuk paragraf atau poin-poin, disesuaikan saja.* 
