@@ -4,7 +4,7 @@
 
 | Informasi | Keterangan |
 | --- | --- |
-| **Hari** | *Selasa]* |
+| **Hari** | *Selasa* |
 | **Tanggal** | *15/09/2026* |
 | **Kelas** | *03* |
 | **Nomor Kelompok** | *08*  |
