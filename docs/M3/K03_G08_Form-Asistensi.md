@@ -38,7 +38,7 @@
 
 <!-- ![](./assets/foto-asistensi.jpg) -->
 <p align="center">
-  <img src=".assets/Screenshot 2026-09-15 204148.png" width="100%">
+  <img src="./assets/foto asistensi 3 .jpg" width="100%">
 </p>
 
 <p align="center">
