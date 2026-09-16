@@ -79,3 +79,4 @@
 | *15-09-2026* | *Abdur Rauuf Fawaaz* | *membuat use case diagram* | *1 jam* | *Done* | *-* |
 | *15-09-2026* | *Dylan Frederico Ketaren* | *memperbaiki Skenario Use Case 3.4.7 - 3.4.12* | *30 menit* | *Done* | *-* |
 | *16-09-2026* | *Ernest Clarence Gunawan* | *merevisi use case* | *30 menit* | *Done* | *-* |
+| *16-09-2026* | *Abdur Rauuf Fawaaz* | *merevisi use case diagram* | *15 jam* | *Done* | *-* |
