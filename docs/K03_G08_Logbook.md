@@ -90,3 +90,4 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *23-09-2026* | *Dylan Frederico Ketaren* | *membuat identifikasi kelas 4.1* | *3 jam* | *Done* | *-* |
 | *23-09-2026* | *Ernest Clarence Gunawan* | *merevisi identifikasi kelas, membuat class diagram untuk UC07-UC09, menambah subkelas untuk kelas AkunPengguna* | *6 jam* | *Done* | *bingung dalam pembuatan diagram yang baik dan benar* |
+| *23-09-2026* | *Excell Timothy Josua Tarigan* | *membuat diagram class UC04-UC07* | *3 jam* | *Done* | *-* |
