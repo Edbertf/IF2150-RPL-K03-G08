@@ -38,11 +38,7 @@
 
 <!-- ![](./assets/foto-asistensi.jpg) -->
 <p align="center">
-<<<<<<< HEAD
-  <img src="./assets/foto-asistensi-m3.jpg" width="100%">
-=======
-  <img src="./assets/foto asistensi 3 .jpg" width="100%">
->>>>>>> bdfc357933cbb5ea6230609d56118f856ac7eabb
+  <img src="./assets/foto-asistensi-m3.png" width="100%">
 </p>
 
 <p align="center">
