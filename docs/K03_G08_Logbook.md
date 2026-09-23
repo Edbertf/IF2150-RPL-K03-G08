@@ -88,6 +88,8 @@
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
+| *22-09-2026* | *Abdur Rauuf Fawaaz* | *membuat diagram kelas bab 4.2.1-4.2.12 sebelum asistensi* | *5 jam* | *Done* | *-* |
 | *23-09-2026* | *Dylan Frederico Ketaren* | *membuat identifikasi kelas 4.1* | *3 jam* | *Done* | *-* |
 | *23-09-2026* | *Ernest Clarence Gunawan* | *merevisi identifikasi kelas, membuat class diagram untuk UC07-UC09, menambah subkelas untuk kelas AkunPengguna* | *6 jam* | *Done* | *bingung dalam pembuatan diagram yang baik dan benar* |
 | *23-09-2026* | *Excell Timothy Josua Tarigan* | *membuat diagram class UC04-UC07* | *3 jam* | *Done* | *-* |
+| *23-09-2026* | *Abdur Rauuf Fawaaz* | *membuat diagram class UC10-UC12, mengisi tabel atribut dan metode di diagram kelas keseluruhan, dan membuat bab 5* | *4 jam* | *Done* | *-* |
