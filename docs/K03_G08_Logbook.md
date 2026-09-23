@@ -80,3 +80,12 @@
 | *15-09-2026* | *Dylan Frederico Ketaren* | *memperbaiki Skenario Use Case 3.4.7 - 3.4.12* | *30 menit* | *Done* | *-* |
 | *16-09-2026* | *Ernest Clarence Gunawan* | *merevisi use case* | *30 menit* | *Done* | *-* |
 | *16-09-2026* | *Abdur Rauuf Fawaaz* | *merevisi use case diagram* | *15 menit* | *Done* | *-* |
+
+<br>
+
+### Milestone 3
+**Periode:** 16 September 2026 - 23 September 2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
+| :--- | :--- | :--- | :--- | :--- | :--- | 
+| *23-09-2026* | *Dylan Frederico Ketaren* | *membuat identifikasi kelas 4.1* | *3 jam* | *Done* | *-* |
