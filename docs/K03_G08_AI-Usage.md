@@ -24,6 +24,7 @@
 ### Daftar Isi
 * [Milestone 1](#milestone-1)
 * [Milestone 2](#milestone-2)
+* [Milestone 4](#milestone-4)
 
 ---
 
@@ -43,6 +44,11 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | :--- | :--- | :--- | :--- |
 | *Claude* | *Memvalidasi hasil pemetaan kebutuhan (2.3) agar sesuai dengan kriteria* | *Tabel pemetaan kebutuhan, tabel deskripsi aktivitas, kriteria requirement (user, business, system), "Apakah hasil pemetaan kebutuhan ini sudah sesuai dengan kriterianya? Berikan juga rekomendasi untuk revisi jika belum sesuai."* | *AI mengidentifikasi beberapa requirement yang mengandung kata-kata tidak terukur atau ambigu, antara lain R04, R07, R10, R25; kelompok merevisi mengikuti saran dari Claude* |
 | *ChatGPT* | *Membantu menentukan pola EARS yang tepat untuk setiap kebutuhan fungsional P/L* | *Tabel kebutuhan fungsional dan materi pemilihan pola EARS, "Apakah pola EARS pada setiap kebutuhan sudah sesuai dengan kriteria dalam PPT? Berikan saran pola yang lebih tepat beserta perbaikan kalimatnya."* | *AI meninjau kesesuaian pola berdasarkan pemicu, keadaan, dan respons sistem, serta memberikan rekomendasi penyesuaian pola dan kalimat kebutuhan untuk ditinjau oleh kelompok* |
+
+### Milestone 4
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+| :--- | :--- | :--- | :--- |
+| *Claude* | *Menjelaskan cara pembuatan class diagram* | *(instruksi pembuatan class diagram dari template milestone, note asistensi akbar untuk hubungan antarkelas), "Jelaskan cara pembuatan class diagram sesuai hubungan antarkelas dengan bahasa sederhana"* | *AI menjelaskan dengan bahasa sederhana cara membuat class diagram dan hubungan antar kelas; kelompok mengikuti arahan dalam pembuatan class diagram* |
 
 ---
 ### Pernyataan Integritas dan Persetujuan
