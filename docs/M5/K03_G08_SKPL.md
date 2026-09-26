@@ -600,7 +600,7 @@ Pada diagram kelas, cukup tampilkan nama kelas saja. Atribut dan metode/operasi 
 #### Diagram Kelas
 
 <p align="center">
-<img alt="Class Diagram UC02" src="./assets/diagram/class diagram UC02.jpeg" width="48%">
+<img alt="Class Diagram UC02" src="./assets/diagram/class diagram UC02.png" width="48%">
 </p>
 <p align="center">
 <i>Gambar 3. Diagram Kelas Use Case UC02</i>
