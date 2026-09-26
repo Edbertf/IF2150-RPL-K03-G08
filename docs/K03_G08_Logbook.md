@@ -94,3 +94,5 @@
 | *23-09-2026* | *Excell Timothy Josua Tarigan* | *membuat diagram class UC04-UC07* | *3 jam* | *Done* | *-* |
 | *23-09-2026* | *Abdur Rauuf Fawaaz* | *membuat diagram class UC10-UC12, mengisi tabel atribut dan metode di diagram kelas keseluruhan, dan membuat bab 5* | *4 jam* | *Done* | *-* |
 | *23-09-2026* | *Edbert Fernando* | *membuat diagram kelas keseluruhan* | *3 jam* | *Done* | *-* |
+| *23-09-2026* | *Dylan Frederico Ketaren* | *membuat diagram kelas 4.2.1-4.2.3* | *3 jam* | *Done* | *-* |
+
