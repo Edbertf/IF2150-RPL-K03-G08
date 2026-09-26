@@ -96,3 +96,10 @@
 | *23-09-2026* | *Edbert Fernando* | *membuat diagram kelas keseluruhan* | *3 jam* | *Done* | *-* |
 | *23-09-2026* | *Dylan Frederico Ketaren* | *membuat diagram kelas 4.2.1-4.2.3* | *3 jam* | *Done* | *-* |
 
+### Milestone 5
+**Periode:** 24 September 2026 - 1 Oktober 2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
+| :--- | :--- | :--- | :--- | :--- | :--- | 
+| *26-09-2026* | *Dylan Frederico Ketaren* | *salin ulang KF, aktor, use case, skenario, dan kelas ke SKPL* | *1 jam* | *Done* | *-* |
+
