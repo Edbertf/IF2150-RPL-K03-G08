@@ -173,11 +173,13 @@ Spesifikasi *operating system* atau lingkungan yang dibutuhkan P/L untuk beroper
 
 | Komponen | Spesifikasi |
 | :--- | :--- |
-| *Server* | *[contoh: Node.js v20, dijalankan pada layanan cloud]* |
-| *Client* | *[contoh: Web Browser modern (Chrome, Firefox terbaru)]* |
-| *DBMS* | *[contoh: PostgreSQL 15]* |
-| *OS* | *[contoh: Cross-platform (Windows/Linux/MacOS) melalui browser]* |
-| *...* | *...* |
+| *Server* | *Node.js v20, dengan maks upload 5 MB (PDF/JPG/PNG)* |
+| *Client* | *Web Browser modern (Chrome, Firefox, Safari) untuk desktop dan mobile* |
+| *DBMS* | *PostgreSQL 15* |
+| *OS* | *Cross-platform (Windows/Linux/MacOS) melalui browser* |
+| *Jaringan* | *Koneksi internet aktif (HTTPS)* |
+| *Lokasi* | *HTML5 Geolocation API* |
+| *Antarmuka* | *Bahasa Indonesia* |
 
 ---
 
