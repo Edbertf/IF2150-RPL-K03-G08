@@ -103,6 +103,7 @@
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
-| *26-09-2026* | *Dylan Frederico Ketaren* | *salin ulang KF, aktor, use case, skenario, dan kelas ke SKPL* | *1 jam* | *Done* | *-* |
+| *26-09-2026* | *Dylan Frederico Ketaren* | *salin ulang KF, aktor, use case, skenario, dan kelas ke SKPL* | *15 menit* | *Done* | *-* |
 | *30-09-2026* | *Abdur Rauuf Fawaaz* | *mengerjakan content 1.5 dan 1.6* | *15 menit* | *Done* | *-* |
+| *30-09-2026* | *Dylan Frederico Ketaren* | *mengerjakan content 2.4* | *30 menit* | *Done* | *-* |
 
