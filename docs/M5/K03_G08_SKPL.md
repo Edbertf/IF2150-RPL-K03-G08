@@ -162,11 +162,18 @@ Untuk mendukung fitur pengurutan produk surplus berdasarkan jarak terdekat, Food
 | *Admin Sistem* | *Pengguna ini bertindah sebagai pihak yang mengelola software, mulai dari verifikasi akun baru hingga keamanan* |
 
 ## 2.4 Batasan Perangkat Lunak
-Batasan yang harus dituliskan, di antaranya:
-1. *P/L harus memakai file data/API dari sistem lain (sebutkan, misal Payment Gateway dummy).*
-2. *P/L harus memakai format data yang sama dengan sistem lain.*
-3. *P/L harus berfungsi pada platform tertentu (misal: web browser modern, atau desktop Windows dan Linux).*
-4. *...*
+Batasan yang berlaku pada pengembangan dan penggunaan FoodLink adalah sebagai berikut:
+1. *P/L berbasis web dan harus berfungsi pada web browser modern (Chrome, Firefox, Safari) di desktop maupun perangkat mobile dengan ukuran layar minimal 4 inci. P/L tidak disediakan dalam bentuk aplikasi native.*
+2. *P/L hanya dapat digunakan apabila pengguna terhubung ke internet.*
+3. *P/L memerlukan data lokasi pengguna untuk mengurutkan dan menyaring produk surplus berdasarkan jarak. Data lokasi diperoleh melalui Geolocation API pada browser atau layanan peta pihak ketiga, dan apabila tidak tersedia, pengguna harus memasukkan lokasi secara manual.*
+4. *P/L tidak terintegrasi dengan Payment Gateway. P/L hanya mencatat metode distribusi (donasi atau penjualan dengan harga diskon) beserta harganya, sedangkan pembayaran dilakukan langsung antara Pemilik F&B dan Perwakilan NGO di luar sistem.*
+5. *P/L tidak menyediakan layanan pengiriman. Produk surplus harus diambil langsung di lokasi Pemilik F&B sebelum batas waktu pengambilan.*
+6. *Dokumen pendukung registrasi hanya dapat diunggah dalam format PDF, JPG, atau PNG dengan ukuran maksimal 5 MB per dokumen.*
+7. *Akun baru hanya dapat digunakan setelah diverifikasi secara manual oleh Admin Sistem.*
+8. *Prediksi produksi hanya dapat dijalankan apabila data penjualan minimal tujuh hari telah tersedia. Akurasi prediksi bergantung pada kelengkapan dan kebenaran data yang dimasukkan oleh Pemilik F&B.*
+9. *Satu produk surplus hanya dapat diklaim oleh satu Perwakilan NGO. Pengajuan klaim bersamaan atas produk yang sama diproses secara atomik sehingga hanya satu klaim yang disetujui.*
+10. *Pengelolaan dan penyimpanan data pribadi pengguna harus sesuai dengan UU No. 27 Tahun 2022 tentang Pelindungan Data Pribadi.*
+11. *Antarmuka P/L hanya tersedia dalam Bahasa Indonesia.*
 
 ## 2.5 Lingkungan Operasi Perangkat Lunak
 Spesifikasi *operating system* atau lingkungan yang dibutuhkan P/L untuk beroperasi. Bagian ini digunakan untuk memastikan pengguna memiliki spesifikasi yang cukup untuk menjalankan P/L. Misalnya mencakup komponen server, client, OS, DBMS, tetapi tidak menutupi kemungkinan komponen lain.
