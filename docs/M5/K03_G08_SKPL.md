@@ -88,14 +88,53 @@ Tuliskan sistematika pembahasan dokumen SKPL ini secara runut (misalnya: BAB 2 m
 # BAB 2: Deskripsi Perangkat Lunak
 
 ## 2.1 Deskripsi Umum Sistem
-Bagian ini dapat disalin dari BAB 1.1 *Deskripsi Umum Sistem* pada dokumen *Requirement Gathering*, disesuaikan bila ada perubahan alur bisnis. Lengkapi dengan gambaran proses bisnis dalam bentuk *Activity Diagram* (boleh disalin dan diperbarui dari 3.3 *Model Proses Bisnis* pada dokumen *Topic Brainstorming*).
+FoodLink merupakan sebuah sistem perangkat lunak yang dibuat dengan tujuan untuk mengatasi dan mengurangi pemborosan makanan dengan cara menjadi penghubung antara pihak pemilik usaha F&B dengan NGO dalam proses pengelolaan dan distribusi makanan layak konsumsi yang surplus. Sistem ini juga akan memberikan rekomendasi produksi bagi para pemilik usaha F&B untuk membantu meminimalisir surplus.
+
+Dari sisi pemilik F&B, sistem diharapkan akan dapat membantu pengguna dalam memasukkan data penjualan dan sisa produk secara berkala. Data yang dimasukkan oleh pengguna kemudian akan disimpan sebagai data historis dan akan diolah oleh sistem untuk menghasilkan rekomendasi produksi untuk hari berikutnya. Rekomendasi tersebut akan menjadi salah satu pertimbangan pengguna dalam menentukan jumlah produksi agar jumlah produksi dapat disesuaikan dan potensi makanan surplus dapat dikurangi. Apabila pada akhirnya masih terdapat makanan berlebih yang tidak terjual, pengguna dapat memasukkannya sebagai makanan surplus ke dalam sistem. Lalu, pengguna dapat menentukan apakah makanan akan didonasikan secara sukarela atau dijual dengan harga yang lebih rendah. Setelah diumumkan, informasi terkait makanan surplus akan dapat diakses oleh pihak NGO yang membutuhkannya. Adapun informasi tersebut mencakup hal-hal yang diperlukan dalam proses pengambilan makanan, seperti jenis makanan, jumlah, harga, lokasi , batas waktu pengambilan, dan lain-lain.
+
+Dari sisi pihak NGO, sistem diharapkan akan memudahkan pengguna dalam menemukan makanan surplus yang tersedia di sekitar lokasi mereka. Pengguna dapat melihat informasi makanan yang tersedia, memilih makanan sesuai dengan kebutuhannya, dan mengajukan klaim. Setelah klaim diterima, pengguna akan dapat mengambil makanan secara langsung di lokasi pemilik F&B sesuai dengan batas waktu yang telah ditentukan sebelumnya. Terdapat juga admin sistem yang akan mengelola penggunaan FoodLink agar sistem dapat berjalan dengan baik. Admin akan melakukan proses verifikasi terhadap pengguna baru dan memantau aktivitas pengguna untuk menjaga keamanan serta mencegah penyalahgunaan sistem.
+
+Secara keseluruhan, alur penggunaan FoodLink dimulai dari pendaftaran dan verifikasi pengguna untuk memastikan bahwa identitas dari pengguna itu valid. Setelah dapat menggunakan sistem, pemilik F&B dapat secara berkala memasukkan data penjualan dan sisa produk. Data tersebut kemudian akan diolah oleh sistem untuk menghasilkan rekomendasi produksi bagi pemilik F&B. Ketika masih terdapat surplus, pemilik F&B dapat mengumumkan makanan tersebut melalui sistem untuk didonasikan secara sukarela atau dijual kembali sehingga pihak NGO dapat menerima informasi-informasi terkait jenis makanan, jumlah, dan batas waktu pengambilan agar bisa melakukan klaim dan segera mengambil makanan tersebut. Dengan alur tersebut, FoodLink diharapkan dapat mempertemukan pihak yang memiliki makanan surplus dengan pihak yang membutuhkan secara teratur dan terorganisir.
+
+Penerapan FoodLink diharapkan dapat memberikan manfaat bagi seluruh pihak yang terlibat. Pemilik F&B dapat terbantu dalam merencanakan jumlah produksi dan mengelola makanan layak konsumsi yang tidak terjual sedangkan NGO dapat memperolah akses yang lebih mudah terhadap informasi terkait makanan surplus yang masih layak konsumsi. Pada akhirnya, sistem diharapkan dapat meminimalisir surplus makanan sekaligus meningkatkan pemanfaatan surplus melalui sebuah proses distribusi yang lebih efektif.
+
+<br>
 
 <p align="center">
-<img alt="Contoh Activity Diagram" src="./assets/diagram/diagram-act-1.avif" width="70%">
+<img alt="Diagram 1" src="./assets/diagram/Diagram 1.jpg" width="70%">
 </p>
 <p align="center">
-<i>Gambar 1. Contoh Activity Diagram Proses Bisnis</i>
+<i>Gambar 1. Diagram Swimlane Aktivitas Pendaftaran dan Verifikasi Pengguna</i>
 </p>
+
+<br>
+
+<p align="center">
+<img alt="Diagram 2" src="./assets/diagram/Diagram 2.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 2. Diagram Swimlane Aktivitas Merekomendasikan Produk</i>
+</p>
+
+<br>
+
+<p align="center">
+<img alt="Diagram 3" src="./assets/diagram/Diagram 3.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 3. Diagram Swimlane Aktivitas Koordinasi Produk Surplus</i>
+</p>
+
+<br>
+
+<p align="center">
+<img alt="Diagram 4" src="./assets/diagram/Diagram 4.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 4. Diagram Swimlane Aktivitas Mengklaim dan Mengambil Produk</i>
+</p>
+
+<br>
 
 ## 2.2 Deskripsi Umum Perangkat Lunak
 Diisi dengan deskripsi umum perangkat lunak untuk mendukung proses bisnis yang telah diuraikan pada sub-bab sebelumnya. Uraian harus menunjukkan lingkup perangkat lunak, mencakup keterkaitan perangkat lunak dengan sistem lain di luar (misalnya *Payment Gateway* atau layanan pihak ketiga lain yang dipakai).
@@ -103,13 +142,13 @@ Diisi dengan deskripsi umum perangkat lunak untuk mendukung proses bisnis yang t
 *Contoh narasi:* "*[Nama P/L]* merupakan aplikasi *[deskripsi singkat]* yang berinteraksi dengan *Payment Gateway (dummy)* untuk memproses otorisasi pembayaran. Sistem menerima input dari *Pelanggan* melalui antarmuka aplikasi dan mengirimkan permintaan transaksi ke *Payment Gateway* setiap kali pelanggan melakukan checkout."
 
 ## 2.3 Pengguna dan Kebutuhan Pengguna Perangkat Lunak
-Tuliskan seluruh jenis pengguna (*role*/aktor) yang terlibat dalam perangkat lunak (P/L), beserta kebutuhannya secara umum. Bagian ini dapat disalin dari 1.2 *Deskripsi Pengguna Perangkat Lunak* (dokumen Requirement Gathering) atau 3.1 *Identifikasi Aktor* (dokumen Use Case), pastikan sudah konsisten dengan aktor final yang dipakai di BAB 4.
+
 
 | Pengguna | Kebutuhan |
 | :--- | :--- |
-| 1 | *Pengguna membuka halaman registrasi dan memilih tipe akun (Pemilik F&B atau Perwakilan NGO).* | *Sistem menampilkan formulir sesuai tipe akun beserta fasilitas unggah dokumen pendukung.* |
-| 2 | *Pengguna mengisi seluruh kolom wajib pada formulir dan mengunggah dokumen pendukung, lalu menekan tombol daftar.* | *Sistem memvalidasi kelengkapan data dan format dokumen.* |
-| 3 | *Pengguna menunggu proses pendaftaran.* | *Sistem menyimpan data pendaftar dengan status awal "menunggu verifikasi", lalu menampilkan pesan pendaftaran berhasil dikirim.* |
+| *Pemilik F&B* | *Pengguna ini bertindak sebagai pihak perwakilan dari bisnis F&B. Karakteristik dari pengguna ini adalah ia butuh UI/UX yang bagus dan nyaman untuk memasukkan data harian dan mengumumkan makanan yang berlebih agar dapat diambil.* |
+| *Perwakilan NGO* | *Pengguna ini bertindak sebagai pihak penerima donasi yang telah terdaftar di FoodLink. Karakteristik dari pengguna ini adalah ia sering mengakses software, butuh informasi yang jelas terkait detail makanan, lokasi, dan batas waktu pengambilan makanan untuk segera diambil.* |
+| *Admin Sistem* | *Pengguna ini bertindah sebagai pihak yang mengelola software, mulai dari verifikasi akun baru hingga keamanan* |
 
 ## 2.4 Batasan Perangkat Lunak
 Batasan yang harus dituliskan, di antaranya:
