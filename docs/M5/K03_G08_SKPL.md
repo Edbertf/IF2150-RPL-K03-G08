@@ -148,9 +148,9 @@ Penerapan FoodLink diharapkan dapat memberikan manfaat bagi seluruh pihak yang t
 <br>
 
 ## 2.2 Deskripsi Umum Perangkat Lunak
-Diisi dengan deskripsi umum perangkat lunak untuk mendukung proses bisnis yang telah diuraikan pada sub-bab sebelumnya. Uraian harus menunjukkan lingkup perangkat lunak, mencakup keterkaitan perangkat lunak dengan sistem lain di luar (misalnya *Payment Gateway* atau layanan pihak ketiga lain yang dipakai).
+FoodLink merupakan aplikasi berbasis web yang menjadi penghubung antara pelaku usaha F&B (Pemilik F&B) dengan organisasi penerima donasi (Perwakilan NGO), dengan tujuan mencegah dan mengurangi makanan surplus melalui dua fungsi utama: prediksi kebutuhan produksi berdasarkan data penjualan historis, dan distribusi produk surplus kepada pihak yang membutuhkan. Sistem menerima input data penjualan harian dari Pemilik F&B, mengolahnya menjadi rekomendasi produksi, serta memfasilitasi pencatatan dan pengambilan produk surplus oleh Perwakilan NGO.
 
-*Contoh narasi:* "*[Nama P/L]* merupakan aplikasi *[deskripsi singkat]* yang berinteraksi dengan *Payment Gateway (dummy)* untuk memproses otorisasi pembayaran. Sistem menerima input dari *Pelanggan* melalui antarmuka aplikasi dan mengirimkan permintaan transaksi ke *Payment Gateway* setiap kali pelanggan melakukan checkout."
+Untuk mendukung fitur pengurutan produk surplus berdasarkan jarak terdekat, FoodLink berinteraksi dengan layanan peta pihak ketiga (Geolocation API), seperti Google Maps Geocoding API atau OpenStreetMap Nominatim API, untuk mengonversi alamat Pemilik F&B dan lokasi Perwakilan NGO menjadi koordinat serta menghitung jarak di antara keduanya. Sistem mengirimkan permintaan ke API ini setiap kali Perwakilan NGO membuka daftar produk surplus.
 
 ## 2.3 Pengguna dan Kebutuhan Pengguna Perangkat Lunak
 
