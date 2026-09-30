@@ -80,19 +80,19 @@ Tabel 1.4. Aturan Penomoran
 ## 1.5 Referensi
 
 - Diagram UML: https://www.drawio.com/, https://staruml.io/
-- Slide materi perkuliahan IF2150 RPL: 
+- Slide materi perkuliahan IF2150 RPL: https://drive.google.com/drive/folders/1SWxicyDoWrjlpJ18f9Oe_IuCYA-qGmrf?usp=sharing 
 - Milestone 1 s/d 4
 
 ## 1.6 Deskripsi Umum Dokumen (Ikhtisar)
 
 *Sistematika pembahasan dokumen SKPL ini disusun sebagai berikut:*
 
-Bab 1: Pendahuluan. *Menjelaskan tujuan penelitian, ruang lingkup sistem FoodLink, daftar istilah yang digunakan, serta deskripsi umum sistem.*
-Bab 2: Deskripsi Perangkat Lunak: *Menjelaskan gambaran umum sistem, karakteristik pengguna, batasan perangkat lunak, serta lingkungan operasi yang dibutuhkan.*
-Bab 3: Deskripsi Kebutuhan Perangkat Lunak. *Mendefinisikan secara spesifik kebutuhan fungsional dan non-fungsional dari aplikasi FoodLInk.*
-Bab 4: Pemodelan Use Case. *Mengidentifikasi aktor yang terlibat beserta interaksinya dengan sistem melalui diagram dan skenario use case.*
-Bab 5: Pemodelan Kelas. *Menggambarkan struktur basis data dan hubungan antar entitas di dalam sistem melalui diagram kelas.*
-Bab 6: Traceability. *Memuat tabel keterlacakan antara pemodelan kelas, use case, dan kebutuhan fungsional.*
+Bab 1: Pendahuluan. *Menjelaskan tujuan penelitian, ruang lingkup sistem FoodLink, daftar istilah yang digunakan, serta deskripsi umum sistem.* <br>
+Bab 2: Deskripsi Perangkat Lunak: *Menjelaskan gambaran umum sistem, karakteristik pengguna, batasan perangkat lunak, serta lingkungan operasi yang dibutuhkan.* <br>
+Bab 3: Deskripsi Kebutuhan Perangkat Lunak. *Mendefinisikan secara spesifik kebutuhan fungsional dan non-fungsional dari aplikasi FoodLInk.* <br>
+Bab 4: Pemodelan Use Case. *Mengidentifikasi aktor yang terlibat beserta interaksinya dengan sistem melalui diagram dan skenario use case.* <br>
+Bab 5: Pemodelan Kelas. *Menggambarkan struktur basis data dan hubungan antar entitas di dalam sistem melalui diagram kelas.* <br>
+Bab 6: Traceability. *Memuat tabel keterlacakan antara pemodelan kelas, use case, dan kebutuhan fungsional.* <br>
 
 ---
 
