@@ -99,7 +99,7 @@
 | *23-09-2026* | *Dylan Frederico Ketaren* | *membuat diagram kelas 4.2.1-4.2.3* | *3 jam* | *Done* | *-* |
 
 ### Milestone 5
-**Periode:** 24 September 2026 - 1 Oktober 2026
+**Periode:** 23 September 2026 - 30 September 2026
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
@@ -108,3 +108,10 @@
 | *30-09-2026* | *Dylan Frederico Ketaren* | *mengerjakan content 2.4* | *30 menit* | *Done* | *-* |
 | *30-09-2026* | *Ernest Clarence Gunawan* | *mengerjakan content 2.2* | *30 menit* | *Done* | *-* |
 | *30-09-2026* | *Edbert Fernando* | *mengerjakan content 1.1 dan 1.2* | *20 menit* | *Done* | *-* |
+
+### Milestone 6
+**Periode:** 30 September 2026 - 7 Oktober 2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
+| :--- | :--- | :--- | :--- | :--- | :--- | 
+| *07-10-2026* | *Ernest Clarence Gunawan* | *mengerjakan BAB 1* | *2 jam* | *Done* | *-* |
