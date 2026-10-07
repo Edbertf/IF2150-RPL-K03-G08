@@ -117,3 +117,4 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *07-10-2026* | *Ernest Clarence Gunawan* | *mengerjakan BAB 1* | *2 jam* | *Done* | *-* |
 | *07-10-2026* | *Edbert Fernando* | *mengerjakan BAB 2* | *2 jam* | *Done* | *-* |
+| *07-10-2026* | *Abdur Rauuf Fawaaz* | *menambahkan panah agregasi dan komposisi di logical view, mengisi tulisan bab 3.1* | *30 menit* | *Done* | *-* |
