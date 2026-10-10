@@ -52,7 +52,7 @@ Dipersiapkan oleh:
 # BAB 1: Pendahuluan
 
 ## 1.1 Tujuan Penulisan Dokumen
-Tuliskan dengan ringkas tujuan dokumen DPPL ini dibuat dan siapa saja yang akan menggunakan dokumen ini.
+Dokumen Deskripsi Perancangan Perangkat Lunak (DPPL) ini disusun untuk mendeskripsikan rancangan perangkat lunak FoodLink berdasarkan kebutuhan yang telah ditetapkan pada dokumen SKPL dan juga arsitektur yang telah dirancang pada dokumen APL. Rancangan yang dibahas akan mencakup kelas perancangan serta interaksinya untuk merealisasikan setiap use case. Dokumen ini ditujukan kepada tim pengembang untuk membantu proses pengembangan perangkat lunak.
 
 ## 1.2 Lingkup Masalah
 FoodLink merupakan suatu sistem perangkat lunak yang bertujuan untuk mengurangi pemborosan makanan dengan menghubungkan pemilik usaha F&B dan juga organisasi non-pemerintah (NGO). Sistem membantu pemilik F&B untuk mencatat data penjualan dan sisa produk harian untuk menghasilkan rekomendasi produksi, serta menyediakan akses untuk mengumumkan produk surplus yang dapat didonasikan atau dijual lagi dengan harga diskon. Sementara itu, NGO dapat menemukan, menyaring, dan mengklaim produk surplus di sekitar lokasinya. Dengan begitu, FoodLink akan mendukung pencapaian SDG 12 dan SDG 2.
@@ -94,7 +94,7 @@ Tabel 1.4. Aturan Penomoran
 - Slide materi perkuliahan IF2150 RPL: https://drive.google.com/drive/folders/1SWxicyDoWrjlpJ18f9Oe_IuCYA-qGmrf?usp=sharing
 
 ## 1.6 Deskripsi Umum Dokumen (Ikhtisar)
-Tuliskan sistematika pembahasan dokumen ini secara ringkas dan runut, dengan maksimal 1 paragraf.
+Dokumen ini terdiri atas lima bab. Bab 1 membahas tentang pendahuluan yang mencakup tujuan penulisan dokumen, lingkup masalah, definisi dan singkatan, aturan penomoran, referensi, serta deskripsi umum dokumen. Bab 2 membahas tentang perancangan arsitektur, termasuk lingkungan implementasi, style arsitektur acuan, identifikasi komponen, hingga model arsitektur yang digunakan. Bab 3 membahas tentang realisasi tiap use case melalui identifikasi kelas perancangan, sequence diagram untuk skenario-skenario yang ada, serta diagram kelas yang terkait. Bab 4 menggabungkan seluruh kelas perancangan ke dalam satu diagram kelas keseluruhan. Bab 5 akan menunjukkan matriks kerunutan yang memetakan kelas terhadap use case. 
 
 <br>
 
