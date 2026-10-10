@@ -27,7 +27,8 @@
 * [Milestone 3](#milestone-3)
 * [Milestone 4](#milestone-4)
 * [Milestone 5](#milestone-5)
-* [Milestone 5](#milestone-6)
+* [Milestone 6](#milestone-6)
+* [Milestone 7](#milestone-7)
 
 
 ---
@@ -119,3 +120,10 @@
 | *07-10-2026* | *Edbert Fernando* | *mengerjakan BAB 2* | *2 jam* | *Done* | *-* |
 | *07-10-2026* | *Abdur Rauuf Fawaaz* | *menambahkan panah agregasi dan komposisi di logical view, mengisi tulisan bab 3.1* | *30 menit* | *Done* | *-* |
 | *07-10-2026* | *Dylan Frederico Ketaren* | *mengerjakan diagram logical view* | *2 jam* | *Done* | *-* |
+
+### Milestone 7
+**Periode:** 7 Oktober 2026 - 21 Oktober 2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
+| :--- | :--- | :--- | :--- | :--- | :--- | 
+| *07-10-2026* | *Edbert Fernando* | *mengerjakan 1.1 dan 1.6* | *30 menit* | *Done* | *-* |
