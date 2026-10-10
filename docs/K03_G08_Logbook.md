@@ -126,4 +126,5 @@
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
-| *07-10-2026* | *Edbert Fernando* | *mengerjakan 1.1 dan 1.6* | *30 menit* | *Done* | *-* |
+| *10-10-2026* | *Edbert Fernando* | *mengerjakan 1.1 dan 1.6* | *30 menit* | *Done* | *-* |
+| *10-10-2026* | *Ernest Clarence Gunawan* | *mengerjakan 2.1 serta merevisi diagram dan penjelasan dari Logical View* | *1 jam* | *Done* | *-* |
