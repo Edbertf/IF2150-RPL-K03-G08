@@ -31,7 +31,7 @@ Dipersiapkan oleh:
 
 | Revisi | Deskripsi |
 | :--- | :--- |
-| *A* | *Deskripsikan perubahan yang dilakukan dari dokumen sebelumnya pada dokumen ini. Jika tidak terdapat perubahan, harap kosongkan tabel.* |
+| *A* | *Memperbarui Logical View (Gambar 2) agar lebih sesuai* |
 | *B* |  |
 | *C* |  |
 | ... |  |
@@ -52,7 +52,7 @@ Dipersiapkan oleh:
 # BAB 1: Pendahuluan
 
 ## 1.1 Tujuan Penulisan Dokumen
-Dokumen Deskripsi Perancangan Perangkat Lunak (DPPL) ini disusun untuk mendeskripsikan rancangan perangkat lunak FoodLink berdasarkan kebutuhan yang telah ditetapkan pada dokumen SKPL dan juga arsitektur yang telah dirancang pada dokumen APL. Rancangan yang dibahas akan mencakup kelas perancangan serta interaksinya untuk merealisasikan setiap use case. Dokumen ini ditujukan kepada tim pengembang untuk membantu proses pengembangan perangkat lunak.
+Tuliskan dengan ringkas tujuan dokumen DPPL ini dibuat dan siapa saja yang akan menggunakan dokumen ini.
 
 ## 1.2 Lingkup Masalah
 FoodLink merupakan suatu sistem perangkat lunak yang bertujuan untuk mengurangi pemborosan makanan dengan menghubungkan pemilik usaha F&B dan juga organisasi non-pemerintah (NGO). Sistem membantu pemilik F&B untuk mencatat data penjualan dan sisa produk harian untuk menghasilkan rekomendasi produksi, serta menyediakan akses untuk mengumumkan produk surplus yang dapat didonasikan atau dijual lagi dengan harga diskon. Sementara itu, NGO dapat menemukan, menyaring, dan mengklaim produk surplus di sekitar lokasinya. Dengan begitu, FoodLink akan mendukung pencapaian SDG 12 dan SDG 2.
@@ -94,7 +94,7 @@ Tabel 1.4. Aturan Penomoran
 - Slide materi perkuliahan IF2150 RPL: https://drive.google.com/drive/folders/1SWxicyDoWrjlpJ18f9Oe_IuCYA-qGmrf?usp=sharing
 
 ## 1.6 Deskripsi Umum Dokumen (Ikhtisar)
-Dokumen ini terdiri atas lima bab. Bab 1 membahas tentang pendahuluan yang mencakup tujuan penulisan dokumen, lingkup masalah, definisi dan singkatan, aturan penomoran, referensi, serta deskripsi umum dokumen. Bab 2 membahas tentang perancangan arsitektur, termasuk lingkungan implementasi, style arsitektur acuan, identifikasi komponen, hingga model arsitektur yang digunakan. Bab 3 membahas tentang realisasi tiap use case melalui identifikasi kelas perancangan, sequence diagram untuk skenario-skenario yang ada, serta diagram kelas yang terkait. Bab 4 menggabungkan seluruh kelas perancangan ke dalam satu diagram kelas keseluruhan. Bab 5 akan menunjukkan matriks kerunutan yang memetakan kelas terhadap use case. 
+Tuliskan sistematika pembahasan dokumen ini secara ringkas dan runut, dengan maksimal 1 paragraf.
 
 <br>
 
@@ -104,7 +104,17 @@ Dokumen ini terdiri atas lima bab. Bab 1 membahas tentang pendahuluan yang menca
 
 ## 2.1 Rancangan Lingkungan Implementasi
 
-Sebutkan *operating system*, DBMS, *development tools*, *filing system*, dan bahasa pemrograman yang digunakan.
+Tabel 2.1. Lingkungan Implementasi
+
+| Komponen | Spesifikasi |
+| :--- | :--- |
+| *Operating System* | *Cross-platform (Windows/Linux/macOS) melalui browser* |
+| *DBMS* | *PostgreSQL 15* |
+| *Development Tools* | *Visual Studio Code, Git dan GitHub, serta draw.io untuk pembuatan diagram* |
+| *Filing System* | *Dokumen pendaftaran (PDF/JPG/PNG, maksimal 5 MB per berkas) disimpan pada file system server, sedangkan metadatanya disimpan di PostgreSQL* |
+| *Bahasa Pemrograman* | *JavaScript (Node.js v20 dengan Express.js) di sisi server, serta HTML5, CSS, dan JavaScript di sisi klien* |
+
+FoodLink dibangun dengan Node.js dan Express.js, yang tidak menyediakan struktur MVC secara bawaan. Karena itu, pola MVC diterapkan dengan mengelompokkan kode sesuai Tabel 2.3. Komponen *Model* menjadi modul yang mengakses PostgreSQL, komponen *View* menjadi halaman HTML yang ditampilkan ke pengguna, dan komponen *Controller* menjadi penangan *route* Express yang menerima permintaan dari View, memanggil Model, lalu memilih View yang ditampilkan.
 
 ## 2.2 Style/Pattern Arsitektur Acuan
 
@@ -166,12 +176,12 @@ Tabel 2.3. Identifikasi Komponen/Modul/Subsistem
 
 ## 2.4 Model Arsitektur Perangkat Lunak
 
-## 2.4.1 Logical View
+### 2.4.1 Logical View
 
-Gambar 2 adalah *Logical View* FoodLink. Untuk memodelkan struktur arsitektur aplikasi FoodLink, kami memilih *Logical View* sebagai representasi utama. *Logical View* dipilih karena model ini sangat efektif untuk memvisualisasikan dekomposisi fungsional sistem ke dalam unit-unit yang lebih kecil dan terorganisasi. Pada aplikasi FoodLink yang menggunakan pola arsitektur Model-View-Controller (MVC), *Logical View* memudahkan pengembang untuk melihat pemisahan tanggung jawab secara terstruktur—mulai dari antarmuka pengguna (View), pengontrol logika bisnis (Controller), hingga entitas pengelolaan data (Model). Melalui view ini, relasi statis antar-komponen seperti dependensi, komposisi, dan agregasi (terutama pada entitas data pengguna, pendaftaran, produk surplus, dan log aktivitas) dapat dipetakan dengan jelas, sehingga memastikan setiap Kebutuhan Fungsional (KF) terpenuhi tanpa adanya tumpang tindih logika.
+Gambar 2 adalah *Logical View* FoodLink. Untuk memodelkan struktur arsitektur aplikasi FoodLink, kami memilih *Logical View* sebagai representasi utama. *Logical View* dipilih karena model ini sangat efektif untuk memvisualisasikan dekomposisi fungsional sistem ke dalam unit-unit yang lebih kecil dan terorganisasi. Pada aplikasi FoodLink yang menggunakan pola arsitektur Model-View-Controller (MVC), *Logical View* memudahkan pengembang untuk melihat pemisahan tanggung jawab secara terstruktur, mulai dari antarmuka pengguna (View), pengontrol logika bisnis (Controller), hingga pengelolaan data (Model). Melalui view ini, aliran permintaan dari View ke Controller, akses Controller ke Model, penyimpanan data dari Model ke Database, serta pemakaian layanan eksternal oleh Controller dapat dipetakan dengan jelas, sehingga setiap Kebutuhan Fungsional (KF) dapat ditelusuri ke komponen yang mengerjakannya tanpa tumpang tindih logika.
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Logical View.jpg" width="100%">
+<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Logical View FoodLink.jpg" width="100%">
 </p>
 <p align="center">
 <i>Gambar 2. Logical View FoodLink</i>
