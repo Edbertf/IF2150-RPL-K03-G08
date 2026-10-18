@@ -52,7 +52,7 @@ Dipersiapkan oleh:
 # BAB 1: Pendahuluan
 
 ## 1.1 Tujuan Penulisan Dokumen
-Tuliskan dengan ringkas tujuan dokumen DPPL ini dibuat dan siapa saja yang akan menggunakan dokumen ini.
+Dokumen Deskripsi Perancangan Perangkat Lunak (DPPL) ini bertujuan untuk menjelaskan rancangan perangkat lunak FoodLink sebagai tindak lanjut dari Spesifikasi Kebutuhan Perangkat Lunak (SKPL) dan Arsitektur Perangkat Lunak (APL). Dokumen ini memuat rancangan arsitektur, identifikasi kelas, interaksi antarkelas, diagram kelas, serta keterkaitan antara kelas dan use case. DPPL digunakan sebagai acuan bagi pengembang dalam mengimplementasikan perangkat lunak FoodLink agar implementasinya sesuai dengan kebutuhan fungsional dan non-fungsional yang telah ditetapkan.
 
 ## 1.2 Lingkup Masalah
 FoodLink merupakan suatu sistem perangkat lunak yang bertujuan untuk mengurangi pemborosan makanan dengan menghubungkan pemilik usaha F&B dan juga organisasi non-pemerintah (NGO). Sistem membantu pemilik F&B untuk mencatat data penjualan dan sisa produk harian untuk menghasilkan rekomendasi produksi, serta menyediakan akses untuk mengumumkan produk surplus yang dapat didonasikan atau dijual lagi dengan harga diskon. Sementara itu, NGO dapat menemukan, menyaring, dan mengklaim produk surplus di sekitar lokasinya. Dengan begitu, FoodLink akan mendukung pencapaian SDG 12 dan SDG 2.
@@ -94,7 +94,7 @@ Tabel 1.4. Aturan Penomoran
 - Slide materi perkuliahan IF2150 RPL: https://drive.google.com/drive/folders/1SWxicyDoWrjlpJ18f9Oe_IuCYA-qGmrf?usp=sharing
 
 ## 1.6 Deskripsi Umum Dokumen (Ikhtisar)
-Tuliskan sistematika pembahasan dokumen ini secara ringkas dan runut, dengan maksimal 1 paragraf.
+Dokumen DPPL FoodLink terdiri atas lima bab utama. Bab 1 menjelaskan tujuan, lingkup masalah, definisi istilah, aturan penomoran, dan referensi. Bab 2 menjelaskan rancangan lingkungan implementasi, pola arsitektur, serta identifikasi komponen perangkat lunak. Bab 3 menjelaskan realisasi use case melalui identifikasi kelas, sequence diagram, dan diagram kelas. Bab 4 menyajikan diagram kelas keseluruhan beserta daftar atribut dan operasi kelas. Bab 5 menjelaskan matriks kerunutan yang menghubungkan kelas perancangan dengan use case terkait.
 
 <br>
 
