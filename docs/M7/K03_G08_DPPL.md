@@ -255,7 +255,109 @@ Pada diagram, pastikan:
 
 Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 3.1
 
+## 3.7 Use Case Mengatur Metode Distribusi Surplus
+
+**ID Use Case:** *UC07*  
+**Nama Use Case:** *Mengatur Metode Distribusi Surplus*
+
+### 3.7.1 Identifikasi Kelas
+
+Tabel 7.1. Identifikasi Kelas Use Case UC07
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | *DistribusiSurplusPage* (C18) | *AkunPengguna* (C01) |
+| 2 | *ProdukSurplusController* (C26) | *ProdukSurplus* (C08) |
+| 3 | *ProdukSurplus* (C08) | *ProdukSurplus* (C08) |
+| 4 | *MetodeDistribusiSurplus* (C09) | *MetodeDistribusiSurplus* (C09) |
+
+### 3.7.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC07 - Skenario Normal" src="./assets/diagram/Gambar 7.1. Sequence Diagram UC07 - Skenario Normal.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 7.1. Sequence Diagram UC07 - Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Pemilik F&B Memilih Donasi**
+
+<p align="center">
+<img alt="Sequence Diagram UC07 - Memilih Donasi" src="./assets/diagram/Gambar 7.2. Sequence Diagram UC07 - Memilih Donasi.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 7.2. Sequence Diagram UC07 - Memilih Donasi</i>
+</p>
+
+- **Skenario Alternatif 2: Harga Penjualan Tidak Valid**
+
+<p align="center">
+<img alt="Sequence Diagram UC07 - Harga Tidak Valid" src="./assets/diagram/Gambar 7.3. Sequence Diagram UC07 - Harga Penjualan Tidak Valid.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 7.3. Sequence Diagram UC07 - Harga Penjualan Tidak Valid</i>
+</p>
+
+### 3.7.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas Mengatur Metode Distribusi Surplus" src="./assets/diagram/Gambar 7.4. Diagram Kelas Mengatur Metode Distribusi Surplus.png" width="40%">
+</p>
+<p align="center">
+<i>Gambar 7.4. Diagram Kelas Mengatur Metode Distribusi Surplus</i>
+</p>
+
+## 3.8 Use Case Melihat Informasi Produk Surplus
+
+**ID Use Case:** *UC08*  
+**Nama Use Case:** *Melihat Informasi Produk Surplus*
+
+### 3.8.1 Identifikasi Kelas
+
+Tabel 8.1. Identifikasi Kelas Use Case UC08
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | *DaftarSurplusPage* (C19) | *AkunPengguna* (C01) |
+| 2 | *SurplusController* (C27) | *ProdukSurplus* (C08) |
+| 3 | *ProdukSurplus* (C08) | *ProdukSurplus* (C08) |
+| 4 | *MetodeDistribusiSurplus* (C09) | *MetodeDistribusiSurplus* (C09) |
+| 5 | *GeolocationAdapter* (ID belum ditetapkan) | *ProdukSurplus* (C08) |
+
+### 3.8.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC08 - Skenario Normal"  src="./assets/diagram/Gambar 8.1. Sequence Diagram UC08 - Skenario Normal.png" width="40%">
+</p>
+<p align="center">
+<i>Gambar 8.1. Sequence Diagram UC08 - Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Lokasi Pengguna Belum Tersedia**
+
+<p align="center">
+<img alt="Sequence Diagram UC08 - Lokasi Belum Tersedia" src="./assets/diagram/Gambar 8.2. Sequence Diagram UC08 - Lokasi Pengguna Belum Tersedia.png" width="40%">
+</p>
+<p align="center">
+<i>Gambar 8.2. Sequence Diagram UC08 - Lokasi Pengguna Belum Tersedia</i>
+</p>
+
+### 3.8.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas Melihat Informasi Produk Surplus" src="./assets/diagram/Gambar 8.3. Diagram Kelas Melihat Informasi Produk Surplus.png" width="40%">
+</p>
+<p align="center">
+<i>Gambar 8.3. Diagram Kelas Melihat Informasi Produk Surplus</i>
+</p>
+
 <br>
+
+
 
 ---
 
