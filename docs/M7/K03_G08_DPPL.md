@@ -255,6 +255,98 @@ Pada diagram, pastikan:
 
 Silahkan lanjutkan untuk  *use case* berikutnya dengan content yang sama dengan 3.1
 
+## 3.3 Use Case Menampilkan Status Pendaftaran
+
+**ID Use Case:** *UC03*  
+**Nama Use Case:** *Menampilkan Status Pendaftaran*
+
+### 3.3.1 Identifikasi Kelas
+
+Tabel 3.3.1 Identifikasi Kelas Use Case UC03
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | *Pendaftaran (C02)* | *Pendaftaran (C02)* |
+| 2 | *StatusPendaftaranPage (C14)* | *StatusPendaftaranPage (C14)* |
+| 3 | *AuthController (C23)* | *AuthController (C23)* |
+| 4 | *PemilikFnB (C30)* | *PemilikFnB (C30)* |
+| 5 | *PerwakilanNGO (C31)* | *PerwakilanNGO (C31)* |
+
+### 3.3.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC04 - Skenario Normal" src="./assets/diagram/Gambar 4.1. Sequence Diagram UC04 - Skenario Normal.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.1 Sequence Diagram UC03</i>
+</p>
+
+- **Skenario Alternatif 1: Status Pendaftaran Ditolak**
+
+<p align="center">
+<img alt="Sequence Diagram UC03 - Status Pendaftaran Ditolak" src="./assets/diagram/Gambar 3.2. Sequence Diagram UC03 - Status Pendaftaran Ditolak.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.2 Sequence Diagram UC03 - Status Pendaftaran Ditolak</i>
+</p>
+
+### 3.3.3 Diagram Kelas
+
+<p align="center">
+<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Gambar 3.3 Diagram Kelas UC03 - Melihat Status Pendaftaran.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 3.3 Diagram Kelas Melihat Status Pendaftaran</i>
+</p>
+
+## 3.4 Use Case Mencatat Data Penjualan Harian
+
+**ID Use Case:** *UC04*  
+**Nama Use Case:** *Mencatat Data Penjualan Harian*
+
+### 3.4.1 Identifikasi Kelas
+
+Tabel 3.4.1 Identifikasi Kelas Use Case UC04
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | *PemilikFnB (C30)* | *PemilikFnB (C30)* |
+| 2 | *PenjualanPage (C15)* | *PenjualanPage (C15)* |
+| 3 | *PenjualanController (C24)* | *PenjualanController (C24)* |
+| 4 | *DataPenjualan (C06)* | *DataPenjualan (C06)* |
+| 5 | *Produk (C05)* | *Produk (C05)* |
+
+### 3.4.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC03 - Skenario Normal" src="./assets/diagram/Gambar 3.1. Sequence Diagram UC03 - Skenario Normal.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 4.1 Sequence Diagram UC04</i>
+</p>
+
+- **Skenario Alternatif 1: Format Isian Tidak Valid**
+
+<p align="center">
+<img alt="Sequence Diagram UC03 - Format Isian Tidak Valid" src="./assets/diagram/Gambar 4.2. Sequence Diagram UC04 - Format Isian Tidak Valid.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 4.2 Sequence Diagram UC04 - Format Isian Tidak Valid</i>
+</p>
+
+### 3.4.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC04 - Mencatat Data Penjualan Harian" src="./assets/diagram/Gambar 4.3 Diagram Kelas UC04 - Mencatat Data Penjualan Harian .png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 4.2 Diagram Kelas Mencatat Data Penjualan Harian</i>
+</p>
+
 ## 3.7 Use Case Mengatur Metode Distribusi Surplus
 
 **ID Use Case:** *UC07*  
