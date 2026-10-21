@@ -736,13 +736,13 @@ Tabel 3.12 Identifikasi Kelas Use Case UC12
 
 ## 4.1 Diagram Kelas
 
-**Bagian ini diisi dengan diagram kelas keseluruhan.**
+
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/contoh-class_diargam.png" width="35%">
+<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Diagram Kelas Keseluruhan.png" width="35%">
 </p>
 <p align="center">
-<i>Gambar 4.1. Diagram Kelas Perancangan Keseluruhan [Nama P/L]</i>
+<i>Gambar 4.1. Diagram Kelas Perancangan Keseluruhan FoodLink</i>
 </p>
 
 Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
@@ -782,7 +782,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C27* | *SurplusController* | *-* | *+ambilDaftarSurplus(), +urutkanBerdasarkanJarak()* |
 | *C28* | *KlaimController* | *-* | *+checkAvailability(), +approveClaim()* |
 | *C29* | *LogController* | *-* | *+showLog(), +filterLog()* |
-| *C33* | *GeolocationAdapter* | *-apiKey* | *+getCoordinates(), +calculateDistance()* |
+| *C33* | *GeolocationAdapter* | ** | *+getCoordinates(), +calculateDistance()* |
 
 <br>
 
