@@ -518,7 +518,7 @@ Tabel 3.7 Identifikasi Kelas Use Case UC07
 ### 3.7.3 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas Mengatur Metode Distribusi Surplus" src="./assets/diagram/Gambar 3.7.4. Diagram Kelas Mengatur Metode Distribusi Surplus.png" width="40%">
+<img alt="Diagram Kelas Mengatur Metode Distribusi Surplus" src="./assets/diagram/Gambar 3.7.4. Diagram Kelas Mengatur Metode Distribusi Surplus.png" width="35%">
 </p>
 <p align="center">
 <i>Gambar 3.7.4 Diagram Kelas Mengatur Metode Distribusi Surplus</i>
@@ -549,7 +549,7 @@ Tabel 3.8 Identifikasi Kelas Use Case UC08
 - **Skenario Normal**
 
 <p align="center">
-<img alt="Sequence Diagram UC08 - Skenario Normal"  src="./assets/diagram/Gambar 3.8.1. Sequence Diagram UC08 - Skenario Normal.png" width="40%">
+<img alt="Sequence Diagram UC08 - Skenario Normal"  src="./assets/diagram/Gambar 3.8.1. Sequence Diagram UC08 - Skenario Normal.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.8.1 Sequence Diagram UC08 - Skenario Normal</i>
@@ -558,7 +558,7 @@ Tabel 3.8 Identifikasi Kelas Use Case UC08
 - **Skenario Alternatif 1: Lokasi Pengguna Belum Tersedia**
 
 <p align="center">
-<img alt="Sequence Diagram UC08 - Lokasi Belum Tersedia" src="./assets/diagram/Gambar 3.8.2. Sequence Diagram UC08 - Lokasi Pengguna Belum Tersedia.png" width="40%">
+<img alt="Sequence Diagram UC08 - Lokasi Belum Tersedia" src="./assets/diagram/Gambar 3.8.2. Sequence Diagram UC08 - Lokasi Pengguna Belum Tersedia.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.8.2 Sequence Diagram UC08 - Lokasi Pengguna Belum Tersedia</i>
@@ -567,7 +567,7 @@ Tabel 3.8 Identifikasi Kelas Use Case UC08
 ### 3.8.3 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas Melihat Informasi Produk Surplus" src="./assets/diagram/Gambar 3.8.3. Diagram Kelas Melihat Informasi Produk Surplus.png" width="40%">
+<img alt="Diagram Kelas Melihat Informasi Produk Surplus" src="./assets/diagram/Gambar 3.8.3. Diagram Kelas Melihat Informasi Produk Surplus.png" width="35%">
 </p>
 <p align="center">
 <i>Gambar 3.8.3 Diagram Kelas Melihat Informasi Produk Surplus</i>
@@ -596,7 +596,7 @@ Tabel 3.9 Identifikasi Kelas Use Case UC09
 - **Skenario Normal**
 
 <p align="center">
-<img alt="Sequence Diagram UC09 - Skenario Normal"  src="./assets/diagram/Gambar 3.9.1 Sequence Diagram UC09 - Normal.jpg" width="40%">
+<img alt="Sequence Diagram UC09 - Skenario Normal"  src="./assets/diagram/Gambar 3.9.1 Sequence Diagram UC09 - Normal.jpg" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.9.1 Sequence Diagram UC09 - Skenario Normal</i>
@@ -605,7 +605,7 @@ Tabel 3.9 Identifikasi Kelas Use Case UC09
 - **Skenario Alternatif 1: Tidak Ada Produk Sesuai**
 
 <p align="center">
-<img alt="Sequence Diagram UC09 - Tidak Ada Produk Sesuai" src="./assets/diagram/Gambar 3.9.2 Sequence Diagram UC09 - Alternatif.jpg" width="40%">
+<img alt="Sequence Diagram UC09 - Tidak Ada Produk Sesuai" src="./assets/diagram/Gambar 3.9.2 Sequence Diagram UC09 - Alternatif.jpg" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.9.2 Sequence Diagram UC09 - Tidak Ada Produk Sesuai</i>
@@ -614,7 +614,7 @@ Tabel 3.9 Identifikasi Kelas Use Case UC09
 ### 3.9.3 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas Menyaring Produk Surplus" src="./assets/diagram/Gambar 3.9.3 Diagram Kelas Menyaring Produk.jpg" width="40%">
+<img alt="Diagram Kelas Menyaring Produk Surplus" src="./assets/diagram/Gambar 3.9.3 Diagram Kelas Menyaring Produk.jpg" width="35%">
 </p>
 <p align="center">
 <i>Gambar 3.9.3 Diagram Kelas Menyaring Produk Surplus</i>
@@ -644,7 +644,7 @@ Tabel 3.10 Identifikasi Kelas Use Case UC09
 - **Skenario Normal**
 
 <p align="center">
-<img alt="Sequence Diagram UC10 - Skenario Normal"  src="./assets/diagram/Gambar 3.10.1 Sequence Diagram UC10 - Normal.jpg" width="40%">
+<img alt="Sequence Diagram UC10 - Skenario Normal"  src="./assets/diagram/Gambar 3.10.1 Sequence Diagram UC10 - Normal.jpg" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.10.1 Sequence Diagram UC010 - Skenario Normal</i>
@@ -653,7 +653,7 @@ Tabel 3.10 Identifikasi Kelas Use Case UC09
 - **Skenario Alternatif 1: Produk sudah diklaim NGO lain terlebih dahulu**
 
 <p align="center">
-<img alt="Sequence Diagram UC10 - Produk sudah diklaim NGO lain terlebih dahulu" src="./assets/diagram/Gambar 3.10.2 Sequence Diagram UC10 - Alternatif.jpg" width="40%">
+<img alt="Sequence Diagram UC10 - Produk sudah diklaim NGO lain terlebih dahulu" src="./assets/diagram/Gambar 3.10.2 Sequence Diagram UC10 - Alternatif.jpg" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.10.2 Sequence Diagram UC10 - Produk sudah diklaim NGO lain terlebih dahulu</i>
@@ -662,7 +662,7 @@ Tabel 3.10 Identifikasi Kelas Use Case UC09
 ### 3.10.3 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas Mengklaim Produk Surplus" src="./assets/diagram/Gambar 3.10.3 Diagram Kelas Mengklaim Produk.jpg" width="40%">
+<img alt="Diagram Kelas Mengklaim Produk Surplus" src="./assets/diagram/Gambar 3.10.3 Diagram Kelas Mengklaim Produk.jpg" width="35%">
 </p>
 <p align="center">
 <i>Gambar 3.10.3 Diagram Kelas Mengklaim Produk Surplus</i>
@@ -698,7 +698,7 @@ Tabel 3.11 Identifikasi Kelas Use Case UC08
 ## 3.12 Use Case Mengecek Log Aktivitas Pengguna
 
 **ID Use Case:** *UC12*  
-**Nama Use Case:** *Mengecek Log Aktivitas Penggunas*
+**Nama Use Case:** *Mengecek Log Aktivitas Pengguna*
 
 ### 3.12.1 Identifikasi Kelas
 
@@ -706,25 +706,48 @@ Tabel 3.12 Identifikasi Kelas Use Case UC12
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
-
+| 1 | *LogAktivitasPage (C22)* | *LogAktivitasPage (C22)* |
+| 2 | *LogController (C29)* | *LogController (C29)* |
+| 3 | *LogAktivitas (C11)* | *LogAktivitas (C11)* |
+| 4 | *AdminSistem (C32)* | *AdminSistem (C32)* |
 
 ### 3.12.2 Sequence Diagram
 
 - **Skenario Normal**
 
-
+<p align="center">
+<img alt="Sequence Diagram UC12 - Skenario Normal" src="./assets/diagram/Gambar 3.12.1 Sequence Diagram UC12 - Skenario Normal.jpeg" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.12.1 Sequence Diagram UC12</i>
+</p>
 
 - **Skenario Alternatif 1: Tidak Ada Log yang Sesuai dengan Penyaringan**
 
-
+<p align="center">
+<img alt="Sequence Diagram UC12 - Tidak Ada Log yang Sesuai dengan Penyaringan" src="./assets/diagram/Gambar 3.12.2 Sequence Diagram UC12 - Tidak Ada Log yang Sesuai dengan Penyaringan.jpeg" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.12.2 Sequence Diagram UC12 - Tidak Ada Log yang Sesuai dengan Penyaringan</i>
+</p>
 
 - **Skenario Alternatif 2: Belum Ada Log Aktivitas**
 
-
+<p align="center">
+<img alt="Sequence Diagram UC12 - Belum Ada Log Aktivitas" src="./assets/diagram/Gambar 3.12.3 Sequence Diagram UC12 - Belum Ada Log Aktivitas.jpeg" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.12.3 Sequence Diagram UC12 - Belum Ada Log Aktivitas</i>
+</p>
 
 ### 3.12.3 Diagram Kelas
 
-
+<p align="center">
+<img alt="Sequence Diagram UC12 - Belum Ada Log Aktivitas" src="./assets/diagram/Gambar 3.12.4 Diagram Kelas Mengecek Log Aktivitas Pengguna.jpeg" width="35%">
+</p>
+<p align="center">
+<i>Gambar 3.12.4 Diagram Kelas Mengecek Log Aktivitas Pengguna</i>
+</p>
 
 <br>
 
