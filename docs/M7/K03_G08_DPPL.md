@@ -422,7 +422,7 @@ Tabel 3.5 Identifikasi Kelas Use Case UC05
 ### 3.5.3 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas UC05 - Melihat Hasil Prediksi Produksi" src="./assets/diagram/Gambar 3.5.3 Diagram Kelas Melihat Hasil Prediksi Produksi.png" width="35%">
+<img alt="Diagram Kelas UC05 - Melihat Hasil Prediksi Produksi" src="./assets/diagram/Gambar 3.5.3. Diagram Kelas Melihat Hasil Prediksi Produksi.png" width="35%">
 </p>
 <p align="center">
 <i>Gambar 3.5.3 Diagram Kelas Melihat Hasil Prediksi Produksi</i>
@@ -459,7 +459,7 @@ Tabel 3.6 Identifikasi Kelas Use Case UC06
 - **Skenario Alternatif 1: Mereset Isian Formulir**
 
 <p align="center">
-<img alt="Sequence Diagram UC06 - Mereset Isian Formulir" src="./assets/diagram/Gambar 3.6.2 Sequence Diagram UC06 - Mereset Isian Formulir.png" width="50%">
+<img alt="Sequence Diagram UC06 - Mereset Isian Formulir" src="./assets/diagram/Gambar 3.6.2. Sequence Diagram UC06 - Mereset Isian Formulir.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.6.2 Sequence Diagram UC06 - Mereset Isian Formulir</i>
@@ -468,7 +468,7 @@ Tabel 3.6 Identifikasi Kelas Use Case UC06
 ### 3.6.3 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas UC06 - Mencatat Produk Surplus" src="./assets/diagram/Gambar 3.6.3 Diagram Kelas Mencatat Produk Surplus.png" width="35%">
+<img alt="Diagram Kelas UC06 - Mencatat Produk Surplus" src="./assets/diagram/Gambar 3.6.3. Diagram Kelas Mencatat Produk Surplus.png" width="35%">
 </p>
 <p align="center">
 <i>Gambar 3.6.3 Diagram Kelas Mencatat Produk Surplus</i>
