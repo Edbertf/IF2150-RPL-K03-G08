@@ -589,7 +589,7 @@ Tabel 3.9 Identifikasi Kelas Use Case UC09
 | 3 | *SurplusController* (C27) | *ProdukSurplus* (C08) |
 | 4 | *ProdukSurplus* (C08) | *ProdukSurplus* (C08) |
 | 5 | *MetodeDistribusiSurplus* (C09) | *MetodeDistribusiSurplus* (C09) |
-| 6 | *PenyaringanController* (C33) | *PenyaringanSurplus* (C33) |
+| 6 | *PenyaringanController* (C34) | *PenyaringanController* (C34) |
 
 ### 3.9.2 Sequence Diagram
 
@@ -770,6 +770,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C17* | *ProdukSurplusPage* | *-* | *+tampilkanFormulirSurplus(), +kirimDataSurplus(), +resetFormulir(), +tampilkanNotifikasiSukses(), +kosongkanIsian()* |
 | *C25* | *PrediksiController* | *-* | *+cekKecukupanData(), +jalankanPrediksi()* |
 | *C26* | *ProdukSurplusController* | *-* | *+validasiDataSurplus(), +simpanDataSurplus()* |
+| *C34* | *PenyaringanController* | *-* | *saringProdukSurplus(), cariProdukSurplus(), validasiKriteria(), saringBerdasarkanJenis(), saringBerdasarkanJarak(), saringBerdasarkanBatasWaktu()* |
 | *...* | *...* | *...* | *...* |
 
 <br>
@@ -815,3 +816,4 @@ Tabel 7.1. Matriks Kerunutan Kelas terhadap Use Case
 | *C31 - PerwakilanNGO* | *UC01 - Melakukan Registrasi Akun, UC02 - Memverifikasi Pendaftaran Akun, UC03 - Melihat Status Pendaftaran, UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus, UC10 - Mengklaim Produk Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
 | *C32 - AdminSistem* | *UC02 - Memverifikasi Pendaftaran Akun, UC12 - Mengecek Log Aktivitas Pengguna* |
 | *C33 - GeolocationAdapter* | *UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus* |
+| *C34 - PenyaringanController* | *UC09 - Menyaring Produk Surplus* |
