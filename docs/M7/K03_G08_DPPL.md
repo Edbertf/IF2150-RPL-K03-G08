@@ -625,9 +625,9 @@ Tabel 3.9 Identifikasi Kelas Use Case UC09
 **ID Use Case:** *UC10*  
 **Nama Use Case:** *Menyaring Produk Surplus*
 
-### 3.9.1 Identifikasi Kelas
+### 3.10.1 Identifikasi Kelas
 
-Tabel 3.9 Identifikasi Kelas Use Case UC09
+Tabel 3.10 Identifikasi Kelas Use Case UC09
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
@@ -639,7 +639,7 @@ Tabel 3.9 Identifikasi Kelas Use Case UC09
 | 6 | *ProdukSurplus* (C08) | *ProdukSurplus* (C08) |
 | 7 | *DokumenKlaim* (C10) | *DokumenKlaim* (C10) |
 
-### 3.9.2 Sequence Diagram
+### 3.10.2 Sequence Diagram
 
 - **Skenario Normal**
 
