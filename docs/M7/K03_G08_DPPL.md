@@ -445,13 +445,16 @@ Tabel 3.7 Identifikasi Kelas Use Case UC07
 
 Tabel 3.8 Identifikasi Kelas Use Case UC08
 
-| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
-|:--- | :--- | :--- |
-| 1 | *DaftarSurplusPage* (C19) | *AkunPengguna* (C01) |
-| 2 | *SurplusController* (C27) | *ProdukSurplus* (C08) |
-| 3 | *ProdukSurplus* (C08) | *ProdukSurplus* (C08) |
-| 4 | *MetodeDistribusiSurplus* (C09) | *MetodeDistribusiSurplus* (C09) |
-| 5 | *GeolocationAdapter* (ID belum ditetapkan) | *ProdukSurplus* (C08) |
+| No | Nama Kelas Perancangan | ID | Kelas Analisis Terkait |
+|---:|---|---|---|
+| 1 | DaftarSurplusPage (Boundary) | C19 | AkunPengguna (C01) |
+| 2 | SurplusController (Control) | C27 | ProdukSurplus (C08) |
+| 3 | PerwakilanNGO (Entity) | C31 | PerwakilanNGO (C31) |
+| 4 | ProdukSurplus (Entity) | C08 | ProdukSurplus (C08) |
+| 5 | Produk (Entity) | C05 | Produk (C05) |
+| 6 | PemilikFnB (Entity) | C30 | PemilikFnB (C30) |
+| 7 | MetodeDistribusiSurplus (Entity) | C09 | MetodeDistribusiSurplus (C09) |
+| 8 | GeolocationAdapter (Integration) | C33 | Kelas integrasi tambahan untuk melengkapi KF11 |
 
 ### 3.8.2 Sequence Diagram
 
