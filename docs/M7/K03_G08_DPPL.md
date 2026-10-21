@@ -771,7 +771,18 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C25* | *PrediksiController* | *-* | *+cekKecukupanData(), +jalankanPrediksi()* |
 | *C26* | *ProdukSurplusController* | *-* | *+validasiDataSurplus(), +simpanDataSurplus()* |
 | *C34* | *PenyaringanController* | *-* | *saringProdukSurplus(), cariProdukSurplus(), validasiKriteria(), saringBerdasarkanJenis(), saringBerdasarkanJarak(), saringBerdasarkanBatasWaktu()* |
-| *...* | *...* | *...* | *...* |
+| *C09* | *MetodeDistribusiSurplus* | *-idDistribusi, -jenisDistribusi, -harga* | *+pilihMetodeDistribusi(), +hitungHargaDiskon(), +getInfoDistribusi()* |
+| *C10* | *DokumenKlaim* | *-claimId, -ngoId, -claimTime* | *+recordClaim(), +getClaimTime()* |
+| *C11* | *LogAktivitas* | *-logId, -activity, -time* | *+recordLog(), +getActivity()* |
+| *C18* | *DistribusiSurplusPage* | *-* | *+tampilkanOpsiDistribusi()* |
+| *C19* | *DaftarSurplusPage* | *-* | *+tampilkanDaftarSurplus(), +tampilkanFormFilter()* |
+| *C20* | *KlaimPage* | *-selectedProduct* | *+showPage(), +submitClaim()* |
+| *C21* | *PengambilanPage* | *-* | *+tampilkanDetailPengambilan(), +konfirmasiPengambilan()* |
+| *C22* | *LogAktivitasPage* | *-displayedLogList, -filterInput* | *+showPage(), +applyFilter()* |
+| *C27* | *SurplusController* | *-* | *+ambilDaftarSurplus(), +urutkanBerdasarkanJarak()* |
+| *C28* | *KlaimController* | *-* | *+checkAvailability(), +approveClaim()* |
+| *C29* | *LogController* | *-* | *+showLog(), +filterLog()* |
+| *C33* | *GeolocationAdapter* | *-apiKey* | *+getCoordinates(), +calculateDistance()* |
 
 <br>
 
