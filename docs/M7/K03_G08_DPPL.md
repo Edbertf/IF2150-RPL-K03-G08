@@ -34,7 +34,7 @@ Dipersiapkan oleh:
 | *A* | *Menyeragamkan nama atribut dan operasi ke Bahasa Indonesia* |
 | *B* | *Menghapus atribut accountId pada PemilikFnB, PerwakilanNGO, dan AdminSistem karena sudah diwarisi dari AkunPengguna.* |
 | *C* | *Menambahkan operasi untuk merealisasikan skenario use case (validasiKelengkapanData() dan validasiFormatDokumen() pada AuthController; pilihTipeAkun(), kirimFormulir(), tampilkanPesanBerhasil(), dan tampilkanPesanError() pada RegistrasiPage)* |
-| *D* | ** |
+| *D* | *Menambah class baru C33 GeolocationAdapter* |
 
 ---
 
@@ -580,12 +580,40 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 
 # BAB 5: Matriks Kerunutan
 
-Petakan kelas perancangan dengan use case yang terkait. Gunakan **BAB 6 Traceability pada dokumen SKPL** sebagai acuan keterkaitan kelas analisis dan use case, lalu sesuaikan dengan realisasi use case dan kelas perancangan pada BAB 3–BAB 5 DPPL.
-
 Tabel 7.1. Matriks Kerunutan Kelas terhadap Use Case
 
 | Kelas | Use Case Terkait |
 | :--- | :--- |
-| *[ID kelas - Nama kelas]* | *[ID UC - Nama use case]* |
-| *[ID kelas - Nama kelas]* | *[ID UC - Nama use case]* |
-| *...* | *...* |
+| *C01 - AkunPengguna* | *UC01 - Melakukan Registrasi Akun, UC02 - Memverifikasi Pendaftaran Akun, UC03 - Melihat Status Pendaftaran, UC06 - Mencatat Produk Surplus, UC07 - Mengatur Metode Distribusi Surplus, UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus, UC10 - Mengklaim Produk Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus, UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C02 - Pendaftaran* | *UC01 - Melakukan Registrasi Akun, UC02 - Memverifikasi Pendaftaran Akun, UC03 - Melihat Status Pendaftaran* |
+| *C03 - DokumenPendukung* | *UC01 - Melakukan Registrasi Akun, UC02 - Memverifikasi Pendaftaran Akun* |
+| *C04 - VerifikasiController* | *UC02 - Memverifikasi Pendaftaran Akun* |
+| *C05 - Produk* | *UC04 - Mencatat Data Penjualan Harian, UC05 - Melihat Hasil Prediksi Produksi, UC06 - Mencatat Produk Surplus* |
+| *C06 - DataPenjualan* | *UC04 - Mencatat Data Penjualan Harian, UC05 - Melihat Hasil Prediksi Produksi* |
+| *C07 - PrediksiProduksi* | *UC05 - Melihat Hasil Prediksi Produksi* |
+| *C08 - ProdukSurplus* | *UC06 - Mencatat Produk Surplus, UC07 - Mengatur Metode Distribusi Surplus, UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus, UC10 - Mengklaim Produk Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C09 - MetodeDistribusiSurplus* | *UC07 - Mengatur Metode Distribusi Surplus, UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus* |
+| *C10 - DokumenKlaim* | *UC10 - Mengklaim Produk Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C11 - LogAktivitas* | *UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C12 - RegistrasiPage* | *UC01 - Melakukan Registrasi Akun* |
+| *C13 - VerifikasiPage* | *UC02 - Memverifikasi Pendaftaran Akun* |
+| *C14 - StatusPendaftaranPage* | *UC03 - Melihat Status Pendaftaran* |
+| *C15 - PenjualanPage* | *UC04 - Mencatat Data Penjualan Harian* |
+| *C16 - PrediksiPage* | *UC05 - Melihat Hasil Prediksi Produksi* |
+| *C17 - ProdukSurplusPage* | *UC06 - Mencatat Produk Surplus* |
+| *C18 - DistribusiSurplusPage* | *UC07 - Mengatur Metode Distribusi Surplus* |
+| *C19 - DaftarSurplusPage* | *UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus* |
+| *C20 - KlaimPage* | *UC10 - Mengklaim Produk Surplus* |
+| *C21 - PengambilanPage* | *UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C22 - LogAktivitasPage* | *UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C23 - AuthController* | *UC01 - Melakukan Registrasi Akun, UC03 - Melihat Status Pendaftaran* |
+| *C24 - PenjualanController* | *UC04 - Mencatat Data Penjualan Harian* |
+| *C25 - PrediksiController* | *UC05 - Melihat Hasil Prediksi Produksi* |
+| *C26 - ProdukSurplusController* | *UC06 - Mencatat Produk Surplus, UC07 - Mengatur Metode Distribusi Surplus* |
+| *C27 - SurplusController* | *UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus* |
+| *C28 - KlaimController* | *UC10 - Mengklaim Produk Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C29 - LogController* | *UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C30 - PemilikFnB* | *UC01 - Melakukan Registrasi Akun, UC02 - Memverifikasi Pendaftaran Akun, UC03 - Melihat Status Pendaftaran, UC04 - Mencatat Data Penjualan Harian, UC05 - Melihat Hasil Prediksi Produksi, UC06 - Mencatat Produk Surplus, UC07 - Mengatur Metode Distribusi Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C31 - PerwakilanNGO* | *UC01 - Melakukan Registrasi Akun, UC02 - Memverifikasi Pendaftaran Akun, UC03 - Melihat Status Pendaftaran, UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus, UC10 - Mengklaim Produk Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C32 - AdminSistem* | *UC02 - Memverifikasi Pendaftaran Akun, UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C33 - GeolocationAdapter* | *UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus* |
