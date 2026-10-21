@@ -675,25 +675,43 @@ Tabel 3.10 Identifikasi Kelas Use Case UC09
 
 ### 3.11.1 Identifikasi Kelas
 
-Tabel 3.11 Identifikasi Kelas Use Case UC08
+Tabel 3.11 Identifikasi Kelas Use Case UC11
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
-|:--- | :--- | :--- |
+|:---|:---|:---|
+| 1 | *PengambilanView* (C21) | *ProdukSurplus* (C08) |
+| 2 | *KlaimController* (C28) | *DokumenKlaim* (C10) |
+| 3 | *SurplusModel* (C08, C10) | *ProdukSurplus* (C08), *DokumenKlaim* (C10) |
 
 
 ### 3.11.2 Sequence Diagram
 
 - **Skenario Normal**
 
-
+<p align="center">
+<img alt="Sequence Diagram UC11 - Skenario Normal" src="./assets/diagram/Gambar 3.11.1. Sequence Diagram UC11 - Skenario Normal.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.11.1 Sequence Diagram UC12</i>
+</p>
 
 - **Skenario Alternatif 1: Pemilik F&B atau Perwakilan NGO Ingin Membatalkan Pengonfirmasian Pengambilan Produk Surplus**
 
-
+<p align="center">
+<img alt="Sequence Diagram UC11 - Membatalkan Pengonfirmasian Pengambilan Produk Surplus" src="./assets/diagram/Gambar 3.11.2. Sequence Diagram UC11 - Memilih No.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.11.2 Sequence Diagram UC12 - Membatalkan Pengonfirmasian Pengambilan Produk Surplus</i>
+</p>
 
 ### 3.11.3 Diagram Kelas
 
-
+<p align="center">
+<img alt="Diagram Kelas Mengonfirmasi Pengambilan Produk Surplus" src="./assets/diagram/Gambar 3.11.3. Diagram Kelas UC11 - Mengonfirmasi Pengambilan Produk Surplus.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.11.3 Diagram Kelas Mengonfirmasi Pengambilan Produk Surplus</i>
+</p>
 
 ## 3.12 Use Case Mengecek Log Aktivitas Pengguna
 
