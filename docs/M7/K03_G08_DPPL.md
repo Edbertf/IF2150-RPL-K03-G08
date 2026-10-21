@@ -8,7 +8,8 @@ DESKRIPSI PERANCANGAN PERANGKAT LUNAK (DPPL)
 <br>
 
 ## *FoodLink*
-### *[Logo Perangkat Lunak]*
+<p align="center">
+<img alt="Logo FoodLink" src="./assets/diagram/Logo FoodLink.png" width="50%">
 
 ### Untuk: *Angel*
 
@@ -135,7 +136,7 @@ Dari sisi KF, mayoritas kebutuhan FoodLink berbentuk proses pencatatan dan penam
 Secara keseluruhan, pemisahan tanggung jawab MVC, yaitu data terpusat di *Model*, tampilan fleksibel di *View*, dan logika bisnis terisolasi di *Controller*, sejalan dengan kebutuhan FoodLink seperti sistem yang modular, responsif, cepat, dan andal.
 
 <p align="center">
-<img alt="Contoh Arsitektur MVC" src="./assets/diagram/Gambar 1. Arsitektur MVC FoodLink.jpg" width="70%">
+<img alt="Arsitektur MVC FoodLink" src="./assets/diagram/Gambar 1. Arsitektur MVC FoodLink.jpg" width="70%">
 </p>
 <p align="center">
 <i>Gambar 1. Arsitektur MVC FoodLink</i>
@@ -181,7 +182,7 @@ Tabel 2.3. Identifikasi Komponen/Modul/Subsistem
 Gambar 2 adalah *Logical View* FoodLink. Untuk memodelkan struktur arsitektur aplikasi FoodLink, kami memilih *Logical View* sebagai representasi utama. *Logical View* dipilih karena model ini sangat efektif untuk memvisualisasikan dekomposisi fungsional sistem ke dalam unit-unit yang lebih kecil dan terorganisasi. Pada aplikasi FoodLink yang menggunakan pola arsitektur Model-View-Controller (MVC), *Logical View* memudahkan pengembang untuk melihat pemisahan tanggung jawab secara terstruktur, mulai dari antarmuka pengguna (View), pengontrol logika bisnis (Controller), hingga pengelolaan data (Model). Melalui view ini, aliran permintaan dari View ke Controller, akses Controller ke Model, penyimpanan data dari Model ke Database, serta pemakaian layanan eksternal oleh Controller dapat dipetakan dengan jelas, sehingga setiap Kebutuhan Fungsional (KF) dapat ditelusuri ke komponen yang mengerjakannya tanpa tumpang tindih logika.
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Gambar 2. Logical View FoodLink.jpg" width="100%">
+<img alt="Logical View FoodLink" src="./assets/diagram/Gambar 2. Logical View FoodLink.jpg" width="100%">
 </p>
 <p align="center">
 <i>Gambar 2. Logical View FoodLink</i>
@@ -235,8 +236,6 @@ Tabel 3.1 Identifikasi Kelas Use Case UC01
 
 ### 3.1.3 Diagram Kelas
 
-Buatlah diagram kelas untuk use case ini yang terdiri atas kelas-kelas dari 3.1.1. **Setiap kelas pada diagram wajib menampilkan atribut dan metode/operasi langsung di dalam kotak kelasnya**, sehingga tidak perlu membuat tabel daftar atribut dan metode per kelas pada subbab ini. Daftar lengkap atribut dan metode seluruh kelas disajikan pada Tabel 4.1 (Bab 4).
-
 <p align="center">
 <img alt="Diagram Kelas Melakukan Registrasi Akun" src="./assets/diagram/Gambar 3.1.3. Diagram Kelas Melakukan Registrasi Akun.png" width="35%">
 </p>
@@ -255,13 +254,12 @@ Tabel 3.2 Identifikasi Kelas Use Case UC02
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
-| 1 | *RegistrasiPage (C12)* | *RegistrasiPage (C12)* |
-| 2 | *AuthController (C23)* | *AuthController (C23)* |
+| 1 | *VerifikasiPage (C13)* | *VerifikasiPage (C13)* |
+| 2 | *VerifikasiController (C04)* | *VerifikasiController (C04)* |
 | 3 | *AkunPengguna (C01)* | *AkunPengguna (C01)* |
-| 4 | *PemilikFnB (C30)* | *PemilikFnB (C30)* |
-| 5 | *PerwakilanNGO (C31)* | *PerwakilanNGO (C31)* |
-| 6 | *Pendaftaran (C02)* | *Pendaftaran (C02)* |
-| 7 | *DokumenPendukung (C03)* | *DokumenPendukung (C03)* |
+| 4 | *AdminSistem (C32)* | *AdminSistem (C32)* |
+| 5 | *Pendaftaran (C02)* | *Pendaftaran (C02)* |
+| 6 | *DokumenPendukung (C03)* | *DokumenPendukung (C03)* |
 
 ### 3.2.2 Sequence Diagram
 
@@ -277,7 +275,7 @@ Tabel 3.2 Identifikasi Kelas Use Case UC02
 - **Skenario Alternatif 1: Pendaftaran Ditolak**
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Gambar 3.2.2. Sequence Diagram UC02 - Pendaftaran Ditolak.png" width="50%">
+<img alt="Sequence Diagram UC02 - Pendaftaran Ditolak" src="./assets/diagram/Gambar 3.2.2. Sequence Diagram UC02 - Pendaftaran Ditolak.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.2.2 Sequence Diagram UC02 - Pendaftaran Ditolak</i>
@@ -653,12 +651,15 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
 | :--- | :--- | :--- | :--- |
 | *C01* | *AkunPengguna* | *idAkun, email, kataSandi, tipeAkun* | *registrasi()* |
-| *C02* | *Pendaftaran* | *idPendaftaran, tanggalDaftar, statusVerifikasi* | *ajukanPendaftaran()* |
-| *C03* | *DokumenPendukung* | *idDokumen, namaFile, tipeDokumen* | *unggahDokumen()* |
+| *C02* | *Pendaftaran* | *idPendaftaran, tanggalDaftar, statusVerifikasi* | *ajukanPendaftaran(), getDaftarMenungguVerifikasi(), getDetailPendaftar(), updateStatus()* |
+| *C03* | *DokumenPendukung* | *idDokumen, namaFile, tipeDokumen* | *unggahDokumen(), getDokumen()* |
+| *C04* | *VerifikasiController* | *-* | *tampilkanDaftarPendaftar(), ambilDetailPendaftar(), prosesVerifikasi()* |
 | *C12* | *RegistrasiPage* | *-* | *pilihTipeAkun(), tampilkanFormRegistrasi(), kirimFormulir(), tampilkanPesanBerhasil(), tampilkanPesanError()* |
+| *C13* | *VerifikasiPage* | *-* | *bukaDaftarVerifikasi(), tampilkanDaftarVerifikasi(), pilihPendaftar(), tampilkanDetailPendaftar(), kirimKeputusan()* |
 | *C23* | *AuthController* | *-* | *registrasiAkun(), validasiKelengkapanData(), validasiFormatDokumen()* |
 | *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional* | ** |
 | *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | ** |
+| *C32* | *AdminSistem* | *kewenangan* | *verifikasiPendaftaran()* |
 | *...* | *...* | *...* | *...* |
 
 <br>
