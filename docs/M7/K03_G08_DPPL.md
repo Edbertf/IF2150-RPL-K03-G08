@@ -8,7 +8,8 @@ DESKRIPSI PERANCANGAN PERANGKAT LUNAK (DPPL)
 <br>
 
 ## *FoodLink*
-### *[Logo Perangkat Lunak]*
+<p align="center">
+<img alt="Logo FoodLink" src="./assets/diagram/Logo FoodLink.png" width="50%">
 
 ### Untuk: *Angel*
 
@@ -34,7 +35,7 @@ Dipersiapkan oleh:
 | *A* | *Menyeragamkan nama atribut dan operasi ke Bahasa Indonesia* |
 | *B* | *Menghapus atribut accountId pada PemilikFnB, PerwakilanNGO, dan AdminSistem karena sudah diwarisi dari AkunPengguna.* |
 | *C* | *Menambahkan operasi untuk merealisasikan skenario use case (validasiKelengkapanData() dan validasiFormatDokumen() pada AuthController; pilihTipeAkun(), kirimFormulir(), tampilkanPesanBerhasil(), dan tampilkanPesanError() pada RegistrasiPage)* |
-| *D* | ** |
+| *D* | *Menambah class baru C33 GeolocationAdapter* |
 
 ---
 
@@ -135,7 +136,7 @@ Dari sisi KF, mayoritas kebutuhan FoodLink berbentuk proses pencatatan dan penam
 Secara keseluruhan, pemisahan tanggung jawab MVC, yaitu data terpusat di *Model*, tampilan fleksibel di *View*, dan logika bisnis terisolasi di *Controller*, sejalan dengan kebutuhan FoodLink seperti sistem yang modular, responsif, cepat, dan andal.
 
 <p align="center">
-<img alt="Contoh Arsitektur MVC" src="./assets/diagram/Gambar 1. Arsitektur MVC FoodLink.jpg" width="70%">
+<img alt="Arsitektur MVC FoodLink" src="./assets/diagram/Gambar 1. Arsitektur MVC FoodLink.jpg" width="70%">
 </p>
 <p align="center">
 <i>Gambar 1. Arsitektur MVC FoodLink</i>
@@ -181,7 +182,7 @@ Tabel 2.3. Identifikasi Komponen/Modul/Subsistem
 Gambar 2 adalah *Logical View* FoodLink. Untuk memodelkan struktur arsitektur aplikasi FoodLink, kami memilih *Logical View* sebagai representasi utama. *Logical View* dipilih karena model ini sangat efektif untuk memvisualisasikan dekomposisi fungsional sistem ke dalam unit-unit yang lebih kecil dan terorganisasi. Pada aplikasi FoodLink yang menggunakan pola arsitektur Model-View-Controller (MVC), *Logical View* memudahkan pengembang untuk melihat pemisahan tanggung jawab secara terstruktur, mulai dari antarmuka pengguna (View), pengontrol logika bisnis (Controller), hingga pengelolaan data (Model). Melalui view ini, aliran permintaan dari View ke Controller, akses Controller ke Model, penyimpanan data dari Model ke Database, serta pemakaian layanan eksternal oleh Controller dapat dipetakan dengan jelas, sehingga setiap Kebutuhan Fungsional (KF) dapat ditelusuri ke komponen yang mengerjakannya tanpa tumpang tindih logika.
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Gambar 2. Logical View FoodLink.jpg" width="100%">
+<img alt="Logical View FoodLink" src="./assets/diagram/Gambar 2. Logical View FoodLink.jpg" width="100%">
 </p>
 <p align="center">
 <i>Gambar 2. Logical View FoodLink</i>
@@ -235,8 +236,6 @@ Tabel 3.1 Identifikasi Kelas Use Case UC01
 
 ### 3.1.3 Diagram Kelas
 
-Buatlah diagram kelas untuk use case ini yang terdiri atas kelas-kelas dari 3.1.1. **Setiap kelas pada diagram wajib menampilkan atribut dan metode/operasi langsung di dalam kotak kelasnya**, sehingga tidak perlu membuat tabel daftar atribut dan metode per kelas pada subbab ini. Daftar lengkap atribut dan metode seluruh kelas disajikan pada Tabel 4.1 (Bab 4).
-
 <p align="center">
 <img alt="Diagram Kelas Melakukan Registrasi Akun" src="./assets/diagram/Gambar 3.1.3. Diagram Kelas Melakukan Registrasi Akun.png" width="35%">
 </p>
@@ -255,13 +254,12 @@ Tabel 3.2 Identifikasi Kelas Use Case UC02
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
-| 1 | *RegistrasiPage (C12)* | *RegistrasiPage (C12)* |
-| 2 | *AuthController (C23)* | *AuthController (C23)* |
+| 1 | *VerifikasiPage (C13)* | *VerifikasiPage (C13)* |
+| 2 | *VerifikasiController (C04)* | *VerifikasiController (C04)* |
 | 3 | *AkunPengguna (C01)* | *AkunPengguna (C01)* |
-| 4 | *PemilikFnB (C30)* | *PemilikFnB (C30)* |
-| 5 | *PerwakilanNGO (C31)* | *PerwakilanNGO (C31)* |
-| 6 | *Pendaftaran (C02)* | *Pendaftaran (C02)* |
-| 7 | *DokumenPendukung (C03)* | *DokumenPendukung (C03)* |
+| 4 | *AdminSistem (C32)* | *AdminSistem (C32)* |
+| 5 | *Pendaftaran (C02)* | *Pendaftaran (C02)* |
+| 6 | *DokumenPendukung (C03)* | *DokumenPendukung (C03)* |
 
 ### 3.2.2 Sequence Diagram
 
@@ -277,7 +275,7 @@ Tabel 3.2 Identifikasi Kelas Use Case UC02
 - **Skenario Alternatif 1: Pendaftaran Ditolak**
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Gambar 3.2.2. Sequence Diagram UC02 - Pendaftaran Ditolak.png" width="50%">
+<img alt="Sequence Diagram UC02 - Pendaftaran Ditolak" src="./assets/diagram/Gambar 3.2.2. Sequence Diagram UC02 - Pendaftaran Ditolak.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.2.2 Sequence Diagram UC02 - Pendaftaran Ditolak</i>
@@ -484,6 +482,64 @@ Tabel 3.8 Identifikasi Kelas Use Case UC08
 <i>Gambar 3.8.3 Diagram Kelas Melihat Informasi Produk Surplus</i>
 </p>
 
+## 3.11 Use Case Mengonfirmasi Pengambilan Produk Surplus
+
+**ID Use Case:** *UC11*  
+**Nama Use Case:** *Mengonfirmasi Pengambilan Produk Surplus*
+
+### 3.11.1 Identifikasi Kelas
+
+Tabel 3.11 Identifikasi Kelas Use Case UC08
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+
+
+### 3.11.2 Sequence Diagram
+
+- **Skenario Normal**
+
+
+
+- **Skenario Alternatif 1: Pemilik F&B atau Perwakilan NGO Ingin Membatalkan Pengonfirmasian Pengambilan Produk Surplus**
+
+
+
+### 3.11.3 Diagram Kelas
+
+
+
+## 3.12 Use Case Mengecek Log Aktivitas Pengguna
+
+**ID Use Case:** *UC12*  
+**Nama Use Case:** *Mengecek Log Aktivitas Penggunas*
+
+### 3.12.1 Identifikasi Kelas
+
+Tabel 3.12 Identifikasi Kelas Use Case UC12
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+
+
+### 3.12.2 Sequence Diagram
+
+- **Skenario Normal**
+
+
+
+- **Skenario Alternatif 1: Tidak Ada Log yang Sesuai dengan Penyaringan**
+
+
+
+- **Skenario Alternatif 2: Belum Ada Log Aktivitas**
+
+
+
+### 3.12.3 Diagram Kelas
+
+
+
 <br>
 
 
@@ -508,12 +564,15 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
 | :--- | :--- | :--- | :--- |
 | *C01* | *AkunPengguna* | *idAkun, email, kataSandi, tipeAkun* | *registrasi()* |
-| *C02* | *Pendaftaran* | *idPendaftaran, tanggalDaftar, statusVerifikasi* | *ajukanPendaftaran()* |
-| *C03* | *DokumenPendukung* | *idDokumen, namaFile, tipeDokumen* | *unggahDokumen()* |
+| *C02* | *Pendaftaran* | *idPendaftaran, tanggalDaftar, statusVerifikasi* | *ajukanPendaftaran(), getDaftarMenungguVerifikasi(), getDetailPendaftar(), updateStatus()* |
+| *C03* | *DokumenPendukung* | *idDokumen, namaFile, tipeDokumen* | *unggahDokumen(), getDokumen()* |
+| *C04* | *VerifikasiController* | *-* | *tampilkanDaftarPendaftar(), ambilDetailPendaftar(), prosesVerifikasi()* |
 | *C12* | *RegistrasiPage* | *-* | *pilihTipeAkun(), tampilkanFormRegistrasi(), kirimFormulir(), tampilkanPesanBerhasil(), tampilkanPesanError()* |
+| *C13* | *VerifikasiPage* | *-* | *bukaDaftarVerifikasi(), tampilkanDaftarVerifikasi(), pilihPendaftar(), tampilkanDetailPendaftar(), kirimKeputusan()* |
 | *C23* | *AuthController* | *-* | *registrasiAkun(), validasiKelengkapanData(), validasiFormatDokumen()* |
 | *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional* | ** |
 | *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | ** |
+| *C32* | *AdminSistem* | *kewenangan* | *verifikasiPendaftaran()* |
 | *...* | *...* | *...* | *...* |
 
 <br>
@@ -522,12 +581,40 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 
 # BAB 5: Matriks Kerunutan
 
-Petakan kelas perancangan dengan use case yang terkait. Gunakan **BAB 6 Traceability pada dokumen SKPL** sebagai acuan keterkaitan kelas analisis dan use case, lalu sesuaikan dengan realisasi use case dan kelas perancangan pada BAB 3–BAB 5 DPPL.
-
 Tabel 7.1. Matriks Kerunutan Kelas terhadap Use Case
 
 | Kelas | Use Case Terkait |
 | :--- | :--- |
-| *[ID kelas - Nama kelas]* | *[ID UC - Nama use case]* |
-| *[ID kelas - Nama kelas]* | *[ID UC - Nama use case]* |
-| *...* | *...* |
+| *C01 - AkunPengguna* | *UC01 - Melakukan Registrasi Akun, UC02 - Memverifikasi Pendaftaran Akun, UC03 - Melihat Status Pendaftaran, UC06 - Mencatat Produk Surplus, UC07 - Mengatur Metode Distribusi Surplus, UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus, UC10 - Mengklaim Produk Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus, UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C02 - Pendaftaran* | *UC01 - Melakukan Registrasi Akun, UC02 - Memverifikasi Pendaftaran Akun, UC03 - Melihat Status Pendaftaran* |
+| *C03 - DokumenPendukung* | *UC01 - Melakukan Registrasi Akun, UC02 - Memverifikasi Pendaftaran Akun* |
+| *C04 - VerifikasiController* | *UC02 - Memverifikasi Pendaftaran Akun* |
+| *C05 - Produk* | *UC04 - Mencatat Data Penjualan Harian, UC05 - Melihat Hasil Prediksi Produksi, UC06 - Mencatat Produk Surplus* |
+| *C06 - DataPenjualan* | *UC04 - Mencatat Data Penjualan Harian, UC05 - Melihat Hasil Prediksi Produksi* |
+| *C07 - PrediksiProduksi* | *UC05 - Melihat Hasil Prediksi Produksi* |
+| *C08 - ProdukSurplus* | *UC06 - Mencatat Produk Surplus, UC07 - Mengatur Metode Distribusi Surplus, UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus, UC10 - Mengklaim Produk Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C09 - MetodeDistribusiSurplus* | *UC07 - Mengatur Metode Distribusi Surplus, UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus* |
+| *C10 - DokumenKlaim* | *UC10 - Mengklaim Produk Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C11 - LogAktivitas* | *UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C12 - RegistrasiPage* | *UC01 - Melakukan Registrasi Akun* |
+| *C13 - VerifikasiPage* | *UC02 - Memverifikasi Pendaftaran Akun* |
+| *C14 - StatusPendaftaranPage* | *UC03 - Melihat Status Pendaftaran* |
+| *C15 - PenjualanPage* | *UC04 - Mencatat Data Penjualan Harian* |
+| *C16 - PrediksiPage* | *UC05 - Melihat Hasil Prediksi Produksi* |
+| *C17 - ProdukSurplusPage* | *UC06 - Mencatat Produk Surplus* |
+| *C18 - DistribusiSurplusPage* | *UC07 - Mengatur Metode Distribusi Surplus* |
+| *C19 - DaftarSurplusPage* | *UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus* |
+| *C20 - KlaimPage* | *UC10 - Mengklaim Produk Surplus* |
+| *C21 - PengambilanPage* | *UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C22 - LogAktivitasPage* | *UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C23 - AuthController* | *UC01 - Melakukan Registrasi Akun, UC03 - Melihat Status Pendaftaran* |
+| *C24 - PenjualanController* | *UC04 - Mencatat Data Penjualan Harian* |
+| *C25 - PrediksiController* | *UC05 - Melihat Hasil Prediksi Produksi* |
+| *C26 - ProdukSurplusController* | *UC06 - Mencatat Produk Surplus, UC07 - Mengatur Metode Distribusi Surplus* |
+| *C27 - SurplusController* | *UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus* |
+| *C28 - KlaimController* | *UC10 - Mengklaim Produk Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C29 - LogController* | *UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C30 - PemilikFnB* | *UC01 - Melakukan Registrasi Akun, UC02 - Memverifikasi Pendaftaran Akun, UC03 - Melihat Status Pendaftaran, UC04 - Mencatat Data Penjualan Harian, UC05 - Melihat Hasil Prediksi Produksi, UC06 - Mencatat Produk Surplus, UC07 - Mengatur Metode Distribusi Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C31 - PerwakilanNGO* | *UC01 - Melakukan Registrasi Akun, UC02 - Memverifikasi Pendaftaran Akun, UC03 - Melihat Status Pendaftaran, UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus, UC10 - Mengklaim Produk Surplus, UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C32 - AdminSistem* | *UC02 - Memverifikasi Pendaftaran Akun, UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C33 - GeolocationAdapter* | *UC08 - Melihat Informasi Produk Surplus, UC09 - Menyaring Informasi Produk Surplus* |
