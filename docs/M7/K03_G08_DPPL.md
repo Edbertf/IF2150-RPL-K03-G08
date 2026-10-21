@@ -31,10 +31,10 @@ Dipersiapkan oleh:
 
 | Revisi | Deskripsi |
 | :--- | :--- |
-| *A* | *Memperbarui Logical View (Gambar 2) agar lebih sesuai* |
-| *B* |  |
-| *C* |  |
-| ... |  |
+| *A* | *Menyeragamkan nama atribut dan operasi ke Bahasa Indonesia* |
+| *B* | *Menghapus atribut accountId pada PemilikFnB, PerwakilanNGO, dan AdminSistem karena sudah diwarisi dari AkunPengguna.* |
+| *C* | *Menambahkan operasi untuk merealisasikan skenario use case (validasiKelengkapanData() dan validasiFormatDokumen() pada AuthController; pilihTipeAkun(), kirimFormulir(), tampilkanPesanBerhasil(), dan tampilkanPesanError() pada RegistrasiPage)* |
+| *D* | ** |
 
 ---
 
@@ -507,9 +507,13 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 
 | ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
 | :--- | :--- | :--- | :--- |
-| *[C01]* | *[Nama kelas]* | *[Daftar atribut]* | *[Daftar metode/operasi]* |
-| *[C02]* | *[Nama kelas]* | *[Daftar atribut]* | *[Daftar metode/operasi]* |
-| *[C03]* | *[Nama kelas]* | *[Daftar atribut]* | *[Daftar metode/operasi]* |
+| *C01* | *AkunPengguna* | *idAkun, email, kataSandi, tipeAkun* | *registrasi()* |
+| *C02* | *Pendaftaran* | *idPendaftaran, tanggalDaftar, statusVerifikasi* | *ajukanPendaftaran()* |
+| *C03* | *DokumenPendukung* | *idDokumen, namaFile, tipeDokumen* | *unggahDokumen()* |
+| *C12* | *RegistrasiPage* | *-* | *pilihTipeAkun(), tampilkanFormRegistrasi(), kirimFormulir(), tampilkanPesanBerhasil(), tampilkanPesanError()* |
+| *C23* | *AuthController* | *-* | *registrasiAkun(), validasiKelengkapanData(), validasiFormatDokumen()* |
+| *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional* | ** |
+| *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | ** |
 | *...* | *...* | *...* | *...* |
 
 <br>
