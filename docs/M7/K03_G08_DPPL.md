@@ -660,10 +660,10 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional* | ** |
 | *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | ** |
 | *C32* | *AdminSistem* | *kewenangan* | *verifikasiPendaftaran()* |
-| *C05* | *Produk* | *-idProduk, -namaProduk, -kategori* | *+ambilDetailProduk()* |
-| *C06* | *DataPenjualan* | *-idPenjualan, -tanggal, -jumlahTerjual, -jumlahTersisa* | *+ambilDataHistoris()* |
-| *C07* | *PrediksiProduksi* | *-idPrediksi, -tanggalPrediksi, -jumlahRekomendasi* | *+buatPrediksi(), +ambilHasilPrediksi()* |
-| *C08* | *ProdukSurplus* | *-idSurplus, -jumlah, -batasWaktuPengambilan, -status* | *+simpanProdukSurplus(), +perbaruiStatus()* |
+| *C05* | *Produk* | *-idProduk, -namaProduk, -kategori* | *+getDetailProduk()* |
+| *C06* | *DataPenjualan* | *-idPenjualan, -tanggal, -jumlahTerjual, -jumlahTersisa* | *+getDataHistoris()* |
+| *C07* | *PrediksiProduksi* | *-idPrediksi, -tanggalPrediksi, -jumlahRekomendasi* | *+buatPrediksi(), +getHasilPrediksi()* |
+| *C08* | *ProdukSurplus* | *-idSurplus, -jumlah, -batasWaktuPengambilan, -status* | *+simpanProdukSurplus(), +setStatus()* |
 | *C16* | *PrediksiPage* | *-* | *+tampilkanDashboardPrediksi(), +tampilkanGrafik(), +tampilkanPesanError()* |
 | *C17* | *ProdukSurplusPage* | *-* | *+tampilkanFormulirSurplus(), +kirimDataSurplus(), +resetFormulir(), +tampilkanNotifikasiSukses(), +kosongkanIsian()* |
 | *C25* | *PrediksiController* | *-* | *+cekKecukupanData(), +jalankanPrediksi()* |
