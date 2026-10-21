@@ -660,7 +660,10 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C04* | *VerifikasiController* | *-* | *tampilkanDaftarPendaftar(), ambilDetailPendaftar(), prosesVerifikasi()* |
 | *C12* | *RegistrasiPage* | *-* | *pilihTipeAkun(), tampilkanFormRegistrasi(), kirimFormulir(), tampilkanPesanBerhasil(), tampilkanPesanError()* |
 | *C13* | *VerifikasiPage* | *-* | *bukaDaftarVerifikasi(), tampilkanDaftarVerifikasi(), pilihPendaftar(), tampilkanDetailPendaftar(), kirimKeputusan()* |
+| *C14* | *StatusPendaftaranPage* | *-* | *tampilkanStatusPendaftaran()* |
+| *C15* | *PenjualanPage* | *-* | *tampilkanFormPenjualan(), kirimDataPenjualan()* |
 | *C23* | *AuthController* | *-* | *registrasiAkun(), validasiKelengkapanData(), validasiFormatDokumen()* |
+| *C24* | *PenjualanController* | *-* | *validasiInputPenjualan(), simpanDataPenjualan()* |
 | *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional* | ** |
 | *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | ** |
 | *C32* | *AdminSistem* | *kewenangan* | *verifikasiPendaftaran()* |
