@@ -134,3 +134,4 @@
 | *21-10-2026* | *Edbert Fernando* | *fix format dan mengerjakan bab 5* | *1 jam* | *Done* | *-* |
 | *21-10-2026* | *Ernest Clarence Gunawan* | *mengerjakan Realisasi Use Case UC01 dan UC02, membuat logo perangkat lunak* | *5 jam* | *Done* | *tidak mengikuti asistensi sehingga kurang pandai dalam membuat sequence diagram* |
 | *21-10-2026* | *Dylan Frederico Ketaren* | *mengerjakan Realisasi Use Case 3.5 dan 3.6* | *2.5 jam* | *Done* | *-* |
+| *21-10-2026* | *Abdur Rauuf Fawaaz* | *mengerjakan Realisasi Use Case 3.9 dan 3.10* | *2.5 jam* | *Done* | *-* |
