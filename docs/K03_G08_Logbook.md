@@ -131,3 +131,4 @@
 | *18-10-2026* | *Dylan Frederico Ketaren* | *mengerjakan 1.1* | *15 menit* | *Done* | *-* |
 | *19-10-2026* | *Dylan Frederico Ketaren* | *mengerjakan Realisasi Use Case 3.7 dan 3.8* | *2 jam* | *Done* | *-* |
 | *21-10-2026* | *Edbert Fernando* | *mengerjakan 3.3 dan 3.4* | *2 jam 30 menit* | *Done* | *-* |
+| *21-10-2026* | *Edbert Fernando* | *fix format dan mengerjakan bab 5* | *1 jam* | *Done* | *-* |
