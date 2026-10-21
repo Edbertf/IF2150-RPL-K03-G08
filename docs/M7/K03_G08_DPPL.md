@@ -34,8 +34,9 @@ Dipersiapkan oleh:
 | :--- | :--- |
 | *A* | *Menyeragamkan nama atribut dan operasi ke Bahasa Indonesia* |
 | *B* | *Menghapus atribut accountId pada PemilikFnB, PerwakilanNGO, dan AdminSistem karena sudah diwarisi dari AkunPengguna.* |
-| *C* | *Menambahkan operasi untuk merealisasikan skenario use case (validasiKelengkapanData() dan validasiFormatDokumen() pada AuthController; pilihTipeAkun(), kirimFormulir(), tampilkanPesanBerhasil(), dan tampilkanPesanError() pada RegistrasiPage)* |
-| *D* | *Menambah class baru C33 GeolocationAdapter* |
+| *C* | *(UC01) Menambahkan operasi untuk merealisasikan skenario use case (validasiKelengkapanData() dan validasiFormatDokumen() pada AuthController; pilihTipeAkun(), kirimFormulir(), tampilkanPesanBerhasil(), dan tampilkanPesanError() pada RegistrasiPage; registrasi() pada AkunPengguna)* |
+| *D* | *(UC02) Menambahkan operasi untuk merealisasikan skenario use case (getDaftarMenungguVerifikasi(), getDetailPendaftar(), dan updateStatus() pada Pendaftaran; getDokumen() pada DokumenPendukung; tampilkanDaftarPendaftar(), ambilDetailPendaftar(), dan prosesVerifikasi() pada VerifikasiController; bukaDaftarVerifikasi(), tampilkanDaftarVerifikasi(), pilihPendaftar(), tampilkanDetailPendaftar(), dan kirimKeputusan() pada VerifikasiPage; verifikasiPendaftaran() pada AdminSistem) dan menambahkan atribut kewenangan pada AdminSistem* |
+| *E* | *Menambah class baru C33 GeolocationAdapter* |
 
 ---
 
@@ -382,10 +383,97 @@ Tabel 3.4 Identifikasi Kelas Use Case UC04
 <i>Gambar 3.4.3 Diagram Kelas Mencatat Data Penjualan Harian</i>
 </p>
 
-## 3.7 Use Case Mengatur Metode Distribusi Surplus
+## 3.5 Use Case Melihat Hasil Prediksi Produksi
 
-**ID Use Case:** *UC07*  
-**Nama Use Case:** *Mengatur Metode Distribusi Surplus*
+**ID Use Case:** *UC05*  
+**Nama Use Case:** *Melihat Hasil Prediksi Produksi*
+
+### 3.5.1 Identifikasi Kelas
+
+Tabel 3.5 Identifikasi Kelas Use Case UC05
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | *PrediksiPage (C16)* | *PrediksiPage (C16)* |
+| 2 | *PrediksiController (C25)* | *PrediksiController (C25)* |
+| 3 | *DataPenjualan (C06)* | *DataPenjualan (C06)* |
+| 4 | *PrediksiProduksi (C07)* | *PrediksiProduksi (C07)* |
+| 5 | *PemilikFnB (C30)* | *PemilikFnB (C30)* |
+
+### 3.5.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC05 - Skenario Normal" src="./assets/diagram/Gambar 3.5.1. Sequence Diagram UC05 - Skenario Normal.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.5.1. Sequence Diagram UC05 - Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Data Historis Belum Memenuhi Syarat Minimal**
+
+<p align="center">
+<img alt="Sequence Diagram UC05 - Data Historis Belum Memenuhi Syarat Minimal" src="./assets/diagram/Gambar 3.5.2. Sequence Diagram UC05 - Data Historis Belum Memenuhi Syarat Minimal.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.5.2. Sequence Diagram UC05 - Data Historis Belum Memenuhi Syarat Minimal</i>
+</p>
+
+### 3.5.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC05 - Melihat Hasil Prediksi Produksi" src="./assets/diagram/Gambar 3.5.3. Diagram Kelas Melihat Hasil Prediksi Produksi.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 3.5.3 Diagram Kelas Melihat Hasil Prediksi Produksi</i>
+</p>
+
+## 3.6 Use Case Mencatat Produk Surplus
+
+**ID Use Case:** *UC06*  
+**Nama Use Case:** *Mencatat Produk Surplus*
+
+### 3.6.1 Identifikasi Kelas
+
+Tabel 3.6 Identifikasi Kelas Use Case UC06
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | *ProdukSurplusPage (C17)* | *ProdukSurplusPage (C17)* |
+| 2 | *ProdukSurplusController (C26)* | *ProdukSurplusController (C26)* |
+| 3 | *ProdukSurplus (C08)* | *ProdukSurplus (C08)* |
+| 4 | *Produk (C05)* | *Produk (C05)* |
+| 5 | *PemilikFnB (C30)* | *PemilikFnB (C30)* |
+
+### 3.6.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC06 - Skenario Normal" src="./assets/diagram/Gambar 3.6.1. Sequence Diagram UC06 - Skenario Normal.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.6.1. Sequence Diagram UC06 - Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Mereset Isian Formulir**
+
+<p align="center">
+<img alt="Sequence Diagram UC06 - Mereset Isian Formulir" src="./assets/diagram/Gambar 3.6.2. Sequence Diagram UC06 - Mereset Isian Formulir.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 3.6.2 Sequence Diagram UC06 - Mereset Isian Formulir</i>
+</p>
+
+### 3.6.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC06 - Mencatat Produk Surplus" src="./assets/diagram/Gambar 3.6.3. Diagram Kelas Mencatat Produk Surplus.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 3.6.3 Diagram Kelas Mencatat Produk Surplus</i>
+</p>
 
 ### 3.7.1 Identifikasi Kelas
 
@@ -576,6 +664,14 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional* | ** |
 | *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | ** |
 | *C32* | *AdminSistem* | *kewenangan* | *verifikasiPendaftaran()* |
+| *C05* | *Produk* | *-idProduk, -namaProduk, -kategori* | *+getDetailProduk()* |
+| *C06* | *DataPenjualan* | *-idPenjualan, -tanggal, -jumlahTerjual, -jumlahTersisa* | *+getDataHistoris()* |
+| *C07* | *PrediksiProduksi* | *-idPrediksi, -tanggalPrediksi, -jumlahRekomendasi* | *+buatPrediksi(), +getHasilPrediksi()* |
+| *C08* | *ProdukSurplus* | *-idSurplus, -jumlah, -batasWaktuPengambilan, -status* | *+simpanProdukSurplus(), +setStatus()* |
+| *C16* | *PrediksiPage* | *-* | *+tampilkanDashboardPrediksi(), +tampilkanGrafik(), +tampilkanPesanError()* |
+| *C17* | *ProdukSurplusPage* | *-* | *+tampilkanFormulirSurplus(), +kirimDataSurplus(), +resetFormulir(), +tampilkanNotifikasiSukses(), +kosongkanIsian()* |
+| *C25* | *PrediksiController* | *-* | *+cekKecukupanData(), +jalankanPrediksi()* |
+| *C26* | *ProdukSurplusController* | *-* | *+validasiDataSurplus(), +simpanDataSurplus()* |
 | *...* | *...* | *...* | *...* |
 
 <br>

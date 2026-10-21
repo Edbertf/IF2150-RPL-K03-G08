@@ -25,6 +25,7 @@
 * [Milestone 1](#milestone-1)
 * [Milestone 2](#milestone-2)
 * [Milestone 4](#milestone-4)
+* [Milestone 7](#milestone-7)
 
 ---
 
@@ -50,6 +51,11 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | :--- | :--- | :--- | :--- |
 | *Claude* | *Menjelaskan cara pembuatan class diagram* | *(instruksi pembuatan class diagram dari template milestone, note asistensi akbar untuk hubungan antarkelas), "Jelaskan cara pembuatan class diagram sesuai hubungan antarkelas dengan bahasa sederhana"* | *AI menjelaskan dengan bahasa sederhana cara membuat class diagram dan hubungan antar kelas; kelompok mengikuti arahan dalam pembuatan class diagram* |
 
+### Milestone 7
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+| :--- | :--- | :--- | :--- |
+| *Nano Banana 2* | *Membuat logo FoodLink* | *"Aku mau membuat logo untuk perangkat lunak bernama FoodLink, berikut dekripsinya:" (deskripsi FoodLink)* | *AI memberikan beberapa opsi logo, dan kelompok menggunakan yang paling cocok* |
+| *Claude* | *Merevisi sequence diagram UC01 agar sesuai arahan asistensi akbar* | *(Penjelasan UC01, Sequence diagram yang belum benar, File PPT Asistensi Akbar Milestone 7) "Saya telah membuat sebuah sequence diagram untuk use case UC01, dan ternyata masi kurang lifeline, activation bar, dan pemisahan ECB, buatkan yang baru dong"* | *AI memberikan sequence diagram yang sudah sesuai ketentuan* |
 ---
 ### Pernyataan Integritas dan Persetujuan
 
