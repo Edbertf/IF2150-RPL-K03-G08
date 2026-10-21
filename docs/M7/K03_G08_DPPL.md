@@ -484,6 +484,64 @@ Tabel 3.8 Identifikasi Kelas Use Case UC08
 <i>Gambar 3.8.3 Diagram Kelas Melihat Informasi Produk Surplus</i>
 </p>
 
+## 3.11 Use Case Mengonfirmasi Pengambilan Produk Surplus
+
+**ID Use Case:** *UC11*  
+**Nama Use Case:** *Mengonfirmasi Pengambilan Produk Surplus*
+
+### 3.11.1 Identifikasi Kelas
+
+Tabel 3.11 Identifikasi Kelas Use Case UC08
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+
+
+### 3.11.2 Sequence Diagram
+
+- **Skenario Normal**
+
+
+
+- **Skenario Alternatif 1: Pemilik F&B atau Perwakilan NGO Ingin Membatalkan Pengonfirmasian Pengambilan Produk Surplus**
+
+
+
+### 3.11.3 Diagram Kelas
+
+
+
+## 3.12 Use Case Mengecek Log Aktivitas Pengguna
+
+**ID Use Case:** *UC12*  
+**Nama Use Case:** *Mengecek Log Aktivitas Penggunas*
+
+### 3.12.1 Identifikasi Kelas
+
+Tabel 3.12 Identifikasi Kelas Use Case UC12
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+
+
+### 3.12.2 Sequence Diagram
+
+- **Skenario Normal**
+
+
+
+- **Skenario Alternatif 1: Tidak Ada Log yang Sesuai dengan Penyaringan**
+
+
+
+- **Skenario Alternatif 2: Belum Ada Log Aktivitas**
+
+
+
+### 3.12.3 Diagram Kelas
+
+
+
 <br>
 
 
