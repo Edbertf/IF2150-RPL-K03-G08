@@ -570,6 +570,101 @@ Tabel 3.8 Identifikasi Kelas Use Case UC08
 <i>Gambar 3.8.3 Diagram Kelas Melihat Informasi Produk Surplus</i>
 </p>
 
+## 3.9 Use Case Menyaring Produk Surplus
+
+**ID Use Case:** *UC09*  
+**Nama Use Case:** *Menyaring Produk Surplus*
+
+### 3.9.1 Identifikasi Kelas
+
+Tabel 3.9 Identifikasi Kelas Use Case UC09
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | *PerwakilanNGO (C31)* | *PerwakilanNGO (C31)* |
+| 2 | *DaftarSurplusPage* (C19) | *AkunPengguna* (C01) |
+| 3 | *SurplusController* (C27) | *ProdukSurplus* (C08) |
+| 4 | *ProdukSurplus* (C08) | *ProdukSurplus* (C08) |
+| 5 | *MetodeDistribusiSurplus* (C09) | *MetodeDistribusiSurplus* (C09) |
+| 6 | *PenyaringanController* (C33) | *PenyaringanSurplus* (C33) |
+
+### 3.9.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC09 - Skenario Normal"  src="./assets/diagram/Gambar 3.9.1 Sequence Diagram UC09 - Normal.jpg" width="40%">
+</p>
+<p align="center">
+<i>Gambar 3.9.1 Sequence Diagram UC09 - Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Tidak Ada Produk Sesuai**
+
+<p align="center">
+<img alt="Sequence Diagram UC09 - Tidak Ada Produk Sesuai" src="./assets/diagram/Gambar 3.9.2 Sequence Diagram UC09 - Alternatif.jpg" width="40%">
+</p>
+<p align="center">
+<i>Gambar 3.9.2 Sequence Diagram UC09 - Tidak Ada Produk Sesuai</i>
+</p>
+
+### 3.9.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas Menyaring Produk Surplus" src="./assets/diagram/Gambar 3.9.3 Diagram Kelas Menyaring Produk.jpg" width="40%">
+</p>
+<p align="center">
+<i>Gambar 3.9.3 Diagram Kelas Menyaring Produk Surplus</i>
+</p>
+
+## 3.10 Use Case Mengklaim Produk Surplus
+
+**ID Use Case:** *UC10*  
+**Nama Use Case:** *Menyaring Produk Surplus*
+
+### 3.9.1 Identifikasi Kelas
+
+Tabel 3.9 Identifikasi Kelas Use Case UC09
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | *PerwakilanNGO (C31)* | *PerwakilanNGO (C31)* |
+| 2 | *KlaimPage* (C20) | *KlaimPage* (C20) |
+| 3 | *KlaimController* (C28) | *KlaimSurplus* (C28) |
+| 4 | *SurplusController* (C27) | *ProdukSurplus* (C08) |
+| 5 | *MetodeDistribusiSurplus* (C09) | *MetodeDistribusiSurplus* (C09) |
+| 6 | *ProdukSurplus* (C08) | *ProdukSurplus* (C08) |
+| 7 | *DokumenKlaim* (C10) | *DokumenKlaim* (C10) |
+
+### 3.9.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC10 - Skenario Normal"  src="./assets/diagram/Gambar 3.10.1 Sequence Diagram UC10 - Normal.jpg" width="40%">
+</p>
+<p align="center">
+<i>Gambar 3.10.1 Sequence Diagram UC010 - Skenario Normal</i>
+</p>
+
+- **Skenario Alternatif 1: Produk sudah diklaim NGO lain terlebih dahulu**
+
+<p align="center">
+<img alt="Sequence Diagram UC10 - Produk sudah diklaim NGO lain terlebih dahulu" src="./assets/diagram/Gambar 3.10.2 Sequence Diagram UC10 - Alternatif.jpg" width="40%">
+</p>
+<p align="center">
+<i>Gambar 3.10.2 Sequence Diagram UC10 - Produk sudah diklaim NGO lain terlebih dahulu</i>
+</p>
+
+### 3.10.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas Mengklaim Produk Surplus" src="./assets/diagram/Gambar 3.10.3 Diagram Kelas Mengklaim Produk.jpg" width="40%">
+</p>
+<p align="center">
+<i>Gambar 3.10.3 Diagram Kelas Mengklaim Produk Surplus</i>
+</p>
+
 ## 3.11 Use Case Mengonfirmasi Pengambilan Produk Surplus
 
 **ID Use Case:** *UC11*  
