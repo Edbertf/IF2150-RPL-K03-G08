@@ -34,8 +34,9 @@ Dipersiapkan oleh:
 | :--- | :--- |
 | *A* | *Menyeragamkan nama atribut dan operasi ke Bahasa Indonesia* |
 | *B* | *Menghapus atribut accountId pada PemilikFnB, PerwakilanNGO, dan AdminSistem karena sudah diwarisi dari AkunPengguna.* |
-| *C* | *Menambahkan operasi untuk merealisasikan skenario use case (validasiKelengkapanData() dan validasiFormatDokumen() pada AuthController; pilihTipeAkun(), kirimFormulir(), tampilkanPesanBerhasil(), dan tampilkanPesanError() pada RegistrasiPage)* |
-| *D* | *Menambah class baru C33 GeolocationAdapter* |
+| *C* | *(UC01) Menambahkan operasi untuk merealisasikan skenario use case (validasiKelengkapanData() dan validasiFormatDokumen() pada AuthController; pilihTipeAkun(), kirimFormulir(), tampilkanPesanBerhasil(), dan tampilkanPesanError() pada RegistrasiPage; registrasi() pada AkunPengguna)* |
+| *D* | *(UC02) Menambahkan operasi untuk merealisasikan skenario use case (getDaftarMenungguVerifikasi(), getDetailPendaftar(), dan updateStatus() pada Pendaftaran; getDokumen() pada DokumenPendukung; tampilkanDaftarPendaftar(), ambilDetailPendaftar(), dan prosesVerifikasi() pada VerifikasiController; bukaDaftarVerifikasi(), tampilkanDaftarVerifikasi(), pilihPendaftar(), tampilkanDetailPendaftar(), dan kirimKeputusan() pada VerifikasiPage; verifikasiPendaftaran() pada AdminSistem) dan menambahkan atribut kewenangan pada AdminSistem* |
+| *E* | *Menambah class baru C33 GeolocationAdapter* |
 
 ---
 
