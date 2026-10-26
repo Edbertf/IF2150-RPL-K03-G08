@@ -324,7 +324,7 @@ Tabel 3.3 Identifikasi Kelas Use Case UC03
 ### 3.3.3 Diagram Kelas
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Gambar 3.3.3 Diagram Kelas UC03 - Melihat Status Pendaftaran.png" width="35%">
+<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Gambar 3.3.3. Diagram Kelas UC03 - Melihat Status Pendaftaran.png" width="35%">
 </p>
 <p align="center">
 <i>Gambar 3.3.3 Diagram Kelas Melihat Status Pendaftaran</i>
@@ -370,7 +370,7 @@ Tabel 3.4 Identifikasi Kelas Use Case UC04
 ### 3.4.3 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas UC04 - Mencatat Data Penjualan Harian" src="./assets/diagram/Gambar 3.4.3 Diagram Kelas UC04 - Mencatat Data Penjualan Harian .png" width="35%">
+<img alt="Diagram Kelas UC04 - Mencatat Data Penjualan Harian" src="./assets/diagram/Gambar 3.4.3. Diagram Kelas UC04 - Mencatat Data Penjualan Harian .png" width="35%">
 </p>
 <p align="center">
 <i>Gambar 3.4.3 Diagram Kelas Mencatat Data Penjualan Harian</i>
@@ -727,7 +727,7 @@ Tabel 3.12 Identifikasi Kelas Use Case UC12
 - **Skenario Normal**
 
 <p align="center">
-<img alt="Sequence Diagram UC12 - Skenario Normal" src="./assets/diagram/Gambar 3.12.1 Sequence Diagram UC12 - Skenario Normal.jpeg" width="50%">
+<img alt="Sequence Diagram UC12 - Skenario Normal" src="./assets/diagram/Gambar 3.12.1. Sequence Diagram UC12 - Skenario Normal.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.12.1 Sequence Diagram UC12</i>
@@ -736,7 +736,7 @@ Tabel 3.12 Identifikasi Kelas Use Case UC12
 - **Skenario Alternatif 1: Tidak Ada Log yang Sesuai dengan Penyaringan**
 
 <p align="center">
-<img alt="Sequence Diagram UC12 - Tidak Ada Log yang Sesuai dengan Penyaringan" src="./assets/diagram/Gambar 3.12.2 Sequence Diagram UC12 - Tidak Ada Log yang Sesuai dengan Penyaringan.jpeg" width="50%">
+<img alt="Sequence Diagram UC12 - Tidak Ada Log yang Sesuai dengan Penyaringan" src="./assets/diagram/Gambar 3.12.2. Sequence Diagram UC12 - Tidak Ada Log yang Sesuai.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.12.2 Sequence Diagram UC12 - Tidak Ada Log yang Sesuai dengan Penyaringan</i>
@@ -745,7 +745,7 @@ Tabel 3.12 Identifikasi Kelas Use Case UC12
 - **Skenario Alternatif 2: Belum Ada Log Aktivitas**
 
 <p align="center">
-<img alt="Sequence Diagram UC12 - Belum Ada Log Aktivitas" src="./assets/diagram/Gambar 3.12.3 Sequence Diagram UC12 - Belum Ada Log Aktivitas.jpeg" width="50%">
+<img alt="Sequence Diagram UC12 - Belum Ada Log Aktivitas" src="./assets/diagram/Gambar 3.12.3. Sequence Diagram UC12 - Belum Ada Log Aktivitas.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.12.3 Sequence Diagram UC12 - Belum Ada Log Aktivitas</i>
@@ -754,7 +754,7 @@ Tabel 3.12 Identifikasi Kelas Use Case UC12
 ### 3.12.3 Diagram Kelas
 
 <p align="center">
-<img alt="Sequence Diagram UC12 - Belum Ada Log Aktivitas" src="./assets/diagram/Gambar 3.12.4 Diagram Kelas Mengecek Log Aktivitas Pengguna.jpeg" width="35%">
+<img alt="Sequence Diagram UC12 - Belum Ada Log Aktivitas" src="./assets/diagram/Gambar 3.12.4. Diagram Kelas Mengecek Log Aktivitas Pengguna.png" width="35%">
 </p>
 <p align="center">
 <i>Gambar 3.12.4 Diagram Kelas Mengecek Log Aktivitas Pengguna</i>
@@ -769,7 +769,7 @@ Tabel 3.12 Identifikasi Kelas Use Case UC12
 ## 4.1 Diagram Kelas
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Gambar 4.1. Diagram Kelas Keseluruhan.png" width="35%">
+<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/Gambar 4.1. Diagram Kelas Keseluruhan.png" width="70%">
 </p>
 <p align="center">
 <i>Gambar 4.1. Diagram Kelas Perancangan Keseluruhan FoodLink</i>
