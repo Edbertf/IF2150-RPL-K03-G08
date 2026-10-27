@@ -789,7 +789,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C03* | *DokumenPendukung* | *idDokumen, namaFile, tipeDokumen* | *unggahDokumen(), getDokumen()* |
 | *C04* | *VerifikasiController* | *-* | *tampilkanDaftarPendaftar(), ambilDetailPendaftar(), prosesVerifikasi()* |
 | *C05* | *Produk* | *-idProduk, -namaProduk, -kategori* | *+getDetailProduk()* |
-| *C06* | *DataPenjualan* | *-idPenjualan, -tanggal, -jumlahTerjual, -jumlahTersisa* | *+getDataHistoris()* |
+| *C06* | *DataPenjualan* | *-idPenjualan, -tanggal, -jumlahTerjual, -jumlahTersisa* | *+getDataHistoris(), +catatPenjualan()* |
 | *C07* | *PrediksiProduksi* | *-idPrediksi, -tanggalPrediksi, -jumlahRekomendasi* | *+buatPrediksi(), +getHasilPrediksi()* |
 | *C08* | *ProdukSurplus* | *-idSurplus, -jumlah, -batasWaktuPengambilan, -status* | *+simpanProdukSurplus(), +setStatus(), +getDetailSurplus()* |
 | *C09* | *MetodeDistribusiSurplus* | *-idDistribusi, -jenisDistribusi, -harga* | *+pilihMetodeDistribusi(), +hitungHargaDiskon(), +getInfoDistribusi()* |
@@ -1008,14 +1008,14 @@ Tabel 5.2.5. Query Operasi getDetailPendaftar()
 
 ```text
 PROCEDURE updateStatus(idPendaftaran, status)
-    JALANKAN Q-004 dengan (status, idPendaftaran)
+    JALANKAN Q-005 dengan (status, idPendaftaran)
 END PROCEDURE
 ```
 Tabel 5.2.6. Query Operasi updateStatus()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-005* | *UPDATE pendaftaran SET status_verifikasi = $1 WHERE id_pendaftaran = $2;* | *Memperbarui statue verifikasi menjadi "diterima" atau "ditolak"* |
+| *Q-005* | *UPDATE pendaftaran SET status_verifikasi = $1 WHERE id_pendaftaran = $2;* | *Memperbarui status verifikasi menjadi "diterima" atau "ditolak"* |
 
 ### 5.2.5 Algoritma/Query
 
@@ -1167,7 +1167,7 @@ FUNCTION prosesVerifikasi(idPendaftaran, keputusan)
 END FUNCTION
 ```
 
-Tabel 5.4.5. Query Operasi ambilDetailPendaftar()
+Tabel 5.4.5. Query Operasi prosesVerifikasi()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
@@ -1188,9 +1188,9 @@ Tabel 5.5.2. Atribut Kelas Produk
 
 | Nama Atribut | Visibility (private, public) | Tipe |
 | :--- | :--- | :--- |
-| *idProduk* | *Public* | *Number* |
-| *namaProduk* | *Public* | *String* |
-| *kategori* | *Public* | *String* |
+| *idProduk* | *Private* | *Number* |
+| *namaProduk* | *Private* | *String* |
+| *kategori* | *Private* | *String* |
 
 ### 5.5.1 Algoritma/Query
 
@@ -1206,7 +1206,7 @@ Tabel 5.5.3. Query Operasi getDetailProduk()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *-* | *-* | *-*
+| *-* | *-* | *-* |
 
 ## 5.6 Kelas DataPenjualan
 
@@ -1218,6 +1218,7 @@ Tabel 5.6.1. Operasi Kelas DataPenjualan
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
 | *getDataHistoris(): Array* | *Public* | *Mengambil data historis penjualan untuk dijadikan prediksi* |
+| *catatPenjualan(data: Object): void* | *Public* | *Menyimpan data penjualan harian* |
 
 Tabel 5.6.2. Atribut Kelas DataPenjualan
 
@@ -1228,11 +1229,31 @@ Tabel 5.6.2. Atribut Kelas DataPenjualan
 | *jumlahTerjual* | *Private* | *Number* |
 | *jumlahTersisa* | *Private* | *Number* |
 
-### 5.1.1 Algoritma/Query
+### 5.6.1 Algoritma/Query
+
+**Nama Kelas:** *DataPenjualan*  
+**Nama Operasi:** *catatPenjualan(data: Object): void*  
+**ID Algoritma:** *Algo-012*
+
+```text
+PROCEDURE catatPenjualan(data)
+    tanggalHariIni <- DAPATKAN TANGGAL HARI INI
+    UNTUK SETIAP produk DALAM data
+        JALANKAN Q-009 dengan (produk.idProduk, tanggalHariIni, produk.jumlahTerjual, produk.jumlahTersisa)
+    AKHIR UNTUK
+END PROCEDURE
+``` 
+Tabel 5.6.3. Query Operasi catatPenjualan()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-009* |INSERT INTO data_penjualan (id_penjualan, id_produk, tanggal, jumlah_terjual, jumlah_tersisa) VALUES (DEFAULT, $1, $2, $3, $4);* | *Menyimpan data penjualan harian* |
+
+### 5.6.2 Algoritma/Query
 
 **Nama Kelas:** *DataPenjualan*  
 **Nama Operasi:** *getDataHistoris(): Array*  
-**ID Algoritma:** *Algo-012*
+**ID Algoritma:** *Algo-013*
 
 ```text
 FUNCTION getDataHistoris()
@@ -1240,11 +1261,11 @@ FUNCTION getDataHistoris()
     RETURN dataHistoris
 END FUNCTION
 ``` 
-Tabel 5.6.3. Query Operasi getDataHistoris()
+Tabel 5.6.4. Query Operasi getDataHistoris()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-009* | *SELECT tanggal, jumlah_terjual, jumlah_tersisa FROM data_penjualan ORDER BY tanggal DESC LIMIT 7;* | *mengambil data historis hingga 7 hari untuk dijadikan prediksi* |
+| *Q-010* | *SELECT tanggal, jumlah_terjual, jumlah_tersisa FROM data_penjualan ORDER BY tanggal DESC LIMIT 7;* | *mengambil data historis hingga 7 hari untuk dijadikan prediksi* |
 
 
 
