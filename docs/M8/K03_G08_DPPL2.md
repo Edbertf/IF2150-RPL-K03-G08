@@ -998,7 +998,7 @@ Tabel 5.2.5. Query Operasi getDetailPendaftar()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-004* | *SELECT id_pendaftaran, id_akun, tanggal_daftar, status_verifikasi FROM pendaftaran WHERE id_pendaftaran = $1;* | *Mengambil data satu pendaftaran berdasarkan id_pendaftaran. $1 = idPendaftaran.* |
+| *Q-004* | *SELECT id_pendaftaran, id_akun, tanggal_daftar, status_verifikasi FROM pendaftaran WHERE id_pendaftaran = $1;* | *Mengambil data satu pendaftaran berdasarkan id_pendaftaran*|
 
 ### 5.2.4 Algoritma/Query
 
