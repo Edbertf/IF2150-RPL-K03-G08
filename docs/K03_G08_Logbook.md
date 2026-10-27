@@ -29,6 +29,7 @@
 * [Milestone 5](#milestone-5)
 * [Milestone 6](#milestone-6)
 * [Milestone 7](#milestone-7)
+* [Milestone 8](#milestone-8)
 
 
 ---
@@ -135,3 +136,10 @@
 | *21-10-2026* | *Ernest Clarence Gunawan* | *mengerjakan Realisasi Use Case UC01 dan UC02, membuat logo perangkat lunak* | *5 jam* | *Done* | *tidak mengikuti asistensi sehingga kurang pandai dalam membuat sequence diagram* |
 | *21-10-2026* | *Dylan Frederico Ketaren* | *mengerjakan Realisasi Use Case 3.5 dan 3.6* | *2.5 jam* | *Done* | *-* |
 | *21-10-2026* | *Abdur Rauuf Fawaaz* | *mengerjakan Realisasi Use Case 3.9 dan 3.10* | *2.5 jam* | *Done* | *-* |
+
+### Milestone 8
+**Periode:** 21 Oktober 2026 - 28 Oktober 2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
+| :--- | :--- | :--- | :--- | :--- | :--- | 
+| *27-10-2026* | *Ernest Clarence Gunawan* | *merevisi realisasi UC11 dan UC12* | *2 jam* | *Done* | *bingung banyak atribut dan operasi yang tidak konsisten antar use case* |
