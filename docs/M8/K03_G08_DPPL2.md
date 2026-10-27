@@ -32,8 +32,8 @@ Dipersiapkan oleh:
 
 | Revisi | Deskripsi |
 | :--- | :--- |
-| *A* | *Deskripsikan perubahan yang dilakukan dari dokumen sebelumnya pada dokumen ini. Jika tidak terdapat perubahan, harap kosongkan tabel.* |
-| *B* |  |
+| *A* | *Merevisi realisasi UC11 dan UC12: mengganti identifikasi kelas pada kedua use case, menyeragamkan penamaan atribut dan operasi ke bahasa Indonesia, lalu mengganti sequence diagram dan class diagram sehingga konsisten dengan perubahan yang dilakukan* |
+| *B* | *Merapikan serta menyesuaikan daftar kelas perancangan keseluruhan dengan perubahan yang ada* |
 | *C* |  |
 | ... |  |
 
@@ -672,9 +672,13 @@ Tabel 3.11 Identifikasi Kelas Use Case UC11
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:---|:---|:---|
-| 1 | *PengambilanView* (C21) | *ProdukSurplus* (C08) |
-| 2 | *KlaimController* (C28) | *DokumenKlaim* (C10) |
-| 3 | *SurplusModel* (C08, C10) | *ProdukSurplus* (C08), *DokumenKlaim* (C10) |
+| 1 | *PengambilanPage (C21)* | *PengambilanPage (C21)* |
+| 2 | *KlaimController (C28)* | *KlaimController (C28)* |
+| 3 | *DokumenKlaim (C10)* | *DokumenKlaim (C10)* |
+| 4 | *ProdukSurplus (C08)* | *ProdukSurplus (C08)* |
+| 5 | *PemilikFnB (C30)* | *PemilikFnB (C30)* |
+| 6 | *PerwakilanNGO (C31)* | *PerwakilanNGO (C31)* |
+| 7 | *AkunPengguna (C01)* | *AkunPengguna (C01)* |
 
 
 ### 3.11.2 Sequence Diagram
@@ -700,7 +704,7 @@ Tabel 3.11 Identifikasi Kelas Use Case UC11
 ### 3.11.3 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas Mengonfirmasi Pengambilan Produk Surplus" src="./assets/diagram/Gambar 3.11.3. Diagram Kelas UC11 - Mengonfirmasi Pengambilan Produk Surplus.png" width="50%">
+<img alt="Diagram Kelas Mengonfirmasi Pengambilan Produk Surplus" src="./assets/diagram/Gambar 3.11.3. Diagram Kelas UC11 - Mengonfirmasi Pengambilan Produk Surplus.png" width="35%">
 </p>
 <p align="center">
 <i>Gambar 3.11.3 Diagram Kelas Mengonfirmasi Pengambilan Produk Surplus</i>
@@ -721,6 +725,7 @@ Tabel 3.12 Identifikasi Kelas Use Case UC12
 | 2 | *LogController (C29)* | *LogController (C29)* |
 | 3 | *LogAktivitas (C11)* | *LogAktivitas (C11)* |
 | 4 | *AdminSistem (C32)* | *AdminSistem (C32)* |
+| 5 | *AkunPengguna (C01)* | *AkunPengguna (C01)* |
 
 ### 3.12.2 Sequence Diagram
 
@@ -783,36 +788,36 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C02* | *Pendaftaran* | *idPendaftaran, tanggalDaftar, statusVerifikasi* | *ajukanPendaftaran(), getDaftarMenungguVerifikasi(), getDetailPendaftar(), updateStatus()* |
 | *C03* | *DokumenPendukung* | *idDokumen, namaFile, tipeDokumen* | *unggahDokumen(), getDokumen()* |
 | *C04* | *VerifikasiController* | *-* | *tampilkanDaftarPendaftar(), ambilDetailPendaftar(), prosesVerifikasi()* |
+| *C05* | *Produk* | *-idProduk, -namaProduk, -kategori* | *+getDetailProduk()* |
+| *C06* | *DataPenjualan* | *-idPenjualan, -tanggal, -jumlahTerjual, -jumlahTersisa* | *+getDataHistoris()* |
+| *C07* | *PrediksiProduksi* | *-idPrediksi, -tanggalPrediksi, -jumlahRekomendasi* | *+buatPrediksi(), +getHasilPrediksi()* |
+| *C08* | *ProdukSurplus* | *-idSurplus, -jumlah, -batasWaktuPengambilan, -status* | *+simpanProdukSurplus(), +setStatus(), +getDetailSurplus()* |
+| *C09* | *MetodeDistribusiSurplus* | *-idDistribusi, -jenisDistribusi, -harga* | *+pilihMetodeDistribusi(), +hitungHargaDiskon(), +getInfoDistribusi()* |
+| *C10* | *DokumenKlaim* | *idKlaim, idNgo, waktuKlaim* | *catatKlaim(), getDetailKlaim()* |
+| *C11* | *LogAktivitas* | *idLog, aktivitas, waktu* | *catatLog(), getDaftarLog(), cariLog()* |
 | *C12* | *RegistrasiPage* | *-* | *pilihTipeAkun(), tampilkanFormRegistrasi(), kirimFormulir(), tampilkanPesanBerhasil(), tampilkanPesanError()* |
 | *C13* | *VerifikasiPage* | *-* | *bukaDaftarVerifikasi(), tampilkanDaftarVerifikasi(), pilihPendaftar(), tampilkanDetailPendaftar(), kirimKeputusan()* |
 | *C14* | *StatusPendaftaranPage* | *-* | *tampilkanStatusPendaftaran()* |
 | *C15* | *PenjualanPage* | *-* | *tampilkanFormPenjualan(), kirimDataPenjualan()* |
-| *C23* | *AuthController* | *-* | *registrasiAkun(), validasiKelengkapanData(), validasiFormatDokumen()* |
-| *C24* | *PenjualanController* | *-* | *validasiInputPenjualan(), simpanDataPenjualan()* |
-| *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional* | ** |
-| *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | ** |
-| *C32* | *AdminSistem* | *kewenangan* | *verifikasiPendaftaran()* |
-| *C05* | *Produk* | *-idProduk, -namaProduk, -kategori* | *+getDetailProduk()* |
-| *C06* | *DataPenjualan* | *-idPenjualan, -tanggal, -jumlahTerjual, -jumlahTersisa* | *+getDataHistoris()* |
-| *C07* | *PrediksiProduksi* | *-idPrediksi, -tanggalPrediksi, -jumlahRekomendasi* | *+buatPrediksi(), +getHasilPrediksi()* |
-| *C08* | *ProdukSurplus* | *-idSurplus, -jumlah, -batasWaktuPengambilan, -status* | *+simpanProdukSurplus(), +setStatus()* |
 | *C16* | *PrediksiPage* | *-* | *+tampilkanDashboardPrediksi(), +tampilkanGrafik(), +tampilkanPesanError()* |
 | *C17* | *ProdukSurplusPage* | *-* | *+tampilkanFormulirSurplus(), +kirimDataSurplus(), +resetFormulir(), +tampilkanNotifikasiSukses(), +kosongkanIsian()* |
-| *C25* | *PrediksiController* | *-* | *+cekKecukupanData(), +jalankanPrediksi()* |
-| *C26* | *ProdukSurplusController* | *-* | *+validasiDataSurplus(), +simpanDataSurplus()* |
-| *C34* | *PenyaringanController* | *-* | *saringProdukSurplus(), cariProdukSurplus(), validasiKriteria(), saringBerdasarkanJenis(), saringBerdasarkanJarak(), saringBerdasarkanBatasWaktu()* |
-| *C09* | *MetodeDistribusiSurplus* | *-idDistribusi, -jenisDistribusi, -harga* | *+pilihMetodeDistribusi(), +hitungHargaDiskon(), +getInfoDistribusi()* |
-| *C10* | *DokumenKlaim* | *-claimId, -ngoId, -claimTime* | *+recordClaim(), +getClaimTime()* |
-| *C11* | *LogAktivitas* | *-logId, -activity, -time* | *+recordLog(), +getActivity()* |
 | *C18* | *DistribusiSurplusPage* | *-* | *+tampilkanOpsiDistribusi()* |
 | *C19* | *DaftarSurplusPage* | *-* | *+tampilkanDaftarSurplus(), +tampilkanFormFilter()* |
-| *C20* | *KlaimPage* | *-selectedProduct* | *+showPage(), +submitClaim()* |
-| *C21* | *PengambilanPage* | *-* | *+tampilkanDetailPengambilan(), +konfirmasiPengambilan()* |
-| *C22* | *LogAktivitasPage* | *-displayedLogList, -filterInput* | *+showPage(), +applyFilter()* |
+| *C20* | *KlaimPage* | *produkTerpilih* | *tampilkanHalaman(), kirimKlaim()* |
+| *C21* | *PengambilanPage* | *-* | *bukaDetailPengambilan(), tampilkanDetailPengambilan(), tampilkanPopupKonfirmasi(), pilihKonfirmasiPengambilan(), pilihYes(), pilihNo(), tutupPopupKonfirmasi(), tampilkanPesanBerhasil()* |
+| *C22* | *LogAktivitasPage* | *daftarLogTampil* | *bukaDashboardLog(), tampilkanDashboardLog(), terapkanFilter(), tampilkanTabelLog(), tampilkanPesanLogKosong()* |
+| *C23* | *AuthController* | *-* | *registrasiAkun(), validasiKelengkapanData(), validasiFormatDokumen()* |
+| *C24* | *PenjualanController* | *-* | *validasiInputPenjualan(), simpanDataPenjualan()* |
+| *C25* | *PrediksiController* | *-* | *+cekKecukupanData(), +jalankanPrediksi()* |
+| *C26* | *ProdukSurplusController* | *-* | *+validasiDataSurplus(), +simpanDataSurplus()* |
 | *C27* | *SurplusController* | *-* | *+ambilDaftarSurplus(), +urutkanBerdasarkanJarak()* |
-| *C28* | *KlaimController* | *-* | *+checkAvailability(), +approveClaim()* |
-| *C29* | *LogController* | *-* | *+showLog(), +filterLog()* |
-| *C33* | *GeolocationAdapter* | ** | *+getCoordinates(), +calculateDistance()* |
+| *C28* | *KlaimController* | *-* | *ambilDetailPengambilan(), konfirmasiPengambilan()* |
+| *C29* | *LogController* | *-* | *tampilkanLog(), saringLog()* |
+| *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional* | *(diwarisi dari AkunPengguna)* |
+| *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | *(diwarisi dari AkunPengguna)* |
+| *C32* | *AdminSistem* | *kewenangan* | *verifikasiPendaftaran()* |
+| *C33* | *GeolocationAdapter* | *(tidak ada)* | *+getCoordinates(), +calculateDistance()* |
+| *C34* | *PenyaringanController* | *-* | *saringProdukSurplus(), cariProdukSurplus(), validasiKriteria(), saringBerdasarkanJenis(), saringBerdasarkanJarak(), saringBerdasarkanBatasWaktu()* |
 
 <br>
 
