@@ -882,9 +882,371 @@ Tabel 5.1.1. Query Operasi [Nama Operasi]
 
 *[Ulangi pola 5.1.1 untuk operasi penting berikutnya pada kelas yang sama, jika ada.]*
 
-## 5.2 Kelas [Nama Kelas Berikutnya]
+## 5.1 Kelas AkunPengguna
 
-*[Ulangi pola 5.1: nama dan ID kelas, tabel operasi, tabel atribut, serta subbab algoritma/query untuk operasi penting jika diperlukan.]*
+**Nama Kelas:** *AkunPengguna*  
+**ID Kelas:** *C01*
+
+Tabel 5.1.1. Operasi Kelas AkunPengguna
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *registrasi(dataForm: Object): Number* | *Public* | *Membuat akun baru dari data formulir registrasi (email, kata sandi, tipe akun) dan mengembalikan idAkun* |
+
+Tabel 5.1.2. Atribut Kelas AkunPengguna
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *idAkun* | *Private* | *Number* |
+| *email* | *Private* | *String* |
+| *kataSandi* | *Private* | *String* |
+| *tipeAkun* | *Private* | *String* |
+
+### 5.1.1 Algoritma/Query
+
+**Nama Kelas:** *AkunPengguna*  
+**Nama Operasi:** *registrasi(dataForm: Object): Number*  
+**ID Algoritma:** *Algo-001*
+
+```text
+FUNCTION registrasi(dataForm)
+    kataSandiHash <- HASH(kata sandi dari dataForm)
+    idAkun <- JALANKAN Q-001 dengan (email dari dataForm, kataSandiHash, tipeAkun)
+    RETURN idAkun
+END FUNCTION
+```
+
+Tabel 5.1.1. Query Operasi registrasi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-001* | *INSERT INTO akun_pengguna(email, kata_sandi, tipe_akun) VALUES ($1, $2, $3) RETURNING id_akun;* | *Menyimpan data akun pengguna baru ke tabel akun_pengguna di PostgreSQL dan mengembalikan id_akun yang dibuat.* |
+
+## 5.2 Kelas Pendaftaran
+
+**Nama Kelas:** *Pendaftaran*  
+**ID Kelas:** *C02*
+
+Tabel 5.2.1. Operasi Kelas Pendaftaran
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *ajukanPendaftaran(idAkun: Number): Number* | *Public* | *Membuat catatan pendaftaran untuk akun yang baru terbentuk  dan mengembalikan idPendaftaran* |
+| *getDaftarMenungguVerifikasi(): Array* | *Public* | *Mengambil daftar pendaftaran yang berstatus "menunggu verifikasi" untuk ditampilkan ke admin sistem* |
+| *getDetailPendaftar(idPendaftaran: Number): Object* | *Public* | *Mengambil data detil dari satu pendaftar* |
+| *updateStatus(idPendaftaran: Number, status: String): void* | *Public* | *Memperbarui statusVerifikasi pendaftaran menjadi "diterima" atau "ditolak"* |
+| *getStatus(): String* | *Public* | *Mengembalikan statusVerifikasi* |
+
+Tabel 5.2.2. Atribut Kelas Pendaftaran 
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *idPendaftaran* | *Private* | *Number* |
+| *tanggalDaftar* | *Private* | *Date* |
+| *statusVerifikasi* | *Private* | *String* |
+### 5.2.1 Algoritma/Query
+
+**Nama Kelas:** *Pendaftaran*  
+**Nama Operasi:** *ajukanPendaftaran(idAkun: Number): Number*  
+**ID Algoritma:** *Algo-002*
+
+```text
+FUNCTION ajukanPendaftaran(idAkun)
+    idPendaftaran <- JALANKAN Q-002 dengan (idAkun)
+    RETURN idPendaftaran
+END FUNCTION
+```
+
+Tabel 5.2.3. Query Operasi ajukanPendaftaran()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-002* | *INSERT INTO pendaftaran(id_akun, tanggal_daftar, status_verifikasi) VALUES ($1, CURRENT_DATE, 'menunggu verifikasi) RETURNING id_pendaftaran;* | *Meyimpan pendaftaran baru dengan tanggal hari ini dan status awal "menunggu verifikasi", lalu mengembalikan idPendaftaran* |
+
+### 5.2.2 Algoritma/Query
+
+**Nama Kelas:** *Pendaftaran*  
+**Nama Operasi:** *getDaftarMenungguVerifikasi(): Array*  
+**ID Algoritma:** *Algo-003*
+
+```text
+FUNCTION getDaftarMenungguVerifikasi()
+    daftarPendaftar <- JALANKAN Q-003
+    RETURN daftarPendaftar
+END FUNCTION
+```
+Tabel 5.2.4. Query Operasi getDaftarMenungguVerifikasi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-003* | *SELECT id_pendaftaran, id_akun, tanggal_daftar, status_verifikasi FROM pendaftaran WHERE status_verifikasi = 'menunggu verifikasi';* | *Mengambil seluruh pendaftaran yang masih menunggu untuk verifikasi* |
+
+### 5.2.3 Algoritma/Query
+
+**Nama Kelas:** *Pendaftaran*  
+**Nama Operasi:** *getDetailPendaftar(idPendaftaran: Number): Object*  
+**ID Algoritma:** *Algo-004*
+
+```text
+FUNCTION getDetailPendaftar(idPendaftaran)
+    dataPendaftar <- JALANKAN Q-004 dengan (idPendaftaran)
+    RETURN dataPendaftar
+END FUNCTION
+```
+
+Tabel 5.2.5. Query Operasi getDetailPendaftar()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-004* | *SELECT id_pendaftaran, id_akun, tanggal_daftar, status_verifikasi FROM pendaftaran WHERE id_pendaftaran = $1;* | *Mengambil data satu pendaftaran berdasarkan id_pendaftaran. $1 = idPendaftaran.* |
+
+### 5.2.4 Algoritma/Query
+
+**Nama Kelas:** *Pendaftaran*  
+**Nama Operasi:** *updateStatus(idPendaftaran: Number, status: String): void*  
+**ID Algoritma:** *Algo-005*
+
+```text
+PROCEDURE updateStatus(idPendaftaran, status)
+    JALANKAN Q-004 dengan (status, idPendaftaran)
+END PROCEDURE
+```
+Tabel 5.2.6. Query Operasi updateStatus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-005* | *UPDATE pendaftaran SET status_verifikasi = $1 WHERE id_pendaftaran = $2;* | *Memperbarui statue verifikasi menjadi "diterima" atau "ditolak"* |
+
+### 5.2.5 Algoritma/Query
+
+**Nama Kelas:** *Pendaftaran*  
+**Nama Operasi:** *getStatus(): String*  
+**ID Algoritma:** *Algo-006*
+
+```text
+FUNCTION getStatus()
+    statusVerifikasi <- JALANKAN Q-006 dengan (idPendaftaran milik objek)
+    RETURN statusVerifikasi
+END FUNCTION
+```
+Tabel 5.2.7. Query Operasi getStatus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-006* | *SELECT status_verifikasi FROM pendaftaran WHERE id_pendaftaran = $1;* | *Mengambil status verifikasi dari pendaftaran* |
+
+## 5.3 Kelas DokumenPendukung
+
+**Nama Kelas:** *DokumenPendukung*  
+**ID Kelas:** *C03*
+
+Tabel 5.3.1. Operasi Kelas DokumenPendukung
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *unggahDokumen(idPendaftaran: Number, berkas: Object): void* | *Public* | *Menyimpan berkas dokumen pendukung milik sebuah pendaftar* |
+| *getDokumen(idPendaftaran: Number): Array* | *Public* | *Mengambil dokumen pendukung milik satu pendaftar* |
+
+Tabel 5.3.2. Atribut Kelas DokumenPendukung
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *idDokumen* | *Private* | *Number* |
+| *namaFile* | *Private* | *String* |
+| *tipeDokumen* | *Private* | *String* |
+
+### 5.3.1 Algoritma/Query
+
+**Nama Kelas:** *DokumenPendukung*  
+**Nama Operasi:** *unggahDokumen(idPendaftaran: Number, berkas: Object): void*  
+**ID Algoritma:** *Algo-007*
+
+```text
+PROCEDURE unggahDokumen(idPendaftaran, berkas)
+    namaFile <- SIMPAN berkas ke folder penyimpanan dokumen di server
+    tipeDokumen <- tipe berkas (PDF, JPG, atau PNG)
+    JALANKAN Q-007 dengan (idPendaftaran, namaFile, tipeDokumen)
+END PROCEDURE
+```
+
+Tabel 5.3.3. Query Operasi unggahDokumen()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-007* | *INSERT INTO dokumen_pendukung(id_pendaftaran, nama_file, tipe_dokumen) VALUES ($1, $2, $3);* | *Menyimpan data dokumen pendukung ke dalam tabel dokumen_pendukung* |
+
+### 5.3.2 Algoritma/Query
+
+**Nama Kelas:** *DokumenPendukung*  
+**Nama Operasi:** *getDokumen(idPendaftaran: Number): Array*  
+**ID Algoritma:** *Algo-008*
+
+```text
+FUNCTION getDokumen(idPendaftaran)
+    daftarDokumen <- JALANKAN Q-008 dengan (idPendaftaran)
+    RETURN daftarDokumen
+END FUNCTION
+```
+
+Tabel 5.3.4. Query Operasi getDokumen()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-008* | *SELECT id_dokumen, nama_file, tipe_dokumen FROM dokumen_pendukung WHERE id_pendaftaran = $1;* | *Mengambil data dokumen pendukung milik satu pendaftar* |
+
+## 5.4 Kelas VerifikasiController
+
+**Nama Kelas:** *VerifikasiController*  
+**ID Kelas:** *C04*
+
+Tabel 5.4.1. Operasi Kelas VerifikasiController
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *tampilkanDaftarPendaftar(): Array* | *Public* | *Meminta daftar dari pendaftar yang berstatus "menunggu verifikasi"* |
+| *ambilDetailPendaftar(idPendaftaran: Number): Object* | *Public* | *Mengambil data pendaftar dan dokumen* |
+| *prosesVerifikasi(idPendaftaran: Number, keputusan: String): String* | *Public* | *Meneruskan keputusan admin sistem terkait status pendaftaran* |
+
+Tabel 5.4.2. Atribut Kelas VerifikasiController
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+
+### 5.4.1 Algoritma/Query
+
+**Nama Kelas:** *VerifikasiController*  
+**Nama Operasi:** *tampilkanDaftarPendaftar(): Array*  
+**ID Algoritma:** *Algo-009*
+
+```text
+FUNCTION tampilkanDaftarPendaftar()
+    daftarPendaftar <- getDaftarMenungguVerifikasi() pada Pendaftaran
+    RETURN daftarPendaftar
+END FUNCTION
+```
+
+Tabel 5.4.3. Query Operasi tampilkanDaftarPendaftar()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.4.2 Algoritma/Query
+
+**Nama Kelas:** *VerifikasiController*  
+**Nama Operasi:** *ambilDetailPendaftar(idPendaftaran: Number): Object*  
+**ID Algoritma:** *Algo-010*
+
+```text
+FUNCTION ambilDetailPendaftar(idPendaftaran)
+    dataPendaftar <- getDetailPendaftar(idPendaftaran) pada Pendaftaran
+    daftarDokumen <- getDokumen(idPendaftaran) pada DokumenPendukung
+    detailPendaftar <- GABUNGKAN dataPendaftar dan daftarDokumen
+    RETURN detailPendaftar
+END FUNCTION
+```
+
+Tabel 5.4.4. Query Operasi ambilDetailPendaftar()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.4.3 Algoritma/Query
+
+**Nama Kelas:** *VerifikasiController*  
+**Nama Operasi:** *prosesVerifikasi(idPendaftaran: Number, keputusan: String): String*  
+**ID Algoritma:** *Algo-011*
+
+```text
+FUNCTION prosesVerifikasi(idPendaftaran, keputusan)
+    verifikasiPendaftaran(idPendaftaran, keputusan) pada AdminSistem
+    RETURN pesan status keputusan tersimpan
+END FUNCTION
+```
+
+Tabel 5.4.5. Query Operasi ambilDetailPendaftar()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+## 5.5 Kelas Produk
+
+**Nama Kelas:** *Produk*  
+**ID Kelas:** *C05*
+
+Tabel 5.5.1. Operasi Kelas Produk
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *getDetailProduk(): Object* | *Public* | *Mengembalikan data detil milik suatu produk* |
+
+Tabel 5.5.2. Atribut Kelas Produk
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *idProduk* | *Public* | *Number* |
+| *namaProduk* | *Public* | *String* |
+| *kategori* | *Public* | *String* |
+
+### 5.5.1 Algoritma/Query
+
+**Nama Kelas:** *Produk*  
+**Nama Operasi:** *getDetailProduk()*  
+**ID Algoritma:** *-*
+
+```text
+-
+```
+
+Tabel 5.5.3. Query Operasi getDetailProduk()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-*
+
+## 5.6 Kelas DataPenjualan
+
+**Nama Kelas:** *DataPenjualan*  
+**ID Kelas:** *C06*
+
+Tabel 5.6.1. Operasi Kelas DataPenjualan
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *getDataHistoris(): Array* | *Public* | *Mengambil data historis penjualan untuk dijadikan prediksi* |
+
+Tabel 5.6.2. Atribut Kelas DataPenjualan
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *idPenjualan* | *Private* | *Number* |
+| *tanggal* | *Private* | *Date* |
+| *jumlahTerjual* | *Private* | *Number* |
+| *jumlahTersisa* | *Private* | *Number* |
+
+### 5.1.1 Algoritma/Query
+
+**Nama Kelas:** *DataPenjualan*  
+**Nama Operasi:** *getDataHistoris(): Array*  
+**ID Algoritma:** *Algo-012*
+
+```text
+FUNCTION getDataHistoris()
+    dataHistoris <- JALANKAN Q-010
+    RETURN dataHistoris
+END FUNCTION
+``` 
+Tabel 5.6.3. Query Operasi getDataHistoris()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-009* | *SELECT tanggal, jumlah_terjual, jumlah_tersisa FROM data_penjualan ORDER BY tanggal DESC LIMIT 7;* | *mengambil data historis hingga 7 hari untuk dijadikan prediksi* |
+
+
 
 <br>
 
