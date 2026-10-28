@@ -33,7 +33,7 @@ Dipersiapkan oleh:
 | Revisi | Deskripsi |
 | :--- | :--- |
 | *A* | *Merevisi realisasi UC11 dan UC12: mengganti identifikasi kelas pada kedua use case, menyeragamkan penamaan atribut dan operasi ke bahasa Indonesia, lalu mengganti sequence diagram dan class diagram sehingga konsisten dengan perubahan yang dilakukan* |
-| *B* | *Merapikan serta menyesuaikan daftar kelas perancangan keseluruhan dengan perubahan yang ada* |
+| *B* | *Merapikan serta menyesuaikan daftar kelas perancangan keseluruhan dengan perubahan yang ada (menambah atribut dan operasi yang belum ada di tabel, menghapus yang tidak digunakan di realisasi)* |
 | *C* | *Menambahkan operasi getStatus() di C02 dan catatPenjualan() di C06 serta merevisi sequence diagram dan diagram kelas UC04 dan menambah* |
 | ... |  |
 
@@ -789,39 +789,39 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 
 | ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
 | :--- | :--- | :--- | :--- |
-| *C01* | *AkunPengguna* | *idAkun, email, kataSandi, tipeAkun* | *registrasi(), getIdAkun()* |
+| *C01* | *AkunPengguna* | *idAkun, email, kataSandi, tipeAkun* | *registrasi()* |
 | *C02* | *Pendaftaran* | *idPendaftaran, tanggalDaftar, statusVerifikasi* | *ajukanPendaftaran(), getDaftarMenungguVerifikasi(), getDetailPendaftar(), updateStatus(), getStatus()* |
 | *C03* | *DokumenPendukung* | *idDokumen, namaFile, tipeDokumen* | *unggahDokumen(), getDokumen()* |
 | *C04* | *VerifikasiController* | *-* | *tampilkanDaftarPendaftar(), ambilDetailPendaftar(), prosesVerifikasi()* |
-| *C05* | *Produk* | *-idProduk, -namaProduk, -kategori* | *+getDetailProduk()* |
-| *C06* | *DataPenjualan* | *-idPenjualan, -tanggal, -jumlahTerjual, -jumlahTersisa* | *+getDataHistoris(), +catatPenjualan()* |
-| *C07* | *PrediksiProduksi* | *-idPrediksi, -tanggalPrediksi, -jumlahRekomendasi* | *+buatPrediksi(), +getHasilPrediksi()* |
-| *C08* | *ProdukSurplus* | *-idSurplus, -jumlah, -batasWaktuPengambilan, -status* | *+simpanProdukSurplus(), +setStatus(), +getDetailSurplus()* |
-| *C09* | *MetodeDistribusiSurplus* | *-idDistribusi, -jenisDistribusi, -harga* | *+pilihMetodeDistribusi(), +hitungHargaDiskon(), +getInfoDistribusi()* |
-| *C10* | *DokumenKlaim* | *idKlaim, idNgo, waktuKlaim* | *catatKlaim(), getDetailKlaim()* |
-| *C11* | *LogAktivitas* | *idLog, aktivitas, waktu* | *catatLog(), getDaftarLog(), cariLog()* |
+| *C05* | *Produk* | *idProduk, namaProduk, kategori* | *getDetailProduk()* |
+| *C06* | *DataPenjualan* | *idPenjualan, tanggal, jumlahTerjual, jumlahTersisa* | *getDataHistoris(), catatPenjualan()* |
+| *C07* | *PrediksiProduksi* | *idPrediksi, tanggalPrediksi, jumlahRekomendasi* | *buatPrediksi(), getHasilPrediksi()* |
+| *C08* | *ProdukSurplus* | *idSurplus, idProduk, idPemilik, jumlah, batasWaktuPengambilan, status* | *simpanProdukSurplus(), setStatus(), getDetailSurplus(), getProdukSurplusTersedia(), getDaftarSurplus()* |
+| *C09* | *MetodeDistribusiSurplus* | *idDistribusi, jenisDistribusi, harga* | *pilihMetodeDistribusi(), getInfoDistribusi(), getJenisDistribusi(), getHarga()* |
+| *C10* | *DokumenKlaim* | *idKlaim, idNgo, idSurplus, waktuKlaim, statusKlaim* | *catatKlaim(), getDetailKlaim(), getWaktuKlaim(), getStatusKlaim()* |
+| *C11* | *LogAktivitas* | *idLog, aktivitas, waktu* | *getDaftarLog(), cariLog()* |
 | *C12* | *RegistrasiPage* | *-* | *pilihTipeAkun(), tampilkanFormRegistrasi(), kirimFormulir(), tampilkanPesanBerhasil(), tampilkanPesanError()* |
 | *C13* | *VerifikasiPage* | *-* | *bukaDaftarVerifikasi(), tampilkanDaftarVerifikasi(), pilihPendaftar(), tampilkanDetailPendaftar(), kirimKeputusan()* |
 | *C14* | *StatusPendaftaranPage* | *-* | *tampilkanStatusPendaftaran()* |
 | *C15* | *PenjualanPage* | *-* | *tampilkanFormPenjualan(), kirimDataPenjualan()* |
-| *C16* | *PrediksiPage* | *-* | *+tampilkanDashboardPrediksi(), +tampilkanGrafik(), +tampilkanPesanError()* |
-| *C17* | *ProdukSurplusPage* | *-* | *+tampilkanFormulirSurplus(), +kirimDataSurplus(), +resetFormulir(), +tampilkanNotifikasiSukses(), +kosongkanIsian()* |
-| *C18* | *DistribusiSurplusPage* | *-* | *+tampilkanOpsiDistribusi()* |
-| *C19* | *DaftarSurplusPage* | *-* | *+tampilkanDaftarSurplus(), +tampilkanFormFilter()* |
-| *C20* | *KlaimPage* | *produkTerpilih* | *tampilkanHalaman(), kirimKlaim()* |
+| *C16* | *PrediksiPage* | *-* | *lihatHasilPrediksi(), tampilkanDashboardPrediksi(), tampilkanGrafik(), tampilkanPesanError()* |
+| *C17* | *ProdukSurplusPage* | *-* | *tampilkanFormulirSurplus(), kirimDataSurplus(), resetFormulir(), tampilkanNotifikasiSukses(), kosongkanIsian()* |
+| *C18* | *DistribusiSurplusPage* | *-* | *pilihProdukSurplus(), tampilkanFormDistribusi(), tampilkanOpsiDistribusi(), tampilkanKolomHarga(), tampilkanKeteranganGratis(), simpanDistribusi(), tampilkanPesanKesalahan(), tampilkanPesanSukses()* |
+| *C19* | *DaftarSurplusPage* | *lokasiPengguna, daftarSurplus* | *lihatDaftarSurplus(), mintaLokasiPengguna(), masukkanLokasiPengguna(), tampilkanDaftarSurplus(), pilihProduk(), tampilkanDetailProduk(), bukaFiturPenyaringan(), tampilkanFiturPenyaringan(), bukaDaftarSurplus(), tampilkanDaftarProdukSesuai()* |
+| *C20* | *KlaimPage* | *produkTerpilih* | *pilihProduk(), tampilkanDetailProduk(), klaim(), tampilkanKlaimBerhasil(), tampilkanKlaimDitolak()* |
 | *C21* | *PengambilanPage* | *-* | *bukaDetailPengambilan(), tampilkanDetailPengambilan(), tampilkanPopupKonfirmasi(), pilihKonfirmasiPengambilan(), pilihYes(), pilihNo(), tutupPopupKonfirmasi(), tampilkanPesanBerhasil()* |
 | *C22* | *LogAktivitasPage* | *daftarLogTampil* | *bukaDashboardLog(), tampilkanDashboardLog(), terapkanFilter(), tampilkanTabelLog(), tampilkanPesanLogKosong()* |
-| *C23* | *AuthController* | *-* | *registrasiAkun(), validasiKelengkapanData(), validasiFormatDokumen()* |
+| *C23* | *AuthController* | *-* | *registrasiAkun(), validasiKelengkapanData(), validasiFormatDokumen(), cekStatusPendaftaran()* |
 | *C24* | *PenjualanController* | *-* | *validasiInputPenjualan(), simpanDataPenjualan()* |
-| *C25* | *PrediksiController* | *-* | *+cekKecukupanData(), +jalankanPrediksi()* |
-| *C26* | *ProdukSurplusController* | *-* | *+validasiDataSurplus(), +simpanDataSurplus()* |
-| *C27* | *SurplusController* | *-* | *+ambilDaftarSurplus(), +urutkanBerdasarkanJarak()* |
-| *C28* | *KlaimController* | *-* | *ambilDetailPengambilan(), konfirmasiPengambilan()* |
+| *C25* | *PrediksiController* | *-* | *cekKecukupanData(), jalankanPrediksi()* |
+| *C26* | *ProdukSurplusController* | *-* | *validasiDataSurplus(), simpanDataSurplus(), tampilkanFormDistribusi(), simpanMetodeDistribusi(), validasiMetodeDistribusi()* |
+| *C27* | *SurplusController* | *-* | *ambilDaftarSurplus(), ambilDetailSurplus(), urutkanBerdasarkanJarak(), getDaftarSurplus(), getDetailProduk(), getMetodeDistribusi()* |
+| *C28* | *KlaimController* | *-* | *getDetailProduk(), klaim(), ambilDetailPengambilan(), konfirmasiPengambilan()* |
 | *C29* | *LogController* | *-* | *tampilkanLog(), saringLog()* |
-| *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional* | *(diwarisi dari AkunPengguna)* |
-| *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | *(diwarisi dari AkunPengguna)* |
+| *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional* | *catatProdukSurplus(), lihatHasilPrediksi(), getLokasiUsaha(), getDataUsaha(), aturDistribusiSurplus()* |
+| *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | *lihatDaftarSurplus(), ajukanKlaim(), getDataNgo()* |
 | *C32* | *AdminSistem* | *kewenangan* | *verifikasiPendaftaran()* |
-| *C33* | *GeolocationAdapter* | *-* | *+getCoordinates(), +calculateDistance()* |
+| *C33* | *GeolocationAdapter* | *-* | *hitungJarak()* |
 | *C34* | *PenyaringanController* | *-* | *saringProdukSurplus(), cariProdukSurplus(), validasiKriteria(), saringBerdasarkanJenis(), saringBerdasarkanJarak(), saringBerdasarkanBatasWaktu()* |
 
 <br>
