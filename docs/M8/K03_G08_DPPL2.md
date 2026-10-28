@@ -1745,6 +1745,802 @@ Procedure kosongkanIsian()
     BERSIHKAN semua field input pada form
 End Procedure
 ```
+## 5.18 Kelas DistribusiSurplusPage
+
+**Nama Kelas:** *DistribusiSurplusPage*  
+**ID Kelas:** *C18*
+
+Tabel 5.18.1. Operasi Kelas DistribusiSurplusPage
+
+| Nama Operasi | Visibility | Keterangan |
+| :--- | :--- | :--- |
+| *pilihProdukSurplus(idSurplus: Number): void* | Public | Menetapkan produk surplus yang akan diatur distribusinya. |
+| *tampilkanFormDistribusi(data: Object): void* | Public | Menampilkan ringkasan produk serta formulir pengaturan distribusi. |
+| *tampilkanOpsiDistribusi(opsi: Array): void* | Public | Menampilkan pilihan jenis distribusi yang tersedia. |
+| *tampilkanKolomHarga(): void* | Public | Menampilkan isian harga ketika jenis distribusi adalah jual diskon. |
+| *tampilkanKeteranganGratis(): void* | Public | Menampilkan keterangan bahwa produk donasi diberikan tanpa biaya. |
+| *simpanDistribusi(jenisDistribusi: String, harga: Number?): void* | Public | Mengirim pilihan distribusi dan harga kepada ProdukSurplusController. |
+| *tampilkanPesanKesalahan(pesan: String): void* | Public | Menampilkan kesalahan validasi atau kegagalan penyimpanan. |
+| *tampilkanPesanSukses(pesan: String): void* | Public | Menampilkan konfirmasi bahwa pengaturan distribusi tersimpan. |
+
+Tabel 5.18.2. Atribut Kelas DistribusiSurplusPage
+
+| Nama Atribut | Visibility | Tipe |
+| :--- | :--- | :--- |
+| *idSurplusTerpilih* | Private | Number |
+| *dataProdukSurplus* | Private | Object |
+| *jenisDistribusiTerpilih* | Private | String |
+| *harga* | Private | Number? |
+| *opsiDistribusi* | Private | Array |
+| *pesanKesalahan* | Private | String? |
+
+### 5.18.1 Algoritma/Query
+
+**Nama Kelas:** *DistribusiSurplusPage*  
+**Nama Operasi:** *pilihProdukSurplus(idSurplus: Number): void*  
+**ID Algoritma:** *Algo-C18-01*
+
+```text
+PROCEDURE pilihProdukSurplus(idSurplus)
+    idSurplusTerpilih <- idSurplus
+    data <- tampilkanFormDistribusi(idSurplus) pada ProdukSurplusController
+    IF data tidak ditemukan THEN
+        tampilkanPesanKesalahan("Produk surplus tidak ditemukan atau tidak dapat diatur.")
+        RETURN
+    END IF
+    dataProdukSurplus <- data.produk
+    tampilkanFormDistribusi(data)
+    tampilkanOpsiDistribusi(data.opsiDistribusi)
+END PROCEDURE
+```
+
+Operasi ini meminta data melalui ProdukSurplusController (C26), tanpa akses basis data langsung.
+
+### 5.18.2 Algoritma/Query
+
+**Nama Kelas:** *DistribusiSurplusPage*  
+**Nama Operasi:** *tampilkanFormDistribusi(data: Object): void*  
+**ID Algoritma:** *Algo-C18-02*
+
+```text
+PROCEDURE tampilkanFormDistribusi(data)
+    tampilkan nama produk, jumlah, dan batas waktu pengambilan dari data.produk
+    tampilkan pilihan jenis distribusi
+    tampilkan nilai distribusi yang telah tersimpan jika tersedia
+END PROCEDURE
+```
+
+Operasi hanya merender data yang diterima dari controller; tidak menjalankan query.
+
+### 5.18.3 Algoritma/Query
+
+**Nama Kelas:** *DistribusiSurplusPage*  
+**Nama Operasi:** *tampilkanOpsiDistribusi(opsi: Array): void*  
+**ID Algoritma:** *Algo-C18-03*
+
+```text
+PROCEDURE tampilkanOpsiDistribusi(opsi)
+    opsiDistribusi <- opsi
+    tampilkan pilihan "Donasi" dan "Jual Diskon" yang tersedia
+    IF jenisDistribusiTerpilih = "Donasi" THEN
+        tampilkanKeteranganGratis()
+    ELSE IF jenisDistribusiTerpilih = "Jual Diskon" THEN
+        tampilkanKolomHarga()
+    END IF
+END PROCEDURE
+```
+
+Operasi antarmuka; tidak mengakses basis data.
+
+### 5.18.4 Algoritma/Query
+
+**Nama Kelas:** *DistribusiSurplusPage*  
+**Nama Operasi:** *tampilkanKolomHarga(): void*  
+**ID Algoritma:** *Algo-C18-04*
+
+```text
+PROCEDURE tampilkanKolomHarga()
+    tampilkan kolom input harga
+    sembunyikan keterangan gratis
+END PROCEDURE
+```
+
+Operasi antarmuka tanpa query basis data.
+
+### 5.18.5 Algoritma/Query
+
+**Nama Kelas:** *DistribusiSurplusPage*  
+**Nama Operasi:** *tampilkanKeteranganGratis(): void*  
+**ID Algoritma:** *Algo-C18-05*
+
+```text
+PROCEDURE tampilkanKeteranganGratis()
+    tampilkan keterangan bahwa metode donasi tidak memungut harga
+    sembunyikan kolom harga
+END PROCEDURE
+```
+
+Operasi antarmuka tanpa query basis data.
+
+### 5.18.6 Algoritma/Query
+
+**Nama Kelas:** *DistribusiSurplusPage*  
+**Nama Operasi:** *simpanDistribusi(jenisDistribusi: String, harga: Number?): void*  
+**ID Algoritma:** *Algo-C18-06*
+
+```text
+PROCEDURE simpanDistribusi(jenisDistribusi, harga)
+    jenisDistribusiTerpilih <- jenisDistribusi
+    IF jenisDistribusi = "Donasi" THEN hargaKirim <- 0
+    ELSE hargaKirim <- harga
+    TRY
+        simpanMetodeDistribusi(idSurplusTerpilih, jenisDistribusi, hargaKirim)
+            pada ProdukSurplusController
+        tampilkanPesanSukses("Metode distribusi berhasil disimpan.")
+    CATCH kesalahan
+        tampilkanPesanKesalahan(kesalahan.pesan)
+    END TRY
+END PROCEDURE
+```
+
+Penyimpanan diteruskan ke ProdukSurplusController (C26), kemudian MetodeDistribusiSurplus (C09); Page tidak mengakses basis data langsung.
+
+### 5.18.7 Algoritma/Query
+
+**Nama Kelas:** *DistribusiSurplusPage*  
+**Nama Operasi:** *tampilkanPesanKesalahan(pesan: String): void*  
+**ID Algoritma:** *Algo-C18-07*
+
+```text
+PROCEDURE tampilkanPesanKesalahan(pesan)
+    pesanKesalahan <- pesan
+    tampilkan pesanKesalahan pada formulir
+END PROCEDURE
+```
+
+Operasi tidak mengakses basis data.
+
+### 5.18.8 Algoritma/Query
+
+**Nama Kelas:** *DistribusiSurplusPage*  
+**Nama Operasi:** *tampilkanPesanSukses(pesan: String): void*  
+**ID Algoritma:** *Algo-C18-08*
+
+```text
+PROCEDURE tampilkanPesanSukses(pesan)
+    hapus pesanKesalahan jika ada
+    tampilkan pesan sebagai konfirmasi penyimpanan
+END PROCEDURE
+```
+
+Operasi tidak mengakses basis data.
+
+## 5.19 Kelas DaftarSurplusPage
+
+**Nama Kelas:** *DaftarSurplusPage*  
+**ID Kelas:** *C19*
+
+Tabel 5.19.1. Operasi Kelas DaftarSurplusPage
+
+| Nama Operasi | Visibility | Keterangan |
+| :--- | :--- | :--- |
+| *saringDaftarSurplus(): void* | Public | Meminta controller mencari surplus berdasarkan kata kunci, filter, dan lokasi. |
+| *tampilkanFormFilter(): void* | Public | Menampilkan kontrol filter jenis produk, jarak, batas waktu, dan kata kunci. |
+| *kirimKriteriaFilter(kriteria: Object): void* | Public | Mengirim kriteria pencarian kepada PenyaringanController. |
+| *tampilkanHasilFilter(daftar: Array): void* | Public | Menampilkan daftar produk yang memenuhi kriteria. |
+| *tampilkanPesanTidakAda(pesan: String): void* | Public | Menampilkan keadaan kosong ketika tidak ada produk yang cocok. |
+| *pilihProduk(idSurplus: Number): void* | Public | Meminta detail produk surplus yang dipilih. |
+| *tampilkanDetailProduk(detail: Object): void* | Public | Menampilkan informasi surplus, pemilik, distribusi, dan jarak bila tersedia. |
+
+Tabel 5.19.2. Atribut Kelas DaftarSurplusPage
+
+| Nama Atribut | Visibility | Tipe |
+| :--- | :--- | :--- |
+| *lokasiPengguna* | Private | Object? |
+| *daftarSurplus* | Private | Array |
+| *kataKunci* | Private | String |
+| *kriteriaFilter* | Private | Object |
+
+### 5.19.1 Algoritma/Query
+
+**Nama Kelas:** *DaftarSurplusPage*  
+**Nama Operasi:** *saringDaftarSurplus(): void*  
+**ID Algoritma:** *Algo-C19-01*
+
+```text
+PROCEDURE saringDaftarSurplus()
+    kriteria <- gabungkan kriteriaFilter dan kataKunci
+    kirimKriteriaFilter(kriteria)
+END PROCEDURE
+```
+
+Page meneruskan kriteria melalui PenyaringanController (C34), tanpa akses basis data langsung.
+
+### 5.19.2 Algoritma/Query
+
+**Nama Kelas:** *DaftarSurplusPage*  
+**Nama Operasi:** *tampilkanFormFilter(): void*  
+**ID Algoritma:** *Algo-C19-02*
+
+```text
+PROCEDURE tampilkanFormFilter()
+    tampilkan kolom kata kunci
+    tampilkan filter jenis produk, jarak maksimum, dan batas waktu
+    isi kontrol dengan kriteriaFilter saat ini
+END PROCEDURE
+```
+
+Operasi antarmuka tanpa query basis data.
+
+### 5.19.3 Algoritma/Query
+
+**Nama Kelas:** *DaftarSurplusPage*  
+**Nama Operasi:** *kirimKriteriaFilter(kriteria: Object): void*  
+**ID Algoritma:** *Algo-C19-03*
+
+```text
+PROCEDURE kirimKriteriaFilter(kriteria)
+    kriteriaFilter <- kriteria
+    daftar <- saringProdukSurplus(kriteria, lokasiPengguna) pada PenyaringanController
+    IF daftar kosong THEN
+        tampilkanPesanTidakAda("Tidak ada produk surplus yang sesuai dengan filter.")
+    ELSE
+        tampilkanHasilFilter(daftar)
+    END IF
+END PROCEDURE
+```
+
+Data diambil dan disaring melalui PenyaringanController (C34) serta kelas model terkait.
+
+### 5.19.4 Algoritma/Query
+
+**Nama Kelas:** *DaftarSurplusPage*  
+**Nama Operasi:** *tampilkanHasilFilter(daftar: Array): void*  
+**ID Algoritma:** *Algo-C19-04*
+
+```text
+PROCEDURE tampilkanHasilFilter(daftar)
+    daftarSurplus <- daftar
+    tampilkan setiap produk dalam daftarSurplus
+    sembunyikan pesan keadaan kosong
+END PROCEDURE
+```
+
+Operasi merender hasil controller; tidak mengakses basis data.
+
+### 5.19.5 Algoritma/Query
+
+**Nama Kelas:** *DaftarSurplusPage*  
+**Nama Operasi:** *tampilkanPesanTidakAda(pesan: String): void*  
+**ID Algoritma:** *Algo-C19-05*
+
+```text
+PROCEDURE tampilkanPesanTidakAda(pesan)
+    daftarSurplus <- []
+    tampilkan pesan keadaan kosong
+    sembunyikan daftar hasil
+END PROCEDURE
+```
+
+Operasi tidak mengakses basis data.
+
+### 5.19.6 Algoritma/Query
+
+**Nama Kelas:** *DaftarSurplusPage*  
+**Nama Operasi:** *pilihProduk(idSurplus: Number): void*  
+**ID Algoritma:** *Algo-C19-06*
+
+```text
+PROCEDURE pilihProduk(idSurplus)
+    detail <- ambilDetailSurplus(idSurplus) pada SurplusController
+    IF detail ditemukan THEN tampilkanDetailProduk(detail)
+    ELSE tampilkanPesanTidakAda("Detail produk surplus tidak tersedia.")
+    END IF
+END PROCEDURE
+```
+
+Detail diminta melalui SurplusController (C27), tanpa query langsung dari Page.
+
+### 5.19.7 Algoritma/Query
+
+**Nama Kelas:** *DaftarSurplusPage*  
+**Nama Operasi:** *tampilkanDetailProduk(detail: Object): void*  
+**ID Algoritma:** *Algo-C19-07*
+
+```text
+PROCEDURE tampilkanDetailProduk(detail)
+    tampilkan nama, kategori, jumlah, dan batas waktu produk
+    tampilkan metode distribusi, harga, dan informasi pemilik
+    IF lokasiPengguna tersedia DAN detail.jarak tersedia THEN
+        tampilkan jarak dari lokasi pengguna
+    END IF
+END PROCEDURE
+```
+
+Operasi merender objek detail yang disediakan SurplusController.
+
+## 5.20 Kelas KlaimPage
+
+**Nama Kelas:** *KlaimPage*  
+**ID Kelas:** *C20*
+
+Tabel 5.20.1. Operasi Kelas KlaimPage
+
+| Nama Operasi | Visibility | Keterangan |
+| :--- | :--- | :--- |
+| *tampilkanHalaman(idSurplus: Number): void* | Public | Menyiapkan halaman klaim dan mengambil detail produk surplus. |
+| *tampilkanDetailProduk(detail: Object): void* | Public | Menampilkan informasi produk yang dapat diklaim. |
+| *kirimKlaim(idNgo: Number, idSurplus: Number): void* | Public | Mengirim permintaan klaim kepada KlaimController. |
+| *tampilkanKlaimBerhasil(detailKlaim: Object): void* | Public | Menampilkan konfirmasi klaim berhasil beserta ringkasan klaim. |
+| *tampilkanPesanDitolak(pesan: String): void* | Public | Menampilkan pesan ketika produk tidak tersedia atau klaim ditolak. |
+
+Tabel 5.20.2. Atribut Kelas KlaimPage
+
+| Nama Atribut | Visibility | Tipe |
+| :--- | :--- | :--- |
+| *idSurplusTerpilih* | Private | Number |
+| *hasilKlaim* | Private | Object? |
+| *pesanError* | Private | String? |
+
+### 5.20.1 Algoritma/Query
+
+**Nama Kelas:** *KlaimPage*  
+**Nama Operasi:** *tampilkanHalaman(idSurplus: Number): void*  
+**ID Algoritma:** *Algo-C20-01*
+
+```text
+PROCEDURE tampilkanHalaman(idSurplus)
+    idSurplusTerpilih <- idSurplus
+    detail <- ambilDetailSurplus(idSurplus) pada SurplusController
+    IF detail tidak ditemukan ATAU detail.status bukan "tersedia" THEN
+        tampilkanPesanDitolak("Produk surplus tidak tersedia untuk diklaim.")
+        RETURN
+    END IF
+    tampilkanDetailProduk(detail)
+END PROCEDURE
+```
+
+Pengambilan detail dilakukan melalui SurplusController (C27).
+
+### 5.20.2 Algoritma/Query
+
+**Nama Kelas:** *KlaimPage*  
+**Nama Operasi:** *tampilkanDetailProduk(detail: Object): void*  
+**ID Algoritma:** *Algo-C20-02*
+
+```text
+PROCEDURE tampilkanDetailProduk(detail)
+    tampilkan nama produk, jumlah, dan batas waktu pengambilan
+    tampilkan informasi pemilik dan metode distribusi
+    tampilkan tindakan untuk mengajukan klaim
+END PROCEDURE
+```
+
+Operasi antarmuka tanpa akses basis data.
+
+### 5.20.3 Algoritma/Query
+
+**Nama Kelas:** *KlaimPage*  
+**Nama Operasi:** *kirimKlaim(idNgo: Number, idSurplus: Number): void*  
+**ID Algoritma:** *Algo-C20-03*
+
+```text
+PROCEDURE kirimKlaim(idNgo, idSurplus)
+    IF idSurplus != idSurplusTerpilih THEN
+        tampilkanPesanDitolak("Produk yang dipilih tidak sesuai.")
+        RETURN
+    END IF
+    TRY
+        hasilKlaim <- setujuiKlaim(idNgo, idSurplus) pada KlaimController
+        tampilkanKlaimBerhasil(hasilKlaim)
+    CATCH kesalahan
+        pesanError <- kesalahan.pesan
+        tampilkanPesanDitolak(pesanError)
+    END TRY
+END PROCEDURE
+```
+
+KlaimController (C28) memeriksa ketersediaan dan mencatat klaim melalui DokumenKlaim (C10).
+
+### 5.20.4 Algoritma/Query
+
+**Nama Kelas:** *KlaimPage*  
+**Nama Operasi:** *tampilkanKlaimBerhasil(detailKlaim: Object): void*  
+**ID Algoritma:** *Algo-C20-04*
+
+```text
+PROCEDURE tampilkanKlaimBerhasil(detailKlaim)
+    hasilKlaim <- detailKlaim
+    hapus pesanError jika ada
+    tampilkan identitas klaim dan ringkasan produk
+    tampilkan instruksi pengambilan
+END PROCEDURE
+```
+
+Operasi merender hasil controller; tidak mengakses basis data.
+
+### 5.20.5 Algoritma/Query
+
+**Nama Kelas:** *KlaimPage*  
+**Nama Operasi:** *tampilkanPesanDitolak(pesan: String): void*  
+**ID Algoritma:** *Algo-C20-05*
+
+```text
+PROCEDURE tampilkanPesanDitolak(pesan)
+    pesanError <- pesan
+    tampilkan pesanError
+    nonaktifkan tindakan klaim jika produk tidak tersedia
+END PROCEDURE
+```
+
+Operasi tidak mengakses basis data.
+
+## 5.21 Kelas PengambilanPage
+
+**Nama Kelas:** *PengambilanPage*  
+**ID Kelas:** *C21*
+
+Tabel 5.21.1. Operasi Kelas PengambilanPage
+
+| Nama Operasi | Visibility | Keterangan |
+| :--- | :--- | :--- |
+| *bukaDetailPengambilan(idKlaim: Number): void* | Public | Memulai proses dengan meminta data pengambilan berdasarkan klaim. |
+| *tampilkanDetailPengambilan(detail: Object): void* | Public | Menampilkan produk, pihak terkait, lokasi, dan waktu pengambilan. |
+| *tampilkanPopupKonfirmasi(): void* | Public | Meminta konfirmasi sebelum pengambilan ditandai selesai. |
+| *pilihKonfirmasiPengambilan(pilihan: Boolean): void* | Public | Meneruskan pilihan konfirmasi pengguna. |
+| *pilihYes(): void* | Public | Menyatakan pengambilan telah dilakukan. |
+| *pilihNo(): void* | Public | Membatalkan konfirmasi tanpa mengubah status klaim. |
+| *tutupPopupKonfirmasi(): void* | Public | Menutup dialog konfirmasi. |
+| *tampilkanPesanBerhasil(pesan: String): void* | Public | Menampilkan konfirmasi bahwa pengambilan berhasil dicatat. |
+
+Tabel 5.21.2. Atribut Kelas PengambilanPage
+
+| Nama Atribut | Visibility | Tipe |
+| :--- | :--- | :--- |
+| *idKlaimTerpilih* | Private | Number |
+| *detailPengambilan* | Private | Object? |
+| *popupKonfirmasiTerbuka* | Private | Boolean |
+
+### 5.21.1 Algoritma/Query
+
+**Nama Kelas:** *PengambilanPage*  
+**Nama Operasi:** *bukaDetailPengambilan(idKlaim: Number): void*  
+**ID Algoritma:** *Algo-C21-01*
+
+```text
+PROCEDURE bukaDetailPengambilan(idKlaim)
+    idKlaimTerpilih <- idKlaim
+    detail <- ambilDetailPengambilan(idKlaim) pada KlaimController
+    IF detail tidak ditemukan THEN
+        tampilkan pesan bahwa detail pengambilan tidak tersedia
+        RETURN
+    END IF
+    detailPengambilan <- detail
+    tampilkanDetailPengambilan(detail)
+END PROCEDURE
+```
+
+Data diminta melalui KlaimController (C28), tanpa query langsung dari Page.
+
+### 5.21.2 Algoritma/Query
+
+**Nama Kelas:** *PengambilanPage*  
+**Nama Operasi:** *tampilkanDetailPengambilan(detail: Object): void*  
+**ID Algoritma:** *Algo-C21-02*
+
+```text
+PROCEDURE tampilkanDetailPengambilan(detail)
+    tampilkan produk surplus dan ringkasan klaim
+    tampilkan identitas pemilik F&B dan perwakilan NGO
+    tampilkan lokasi serta informasi waktu pengambilan
+    tampilkan tindakan konfirmasi pengambilan
+END PROCEDURE
+```
+
+Operasi antarmuka tanpa akses basis data.
+
+### 5.21.3 Algoritma/Query
+
+**Nama Kelas:** *PengambilanPage*  
+**Nama Operasi:** *tampilkanPopupKonfirmasi(): void*  
+**ID Algoritma:** *Algo-C21-03*
+
+```text
+PROCEDURE tampilkanPopupKonfirmasi()
+    popupKonfirmasiTerbuka <- true
+    tampilkan pertanyaan apakah produk surplus telah diambil
+    tampilkan pilihan Yes dan No
+END PROCEDURE
+```
+
+Operasi antarmuka tanpa akses basis data.
+
+### 5.21.4 Algoritma/Query
+
+**Nama Kelas:** *PengambilanPage*  
+**Nama Operasi:** *pilihKonfirmasiPengambilan(pilihan: Boolean): void*  
+**ID Algoritma:** *Algo-C21-04*
+
+```text
+PROCEDURE pilihKonfirmasiPengambilan(pilihan)
+    IF popupKonfirmasiTerbuka = false THEN RETURN
+    IF pilihan = true THEN pilihYes()
+    ELSE pilihNo()
+    END IF
+END PROCEDURE
+```
+
+Operasi meneruskan pilihan ke alur yang sesuai; tidak mengakses basis data.
+
+### 5.21.5 Algoritma/Query
+
+**Nama Kelas:** *PengambilanPage*  
+**Nama Operasi:** *pilihYes(): void*  
+**ID Algoritma:** *Algo-C21-05*
+
+```text
+PROCEDURE pilihYes()
+    IF idKlaimTerpilih belum ditetapkan THEN RETURN
+    hasil <- konfirmasiPengambilan(idKlaimTerpilih, true) pada KlaimController
+    tutupPopupKonfirmasi()
+    tampilkanPesanBerhasil(hasil.pesan)
+END PROCEDURE
+```
+
+Perubahan status dijalankan oleh KlaimController (C28) pada model terkait.
+
+### 5.21.6 Algoritma/Query
+
+**Nama Kelas:** *PengambilanPage*  
+**Nama Operasi:** *pilihNo(): void*  
+**ID Algoritma:** *Algo-C21-06*
+
+```text
+PROCEDURE pilihNo()
+    konfirmasiPengambilan(idKlaimTerpilih, false) pada KlaimController
+    tutupPopupKonfirmasi()
+    pertahankan status klaim yang ada
+END PROCEDURE
+```
+
+Pilihan pembatalan tidak mengubah status pengambilan.
+
+### 5.21.7 Algoritma/Query
+
+**Nama Kelas:** *PengambilanPage*  
+**Nama Operasi:** *tutupPopupKonfirmasi(): void*  
+**ID Algoritma:** *Algo-C21-07*
+
+```text
+PROCEDURE tutupPopupKonfirmasi()
+    popupKonfirmasiTerbuka <- false
+    tutup dialog konfirmasi
+END PROCEDURE
+```
+
+Operasi antarmuka tanpa akses basis data.
+
+### 5.21.8 Algoritma/Query
+
+**Nama Kelas:** *PengambilanPage*  
+**Nama Operasi:** *tampilkanPesanBerhasil(pesan: String): void*  
+**ID Algoritma:** *Algo-C21-08*
+
+```text
+PROCEDURE tampilkanPesanBerhasil(pesan)
+    tampilkan pesan konfirmasi pengambilan
+    perbarui tampilan status detailPengambilan menjadi selesai
+END PROCEDURE
+```
+
+Operasi merender hasil KlaimController; tidak mengakses basis data langsung.
+
+## 5.22 Kelas LogAktivitasPage
+
+**Nama Kelas:** *LogAktivitasPage*  
+**ID Kelas:** *C22*
+
+Tabel 5.22.1. Operasi Kelas LogAktivitasPage
+
+| Nama Operasi | Visibility | Keterangan |
+| :--- | :--- | :--- |
+| *bukaDashboardLog(kriteria: Object?): void* | Public | Meminta daftar log untuk dashboard admin, dengan kriteria awal bila tersedia. |
+| *tampilkanDashboardLog(daftar: Array): void* | Public | Menyiapkan dashboard dan menampilkan daftar log. |
+| *terapkanFilter(kriteria: Object): void* | Public | Mengirim kriteria filter kepada LogController. |
+| *tampilkanTabelLog(daftar: Array): void* | Public | Menampilkan hasil log dalam tabel. |
+| *tampilkanPesanLogKosong(pesan: String): void* | Public | Menampilkan keadaan kosong ketika belum ada log atau hasil filter kosong. |
+
+Tabel 5.22.2. Atribut Kelas LogAktivitasPage
+
+| Nama Atribut | Visibility | Tipe |
+| :--- | :--- | :--- |
+| *daftarLogTampil* | Private | Array |
+
+### 5.22.1 Algoritma/Query
+
+**Nama Kelas:** *LogAktivitasPage*  
+**Nama Operasi:** *bukaDashboardLog(kriteria: Object?): void*  
+**ID Algoritma:** *Algo-C22-01*
+
+```text
+PROCEDURE bukaDashboardLog(kriteria)
+    daftar <- tampilkanLog(kriteria) pada LogController
+    IF daftar kosong THEN tampilkanPesanLogKosong("Belum ada log aktivitas.")
+    ELSE tampilkanDashboardLog(daftar)
+    END IF
+END PROCEDURE
+```
+
+LogController (C29) mengambil data melalui LogAktivitas (C11).
+
+### 5.22.2 Algoritma/Query
+
+**Nama Kelas:** *LogAktivitasPage*  
+**Nama Operasi:** *tampilkanDashboardLog(daftar: Array): void*  
+**ID Algoritma:** *Algo-C22-02*
+
+```text
+PROCEDURE tampilkanDashboardLog(daftar)
+    daftarLogTampil <- daftar
+    tampilkan judul dashboard dan kontrol filter
+    tampilkanTabelLog(daftarLogTampil)
+END PROCEDURE
+```
+
+Operasi antarmuka tanpa query basis data.
+
+### 5.22.3 Algoritma/Query
+
+**Nama Kelas:** *LogAktivitasPage*  
+**Nama Operasi:** *terapkanFilter(kriteria: Object): void*  
+**ID Algoritma:** *Algo-C22-03*
+
+```text
+PROCEDURE terapkanFilter(kriteria)
+    daftar <- saringLog(kriteria) pada LogController
+    IF daftar kosong THEN
+        tampilkanPesanLogKosong("Tidak ada log aktivitas yang sesuai dengan filter.")
+    ELSE
+        tampilkanTabelLog(daftar)
+    END IF
+END PROCEDURE
+```
+
+Pemfilteran dilakukan melalui LogController (C29), bukan oleh Page terhadap basis data.
+
+### 5.22.4 Algoritma/Query
+
+**Nama Kelas:** *LogAktivitasPage*  
+**Nama Operasi:** *tampilkanTabelLog(daftar: Array): void*  
+**ID Algoritma:** *Algo-C22-04*
+
+```text
+PROCEDURE tampilkanTabelLog(daftar)
+    daftarLogTampil <- daftar
+    tampilkan kolom waktu, pengguna, dan uraian aktivitas
+    tampilkan satu baris untuk setiap log dalam daftarLogTampil
+END PROCEDURE
+```
+
+Operasi merender data yang diterima; tidak mengakses basis data langsung.
+
+### 5.22.5 Algoritma/Query
+
+**Nama Kelas:** *LogAktivitasPage*  
+**Nama Operasi:** *tampilkanPesanLogKosong(pesan: String): void*  
+**ID Algoritma:** *Algo-C22-05*
+
+```text
+PROCEDURE tampilkanPesanLogKosong(pesan)
+    daftarLogTampil <- []
+    sembunyikan tabel log
+    tampilkan pesan
+END PROCEDURE
+```
+
+Operasi tidak mengakses basis data.
+
+## 5.23 Kelas AuthController
+
+**Nama Kelas:** *AuthController*  
+**ID Kelas:** *C23*
+
+Tabel 5.23.1. Operasi Kelas AuthController
+
+| Nama Operasi | Visibility | Keterangan |
+| :--- | :--- | :--- |
+| *registrasiAkun(dataForm: Object): Object* | Public | Memvalidasi data dan dokumen, membuat akun dan pendaftaran, serta menyimpan dokumen pendukung. |
+| *validasiKelengkapanData(dataForm: Object): Boolean* | Public | Memeriksa kelengkapan data wajib sesuai jenis akun. |
+| *validasiFormatDokumen(berkas: Array): Boolean* | Public | Memeriksa keberadaan, format, dan kelayakan dokumen pendukung. |
+| *cekStatusPendaftaran(idAkun: Number): Object* | Public | Mengambil status pendaftaran akun. |
+
+Tabel 5.23.2. Atribut Kelas AuthController
+
+| Nama Atribut | Visibility | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.23.1 Algoritma/Query
+
+**Nama Kelas:** *AuthController*  
+**Nama Operasi:** *registrasiAkun(dataForm: Object): Object*  
+**ID Algoritma:** *Algo-C23-01*
+
+```text
+FUNCTION registrasiAkun(dataForm)
+    IF NOT validasiKelengkapanData(dataForm) THEN
+        RAISE Error("Data registrasi belum lengkap atau tidak valid.")
+    END IF
+    IF NOT validasiFormatDokumen(dataForm.berkas) THEN
+        RAISE Error("Dokumen pendukung tidak valid.")
+    END IF
+    idAkun <- registrasi(dataForm) pada AkunPengguna
+    simpan data profil sesuai tipe akun pada PemilikFnB atau PerwakilanNGO
+    idPendaftaran <- ajukanPendaftaran(idAkun) pada Pendaftaran
+    unggahDokumen(idPendaftaran, dataForm.berkas) pada DokumenPendukung
+    RETURN {idAkun, idPendaftaran, status: "menunggu verifikasi"}
+END FUNCTION
+```
+
+Controller mengorkestrasi AkunPengguna (C01), Pendaftaran (C02), DokumenPendukung (C03), dan profil akun. Akses basis data dilakukan oleh kelas-kelas tersebut.
+
+### 5.23.2 Algoritma/Query
+
+**Nama Kelas:** *AuthController*  
+**Nama Operasi:** *validasiKelengkapanData(dataForm: Object): Boolean*  
+**ID Algoritma:** *Algo-C23-02*
+
+```text
+FUNCTION validasiKelengkapanData(dataForm)
+    IF email kosong atau format email tidak valid THEN RETURN false
+    IF kata sandi kosong atau tidak memenuhi aturan THEN RETURN false
+    IF tipe akun bukan "Pemilik FnB" dan bukan "Perwakilan NGO" THEN RETURN false
+    IF tipe akun = "Pemilik FnB" AND nama usaha/alamat/jam operasional kosong THEN
+        RETURN false
+    END IF
+    IF tipe akun = "Perwakilan NGO" AND nama organisasi/nomor legalitas/lokasi kosong THEN
+        RETURN false
+    END IF
+    RETURN true
+END FUNCTION
+```
+
+
+### 5.23.3 Algoritma/Query
+
+**Nama Kelas:** *AuthController*  
+**Nama Operasi:** *validasiFormatDokumen(berkas: Array): Boolean*  
+**ID Algoritma:** *Algo-C23-03*
+
+```text
+FUNCTION validasiFormatDokumen(berkas)
+    IF berkas kosong THEN RETURN false
+    UNTUK SETIAP dokumen DALAM berkas
+        IF dokumen tidak dapat dibaca atau ukuran = 0 THEN RETURN false
+        IF ekstensi bukan PDF, JPG, atau PNG THEN RETURN false
+        IF tipe konten tidak sesuai ekstensi THEN RETURN false
+    AKHIR UNTUK
+    RETURN true
+END FUNCTION
+```
+
+
+### 5.23.4 Algoritma/Query
+
+**Nama Kelas:** *AuthController*  
+**Nama Operasi:** *cekStatusPendaftaran(idAkun: Number): Object*  
+**ID Algoritma:** *Algo-C23-04*
+
+```text
+FUNCTION cekStatusPendaftaran(idAkun)
+    pendaftaran <- cari pendaftaran milik idAkun pada Pendaftaran
+    IF pendaftaran tidak ditemukan THEN
+        RETURN {ditemukan: false, pesan: "Pendaftaran belum tersedia."}
+    END IF
+    status <- getStatus() pada pendaftaran
+    RETURN {ditemukan: true, status: status}
+END FUNCTION
+```
 
 ## 5.24 Kelas PenjualanController
 
