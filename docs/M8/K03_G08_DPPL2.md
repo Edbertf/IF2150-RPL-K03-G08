@@ -821,7 +821,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C27* | *SurplusController* | *-* | *ambilDaftarSurplus(), ambilDetailSurplus(), urutkanBerdasarkanJarak()* |
 | *C28* | *KlaimController* | *-* | *setujuiKlaim(), tolakKlaim(), cekKetersediaan(), kunciProduk(), ambilDetailPengambilan(), konfirmasiPengambilan()* |
 | *C29* | *LogController* | *-* | *tampilkanLog(), saringLog()* |
-| *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional, idPemilik* | *catatProdukSurplus(), lihatHasilPrediksi(), getLokasiUsaha(), getDataUsaha(), aturDistribusiSurplus()* |
+| *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional, idPemilik* | *catatProdukSurplus(), lihatHasilPrediksi(), getLokasiUsaha(), getDataUsaha(), aturDistribusiSurplus(), bukaMenuSurplus(), resetFormulir()* |
 | *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | *lihatDaftarSurplus(), ajukanKlaim(), getDataNgo()* |
 | *C32* | *AdminSistem* | *kewenangan* | *verifikasiPendaftaran()* |
 | *C33* | *GeolocationAdapter* | *-* | *hitungJarak()* |
@@ -1888,6 +1888,8 @@ Tabel 5.30.1. Operasi Kelas PemilikFnB
 | *catatProdukSurplus(dataSurplus: Object): void* | *Public* | *Titik awal UC06: meneruskan data produk surplus (produk, jumlah, batas waktu pengambilan) ke ProdukSurplusPage.* |
 | *lihatHasilPrediksi(): void* | *Public* | *Titik awal UC05: membuka PrediksiPage agar Pemilik F&B dapat melihat rekomendasi produksi.* |
 | *registrasi(dataForm: Object): Number* | *Public* | *Pada UC01, operasi registrasi() dipanggil AuthController pada kelas ini. Operasi memanggil registrasi() milik AkunPengguna untuk membuat akun, lalu menyimpan namaUsaha, alamatUsaha, dan jamOperasional ke tabel pemilik_fnb. Mengembalikan idAkun.* |
+| *bukaMenuSurplus(): void* | *Public* | *Membuka menu pengelolaan produk surplus atau navigasi ke antarmuka produk surplus.* |
+| *resetFormulir(): void* | *Public* | *Mengosongkan kembali isian pada formulir masukan produk surplus.* |
 
 Tabel 5.30.2. Atribut Kelas PemilikFnB
 
@@ -1998,6 +2000,42 @@ Tabel 5.30.7. Query Operasi registrasi()
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
 | *Q-C30-02* | *INSERT INTO pemilik_fnb(id_akun, nama_usaha, alamat_usaha, jam_operasional) VALUES ($1, $2, $3, $4);* | *Menyimpan data profil usaha Pemilik F&B ke tabel pemilik_fnb. Kolom jam_operasional boleh kosong karena formulir registrasi (I-02) tidak memintanya.* |
+
+### 5.30.6 Algoritma/Query
+
+**Nama Kelas:** *PemilikFnB*  
+**Nama Operasi:** *bukaMenuSurplus(): void*  
+**ID Algoritma:** *Algo-C30-06*
+
+```text
+PROCEDURE bukaMenuSurplus()
+    NAVIGATOR.goTo(ProdukSurplusPage)
+END PROCEDURE
+```
+
+Tabel 5.30.8. Query Operasi bukaMenuSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Operasi navigasi antarmuka.* |
+
+### 5.30.7 Algoritma/Query
+
+**Nama Kelas:** *PemilikFnB*  
+**Nama Operasi:** *resetFormulir(): void*  
+**ID Algoritma:** *Algo-C30-07*
+
+```text
+PROCEDURE resetFormulir()
+    RESET TAMPILAN FORMULIR PADA ProdukSurplusPage
+END PROCEDURE
+```
+
+Tabel 5.30.9. Query Operasi resetFormulir()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Operasi pengelolaan tampilan pada sisi klien (View).* |
 
 ## 5.31 Kelas PerwakilanNGO
 
