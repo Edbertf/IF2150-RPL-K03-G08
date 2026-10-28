@@ -1274,7 +1274,601 @@ Tabel 5.6.4. Query Operasi getDataHistoris()
 | :--- | :--- | :--- |
 | *Q-C06-02* | *SELECT tanggal, jumlah_terjual, jumlah_tersisa FROM data_penjualan ORDER BY tanggal DESC LIMIT 7;* | *mengambil data historis hingga 7 hari untuk dijadikan prediksi* |
 
+## 5.29 Kelas LogController
 
+**Nama Kelas:** *LogController*  
+**ID Kelas:** *C29*
+
+Tabel 5.29.1. Operasi Kelas LogController
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *tampilkanLog(): Object* | *Public* | *Mengambil seluruh log aktivitas pengguna dari LogAktivitas, lalu mengembalikannya bersama pilihan penyaringan untuk ditampilkan oleh LogAktivitasPage. Jika belum ada log, daftarLog berupa array kosong.* |
+| *saringLog(kriteria: String): Array* | *Public* | *Meminta LogAktivitas mencari log sesuai jenis aktivitas yang dipilih admin ("Semua", "Klaim", "Surplus", atau "Verifikasi"). Jika tidak ada log yang cocok, mengembalikan array kosong.* |
+
+Tabel 5.29.2. Atribut Kelas LogController
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.29.1 Algoritma/Query
+
+**Nama Kelas:** *LogController*  
+**Nama Operasi:** *tampilkanLog(): Object*  
+**ID Algoritma:** *Algo-C29-01*
+
+```text
+FUNCTION tampilkanLog()
+    daftarLog <- getDaftarLog() pada LogAktivitas
+    pilihanFilter <- DAFTAR ("Semua", "Klaim", "Surplus", "Verifikasi")
+    RETURN { daftarLog, pilihanFilter }
+END FUNCTION
+```
+
+Tabel 5.29.3. Query Operasi tampilkanLog()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Query pengambilan log berada pada getDaftarLog() di kelas LogAktivitas (C11).* |
+
+### 5.29.2 Algoritma/Query
+
+**Nama Kelas:** *LogController*  
+**Nama Operasi:** *saringLog(kriteria: String): Array*  
+**ID Algoritma:** *Algo-C29-02*
+
+```text
+FUNCTION saringLog(kriteria)
+    IF kriteria BUKAN salah satu dari ("Semua", "Klaim", "Surplus", "Verifikasi") THEN
+        RAISE Error("Kriteria penyaringan tidak valid.")
+    END IF
+    hasilLog <- cariLog(kriteria) pada LogAktivitas
+    RETURN hasilLog
+END FUNCTION
+```
+
+Tabel 5.29.4. Query Operasi saringLog()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Query penyaringan log berada pada cariLog() di kelas LogAktivitas (C11).* |
+
+## 5.30 Kelas PemilikFnB
+
+**Nama Kelas:** *PemilikFnB*  
+**ID Kelas:** *C30*
+
+Tabel 5.30.1. Operasi Kelas PemilikFnB
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *getLokasiUsaha(idPemilik: Number): String* | *Public* | *Mengambil alamat usaha milik Pemilik F&B berdasarkan idPemilik. Dipakai SurplusController untuk menghitung jarak produk surplus ke lokasi NGO (UC08, UC09, UC10).* |
+| *aturDistribusiSurplus(): void* | *Public* | *Titik awal UC07: membuka DistribusiSurplusPage agar Pemilik F&B dapat memilih produk surplus dan mengatur metode distribusinya.* |
+| *catatProdukSurplus(dataSurplus: Object): void* | *Public* | *Titik awal UC06: meneruskan data produk surplus (produk, jumlah, batas waktu pengambilan) ke ProdukSurplusPage.* |
+| *lihatHasilPrediksi(): void* | *Public* | *Titik awal UC05: membuka PrediksiPage agar Pemilik F&B dapat melihat rekomendasi produksi.* |
+| *registrasi(dataForm: Object): Number* | *Public* | *Pada UC01, operasi registrasi() dipanggil AuthController pada kelas ini. Operasi memanggil registrasi() milik AkunPengguna untuk membuat akun, lalu menyimpan namaUsaha, alamatUsaha, dan jamOperasional ke tabel pemilik_fnb. Mengembalikan idAkun.* |
+
+Tabel 5.30.2. Atribut Kelas PemilikFnB
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *idPemilik* | *Private* | *Number* |
+| *namaUsaha* | *Private* | *String* |
+| *alamatUsaha* | *Private* | *String* |
+| *jamOperasional* | *Private* | *String* |
+
+*Kelas ini merupakan subkelas AkunPengguna (C01) sehingga mewarisi atribut idAkun, email, kataSandi, tipeAkun dan operasi getAkunId().*
+
+### 5.30.1 Algoritma/Query
+
+**Nama Kelas:** *PemilikFnB*  
+**Nama Operasi:** *getLokasiUsaha(idPemilik: Number): String*  
+**ID Algoritma:** *Algo-C30-01*
+
+```text
+FUNCTION getLokasiUsaha(idPemilik)
+    IF idPemilik kosong THEN
+        RAISE Error("idPemilik harus diisi.")
+    END IF
+    dataPemilik <- JALANKAN Q-C30-01 dengan (idPemilik)
+    IF dataPemilik kosong THEN
+        RAISE Error("Data Pemilik F&B tidak ditemukan.")
+    END IF
+    RETURN dataPemilik.alamat_usaha
+END FUNCTION
+```
+
+Tabel 5.30.3. Query Operasi getLokasiUsaha()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C30-01* | *SELECT alamat_usaha FROM pemilik_fnb WHERE id_pemilik = $1;* | *Mengambil alamat usaha dari tabel pemilik_fnb berdasarkan id_pemilik* |
+
+### 5.30.2 Algoritma/Query
+
+**Nama Kelas:** *PemilikFnB*  
+**Nama Operasi:** *aturDistribusiSurplus(): void*  
+**ID Algoritma:** *Algo-C30-02*
+
+```text
+PROCEDURE aturDistribusiSurplus()
+    NAVIGATOR.goTo(DistribusiSurplusPage)
+END PROCEDURE
+```
+
+Tabel 5.30.4. Query Operasi aturDistribusiSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.30.3 Algoritma/Query
+
+**Nama Kelas:** *PemilikFnB*  
+**Nama Operasi:** *catatProdukSurplus(dataSurplus: Object): void*  
+**ID Algoritma:** *Algo-C30-03*
+
+```text
+PROCEDURE catatProdukSurplus(dataSurplus)
+    kirimDataSurplus(dataSurplus) pada ProdukSurplusPage
+END PROCEDURE
+```
+
+Tabel 5.30.5. Query Operasi catatProdukSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Penyimpanan produk surplus dilakukan oleh ProdukSurplus (C08).* |
+
+### 5.30.4 Algoritma/Query
+
+**Nama Kelas:** *PemilikFnB*  
+**Nama Operasi:** *lihatHasilPrediksi(): void*  
+**ID Algoritma:** *Algo-C30-04*
+
+```text
+PROCEDURE lihatHasilPrediksi()
+    NAVIGATOR.goTo(PrediksiPage)
+END PROCEDURE
+```
+
+Tabel 5.30.6. Query Operasi lihatHasilPrediksi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.30.5 Algoritma/Query
+
+**Nama Kelas:** *PemilikFnB*  
+**Nama Operasi:** *registrasi(dataForm: Object): Number*  
+**ID Algoritma:** *Algo-C30-05*
+
+```text
+FUNCTION registrasi(dataForm)
+    idAkun <- registrasi(dataForm) pada AkunPengguna
+    JALANKAN Q-C30-02 dengan (idAkun, dataForm.namaUsaha, dataForm.alamatUsaha, dataForm.jamOperasional)
+    RETURN idAkun
+END FUNCTION
+```
+
+Tabel 5.30.7. Query Operasi registrasi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C30-02* | *INSERT INTO pemilik_fnb(id_akun, nama_usaha, alamat_usaha, jam_operasional) VALUES ($1, $2, $3, $4);* | *Menyimpan data profil usaha Pemilik F&B ke tabel pemilik_fnb. Kolom jam_operasional boleh kosong karena formulir registrasi (I-02) tidak memintanya.* |
+
+## 5.31 Kelas PerwakilanNGO
+
+**Nama Kelas:** *PerwakilanNGO*  
+**ID Kelas:** *C31*
+
+Tabel 5.31.1. Operasi Kelas PerwakilanNGO
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *lihatDaftarSurplus(): void* | *Public* | *Titik awal UC08: membuka DaftarSurplusPage agar Perwakilan NGO dapat melihat daftar produk surplus yang terurut berdasarkan jarak terdekat.* |
+| *saringDaftarSurplus(): void* | *Public* | *Titik awal UC09: membuka fitur pencarian dan penyaringan pada DaftarSurplusPage.* |
+| *ajukanKlaim(idSurplus: Number): Boolean* | *Public* | *Titik awal pengajuan klaim pada UC10: meneruskan idSurplus ke KlaimPage. Mengembalikan false jika idSurplus kosong.* |
+| *registrasi(dataForm: Object): Number* | *Public* | *Pada UC01, operasi registrasi() dipanggil AuthController pada kelas ini. Operasi memanggil registrasi() milik AkunPengguna untuk membuat akun, lalu menyimpan namaOrganisasi, nomorLegalitas, dan lokasi ke tabel perwakilan_ngo. Mengembalikan idAkun.* |
+
+Tabel 5.31.2. Atribut Kelas PerwakilanNGO
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *namaOrganisasi* | *Private* | *String* |
+| *nomorLegalitas* | *Private* | *String* |
+| *lokasi* | *Private* | *String* |
+
+*Kelas ini merupakan subkelas AkunPengguna (C01) sehingga mewarisi atribut idAkun, email, kataSandi, tipeAkun dan operasi getAkunId().*
+
+### 5.31.1 Algoritma/Query
+
+**Nama Kelas:** *PerwakilanNGO*  
+**Nama Operasi:** *lihatDaftarSurplus(): void*  
+**ID Algoritma:** *Algo-C31-01*
+
+```text
+PROCEDURE lihatDaftarSurplus()
+    NAVIGATOR.goTo(DaftarSurplusPage)
+END PROCEDURE
+```
+
+Tabel 5.31.3. Query Operasi lihatDaftarSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.31.2 Algoritma/Query
+
+**Nama Kelas:** *PerwakilanNGO*  
+**Nama Operasi:** *saringDaftarSurplus(): void*  
+**ID Algoritma:** *Algo-C31-02*
+
+```text
+PROCEDURE saringDaftarSurplus()
+    tampilkanFormFilter() pada DaftarSurplusPage
+END PROCEDURE
+```
+
+Tabel 5.31.4. Query Operasi saringDaftarSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.31.3 Algoritma/Query
+
+**Nama Kelas:** *PerwakilanNGO*  
+**Nama Operasi:** *ajukanKlaim(idSurplus: Number): Boolean*  
+**ID Algoritma:** *Algo-C31-03*
+
+```text
+FUNCTION ajukanKlaim(idSurplus)
+    IF idSurplus kosong THEN
+        RETURN false
+    END IF
+    kirimKlaim(idSurplus) pada KlaimPage
+    RETURN true
+END FUNCTION
+```
+
+Tabel 5.31.5. Query Operasi ajukanKlaim()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Pencatatan klaim dilakukan oleh DokumenKlaim (C10).* |
+
+### 5.31.4 Algoritma/Query
+
+**Nama Kelas:** *PerwakilanNGO*  
+**Nama Operasi:** *registrasi(dataForm: Object): Number*  
+**ID Algoritma:** *Algo-C31-04*
+
+```text
+FUNCTION registrasi(dataForm)
+    idAkun <- registrasi(dataForm) pada AkunPengguna
+    JALANKAN Q-C31-01 dengan (idAkun, dataForm.namaOrganisasi, dataForm.nomorLegalitas, dataForm.lokasi)
+    RETURN idAkun
+END FUNCTION
+```
+
+Tabel 5.31.6. Query Operasi registrasi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C31-01* | *INSERT INTO perwakilan_ngo(id_akun, nama_organisasi, nomor_legalitas, lokasi) VALUES ($1, $2, $3, $4);* | *Menyimpan data profil organisasi ke tabel perwakilan_ngo. Kolom lokasi diisi dari Alamat Kantor. Kolom nomor_legalitas boleh kosong karena formulir registrasi (I-03) hanya meminta dokumen Akta/SK.* |
+
+## 5.32 Kelas AdminSistem
+
+**Nama Kelas:** *AdminSistem*  
+**ID Kelas:** *C32*
+
+Tabel 5.32.1. Operasi Kelas AdminSistem
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *verifikasiPendaftaran(idPendaftaran: Number, keputusan: String): void* | *Public* | *Menjalankan keputusan verifikasi admin ("diterima" atau "ditolak") atas satu pendaftaran. Operasi ini memeriksa kewenangan admin dan keabsahan keputusan, lalu meminta Pendaftaran memperbarui statusVerifikasi.* |
+
+Tabel 5.32.2. Atribut Kelas AdminSistem
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *kewenangan* | *Private* | *String* |
+
+*Kelas ini merupakan subkelas AkunPengguna (C01) sehingga mewarisi atribut idAkun, email, kataSandi, tipeAkun dan operasi getAkunId().*
+
+### 5.32.1 Algoritma/Query
+
+**Nama Kelas:** *AdminSistem*  
+**Nama Operasi:** *verifikasiPendaftaran(idPendaftaran: Number, keputusan: String): void*  
+**ID Algoritma:** *Algo-C32-01*
+
+```text
+PROCEDURE verifikasiPendaftaran(idPendaftaran, keputusan)
+    IF kewenangan milik objek TIDAK memuat "verifikasi" THEN
+        RAISE Error("Admin tidak berwenang melakukan verifikasi.")
+    END IF
+    IF keputusan BUKAN "diterima" DAN keputusan BUKAN "ditolak" THEN
+        RAISE Error("Keputusan verifikasi harus 'diterima' atau 'ditolak'.")
+    END IF
+    updateStatus(idPendaftaran, keputusan) pada Pendaftaran
+END PROCEDURE
+```
+
+Tabel 5.32.3. Query Operasi verifikasiPendaftaran()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Perubahan status disimpan oleh updateStatus() di kelas Pendaftaran (C02, Q-005).* |
+
+## 5.33 Kelas GeolocationAdapter
+
+**Nama Kelas:** *GeolocationAdapter*  
+**ID Kelas:** *C33*
+
+Tabel 5.33.1. Operasi Kelas GeolocationAdapter
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *hitungJarak(lokasiPengguna: String, lokasiPemilik: String): Number* | *Public* | *Menghitung jarak (km) antara lokasi Perwakilan NGO dan alamat usaha Pemilik F&B. Kedua lokasi diubah menjadi koordinat melalui ambilKoordinat(), lalu jarak dihitung dengan rumus Haversine. Dipanggil oleh SurplusController untuk setiap produk surplus (UC08, UC09, UC10).* |
+| *ambilKoordinat(alamat: String): Object* | *Public* | *Mengubah lokasi menjadi koordinat {lat, lng}. Lokasi berformat "lat,lng" (dari HTML5 Geolocation API) langsung diurai, sedangkan alamat teks dikonversi melalui layanan peta pihak ketiga (Google Maps Geocoding API atau OpenStreetMap Nominatim).* |
+
+Tabel 5.33.2. Atribut Kelas GeolocationAdapter
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.33.1 Algoritma/Query
+
+**Nama Kelas:** *GeolocationAdapter*  
+**Nama Operasi:** *hitungJarak(lokasiPengguna: String, lokasiPemilik: String): Number*  
+**ID Algoritma:** *Algo-C33-01*
+
+```text
+FUNCTION hitungJarak(lokasiPengguna, lokasiPemilik)
+    IF lokasiPengguna kosong ATAU lokasiPemilik kosong THEN
+        RAISE Error("Lokasi pengguna dan lokasi pemilik harus diisi.")
+    END IF
+
+    koordinatPengguna <- ambilKoordinat(lokasiPengguna)
+    koordinatPemilik  <- ambilKoordinat(lokasiPemilik)
+
+    R <- 6371                                   // jari-jari bumi (km)
+    dLat <- RADIAN(koordinatPemilik.lat - koordinatPengguna.lat)
+    dLng <- RADIAN(koordinatPemilik.lng - koordinatPengguna.lng)
+    a <- SIN(dLat / 2) ^ 2
+         + COS(RADIAN(koordinatPengguna.lat)) * COS(RADIAN(koordinatPemilik.lat))
+         * SIN(dLng / 2) ^ 2
+    jarak <- 2 * R * ATAN2(SQRT(a), SQRT(1 - a))
+    RETURN PEMBULATAN(jarak, 2)
+END FUNCTION
+```
+
+Tabel 5.33.3. Query Operasi hitungJarak()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Kelas ini memakai layanan peta pihak ketiga, bukan database.* |
+
+### 5.33.2 Algoritma/Query
+
+**Nama Kelas:** *GeolocationAdapter*  
+**Nama Operasi:** *ambilKoordinat(alamat: String): Object*  
+**ID Algoritma:** *Algo-C33-02*
+
+```text
+FUNCTION ambilKoordinat(alamat)
+    IF alamat kosong THEN
+        RAISE Error("Lokasi harus diisi.")
+    END IF
+    IF alamat berformat "lat,lng" THEN             
+        RETURN { lat: PARSE(lat dari alamat), lng: PARSE(lng dari alamat) }
+    END IF
+    respons <- GEOCODING_API.cari(alamat)          
+    IF respons gagal ATAU respons kosong THEN
+        RAISE Error("Lokasi tidak ditemukan: " + alamat)
+    END IF
+    RETURN { lat: respons.lat, lng: respons.lng }
+END FUNCTION
+```
+
+Tabel 5.33.4. Query Operasi ambilKoordinat()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Kelas ini memakai layanan peta pihak ketiga, bukan database.* |
+
+## 5.34 Kelas PenyaringanController
+
+**Nama Kelas:** *PenyaringanController*  
+**ID Kelas:** *C34*
+
+Tabel 5.34.1. Operasi Kelas PenyaringanController
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *saringProdukSurplus(kataKunci: String, kriteriaFilter: Object, lokasi: String): Array* | *Public* | *Operasi utama UC09. Memvalidasi kriteria, mengambil daftar surplus terurut dari SurplusController, lalu menerapkan pencarian kata kunci dan penyaringan jenis, jarak, serta batas waktu. Mengembalikan array kosong jika tidak ada produk yang sesuai.* |
+| *cariProdukSurplus(kataKunci: String, daftarSurplus: Array): Array* | *Public* | *Mencari produk surplus yang nama atau jenis produknya memuat kata kunci (tidak membedakan huruf besar/kecil).* |
+| *validasiKriteria(kriteriaFilter: Object): Boolean* | *Private* | *Memeriksa kriteria penyaringan: jenisProduk harus "Semua", "Makanan", atau "Minuman"; jarakMaks harus angka lebih dari nol; batasWaktu tidak boleh di masa lalu. Kriteria yang kosong dianggap valid.* |
+| *saringBerdasarkanJenis(daftarSurplus: Array, jenisProduk: String): Array* | *Private* | *Menyaring produk surplus berdasarkan jenis produk. Jika jenisProduk kosong atau "Semua", daftar dikembalikan apa adanya.* |
+| *saringBerdasarkanJarak(daftarSurplus: Array, jarakMaks: Number): Array* | *Private* | *Menyaring produk surplus yang jarakProduk-nya tidak melebihi jarakMaks (km). Jarak sudah dihitung SurplusController melalui GeolocationAdapter. Jika jarakMaks kosong, daftar dikembalikan apa adanya.* |
+| *saringBerdasarkanBatasWaktu(daftarSurplus: Array, batasWaktu: DateTime): Array* | *Private* | *Menyaring produk surplus yang batasWaktuPengambilan-nya tidak melewati batasWaktu. Jika batasWaktu kosong, daftar dikembalikan apa adanya.* |
+
+Tabel 5.34.2. Atribut Kelas PenyaringanController
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.34.1 Algoritma/Query
+
+**Nama Kelas:** *PenyaringanController*  
+**Nama Operasi:** *saringProdukSurplus(kataKunci: String, kriteriaFilter: Object, lokasi: String): Array*  
+**ID Algoritma:** *Algo-C34-01*
+
+```text
+FUNCTION saringProdukSurplus(kataKunci, kriteriaFilter, lokasi)
+    IF NOT validasiKriteria(kriteriaFilter) THEN
+        RAISE Error("Kriteria penyaringan tidak valid.")
+    END IF
+    daftarSurplus <- ambilDaftarSurplus(lokasi) pada SurplusController
+    hasil <- cariProdukSurplus(kataKunci, daftarSurplus)
+    hasil <- saringBerdasarkanJenis(hasil, kriteriaFilter.jenisProduk)
+    hasil <- saringBerdasarkanJarak(hasil, kriteriaFilter.jarakMaks)
+    hasil <- saringBerdasarkanBatasWaktu(hasil, kriteriaFilter.batasWaktu)
+    RETURN hasil
+END FUNCTION
+```
+
+Tabel 5.34.3. Query Operasi saringProdukSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Data diambil melalui SurplusController; penyaringan dilakukan pada daftar di memori.* |
+
+### 5.34.2 Algoritma/Query
+
+**Nama Kelas:** *PenyaringanController*  
+**Nama Operasi:** *cariProdukSurplus(kataKunci: String, daftarSurplus: Array): Array*  
+**ID Algoritma:** *Algo-C34-02*
+
+```text
+FUNCTION cariProdukSurplus(kataKunci, daftarSurplus)
+    IF kataKunci kosong THEN
+        RETURN daftarSurplus
+    END IF
+    kata <- HURUF_KECIL(TRIM(kataKunci))
+    hasil <- DAFTAR KOSONG
+    UNTUK SETIAP produk DALAM daftarSurplus
+        IF kata TERKANDUNG DALAM HURUF_KECIL(produk.namaProduk)
+           ATAU kata TERKANDUNG DALAM HURUF_KECIL(produk.jenisProduk) THEN
+            TAMBAHKAN produk KE hasil
+        END IF
+    AKHIR UNTUK
+    RETURN hasil
+END FUNCTION
+```
+
+Tabel 5.34.4. Query Operasi cariProdukSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.34.3 Algoritma/Query
+
+**Nama Kelas:** *PenyaringanController*  
+**Nama Operasi:** *validasiKriteria(kriteriaFilter: Object): Boolean*  
+**ID Algoritma:** *Algo-C34-03*
+
+```text
+FUNCTION validasiKriteria(kriteriaFilter)
+    IF kriteriaFilter.jenisProduk tidak kosong
+       DAN kriteriaFilter.jenisProduk BUKAN salah satu dari ("Semua", "Makanan", "Minuman") THEN
+        RETURN false
+    END IF
+    IF kriteriaFilter.jarakMaks tidak kosong
+       DAN (kriteriaFilter.jarakMaks BUKAN angka ATAU kriteriaFilter.jarakMaks <= 0) THEN
+        RETURN false
+    END IF
+    IF kriteriaFilter.batasWaktu tidak kosong
+       DAN kriteriaFilter.batasWaktu < WAKTU_SEKARANG THEN
+        RETURN false
+    END IF
+    RETURN true
+END FUNCTION
+```
+
+Tabel 5.34.5. Query Operasi validasiKriteria()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.34.4 Algoritma/Query
+
+**Nama Kelas:** *PenyaringanController*  
+**Nama Operasi:** *saringBerdasarkanJenis(daftarSurplus: Array, jenisProduk: String): Array*  
+**ID Algoritma:** *Algo-C34-04*
+
+```text
+FUNCTION saringBerdasarkanJenis(daftarSurplus, jenisProduk)
+    IF jenisProduk kosong ATAU jenisProduk = "Semua" THEN
+        RETURN daftarSurplus
+    END IF
+    hasil <- DAFTAR KOSONG
+    UNTUK SETIAP produk DALAM daftarSurplus
+        IF produk.jenisProduk = jenisProduk THEN
+            TAMBAHKAN produk KE hasil
+        END IF
+    AKHIR UNTUK
+    RETURN hasil
+END FUNCTION
+```
+
+Tabel 5.34.6. Query Operasi saringBerdasarkanJenis()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.34.5 Algoritma/Query
+
+**Nama Kelas:** *PenyaringanController*  
+**Nama Operasi:** *saringBerdasarkanJarak(daftarSurplus: Array, jarakMaks: Number): Array*  
+**ID Algoritma:** *Algo-C34-05*
+
+```text
+FUNCTION saringBerdasarkanJarak(daftarSurplus, jarakMaks)
+    IF jarakMaks kosong THEN
+        RETURN daftarSurplus
+    END IF
+    hasil <- DAFTAR KOSONG
+    UNTUK SETIAP produk DALAM daftarSurplus
+        IF produk.jarakProduk <= jarakMaks THEN
+            TAMBAHKAN produk KE hasil
+        END IF
+    AKHIR UNTUK
+    RETURN hasil
+END FUNCTION
+```
+
+Tabel 5.34.7. Query Operasi saringBerdasarkanJarak()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.34.6 Algoritma/Query
+
+**Nama Kelas:** *PenyaringanController*  
+**Nama Operasi:** *saringBerdasarkanBatasWaktu(daftarSurplus: Array, batasWaktu: DateTime): Array*  
+**ID Algoritma:** *Algo-C34-06*
+
+```text
+FUNCTION saringBerdasarkanBatasWaktu(daftarSurplus, batasWaktu)
+    IF batasWaktu kosong THEN
+        RETURN daftarSurplus
+    END IF
+    hasil <- DAFTAR KOSONG
+    UNTUK SETIAP produk DALAM daftarSurplus
+        IF produk.batasWaktuPengambilan <= batasWaktu THEN
+            TAMBAHKAN produk KE hasil
+        END IF
+    AKHIR UNTUK
+    RETURN hasil
+END FUNCTION
+```
+
+Tabel 5.34.8. Query Operasi saringBerdasarkanBatasWaktu()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
 
 <br>
 
