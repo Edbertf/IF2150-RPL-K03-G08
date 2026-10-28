@@ -826,7 +826,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C27* | *SurplusController* | *-* | *ambilDaftarSurplus(), ambilDetailSurplus(), urutkanBerdasarkanJarak()* |
 | *C28* | *KlaimController* | *-* | *setujuiKlaim(), tolakKlaim(), cekKetersediaan(), kunciProduk(), ambilDetailPengambilan(), konfirmasiPengambilan()* |
 | *C29* | *LogController* | *-* | *tampilkanLog(), saringLog()* |
-| *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional, idPemilik* | *catatProdukSurplus(), lihatHasilPrediksi(), getLokasiUsaha(), getDataUsaha(), aturDistribusiSurplus()* |
+| *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional, idPemilik* | *catatProdukSurplus(), lihatHasilPrediksi(), getLokasiUsaha(), getDataUsaha(), aturDistribusiSurplus(), bukaMenuSurplus(), resetFormulir()* |
 | *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | *lihatDaftarSurplus(), ajukanKlaim(), getDataNgo()* |
 | *C32* | *AdminSistem* | *kewenangan* | *verifikasiPendaftaran()* |
 | *C33* | *GeolocationAdapter* | *-* | *hitungJarak()* |
@@ -2008,6 +2008,42 @@ Tabel 5.30.7. Query Operasi getDataUsaha()
 | :--- | :--- | :--- |
 | *Q-C30-02* | *SELECT nama_usaha, alamat_usaha, jam_operasional FROM pemilik_fnb WHERE id_pemilik = $1;* | *Mengambil data usaha dari tabel pemilik_fnb berdasarkan id_pemilik* |
 
+### 5.30.6 Algoritma/Query
+
+**Nama Kelas:** *PemilikFnB*  
+**Nama Operasi:** *bukaMenuSurplus(): void*  
+**ID Algoritma:** *Algo-C30-06*
+
+```text
+PROCEDURE bukaMenuSurplus()
+    NAVIGATOR.goTo(ProdukSurplusPage)
+END PROCEDURE
+```
+
+Tabel 5.30.8. Query Operasi bukaMenuSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Operasi navigasi antarmuka.* |
+
+### 5.30.7 Algoritma/Query
+
+**Nama Kelas:** *PemilikFnB*  
+**Nama Operasi:** *resetFormulir(): void*  
+**ID Algoritma:** *Algo-C30-07*
+
+```text
+PROCEDURE resetFormulir()
+    RESET TAMPILAN FORMULIR PADA ProdukSurplusPage
+END PROCEDURE
+```
+
+Tabel 5.30.9. Query Operasi resetFormulir()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Operasi pengelolaan tampilan pada sisi klien (View).* |
+
 ## 5.31 Kelas PerwakilanNGO
 
 **Nama Kelas:** *PerwakilanNGO*  
@@ -2429,60 +2465,60 @@ Tabel 6.1. Spesifikasi Objek Antarmuka I-01
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *A1-01* | *Button* | *Pemilik F&B* | *Menuju dashboard Pemilik F&B (I-05)* |
-| *A1-02* | *Button* | *Perwakilan NGO* | *Menuju daftar surplus NGO (I-12)* |
-| *A1-03* | *Button* | *Admin Sistem* | *Menuju verifikasi pendaftar Admin (I-19)* |
-| *A1-04* | *Link* | *Daftar sekarang* | *Menuju formulir registrasi (I-02)* |
+| *Btn_RoleFnB* | *Button* | *Pemilik F&B* | *Menuju dashboard Pemilik F&B (I-05)* |
+| *Btn_RoleNGO* | *Button* | *Perwakilan NGO* | *Menuju daftar surplus NGO (I-12)* |
+| *Btn_RoleAdmin* | *Button* | *Admin Sistem* | *Menuju verifikasi pendaftar Admin (I-19)* |
+| *Link_Register* | *Link* | *Daftar sekarang* | *Menuju formulir registrasi (I-02)* |
 
 ## 6.2 Rancangan Antarmuka I-02
 
 **Antarmuka:** *I-02*  
-**Nama Layar:** *Registrasi - Pemilik F&B (A2)*  
+**Nama Layar:** *Registrasi — Pemilik F&B (A2)*  
 **Use Case Terkait:** *UC01*
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-02 - Registrasi - Pemilik F&B" src="./assets/interface/A2.png" width="80%">
+<img alt="Rancangan Antarmuka I-02 - Registrasi — Pemilik F&B" src="./assets/interface/A2.png" width="80%">
 </p>
 <p align="center">
-<i>Gambar 6.2. Rancangan Antarmuka I-02 - Registrasi - Pemilik F&B</i>
+<i>Gambar 6.2. Rancangan Antarmuka I-02 - Registrasi — Pemilik F&B</i>
 </p>
 
 Tabel 6.2. Spesifikasi Objek Antarmuka I-02
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *A2-01* | *Segmented tab* | *Pemilik F&B | Perwakilan NGO* | *Berpindah antara formulir F&B (I-02) dan NGO (I-03)* |
-| *A2-02* | *Textbox* | *Nama Usaha* | *Wajib diisi* |
-| *A2-03* | *Textbox* | *Email* | *Wajib diisi* |
-| *A2-04* | *Textbox* | *Alamat Usaha* | *Wajib diisi* |
-| *A2-05* | *Password* | *Kata Sandi* | *Wajib diisi, karakter disamarkan* |
-| *A2-06* | *File upload* | *Unggah NIB / Izin Usaha (PDF, JPG, PNG · maks 5 MB)* | *Memvalidasi format dan ukuran; menampilkan nama berkas terpilih* |
-| *A2-07* | *Button* | *Daftar* | *Jika data/dokumen tidak lengkap atau tidak valid tampil pesan galat; jika valid menuju status pendaftaran (I-04)* |
+| *Tab_Role* | *Segmented tab* | *Pemilik F&B | Perwakilan NGO* | *Berpindah antara formulir F&B (I-02) dan NGO (I-03)* |
+| *Input_BusinessName* | *Textbox* | *Nama Usaha* | *Wajib diisi* |
+| *Input_Email* | *Textbox* | *Email* | *Wajib diisi* |
+| *Input_Address* | *Textbox* | *Alamat Usaha* | *Wajib diisi* |
+| *Input_Pass* | *Password* | *Kata Sandi* | *Wajib diisi, karakter disamarkan* |
+| *Input_License* | *File upload* | *Unggah NIB / Izin Usaha (PDF, JPG, PNG · maks 5 MB)* | *Memvalidasi format dan ukuran; menampilkan nama berkas terpilih* |
+| *Btn_Register* | *Button* | *Daftar* | *Jika data/dokumen tidak lengkap atau tidak valid tampil pesan galat; jika valid menuju status pendaftaran (I-04)* |
 
 ## 6.3 Rancangan Antarmuka I-03
 
 **Antarmuka:** *I-03*  
-**Nama Layar:** *Registrasi - NGO (A3)*  
+**Nama Layar:** *Registrasi — NGO (A3)*  
 **Use Case Terkait:** *UC01*
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-03 - Registrasi - NGO" src="./assets/interface/A3.png" width="80%">
+<img alt="Rancangan Antarmuka I-03 - Registrasi — NGO" src="./assets/interface/A3.png" width="80%">
 </p>
 <p align="center">
-<i>Gambar 6.3. Rancangan Antarmuka I-03 - Registrasi - NGO</i>
+<i>Gambar 6.3. Rancangan Antarmuka I-03 - Registrasi — NGO</i>
 </p>
 
 Tabel 6.3. Spesifikasi Objek Antarmuka I-03
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *A3-01* | *Segmented tab* | *Pemilik F&B | Perwakilan NGO* | *Berpindah formulir* |
-| *A3-02* | *Textbox* | *Nama Organisasi* | *Wajib diisi* |
-| *A3-03* | *Textbox* | *Email* | *Wajib diisi* |
-| *A3-04* | *Textbox* | *Alamat Kantor* | *Wajib diisi* |
-| *A3-05* | *Password* | *Kata Sandi* | *Wajib diisi* |
-| *A3-06* | *File upload* | *Unggah Akta / SK Kemenkumham (PDF, JPG, PNG · maks 5 MB)* | *Validasi format dan ukuran berkas* |
-| *A3-07* | *Button* | *Daftar* | *Menuju status pendaftaran (I-04) jika valid* |
+| *Tab_Role* | *Segmented tab* | *Pemilik F&B | Perwakilan NGO* | *Berpindah formulir* |
+| *Input_OrgName* | *Textbox* | *Nama Organisasi* | *Wajib diisi* |
+| *Input_Email* | *Textbox* | *Email* | *Wajib diisi* |
+| *Input_Address* | *Textbox* | *Alamat Kantor* | *Wajib diisi* |
+| *Input_Pass* | *Password* | *Kata Sandi* | *Wajib diisi* |
+| *Input_Deed* | *File upload* | *Unggah Akta / SK Kemenkumham (PDF, JPG, PNG · maks 5 MB)* | *Validasi format dan ukuran berkas* |
+| *Btn_Register* | *Button* | *Daftar* | *Menuju status pendaftaran (I-04) jika valid* |
 
 ## 6.4 Rancangan Antarmuka I-04
 
@@ -2501,11 +2537,11 @@ Tabel 6.4. Spesifikasi Objek Antarmuka I-04
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *A4-01* | *Ikon* | *Jam* | *Menandakan status menunggu* |
-| *A4-02* | *Label* | *Pendaftaran Dikirim* | *Judul status* |
-| *A4-03* | *Badge* | *Menunggu Verifikasi* | *Status pendaftaran saat ini (Menunggu/Diterima/Ditolak)* |
-| *A4-04* | *Teks* | *Admin FoodLink sedang memeriksa dokumen Anda…* | *Penjelasan status* |
-| *A4-05* | *Button* | *Kembali ke Beranda* | *Menuju layar selamat datang (I-01)* |
+| *Icon_Clock* | *Ikon* | *Jam* | *Menandakan status menunggu* |
+| *Title_Status* | *Label* | *Pendaftaran Dikirim* | *Judul status* |
+| *Badge_Status* | *Badge* | *Menunggu Verifikasi* | *Status pendaftaran saat ini (Menunggu/Diterima/Ditolak)* |
+| *Txt_StatusDesc* | *Teks* | *Admin FoodLink sedang memeriksa dokumen Anda…* | *Penjelasan status* |
+| *Btn_BackHome* | *Button* | *Kembali ke Beranda* | *Menuju layar selamat datang (I-01)* |
 
 ## 6.5 Rancangan Antarmuka I-05
 
@@ -2524,12 +2560,12 @@ Tabel 6.5. Spesifikasi Objek Antarmuka I-05
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *F1-01* | *Sidebar* | *Dashboard · Penjualan · Surplus · Profil* | *Navigasi antar menu Pemilik F&B* |
-| *F1-02* | *Kartu statistik* | *148 Terjual hari ini · 12 Sisa produk · jumlah Surplus aktif* | *Ringkasan operasional hari ini* |
-| *F1-03* | *Button* | *Catat Penjualan* | *Menuju penjualan harian (I-06)* |
-| *F1-04* | *Button* | *Catat Surplus* | *Menuju catat surplus (I-08)* |
-| *F1-05* | *Bar chart* | *Penjualan 7 Hari Terakhir* | *Menampilkan porsi terjual per hari; hari ini disorot* |
-| *F1-06* | *Daftar* | *Rekomendasi Produksi Besok + badge Prediksi aktif* | *Hasil prediksi per produk beserta tren naik/turun* |
+| *Nav_Sidebar* | *Sidebar* | *Dashboard · Penjualan · Surplus · Profil* | *Navigasi antar menu Pemilik F&B* |
+| *Stat_Summary* | *Kartu statistik* | *148 Terjual hari ini · 12 Sisa produk · jumlah Surplus aktif* | *Ringkasan operasional hari ini* |
+| *Btn_AddSales* | *Button* | *Catat Penjualan* | *Menuju penjualan harian (I-06)* |
+| *Btn_AddSurplus* | *Button* | *Catat Surplus* | *Menuju catat surplus (I-08)* |
+| *Chart_Sales7Days* | *Bar chart* | *Penjualan 7 Hari Terakhir* | *Menampilkan porsi terjual per hari; hari ini disorot* |
+| *List_Recommendation* | *Daftar* | *Rekomendasi Produksi Besok + badge Prediksi aktif* | *Hasil prediksi per produk beserta tren naik/turun* |
 
 ## 6.6 Rancangan Antarmuka I-06
 
@@ -2548,13 +2584,13 @@ Tabel 6.6. Spesifikasi Objek Antarmuka I-06
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *F2-01* | *Button* | *Kembali (←)* | *Menuju dashboard (I-05)* |
-| *F2-02* | *Label* | *Senin, 26 Oktober 2026* | *Tanggal pencatatan* |
-| *F2-03* | *Progress bar* | *Data terkumpul untuk prediksi 6/7 hari* | *Menunjukkan kelengkapan data historis (minimal 7 hari)* |
-| *F2-04* | *Textbox angka* | *Terjual (per produk)* | *Wajib bilangan bulat ≥ 0* |
-| *F2-05* | *Textbox angka* | *Sisa (per produk)* | *Wajib bilangan bulat ≥ 0* |
-| *F2-06* | *Button* | *Reset* | *Mengosongkan seluruh isian* |
-| *F2-07* | *Button* | *Simpan* | *Jika ada isian tidak valid tampil pesan galat; jika valid menuju penjualan tersimpan (I-07)* |
+| *Btn_Back* | *Button* | *Kembali (←)* | *Menuju dashboard (I-05)* |
+| *Label_Date* | *Label* | *Senin, 26 Oktober 2026* | *Tanggal pencatatan* |
+| *Progress_DataCount* | *Progress bar* | *Data terkumpul untuk prediksi 6/7 hari* | *Menunjukkan kelengkapan data historis (minimal 7 hari)* |
+| *Input_Sold* | *Textbox angka* | *Terjual (per produk)* | *Wajib bilangan bulat ≥ 0* |
+| *Input_Remaining* | *Textbox angka* | *Sisa (per produk)* | *Wajib bilangan bulat ≥ 0* |
+| *Btn_Reset* | *Button* | *Reset* | *Mengosongkan seluruh isian* |
+| *Btn_Save* | *Button* | *Simpan* | *Jika ada isian tidak valid tampil pesan galat; jika valid menuju penjualan tersimpan (I-07)* |
 
 ## 6.7 Rancangan Antarmuka I-07
 
@@ -2573,10 +2609,10 @@ Tabel 6.7. Spesifikasi Objek Antarmuka I-07
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *F3-01* | *Ikon* | *Centang* | *Menandakan penyimpanan berhasil* |
-| *F3-02* | *Badge* | *Tercatat* | *Status penyimpanan* |
-| *F3-03* | *Teks* | *Data penjualan … tersimpan per produk dan tanggal* | *Informasi progres prediksi (6/7)* |
-| *F3-04* | *Button* | *Ke Dashboard* | *Menuju dashboard (I-05)* |
+| *Icon_Check* | *Ikon* | *Centang* | *Menandakan penyimpanan berhasil* |
+| *Badge_Saved* | *Badge* | *Tercatat* | *Status penyimpanan* |
+| *Txt_SavedInfo* | *Teks* | *Data penjualan … tersimpan per produk dan tanggal* | *Informasi progres prediksi (6/7)* |
+| *Btn_Dashboard* | *Button* | *Ke Dashboard* | *Menuju dashboard (I-05)* |
 
 ## 6.8 Rancangan Antarmuka I-08
 
@@ -2595,60 +2631,60 @@ Tabel 6.8. Spesifikasi Objek Antarmuka I-08
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *F4-01* | *Textbox* | *Produk* | *Nama produk surplus* |
-| *F4-02* | *Textbox* | *Jumlah Surplus* | *Wajib > 0* |
-| *F4-03* | *Dropdown* | *Tanggal Pengambilan (Hari ini/Besok)* | *Menentukan tanggal batas ambil* |
-| *F4-04* | *Time picker* | *Batas Jam* | *Tidak boleh di masa lalu; jika melanggar isian ditandai galat* |
-| *F4-05* | *Textbox* | *Lokasi Pengambilan* | *Alamat pengambilan* |
-| *F4-06* | *Button* | *Lanjut: Atur Distribusi* | *Jika valid menuju atur distribusi (I-09/I-10)* |
-| *F4-07* | *Button* | *Reset* | *Mengosongkan seluruh isian formulir* |
+| *Input_Product* | *Textbox* | *Produk* | *Nama produk surplus* |
+| *Input_Quantity* | *Textbox* | *Jumlah Surplus* | *Wajib > 0* |
+| *Input_PickupDate* | *Dropdown* | *Tanggal Pengambilan (Hari ini/Besok)* | *Menentukan tanggal batas ambil* |
+| *Input_PickupTime* | *Time picker* | *Batas Jam* | *Tidak boleh di masa lalu; jika melanggar isian ditandai galat* |
+| *Input_Location* | *Textbox* | *Lokasi Pengambilan* | *Alamat pengambilan* |
+| *Btn_Next* | *Button* | *Lanjut: Atur Distribusi* | *Jika valid menuju atur distribusi (I-09/I-10)* |
+| *Btn_Reset* | *Button* | *Reset* | *Mengosongkan seluruh isian formulir* |
 
 ## 6.9 Rancangan Antarmuka I-09
 
 **Antarmuka:** *I-09*  
-**Nama Layar:** *Atur Distribusi - Donasi (F5)*  
+**Nama Layar:** *Atur Distribusi — Donasi (F5)*  
 **Use Case Terkait:** *UC07*
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-09 - Atur Distribusi - Donasi" src="./assets/interface/F5.png" width="80%">
+<img alt="Rancangan Antarmuka I-09 - Atur Distribusi — Donasi" src="./assets/interface/F5.png" width="80%">
 </p>
 <p align="center">
-<i>Gambar 6.9. Rancangan Antarmuka I-09 - Atur Distribusi - Donasi</i>
+<i>Gambar 6.9. Rancangan Antarmuka I-09 - Atur Distribusi — Donasi</i>
 </p>
 
 Tabel 6.9. Spesifikasi Objek Antarmuka I-09
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *F5-01* | *Kartu ringkasan* | *Produk · Jumlah · Ambil sebelum* | *Ringkasan data surplus dari I-08* |
-| *F5-02* | *Segmented tab* | *Donasi | Jual Diskon* | *Berpindah metode distribusi* |
-| *F5-03* | *Kartu pilihan* | *Donasi Gratis* | *Produk tampil gratis bagi NGO; tanpa harga* |
-| *F5-04* | *Button* | *Simpan* | *Mempublikasikan surplus; menuju I-11* |
-| *F5-05* | *Button* | *Kembali* | *Menuju catat surplus (I-08)* |
+| *Card_Summary* | *Kartu ringkasan* | *Produk · Jumlah · Ambil sebelum* | *Ringkasan data surplus dari I-08* |
+| *Tab_Method* | *Segmented tab* | *Donasi | Jual Diskon* | *Berpindah metode distribusi* |
+| *Card_Donation* | *Kartu pilihan* | *Donasi Gratis* | *Produk tampil gratis bagi NGO; tanpa harga* |
+| *Btn_Save* | *Button* | *Simpan* | *Mempublikasikan surplus; menuju I-11* |
+| *Btn_Back* | *Button* | *Kembali* | *Menuju catat surplus (I-08)* |
 
 ## 6.10 Rancangan Antarmuka I-10
 
 **Antarmuka:** *I-10*  
-**Nama Layar:** *Atur Distribusi - Jual Diskon (F6)*  
+**Nama Layar:** *Atur Distribusi — Jual Diskon (F6)*  
 **Use Case Terkait:** *UC07*
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-10 - Atur Distribusi - Jual Diskon" src="./assets/interface/F6.png" width="80%">
+<img alt="Rancangan Antarmuka I-10 - Atur Distribusi — Jual Diskon" src="./assets/interface/F6.png" width="80%">
 </p>
 <p align="center">
-<i>Gambar 6.10. Rancangan Antarmuka I-10 - Atur Distribusi - Jual Diskon</i>
+<i>Gambar 6.10. Rancangan Antarmuka I-10 - Atur Distribusi — Jual Diskon</i>
 </p>
 
 Tabel 6.10. Spesifikasi Objek Antarmuka I-10
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *F6-01* | *Segmented tab* | *Donasi | Jual Diskon* | *Berpindah metode distribusi* |
-| *F6-02* | *Kartu pilihan* | *Jual dengan Diskon* | *Metode jual murah* |
-| *F6-03* | *Textbox* | *Harga Jual per Porsi (Rp)* | *Wajib angka > 0; jika tidak valid tampil galat* |
-| *F6-04* | *Kartu ringkasan* | *Harga normal · Hemat (%)* | *Persentase hemat dihitung otomatis dari harga normal* |
-| *F6-05* | *Button* | *Simpan* | *Mempublikasikan surplus; menuju I-11* |
-| *F6-06* | *Button* | *Kembali* | *Menuju catat surplus (I-08)* |
+| *Tab_Method* | *Segmented tab* | *Donasi | Jual Diskon* | *Berpindah metode distribusi* |
+| *Card_Discount* | *Kartu pilihan* | *Jual dengan Diskon* | *Metode jual murah* |
+| *Input_Price* | *Textbox* | *Harga Jual per Porsi (Rp)* | *Wajib angka > 0; jika tidak valid tampil galat* |
+| *Card_PriceSummary* | *Kartu ringkasan* | *Harga normal · Hemat (%)* | *Persentase hemat dihitung otomatis dari harga normal* |
+| *Btn_Save* | *Button* | *Simpan* | *Mempublikasikan surplus; menuju I-11* |
+| *Btn_Back* | *Button* | *Kembali* | *Menuju catat surplus (I-08)* |
 
 ## 6.11 Rancangan Antarmuka I-11
 
@@ -2667,10 +2703,10 @@ Tabel 6.11. Spesifikasi Objek Antarmuka I-11
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *F7-01* | *Ikon* | *Centang* | *Menandakan publikasi berhasil* |
-| *F7-02* | *Badge* | *Terlihat oleh NGO* | *Status publikasi* |
-| *F7-03* | *Kartu ringkasan* | *Produk · Jumlah · Metode · Ambil sebelum* | *Rangkuman surplus yang dipublikasikan* |
-| *F7-04* | *Button* | *Ke Dashboard* | *Menuju dashboard (I-05)* |
+| *Icon_Check* | *Ikon* | *Centang* | *Menandakan publikasi berhasil* |
+| *Badge_Published* | *Badge* | *Terlihat oleh NGO* | *Status publikasi* |
+| *Card_Summary* | *Kartu ringkasan* | *Produk · Jumlah · Metode · Ambil sebelum* | *Rangkuman surplus yang dipublikasikan* |
+| *Btn_Dashboard* | *Button* | *Ke Dashboard* | *Menuju dashboard (I-05)* |
 
 ## 6.12 Rancangan Antarmuka I-12
 
@@ -2689,11 +2725,11 @@ Tabel 6.12. Spesifikasi Objek Antarmuka I-12
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *N1-01* | *Label* | *Lokasi Anda · Dago, Bandung* | *Lokasi acuan jarak* |
-| *N1-02* | *Textbox* | *Cari roti, nasi, minuman…* | *Menyaring daftar berdasarkan kata kunci* |
-| *N1-03* | *Button ikon* | *Filter* | *Membuka panel filter (I-13)* |
-| *N1-04* | *Chip* | *Semua · Makanan · Minuman · < 2 km* | *Filter cepat* |
-| *N1-05* | *Kartu produk* | *Nama, jenis/jumlah, penjual, jarak, batas ambil, badge Donasi/harga* | *Klik membuka detail produk (I-15)* |
+| *Label_Location* | *Label* | *Lokasi Anda · Dago, Bandung* | *Lokasi acuan jarak* |
+| *Input_Search* | *Textbox* | *Cari roti, nasi, minuman…* | *Menyaring daftar berdasarkan kata kunci* |
+| *Btn_Filter* | *Button ikon* | *Filter* | *Membuka panel filter (I-13)* |
+| *Chip_QuickFilter* | *Chip* | *Semua · Makanan · Minuman · < 2 km* | *Filter cepat* |
+| *Card_Product* | *Kartu produk* | *Nama, jenis/jumlah, penjual, jarak, batas ambil, badge Donasi/harga* | *Klik membuka detail produk (I-15)* |
 
 ## 6.13 Rancangan Antarmuka I-13
 
@@ -2712,12 +2748,12 @@ Tabel 6.13. Spesifikasi Objek Antarmuka I-13
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *N2-01* | *Chip* | *Jenis Makanan: Semua/Makanan/Minuman* | *Memilih jenis produk* |
-| *N2-02* | *Chip* | *Jarak Maksimal: 1/2/5/10 km* | *Memilih radius* |
-| *N2-03* | *Chip* | *Batas Waktu: Hari ini/Besok/Semua* | *Memilih rentang waktu ambil* |
-| *N2-04* | *Button* | *Reset* | *Mengembalikan filter ke default* |
-| *N2-05* | *Button* | *Terapkan* | *Menerapkan filter; menuju daftar terfilter (I-14)* |
-| *N2-06* | *Button ikon* | *Tutup (✕)* | *Menutup panel tanpa menerapkan* |
+| *Chip_FoodType* | *Chip* | *Jenis Makanan: Semua/Makanan/Minuman* | *Memilih jenis produk* |
+| *Chip_Distance* | *Chip* | *Jarak Maksimal: 1/2/5/10 km* | *Memilih radius* |
+| *Chip_Deadline* | *Chip* | *Batas Waktu: Hari ini/Besok/Semua* | *Memilih rentang waktu ambil* |
+| *Btn_Reset* | *Button* | *Reset* | *Mengembalikan filter ke default* |
+| *Btn_Apply* | *Button* | *Terapkan* | *Menerapkan filter; menuju daftar terfilter (I-14)* |
+| *Btn_Close* | *Button ikon* | *Tutup (✕)* | *Menutup panel tanpa menerapkan* |
 
 ## 6.14 Rancangan Antarmuka I-14
 
@@ -2736,10 +2772,10 @@ Tabel 6.14. Spesifikasi Objek Antarmuka I-14
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *N3-01* | *Chip aktif* | *Makanan ✕ · < 2 km ✕ · Hari ini ✕* | *Klik ✕ menghapus filter terkait* |
-| *N3-02* | *Link* | *Hapus filter* | *Menghapus semua filter; kembali ke I-12* |
-| *N3-03* | *Label* | *Menampilkan N hasil terdekat* | *Jumlah hasil; jika kosong tampil pesan tidak ada produk* |
-| *N3-04* | *Kartu produk* | *Hasil yang sesuai filter* | *Klik membuka detail produk (I-15)* |
+| *Chip_ActiveFilter* | *Chip aktif* | *Makanan ✕ · < 2 km ✕ · Hari ini ✕* | *Klik ✕ menghapus filter terkait* |
+| *Link_ClearFilter* | *Link* | *Hapus filter* | *Menghapus semua filter; kembali ke I-12* |
+| *Label_ResultCount* | *Label* | *Menampilkan N hasil terdekat* | *Jumlah hasil; jika kosong tampil pesan tidak ada produk* |
+| *Card_Product* | *Kartu produk* | *Hasil yang sesuai filter* | *Klik membuka detail produk (I-15)* |
 
 ## 6.15 Rancangan Antarmuka I-15
 
@@ -2758,12 +2794,12 @@ Tabel 6.15. Spesifikasi Objek Antarmuka I-15
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *N4-01* | *Button* | *Kembali (←)* | *Menuju daftar surplus (I-12)* |
-| *N4-02* | *Badge* | *Makanan · Donasi Gratis / Jual Diskon* | *Jenis dan metode distribusi* |
-| *N4-03* | *Label* | *Nama produk, penjual* | *Identitas produk* |
-| *N4-04* | *Info* | *Jumlah tersedia · Lokasi · Batas pengambilan* | *Menampilkan jumlah, alamat, jarak, dan sisa waktu* |
-| *N4-05* | *Peta* | *Peta lokasi pengambilan* | *Menampilkan titik lokasi* |
-| *N4-06* | *Button* | *Ajukan Klaim* | *Membuka dialog konfirmasi klaim (I-16)* |
+| *Btn_Back* | *Button* | *Kembali (←)* | *Menuju daftar surplus (I-12)* |
+| *Badge_Type* | *Badge* | *Makanan · Donasi Gratis / Jual Diskon* | *Jenis dan metode distribusi* |
+| *Title_Product* | *Label* | *Nama produk, penjual* | *Identitas produk* |
+| *Txt_Detail* | *Info* | *Jumlah tersedia · Lokasi · Batas pengambilan* | *Menampilkan jumlah, alamat, jarak, dan sisa waktu* |
+| *Map_Location* | *Peta* | *Peta lokasi pengambilan* | *Menampilkan titik lokasi* |
+| *Btn_Claim* | *Button* | *Ajukan Klaim* | *Membuka dialog konfirmasi klaim (I-16)* |
 
 ## 6.16 Rancangan Antarmuka I-16
 
@@ -2782,9 +2818,9 @@ Tabel 6.16. Spesifikasi Objek Antarmuka I-16
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *N5-01* | *Dialog* | *Klaim produk ini?* | *Ringkasan produk, jumlah, penjual, batas ambil* |
-| *N5-02* | *Button* | *Ya, Klaim* | *Menyimpan klaim; menuju klaim berhasil (I-17)* |
-| *N5-03* | *Button* | *Batal* | *Menutup dialog; tetap di detail produk* |
+| *Modal_Claim* | *Dialog* | *Klaim produk ini?* | *Ringkasan produk, jumlah, penjual, batas ambil* |
+| *Btn_Confirm* | *Button* | *Ya, Klaim* | *Menyimpan klaim; menuju klaim berhasil (I-17)* |
+| *Btn_Cancel* | *Button* | *Batal* | *Menutup dialog; tetap di detail produk* |
 
 ## 6.17 Rancangan Antarmuka I-17
 
@@ -2803,10 +2839,10 @@ Tabel 6.17. Spesifikasi Objek Antarmuka I-17
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *N6-01* | *Badge* | *Terklaim* | *Status klaim* |
-| *N6-02* | *Kartu ringkasan* | *Produk · Jumlah · Kode klaim · Ambil sebelum* | *Kode klaim ditunjukkan ke pemilik usaha saat pengambilan* |
-| *N6-03* | *Button* | *Konfirmasi Pengambilan* | *Menuju pengambilan selesai (I-18)* |
-| *N6-04* | *Button* | *Kembali ke Daftar* | *Menuju daftar surplus (I-12)* |
+| *Badge_Claimed* | *Badge* | *Terklaim* | *Status klaim* |
+| *Card_Summary* | *Kartu ringkasan* | *Produk · Jumlah · Kode klaim · Ambil sebelum* | *Kode klaim ditunjukkan ke pemilik usaha saat pengambilan* |
+| *Btn_ConfirmPickup* | *Button* | *Konfirmasi Pengambilan* | *Menuju pengambilan selesai (I-18)* |
+| *Btn_BackList* | *Button* | *Kembali ke Daftar* | *Menuju daftar surplus (I-12)* |
 
 ## 6.18 Rancangan Antarmuka I-18
 
@@ -2825,10 +2861,10 @@ Tabel 6.18. Spesifikasi Objek Antarmuka I-18
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *N7-01* | *Ikon* | *Hati* | *Menandakan pengambilan selesai* |
-| *N7-02* | *Badge* | *Selesai* | *Status pengambilan* |
-| *N7-03* | *Teks* | *Terima kasih telah membantu mengurangi pemborosan makanan…* | *Ringkasan dampak* |
-| *N7-04* | *Button* | *Kembali ke Daftar* | *Menuju daftar surplus (I-12)* |
+| *Icon_Heart* | *Ikon* | *Hati* | *Menandakan pengambilan selesai* |
+| *Badge_Done* | *Badge* | *Selesai* | *Status pengambilan* |
+| *Txt_Impact* | *Teks* | *Terima kasih telah membantu mengurangi pemborosan makanan…* | *Ringkasan dampak* |
+| *Btn_BackList* | *Button* | *Kembali ke Daftar* | *Menuju daftar surplus (I-12)* |
 
 ## 6.19 Rancangan Antarmuka I-19
 
@@ -2847,8 +2883,8 @@ Tabel 6.19. Spesifikasi Objek Antarmuka I-19
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *M1-01* | *Badge* | *N menunggu* | *Jumlah pendaftar berstatus menunggu* |
-| *M1-02* | *Kartu pendaftar* | *Avatar, nama, tipe akun · tanggal, badge status* | *Klik membuka detail pendaftar (I-20)* |
+| *Badge_Pending* | *Badge* | *N menunggu* | *Jumlah pendaftar berstatus menunggu* |
+| *Card_Applicant* | *Kartu pendaftar* | *Avatar, nama, tipe akun · tanggal, badge status* | *Klik membuka detail pendaftar (I-20)* |
 
 ## 6.20 Rancangan Antarmuka I-20
 
@@ -2867,10 +2903,10 @@ Tabel 6.20. Spesifikasi Objek Antarmuka I-20
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *M2-01* | *Kartu data* | *Nama, Tipe Akun, Email, Alamat, Tanggal Daftar* | *Data pendaftar yang diperiksa* |
-| *M2-02* | *Kartu dokumen* | *Nama berkas, ukuran, tautan Lihat, pratinjau* | *Memeriksa dokumen pendukung* |
-| *M2-03* | *Button* | *Tolak* | *Menolak pendaftaran; menuju I-22* |
-| *M2-04* | *Button* | *Setujui* | *Menyetujui pendaftaran; menuju I-21* |
+| *Card_ApplicantData* | *Kartu data* | *Nama, Tipe Akun, Email, Alamat, Tanggal Daftar* | *Data pendaftar yang diperiksa* |
+| *Card_Document* | *Kartu dokumen* | *Nama berkas, ukuran, tautan Lihat, pratinjau* | *Memeriksa dokumen pendukung* |
+| *Btn_Reject* | *Button* | *Tolak* | *Menolak pendaftaran; menuju I-22* |
+| *Btn_Approve* | *Button* | *Setujui* | *Menyetujui pendaftaran; menuju I-21* |
 
 ## 6.21 Rancangan Antarmuka I-21
 
@@ -2889,9 +2925,9 @@ Tabel 6.21. Spesifikasi Objek Antarmuka I-21
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *M3-01* | *Badge* | *Diterima* | *Status baru pendaftar* |
-| *M3-02* | *Teks* | *Status … diperbarui menjadi diterima* | *Pendaftar dapat langsung memakai FoodLink* |
-| *M3-03* | *Button* | *Kembali ke Daftar* | *Menuju verifikasi pendaftar (I-19)* |
+| *Badge_Accepted* | *Badge* | *Diterima* | *Status baru pendaftar* |
+| *Txt_Status* | *Teks* | *Status … diperbarui menjadi diterima* | *Pendaftar dapat langsung memakai FoodLink* |
+| *Btn_BackList* | *Button* | *Kembali ke Daftar* | *Menuju verifikasi pendaftar (I-19)* |
 
 ## 6.22 Rancangan Antarmuka I-22
 
@@ -2910,9 +2946,9 @@ Tabel 6.22. Spesifikasi Objek Antarmuka I-22
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *M4-01* | *Badge* | *Ditolak* | *Status baru pendaftar* |
-| *M4-02* | *Teks* | *Pendaftar disarankan memperbaiki dokumennya…* | *Pendaftar dapat mendaftar ulang* |
-| *M4-03* | *Button* | *Kembali ke Daftar* | *Menuju verifikasi pendaftar (I-19)* |
+| *Badge_Rejected* | *Badge* | *Ditolak* | *Status baru pendaftar* |
+| *Txt_Status* | *Teks* | *Pendaftar disarankan memperbaiki dokumennya…* | *Pendaftar dapat mendaftar ulang* |
+| *Btn_BackList* | *Button* | *Kembali ke Daftar* | *Menuju verifikasi pendaftar (I-19)* |
 
 ## 6.23 Rancangan Antarmuka I-23
 
@@ -2931,8 +2967,8 @@ Tabel 6.23. Spesifikasi Objek Antarmuka I-23
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *M5-01* | *Chip* | *Semua · Klaim · Surplus · Verifikasi* | *Menyaring log; jika tidak ada tampil pesan belum ada log yang sesuai* |
-| *M5-02* | *Daftar* | *Jam, nama pengguna, deskripsi aktivitas* | *Log terbaru berada di paling atas* |
+| *Chip_Filter* | *Chip* | *Semua · Klaim · Surplus · Verifikasi* | *Menyaring log; jika tidak ada tampil pesan belum ada log yang sesuai* |
+| *List_Log* | *Daftar* | *Jam, nama pengguna, deskripsi aktivitas* | *Log terbaru berada di paling atas* |
 
 ## 6.24 Rancangan Antarmuka Keseluruhan
 
