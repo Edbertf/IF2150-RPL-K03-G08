@@ -144,4 +144,5 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *27-10-2026* | *Ernest Clarence Gunawan* | *merevisi realisasi UC11 dan UC12* | *2 jam* | *Done* | *bingung banyak atribut dan operasi yang tidak konsisten antar use case* |
 | *27-10-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian UI bab 6* | *1 jam 30 menit* | *Halfway Done* | *ga tau harus mulai darimana, kemudian mulai dari buat projek figma * |
-| *28-10-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian UI bab 6* | *2 jam menit* | * Done* | *Masih belum mahir dalam penggunaan figma* |
+| *28-10-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian UI bab 6* | *2 jam* | *Done* | *Masih belum mahir dalam penggunaan figma* |
+| *27-10-2026* | *Edbert Fernando* | *mengerjakan 5.1 - 5.6* | *4 jam 30 menit* | *Done* | *Kesulitan membuat algo dan query, juga memastikan bahwa operasi/atribut yang digunakan itu konsisten* |
