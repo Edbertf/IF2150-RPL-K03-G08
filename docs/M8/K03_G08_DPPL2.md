@@ -1893,6 +1893,8 @@ Tabel 5.30.1. Operasi Kelas PemilikFnB
 | *aturDistribusiSurplus(): void* | *Public* | *Titik awal UC07: membuka DistribusiSurplusPage agar Pemilik F&B dapat memilih produk surplus dan mengatur metode distribusinya.* |
 | *catatProdukSurplus(dataSurplus: Object): void* | *Public* | *Titik awal UC06: meneruskan data produk surplus (produk, jumlah, batas waktu pengambilan) ke ProdukSurplusPage.* |
 | *lihatHasilPrediksi(): void* | *Public* | *Titik awal UC05: membuka PrediksiPage agar Pemilik F&B dapat melihat rekomendasi produksi.* |
+| *bukaMenuSurplus(): void* | *Public* | *Membuka ProdukSurplusPage agar Pemilik F&B dapat mencatat produk surplus (UC06).* |
+| *resetFormulir(): void* | *Public* | *Meminta ProdukSurplusPage mengosongkan kembali isian formulir pencatatan produk surplus.* |
 
 Tabel 5.30.2. Atribut Kelas PemilikFnB
 
