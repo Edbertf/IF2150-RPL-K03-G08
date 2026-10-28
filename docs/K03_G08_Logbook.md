@@ -146,9 +146,13 @@
 | *27-10-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian UI bab 6* | *1 jam 30 menit* | *Halfway Done* | *ga tau harus mulai darimana, kemudian mulai dari buat projek figma* |
 | *28-10-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian UI bab 6* | *2 jam* | *Done* | *Masih belum mahir dalam penggunaan figma* |
 | *27-10-2026* | *Edbert Fernando* | *mengerjakan 5.1 - 5.6* | *4 jam 30 menit* | *Done* | *Kesulitan membuat algo dan query, juga memastikan bahwa operasi/atribut yang digunakan itu konsisten* |
+<<<<<<< Updated upstream
 | *28-10-2026* | *Abdur Rauuf Fawaaz* | *merevisi sequence diagram dan class diagram UC09 dan UC10* | *4 jam* | *Done* | *-* |
 | *28-10-2026* | *Abdur Rauuf Fawaaz* | *mengerjakan 5.29-5.34* | *2 jam* | *Done* | *-* |
 | *28-10-2026* | *Ernest Clarence Gunawan* | *merevisi sequence diagram dan class diagram yang masih ga konsisten, menyesuaikan tabel daftar kelas perancangan keseluruhan dengan semua realisasi use case* | *7 jam* | *Done* | *semua yang ngerjain pada ga konsisten semua (minus inisiatif untuk nyesuaian dan ngecek )* |
 | *28-10-2026* | *Ernest Clarence Gunawan* | *mengerjakan perancangan rinci kelas untuk C12-C17* | *2 jam* | *Done* | *-* |
 | *28-10-2026* | *Excell Timothy Josua Tarigan* | *mengerjakan 5.24-5.28 dan memperbaiki UC05 dan UC06* | *5 jam* | *Done* | *banyak kelas yang operasinya tidak konsisten* |
 | *28-10-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian 5.18-5.23* | *4 jam* | *Done* | *banyak yang memiliki subbab lagi menurut saya, jadi pengerjaannya lama* |
+=======
+| *28-10-2026* | *Edbert Fernando* | *mengerjakan 5.7-5.11 dan merapikan dokumen* | *2 jam* | *Done* | *Masih kesulitan membuat algo* |
+>>>>>>> Stashed changes
