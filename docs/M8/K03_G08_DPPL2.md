@@ -789,7 +789,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 
 | ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
 | :--- | :--- | :--- | :--- |
-| *C01* | *AkunPengguna* | *idAkun, email, kataSandi, tipeAkun* | *registrasi(), getAkunId()* |
+| *C01* | *AkunPengguna* | *idAkun, email, kataSandi, tipeAkun* | *registrasi(), getIdAkun()* |
 | *C02* | *Pendaftaran* | *idPendaftaran, tanggalDaftar, statusVerifikasi* | *ajukanPendaftaran(), getDaftarMenungguVerifikasi(), getDetailPendaftar(), updateStatus(), getStatus()* |
 | *C03* | *DokumenPendukung* | *idDokumen, namaFile, tipeDokumen* | *unggahDokumen(), getDokumen()* |
 | *C04* | *VerifikasiController* | *-* | *tampilkanDaftarPendaftar(), ambilDetailPendaftar(), prosesVerifikasi()* |
@@ -911,12 +911,12 @@ Tabel 5.1.2. Atribut Kelas AkunPengguna
 
 **Nama Kelas:** *AkunPengguna*  
 **Nama Operasi:** *registrasi(dataForm: Object): Number*  
-**ID Algoritma:** *Algo-001*
+**ID Algoritma:** *Algo-C01-01*
 
 ```text
 FUNCTION registrasi(dataForm)
     kataSandiHash <- HASH(kata sandi dari dataForm)
-    idAkun <- JALANKAN Q-001 dengan (email dari dataForm, kataSandiHash, tipeAkun)
+    idAkun <- JALANKAN Q-C01-01 dengan (email dari dataForm, kataSandiHash, tipeAkun)
     RETURN idAkun
 END FUNCTION
 ```
@@ -925,7 +925,7 @@ Tabel 5.1.3. Query Operasi registrasi()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-001* | *INSERT INTO akun_pengguna(email, kata_sandi, tipe_akun) VALUES ($1, $2, $3) RETURNING id_akun;* | *Menyimpan data akun pengguna baru ke tabel akun_pengguna di PostgreSQL dan mengembalikan id_akun yang dibuat.* |
+| *Q-C01-01* | *INSERT INTO akun_pengguna(email, kata_sandi, tipe_akun) VALUES ($1, $2, $3) RETURNING id_akun;* | *Menyimpan data akun pengguna baru ke tabel akun_pengguna di PostgreSQL dan mengembalikan id_akun yang dibuat.* |
 
 ## 5.2 Kelas Pendaftaran
 
@@ -953,11 +953,11 @@ Tabel 5.2.2. Atribut Kelas Pendaftaran
 
 **Nama Kelas:** *Pendaftaran*  
 **Nama Operasi:** *ajukanPendaftaran(idAkun: Number): Number*  
-**ID Algoritma:** *Algo-002*
+**ID Algoritma:** *Algo-C02-01*
 
 ```text
 FUNCTION ajukanPendaftaran(idAkun)
-    idPendaftaran <- JALANKAN Q-002 dengan (idAkun)
+    idPendaftaran <- JALANKAN Q-C02-01 dengan (idAkun)
     RETURN idPendaftaran
 END FUNCTION
 ```
@@ -966,17 +966,17 @@ Tabel 5.2.3. Query Operasi ajukanPendaftaran()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-002* | *INSERT INTO pendaftaran(id_akun, tanggal_daftar, status_verifikasi) VALUES ($1, CURRENT_DATE, 'menunggu verifikasi') RETURNING id_pendaftaran;* | *Meyimpan pendaftaran baru dengan tanggal hari ini dan status awal "menunggu verifikasi", lalu mengembalikan idPendaftaran* |
+| *Q-C02-01* | *INSERT INTO pendaftaran(id_akun, tanggal_daftar, status_verifikasi) VALUES ($1, CURRENT_DATE, 'menunggu verifikasi') RETURNING id_pendaftaran;* | *Meyimpan pendaftaran baru dengan tanggal hari ini dan status awal "menunggu verifikasi", lalu mengembalikan idPendaftaran* |
 
 ### 5.2.2 Algoritma/Query
 
 **Nama Kelas:** *Pendaftaran*  
 **Nama Operasi:** *getDaftarMenungguVerifikasi(): Array*  
-**ID Algoritma:** *Algo-003*
+**ID Algoritma:** *Algo-C02-02*
 
 ```text
 FUNCTION getDaftarMenungguVerifikasi()
-    daftarPendaftar <- JALANKAN Q-003
+    daftarPendaftar <- JALANKAN Q-C02-02
     RETURN daftarPendaftar
 END FUNCTION
 ```
@@ -984,17 +984,17 @@ Tabel 5.2.4. Query Operasi getDaftarMenungguVerifikasi()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-003* | *SELECT id_pendaftaran, id_akun, tanggal_daftar, status_verifikasi FROM pendaftaran WHERE status_verifikasi = 'menunggu verifikasi';* | *Mengambil seluruh pendaftaran yang masih menunggu untuk verifikasi* |
+| *Q-C02-02* | *SELECT id_pendaftaran, id_akun, tanggal_daftar, status_verifikasi FROM pendaftaran WHERE status_verifikasi = 'menunggu verifikasi';* | *Mengambil seluruh pendaftaran yang masih menunggu untuk verifikasi* |
 
 ### 5.2.3 Algoritma/Query
 
 **Nama Kelas:** *Pendaftaran*  
 **Nama Operasi:** *getDetailPendaftar(idPendaftaran: Number): Object*  
-**ID Algoritma:** *Algo-004*
+**ID Algoritma:** *Algo-C02-03*
 
 ```text
 FUNCTION getDetailPendaftar(idPendaftaran)
-    dataPendaftar <- JALANKAN Q-004 dengan (idPendaftaran)
+    dataPendaftar <- JALANKAN Q-C02-03 dengan (idPendaftaran)
     RETURN dataPendaftar
 END FUNCTION
 ```
@@ -1003,34 +1003,34 @@ Tabel 5.2.5. Query Operasi getDetailPendaftar()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-004* | *SELECT id_pendaftaran, id_akun, tanggal_daftar, status_verifikasi FROM pendaftaran WHERE id_pendaftaran = $1;* | *Mengambil data satu pendaftaran berdasarkan id_pendaftaran*|
+| *Q-C02-03* | *SELECT id_pendaftaran, id_akun, tanggal_daftar, status_verifikasi FROM pendaftaran WHERE id_pendaftaran = $1;* | *Mengambil data satu pendaftaran berdasarkan id_pendaftaran*|
 
 ### 5.2.4 Algoritma/Query
 
 **Nama Kelas:** *Pendaftaran*  
 **Nama Operasi:** *updateStatus(idPendaftaran: Number, status: String): void*  
-**ID Algoritma:** *Algo-005*
+**ID Algoritma:** *Algo-C02-04*
 
 ```text
 PROCEDURE updateStatus(idPendaftaran, status)
-    JALANKAN Q-005 dengan (status, idPendaftaran)
+    JALANKAN Q-C02-04 dengan (status, idPendaftaran)
 END PROCEDURE
 ```
 Tabel 5.2.6. Query Operasi updateStatus()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-005* | *UPDATE pendaftaran SET status_verifikasi = $1 WHERE id_pendaftaran = $2;* | *Memperbarui status verifikasi menjadi "diterima" atau "ditolak"* |
+| *Q-C02-04* | *UPDATE pendaftaran SET status_verifikasi = $1 WHERE id_pendaftaran = $2;* | *Memperbarui status verifikasi menjadi "diterima" atau "ditolak"* |
 
 ### 5.2.5 Algoritma/Query
 
 **Nama Kelas:** *Pendaftaran*  
 **Nama Operasi:** *getStatus(): String*  
-**ID Algoritma:** *Algo-006*
+**ID Algoritma:** *Algo-C02-05*
 
 ```text
 FUNCTION getStatus()
-    statusVerifikasi <- JALANKAN Q-006 dengan (idPendaftaran milik objek)
+    statusVerifikasi <- JALANKAN Q-C02-05 dengan (idPendaftaran milik objek)
     RETURN statusVerifikasi
 END FUNCTION
 ```
@@ -1038,7 +1038,7 @@ Tabel 5.2.7. Query Operasi getStatus()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-006* | *SELECT status_verifikasi FROM pendaftaran WHERE id_pendaftaran = $1;* | *Mengambil status verifikasi dari pendaftaran* |
+| *Q-C02-05* | *SELECT status_verifikasi FROM pendaftaran WHERE id_pendaftaran = $1;* | *Mengambil status verifikasi dari pendaftaran* |
 
 ## 5.3 Kelas DokumenPendukung
 
@@ -1064,13 +1064,13 @@ Tabel 5.3.2. Atribut Kelas DokumenPendukung
 
 **Nama Kelas:** *DokumenPendukung*  
 **Nama Operasi:** *unggahDokumen(idPendaftaran: Number, berkas: Object): void*  
-**ID Algoritma:** *Algo-007*
+**ID Algoritma:** *Algo-C03-01*
 
 ```text
 PROCEDURE unggahDokumen(idPendaftaran, berkas)
     namaFile <- SIMPAN berkas ke folder penyimpanan dokumen di server
     tipeDokumen <- tipe berkas (PDF, JPG, atau PNG)
-    JALANKAN Q-007 dengan (idPendaftaran, namaFile, tipeDokumen)
+    JALANKAN Q-C03-01 dengan (idPendaftaran, namaFile, tipeDokumen)
 END PROCEDURE
 ```
 
@@ -1078,17 +1078,17 @@ Tabel 5.3.3. Query Operasi unggahDokumen()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-007* | *INSERT INTO dokumen_pendukung(id_pendaftaran, nama_file, tipe_dokumen) VALUES ($1, $2, $3);* | *Menyimpan data dokumen pendukung ke dalam tabel dokumen_pendukung* |
+| *Q-C03-01* | *INSERT INTO dokumen_pendukung(id_pendaftaran, nama_file, tipe_dokumen) VALUES ($1, $2, $3);* | *Menyimpan data dokumen pendukung ke dalam tabel dokumen_pendukung* |
 
 ### 5.3.2 Algoritma/Query
 
 **Nama Kelas:** *DokumenPendukung*  
 **Nama Operasi:** *getDokumen(idPendaftaran: Number): Array*  
-**ID Algoritma:** *Algo-008*
+**ID Algoritma:** *Algo-C03-02*
 
 ```text
 FUNCTION getDokumen(idPendaftaran)
-    daftarDokumen <- JALANKAN Q-008 dengan (idPendaftaran)
+    daftarDokumen <- JALANKAN Q-C03-02 dengan (idPendaftaran)
     RETURN daftarDokumen
 END FUNCTION
 ```
@@ -1097,7 +1097,7 @@ Tabel 5.3.4. Query Operasi getDokumen()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-008* | *SELECT id_dokumen, nama_file, tipe_dokumen FROM dokumen_pendukung WHERE id_pendaftaran = $1;* | *Mengambil data dokumen pendukung milik satu pendaftar* |
+| *Q-C03-02* | *SELECT id_dokumen, nama_file, tipe_dokumen FROM dokumen_pendukung WHERE id_pendaftaran = $1;* | *Mengambil data dokumen pendukung milik satu pendaftar* |
 
 ## 5.4 Kelas VerifikasiController
 
@@ -1123,7 +1123,7 @@ Tabel 5.4.2. Atribut Kelas VerifikasiController
 
 **Nama Kelas:** *VerifikasiController*  
 **Nama Operasi:** *tampilkanDaftarPendaftar(): Array*  
-**ID Algoritma:** *Algo-009*
+**ID Algoritma:** *Algo-C04-01*
 
 ```text
 FUNCTION tampilkanDaftarPendaftar()
@@ -1142,7 +1142,7 @@ Tabel 5.4.3. Query Operasi tampilkanDaftarPendaftar()
 
 **Nama Kelas:** *VerifikasiController*  
 **Nama Operasi:** *ambilDetailPendaftar(idPendaftaran: Number): Object*  
-**ID Algoritma:** *Algo-010*
+**ID Algoritma:** *Algo-C04-02*
 
 ```text
 FUNCTION ambilDetailPendaftar(idPendaftaran)
@@ -1163,7 +1163,7 @@ Tabel 5.4.4. Query Operasi ambilDetailPendaftar()
 
 **Nama Kelas:** *VerifikasiController*  
 **Nama Operasi:** *prosesVerifikasi(idPendaftaran: Number, keputusan: String): String*  
-**ID Algoritma:** *Algo-011*
+**ID Algoritma:** *Algo-C04-03*
 
 ```text
 FUNCTION prosesVerifikasi(idPendaftaran, keputusan)
@@ -1201,10 +1201,12 @@ Tabel 5.5.2. Atribut Kelas Produk
 
 **Nama Kelas:** *Produk*  
 **Nama Operasi:** *getDetailProduk()*  
-**ID Algoritma:** *-*
+**ID Algoritma:** *Algo-C05-01*
 
 ```text
--
+FUNCTION getDetailProduk()
+    RETURN idProduk, namaProduk, kategori
+END FUNCTION
 ```
 
 Tabel 5.5.3. Query Operasi getDetailProduk()
@@ -1238,13 +1240,13 @@ Tabel 5.6.2. Atribut Kelas DataPenjualan
 
 **Nama Kelas:** *DataPenjualan*  
 **Nama Operasi:** *catatPenjualan(data: Array): void*  
-**ID Algoritma:** *Algo-012*
+**ID Algoritma:** *Algo-C06-01*
 
 ```text
 PROCEDURE catatPenjualan(data)
     tanggalHariIni <- DAPATKAN TANGGAL HARI INI
     UNTUK SETIAP produk DALAM data
-        JALANKAN Q-009 dengan (produk.idProduk, tanggalHariIni, produk.jumlahTerjual, produk.jumlahTersisa)
+        JALANKAN Q-C06-01 dengan (produk.idProduk, tanggalHariIni, produk.jumlahTerjual, produk.jumlahTersisa)
     AKHIR UNTUK
 END PROCEDURE
 ``` 
@@ -1252,17 +1254,17 @@ Tabel 5.6.3. Query Operasi catatPenjualan()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-009* | *INSERT INTO data_penjualan (id_penjualan, id_produk, tanggal, jumlah_terjual, jumlah_tersisa) VALUES (DEFAULT, $1, $2, $3, $4);* | *Menyimpan data penjualan harian* |
+| *Q-C06-01* | *INSERT INTO data_penjualan (id_penjualan, id_produk, tanggal, jumlah_terjual, jumlah_tersisa) VALUES (DEFAULT, $1, $2, $3, $4);* | *Menyimpan data penjualan harian* |
 
 ### 5.6.2 Algoritma/Query
 
 **Nama Kelas:** *DataPenjualan*  
 **Nama Operasi:** *getDataHistoris(): Array*  
-**ID Algoritma:** *Algo-013*
+**ID Algoritma:** *Algo-C06-02*
 
 ```text
 FUNCTION getDataHistoris()
-    dataHistoris <- JALANKAN Q-010
+    dataHistoris <- JALANKAN Q-C06-02
     RETURN dataHistoris
 END FUNCTION
 ``` 
@@ -1270,7 +1272,7 @@ Tabel 5.6.4. Query Operasi getDataHistoris()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-010* | *SELECT tanggal, jumlah_terjual, jumlah_tersisa FROM data_penjualan ORDER BY tanggal DESC LIMIT 7;* | *mengambil data historis hingga 7 hari untuk dijadikan prediksi* |
+| *Q-C06-02* | *SELECT tanggal, jumlah_terjual, jumlah_tersisa FROM data_penjualan ORDER BY tanggal DESC LIMIT 7;* | *mengambil data historis hingga 7 hari untuk dijadikan prediksi* |
 
 
 
