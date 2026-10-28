@@ -34,7 +34,7 @@ Dipersiapkan oleh:
 | :--- | :--- |
 | *A* | *Merevisi realisasi UC11 dan UC12: mengganti identifikasi kelas pada kedua use case, menyeragamkan penamaan atribut dan operasi ke bahasa Indonesia, lalu mengganti sequence diagram dan class diagram sehingga konsisten dengan perubahan yang dilakukan* |
 | *B* | *Merapikan serta menyesuaikan daftar kelas perancangan keseluruhan dengan perubahan yang ada* |
-| *C* | *Menambahkan operasi getStatus() di C02 dan catatPenjualan() di C06 serta merevisi sequence diagram UC04* |
+| *C* | *Menambahkan operasi getStatus() di C02 dan catatPenjualan() di C06 serta merevisi sequence diagram dan diagram kelas UC04 dan menambah* |
 | ... |  |
 
 ---
@@ -789,7 +789,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 
 | ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
 | :--- | :--- | :--- | :--- |
-| *C01* | *AkunPengguna* | *idAkun, email, kataSandi, tipeAkun* | *registrasi()* |
+| *C01* | *AkunPengguna* | *idAkun, email, kataSandi, tipeAkun* | *registrasi(), getAkunId()* |
 | *C02* | *Pendaftaran* | *idPendaftaran, tanggalDaftar, statusVerifikasi* | *ajukanPendaftaran(), getDaftarMenungguVerifikasi(), getDetailPendaftar(), updateStatus(), getStatus()* |
 | *C03* | *DokumenPendukung* | *idDokumen, namaFile, tipeDokumen* | *unggahDokumen(), getDokumen()* |
 | *C04* | *VerifikasiController* | *-* | *tampilkanDaftarPendaftar(), ambilDetailPendaftar(), prosesVerifikasi()* |
