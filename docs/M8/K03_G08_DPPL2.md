@@ -586,11 +586,14 @@ Tabel 3.9 Identifikasi Kelas Use Case UC09
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
 | 1 | *PerwakilanNGO (C31)* | *PerwakilanNGO (C31)* |
-| 2 | *DaftarSurplusPage* (C19) | *DaftarSurplusPage* (C19) |
-| 3 | *SurplusController* (C27) | *SurplusController* (C27) |
-| 4 | *ProdukSurplus* (C08) | *ProdukSurplus* (C08) |
-| 5 | *MetodeDistribusiSurplus* (C09) | *MetodeDistribusiSurplus* (C09) |
-| 6 | *PenyaringanController* (C34) | *PenyaringanController* (C34) |
+| 2 | *DaftarSurplusPage (C19)* | *DaftarSurplusPage (C19)* |
+| 3 | *SurplusController (C27)* | *SurplusController (C27)* |
+| 4 | *ProdukSurplus (C08)* | *ProdukSurplus (C08)* |
+| 5 | *MetodeDistribusiSurplus (C09)* | *MetodeDistribusiSurplus (C09)* |
+| 6 | *PenyaringanController (C34)* | *PenyaringanController (C34)* |
+| 7 | *Produk (C05)* | *Produk (C05)* |
+| 8 | *PemilikFnB (C30)* | *PemilikFnB (C30)* |
+| 9 | *GeolocationAdapter C33* | *GeolocationAdapter C33* |
 
 ### 3.9.2 Sequence Diagram
 
@@ -633,12 +636,14 @@ Tabel 3.10 Identifikasi Kelas Use Case UC10
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
 | 1 | *PerwakilanNGO (C31)* | *PerwakilanNGO (C31)* |
-| 2 | *KlaimPage* (C20) | *KlaimPage* (C20) |
-| 3 | *KlaimController* (C28) | *KlaimController* (C28) |
-| 4 | *SurplusController* (C27) | *SurplusController* (C27) |
-| 5 | *MetodeDistribusiSurplus* (C09) | *MetodeDistribusiSurplus* (C09) |
-| 6 | *ProdukSurplus* (C08) | *ProdukSurplus* (C08) |
-| 7 | *DokumenKlaim* (C10) | *DokumenKlaim* (C10) |
+| 2 | *KlaimPage (C20)* | *KlaimPage (C20)* |
+| 3 | *KlaimController (C28)* | *KlaimController (C28)* |
+| 4 | *SurplusController (C27)* | *SurplusController (C27)* |
+| 5 | *MetodeDistribusiSurplus (C09)* | *MetodeDistribusiSurplus (C09)* |
+| 6 | *ProdukSurplus (C08)* | *ProdukSurplus (C08)* |
+| 7 | *DokumenKlaim (C10)* | *DokumenKlaim (C10)* |
+| 8 | *Produk (C05)* | *Produk (C05)* |
+| 9 | *PemilikFnB (C30)* | *PemilikFnB (C30)* |
 
 ### 3.10.2 Sequence Diagram
 
@@ -1884,10 +1889,10 @@ Tabel 5.30.1. Operasi Kelas PemilikFnB
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
 | *getLokasiUsaha(idPemilik: Number): String* | *Public* | *Mengambil alamat usaha milik Pemilik F&B berdasarkan idPemilik. Dipakai SurplusController untuk menghitung jarak produk surplus ke lokasi NGO (UC08, UC09, UC10).* |
+| *getDataUsaha(): Object* | *Public* | *Mengambil data usaha Pemilik F&B (namaUsaha, alamatUsaha, jamOperasional) berdasarkan idPemilik milik objek. Dipakai KlaimController untuk menampilkan pihak yang terlibat pada detail pengambilan produk surplus (UC11).* |
 | *aturDistribusiSurplus(): void* | *Public* | *Titik awal UC07: membuka DistribusiSurplusPage agar Pemilik F&B dapat memilih produk surplus dan mengatur metode distribusinya.* |
 | *catatProdukSurplus(dataSurplus: Object): void* | *Public* | *Titik awal UC06: meneruskan data produk surplus (produk, jumlah, batas waktu pengambilan) ke ProdukSurplusPage.* |
 | *lihatHasilPrediksi(): void* | *Public* | *Titik awal UC05: membuka PrediksiPage agar Pemilik F&B dapat melihat rekomendasi produksi.* |
-| *registrasi(dataForm: Object): Number* | *Public* | *Pada UC01, operasi registrasi() dipanggil AuthController pada kelas ini. Operasi memanggil registrasi() milik AkunPengguna untuk membuat akun, lalu menyimpan namaUsaha, alamatUsaha, dan jamOperasional ke tabel pemilik_fnb. Mengembalikan idAkun.* |
 
 Tabel 5.30.2. Atribut Kelas PemilikFnB
 
@@ -1898,7 +1903,7 @@ Tabel 5.30.2. Atribut Kelas PemilikFnB
 | *alamatUsaha* | *Private* | *String* |
 | *jamOperasional* | *Private* | *String* |
 
-*Kelas ini merupakan subkelas AkunPengguna (C01) sehingga mewarisi atribut idAkun, email, kataSandi, tipeAkun dan operasi getAkunId().*
+*Kelas ini merupakan subkelas AkunPengguna (C01) sehingga mewarisi atribut idAkun, email, kataSandi, dan tipeAkun.*
 
 ### 5.30.1 Algoritma/Query
 
@@ -1982,22 +1987,26 @@ Tabel 5.30.6. Query Operasi lihatHasilPrediksi()
 ### 5.30.5 Algoritma/Query
 
 **Nama Kelas:** *PemilikFnB*  
-**Nama Operasi:** *registrasi(dataForm: Object): Number*  
+**Nama Operasi:** *getDataUsaha(): Object*  
 **ID Algoritma:** *Algo-C30-05*
 
 ```text
-FUNCTION registrasi(dataForm)
-    idAkun <- registrasi(dataForm) pada AkunPengguna
-    JALANKAN Q-C30-02 dengan (idAkun, dataForm.namaUsaha, dataForm.alamatUsaha, dataForm.jamOperasional)
-    RETURN idAkun
+FUNCTION getDataUsaha()
+    dataUsaha <- JALANKAN Q-C30-02 dengan (idPemilik milik objek)
+    IF dataUsaha kosong THEN
+        RAISE Error("Data Pemilik F&B tidak ditemukan.")
+    END IF
+    RETURN { namaUsaha: dataUsaha.nama_usaha,
+             alamatUsaha: dataUsaha.alamat_usaha,
+             jamOperasional: dataUsaha.jam_operasional }
 END FUNCTION
 ```
 
-Tabel 5.30.7. Query Operasi registrasi()
+Tabel 5.30.7. Query Operasi getDataUsaha()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-C30-02* | *INSERT INTO pemilik_fnb(id_akun, nama_usaha, alamat_usaha, jam_operasional) VALUES ($1, $2, $3, $4);* | *Menyimpan data profil usaha Pemilik F&B ke tabel pemilik_fnb. Kolom jam_operasional boleh kosong karena formulir registrasi (I-02) tidak memintanya.* |
+| *Q-C30-02* | *SELECT nama_usaha, alamat_usaha, jam_operasional FROM pemilik_fnb WHERE id_pemilik = $1;* | *Mengambil data usaha dari tabel pemilik_fnb berdasarkan id_pemilik* |
 
 ## 5.31 Kelas PerwakilanNGO
 
@@ -2011,7 +2020,7 @@ Tabel 5.31.1. Operasi Kelas PerwakilanNGO
 | *lihatDaftarSurplus(): void* | *Public* | *Titik awal UC08: membuka DaftarSurplusPage agar Perwakilan NGO dapat melihat daftar produk surplus yang terurut berdasarkan jarak terdekat.* |
 | *saringDaftarSurplus(): void* | *Public* | *Titik awal UC09: membuka fitur pencarian dan penyaringan pada DaftarSurplusPage.* |
 | *ajukanKlaim(idSurplus: Number): Boolean* | *Public* | *Titik awal pengajuan klaim pada UC10: meneruskan idSurplus ke KlaimPage. Mengembalikan false jika idSurplus kosong.* |
-| *registrasi(dataForm: Object): Number* | *Public* | *Pada UC01, operasi registrasi() dipanggil AuthController pada kelas ini. Operasi memanggil registrasi() milik AkunPengguna untuk membuat akun, lalu menyimpan namaOrganisasi, nomorLegalitas, dan lokasi ke tabel perwakilan_ngo. Mengembalikan idAkun.* |
+| *getDataNgo(): Object* | *Public* | *Mengambil data Perwakilan NGO (namaOrganisasi, nomorLegalitas, lokasi) berdasarkan idAkun milik objek, yang nilainya sama dengan idNgo pada DokumenKlaim. Dipakai KlaimController untuk menampilkan pihak yang terlibat pada detail pengambilan produk surplus (UC11).* |
 
 Tabel 5.31.2. Atribut Kelas PerwakilanNGO
 
@@ -2021,7 +2030,7 @@ Tabel 5.31.2. Atribut Kelas PerwakilanNGO
 | *nomorLegalitas* | *Private* | *String* |
 | *lokasi* | *Private* | *String* |
 
-*Kelas ini merupakan subkelas AkunPengguna (C01) sehingga mewarisi atribut idAkun, email, kataSandi, tipeAkun dan operasi getAkunId().*
+*Kelas ini merupakan subkelas AkunPengguna (C01) sehingga mewarisi atribut idAkun, email, kataSandi, dan tipeAkun.*
 
 ### 5.31.1 Algoritma/Query
 
@@ -2084,22 +2093,26 @@ Tabel 5.31.5. Query Operasi ajukanKlaim()
 ### 5.31.4 Algoritma/Query
 
 **Nama Kelas:** *PerwakilanNGO*  
-**Nama Operasi:** *registrasi(dataForm: Object): Number*  
+**Nama Operasi:** *getDataNgo(): Object*  
 **ID Algoritma:** *Algo-C31-04*
 
 ```text
-FUNCTION registrasi(dataForm)
-    idAkun <- registrasi(dataForm) pada AkunPengguna
-    JALANKAN Q-C31-01 dengan (idAkun, dataForm.namaOrganisasi, dataForm.nomorLegalitas, dataForm.lokasi)
-    RETURN idAkun
+FUNCTION getDataNgo()
+    dataNgo <- JALANKAN Q-C31-01 dengan (idAkun milik objek)
+    IF dataNgo kosong THEN
+        RAISE Error("Data Perwakilan NGO tidak ditemukan.")
+    END IF
+    RETURN { namaOrganisasi: dataNgo.nama_organisasi,
+             nomorLegalitas: dataNgo.nomor_legalitas,
+             lokasi: dataNgo.lokasi }
 END FUNCTION
 ```
 
-Tabel 5.31.6. Query Operasi registrasi()
+Tabel 5.31.6. Query Operasi getDataNgo()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-C31-01* | *INSERT INTO perwakilan_ngo(id_akun, nama_organisasi, nomor_legalitas, lokasi) VALUES ($1, $2, $3, $4);* | *Menyimpan data profil organisasi ke tabel perwakilan_ngo. Kolom lokasi diisi dari Alamat Kantor. Kolom nomor_legalitas boleh kosong karena formulir registrasi (I-03) hanya meminta dokumen Akta/SK.* |
+| *Q-C31-01* | *SELECT nama_organisasi, nomor_legalitas, lokasi FROM perwakilan_ngo WHERE id_akun = $1;* | *Mengambil data organisasi dari tabel perwakilan_ngo berdasarkan id_akun* |
 
 ## 5.32 Kelas AdminSistem
 
@@ -2118,7 +2131,7 @@ Tabel 5.32.2. Atribut Kelas AdminSistem
 | :--- | :--- | :--- |
 | *kewenangan* | *Private* | *String* |
 
-*Kelas ini merupakan subkelas AkunPengguna (C01) sehingga mewarisi atribut idAkun, email, kataSandi, tipeAkun dan operasi getAkunId().*
+*Kelas ini merupakan subkelas AkunPengguna (C01) sehingga mewarisi atribut idAkun, email, kataSandi, dan tipeAkun.*
 
 ### 5.32.1 Algoritma/Query
 
@@ -2142,7 +2155,7 @@ Tabel 5.32.3. Query Operasi verifikasiPendaftaran()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *-* | *-* | *Perubahan status disimpan oleh updateStatus() di kelas Pendaftaran (C02, Q-005).* |
+| *-* | *-* | *Perubahan status disimpan oleh updateStatus() di kelas Pendaftaran (C02, Q-C02-04).* |
 
 ## 5.33 Kelas GeolocationAdapter
 
@@ -2153,8 +2166,7 @@ Tabel 5.33.1. Operasi Kelas GeolocationAdapter
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| *hitungJarak(lokasiPengguna: String, lokasiPemilik: String): Number* | *Public* | *Menghitung jarak (km) antara lokasi Perwakilan NGO dan alamat usaha Pemilik F&B. Kedua lokasi diubah menjadi koordinat melalui ambilKoordinat(), lalu jarak dihitung dengan rumus Haversine. Dipanggil oleh SurplusController untuk setiap produk surplus (UC08, UC09, UC10).* |
-| *ambilKoordinat(alamat: String): Object* | *Public* | *Mengubah lokasi menjadi koordinat {lat, lng}. Lokasi berformat "lat,lng" (dari HTML5 Geolocation API) langsung diurai, sedangkan alamat teks dikonversi melalui layanan peta pihak ketiga (Google Maps Geocoding API atau OpenStreetMap Nominatim).* |
+| *hitungJarak(lokasiPengguna: String, lokasiPemilik: String): Number* | *Public* | *Menghitung jarak (dalam kilometer) antara lokasi Perwakilan NGO dan alamat usaha Pemilik F&B. Lokasi berupa koordinat "lat,lng" dari HTML5 Geolocation API atau alamat teks yang dikonversi menjadi koordinat melalui layanan peta pihak ketiga (Google Maps Geocoding API atau OpenStreetMap Nominatim). Dipanggil oleh SurplusController untuk setiap produk surplus.* |
 
 Tabel 5.33.2. Atribut Kelas GeolocationAdapter
 
@@ -2174,8 +2186,8 @@ FUNCTION hitungJarak(lokasiPengguna, lokasiPemilik)
         RAISE Error("Lokasi pengguna dan lokasi pemilik harus diisi.")
     END IF
 
-    koordinatPengguna <- ambilKoordinat(lokasiPengguna)
-    koordinatPemilik  <- ambilKoordinat(lokasiPemilik)
+    koordinatPengguna <- AMBIL_KOORDINAT(lokasiPengguna)
+    koordinatPemilik  <- AMBIL_KOORDINAT(lokasiPemilik)
 
     R <- 6371                                   // jari-jari bumi (km)
     dLat <- RADIAN(koordinatPemilik.lat - koordinatPengguna.lat)
@@ -2186,37 +2198,21 @@ FUNCTION hitungJarak(lokasiPengguna, lokasiPemilik)
     jarak <- 2 * R * ATAN2(SQRT(a), SQRT(1 - a))
     RETURN PEMBULATAN(jarak, 2)
 END FUNCTION
-```
 
-Tabel 5.33.3. Query Operasi hitungJarak()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *-* | *-* | *Kelas ini memakai layanan peta pihak ketiga, bukan database.* |
-
-### 5.33.2 Algoritma/Query
-
-**Nama Kelas:** *GeolocationAdapter*  
-**Nama Operasi:** *ambilKoordinat(alamat: String): Object*  
-**ID Algoritma:** *Algo-C33-02*
-
-```text
-FUNCTION ambilKoordinat(alamat)
-    IF alamat kosong THEN
-        RAISE Error("Lokasi harus diisi.")
+// Fungsi bantu internal (bukan operasi kelas)
+FUNCTION AMBIL_KOORDINAT(lokasi)
+    IF lokasi berformat "lat,lng" THEN             // dari HTML5 Geolocation API
+        RETURN { lat: PARSE(lat dari lokasi), lng: PARSE(lng dari lokasi) }
     END IF
-    IF alamat berformat "lat,lng" THEN             
-        RETURN { lat: PARSE(lat dari alamat), lng: PARSE(lng dari alamat) }
-    END IF
-    respons <- GEOCODING_API.cari(alamat)          
+    respons <- GEOCODING_API.cari(lokasi)          // Google Maps Geocoding API atau OSM Nominatim
     IF respons gagal ATAU respons kosong THEN
-        RAISE Error("Lokasi tidak ditemukan: " + alamat)
+        RAISE Error("Lokasi tidak ditemukan: " + lokasi)
     END IF
     RETURN { lat: respons.lat, lng: respons.lng }
 END FUNCTION
 ```
 
-Tabel 5.33.4. Query Operasi ambilKoordinat()
+Tabel 5.33.3. Query Operasi hitungJarak()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
