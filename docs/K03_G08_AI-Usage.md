@@ -68,3 +68,24 @@ Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan A
 | <img src="./assets/ttd-anggota3.jpeg" width="100"> | **13525111 - Edbert Fernando** |
 | <img src="./assets/ttd-anggota4.jpeg" width="100"> | **13525114 - Ernest Clarence Gunawan** |
 | <img src="./assets/ttd-anggota5.jpeg" width="100"> | **13525117 - Abdur Rauuf Fawaaz** |
+
+
+### Milestone 8
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+| :--- | :--- | :--- | :--- |
+| *Chat-gpt* | *Brainstorming ilustrasi web-app* | *"berikan ilusstrasi ilustrasi mengenai web yang memiliki kemiripan dengan proyek FoodLink,berikan juga color pallete yang sesuai dengan logo (upload logonya yang sudah dibuat) "* | *AI memberikan contoh contoh website dan memberikan sedikit ilustrasi beserta color pallete yang mirip dengan logo* |
+| *Claude* | *Memulai pengerjaan desain web* | *"Untuk membuat User Interface website(jelaskan website seperti apa, deskripsi umum, tujuan dan pada device apa saja di implementasikan) menggunakan color-pallete ini(color pallete yang sudah di siapkan oleh Chat-gpt sebelumnya), website seperti apa yang sebaiknya dibuat"* | *AI memberikan desain kasar yang sesuai dengan parameter parameter yang diberikan. contohnya ada 3 user(pihak fnb, pihak ngo, admin sistem) dia mengenerate user page yang dikhususkan untuk masing masing user pada figma. Prompting dilakukan beberapa kali karena ada beberapa ketidaksesuaian dengan gambaran awal* |
+
+
+---
+### Pernyataan Integritas dan Persetujuan
+
+Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan AI di atas adalah benar. Kami telah memvalidasi seluruh hasil AI dan bertanggung jawab penuh atas orisinalitas, keamanan, dan kebenaran hasil akhir dari tugas ini.
+
+| Tanda Tangan | Nama Anggota |
+| :---: | :--- |
+| <img src="./assets/ttd-anggota1.png" width="100"> | **13525024 - Excell Timothy Josua Tarigan** |
+| <img src="./assets/ttd-anggota2.jpeg" width="100"> | **13525036 - Dylan Frederico Ketaren** |
+| <img src="./assets/ttd-anggota3.jpeg" width="100"> | **13525111 - Edbert Fernando** |
+| <img src="./assets/ttd-anggota4.jpeg" width="100"> | **13525114 - Ernest Clarence Gunawan** |
+| <img src="./assets/ttd-anggota5.jpeg" width="100"> | **13525117 - Abdur Rauuf Fawaaz** |
