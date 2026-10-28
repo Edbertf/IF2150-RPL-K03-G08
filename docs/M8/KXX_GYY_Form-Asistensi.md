@@ -4,41 +4,37 @@
 
 | Informasi | Keterangan |
 | --- | --- |
-| **Hari** | *\[Hari\]* |
-| **Tanggal** | *\[DD/MM/YYYY\]* |
-| **Kelas** | *\[Kelas\]* |
-| **Nomor Kelompok** | *\[Nomor Kelompok\]*  |
-| **Nama Kelompok** | *\[Nama Kelompok\]*  |
-| **Nama Perangkat Lunak** | *\[Nama P/L\]*  |
-| **Dokumen** | *\[Nama Dokumen yang diasistensikan\]*  |
+| **Hari** | *Rabu* |
+| **Tanggal** | *28/10/2026* |
+| **Kelas** | *03* |
+| **Nomor Kelompok** | *08*  |
+| **Nama Kelompok** | *The Dragon Warrior*  |
+| **Nama Perangkat Lunak** | *FoodLink*  |
+| **Dokumen** | *K03_G08_DPPL2.md*  |
 
 ### Anggota Kelompok
 
 | NIM | Nama |
 | --- | --- |
-| *\[NIM 1\]* | *\[Nama Anggota 1\]* |
-| *\[NIM 2\]* | *\[Nama Anggota 2\]* |
-| *\[NIM 3\]* | *\[Nama Anggota 3\]* |
-| *\[NIM 4\]* | *\[Nama Anggota 4\]* |
-| *\[NIM 5\]* | *\[Nama Anggota 5\]* |
+| *13525024* | *Excell Timothy Josua Tarigan* |
+| *13525036* | *Dylan Frederico Ketaren* |
+| *13525111* | *Edbert Fernando* |
+| *13525114* | *Ernest Clarence Gunawan* |
+| *13525117* | *Abdur Rauuf Fawaaz* |
 
 ### Catatan
 
 | Catatan |
 | --- |
-| 1. *\[Berikan catatan hasil asistensi\]*  |
-| 2. ... |
-| 3. ... |
-| 4. ... |
-
-**Notes for this section:**  
-*Catatan dapat dituliskan dalam bentuk paragraf atau poin-poin, disesuaikan saja.* 
+| 1. *Dokumen masi bisa direvisi asal daftar perubahan jelas (ga perlu detail, tapi ditulis garis besarnya dengan jelas)*  |
+| 2. *Query itu untuk ngakses database* |
+| 3. *Id_Objek gak ada aturan penamaannya* |
 
 ## Dokumentasi
 
 <!-- ![](./assets/foto-asistensi.jpg) -->
 <p align="center">
-  <img src="./assets/foto-asistensi.jpg" width="100%">
+  <img src="./assets/foto-asistensi.png" width="100%">
 </p>
 
 <p align="center">
