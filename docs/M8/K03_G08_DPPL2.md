@@ -275,7 +275,7 @@ Tabel 3.2 Identifikasi Kelas Use Case UC02
 <i>Gambar 3.2.2 Sequence Diagram UC02 - Pendaftaran Ditolak</i>
 </p>
 
-### 3.1.3 Diagram Kelas
+### 3.2.3 Diagram Kelas
 
 <p align="center">
 <img alt="Diagram Kelas Memverifikasi Pendaftaran Akun" src="./assets/diagram/Gambar 3.2.3. Diagram Kelas Memverifikasi Pendaftaran Akun.png" width="35%">
@@ -468,6 +468,11 @@ Tabel 3.6 Identifikasi Kelas Use Case UC06
 <i>Gambar 3.6.3 Diagram Kelas Mencatat Produk Surplus</i>
 </p>
 
+## 3.7 Use Case Mengatur Metode Distribusi Surplus
+
+**ID Use Case:** *UC07*
+**Nama Use Case:** *Mengatur Metode Distribusi Surplus*
+
 ### 3.7.1 Identifikasi Kelas
 
 Tabel 3.7 Identifikasi Kelas Use Case UC07
@@ -616,7 +621,7 @@ Tabel 3.9 Identifikasi Kelas Use Case UC09
 ## 3.10 Use Case Mengklaim Produk Surplus
 
 **ID Use Case:** *UC10*  
-**Nama Use Case:** *Menyaring Produk Surplus*
+**Nama Use Case:** *Mengklaim Produk Surplus*
 
 ### 3.10.1 Identifikasi Kelas
 
@@ -640,7 +645,7 @@ Tabel 3.10 Identifikasi Kelas Use Case UC09
 <img alt="Sequence Diagram UC10 - Skenario Normal"  src="./assets/diagram/Gambar 3.10.1 Sequence Diagram UC10 - Normal.jpg" width="50%">
 </p>
 <p align="center">
-<i>Gambar 3.10.1 Sequence Diagram UC010 - Skenario Normal</i>
+<i>Gambar 3.10.1 Sequence Diagram UC10 - Skenario Normal</i>
 </p>
 
 - **Skenario Alternatif 1: Produk sudah diklaim NGO lain terlebih dahulu**
@@ -689,7 +694,7 @@ Tabel 3.11 Identifikasi Kelas Use Case UC11
 <img alt="Sequence Diagram UC11 - Skenario Normal" src="./assets/diagram/Gambar 3.11.1. Sequence Diagram UC11 - Skenario Normal.png" width="50%">
 </p>
 <p align="center">
-<i>Gambar 3.11.1 Sequence Diagram UC12</i>
+<i>Gambar 3.11.1 Sequence Diagram UC11</i>
 </p>
 
 - **Skenario Alternatif 1: Pemilik F&B atau Perwakilan NGO Ingin Membatalkan Pengonfirmasian Pengambilan Produk Surplus**
@@ -698,7 +703,7 @@ Tabel 3.11 Identifikasi Kelas Use Case UC11
 <img alt="Sequence Diagram UC11 - Membatalkan Pengonfirmasian Pengambilan Produk Surplus" src="./assets/diagram/Gambar 3.11.2. Sequence Diagram UC11 - Memilih No.png" width="50%">
 </p>
 <p align="center">
-<i>Gambar 3.11.2 Sequence Diagram UC12 - Membatalkan Pengonfirmasian Pengambilan Produk Surplus</i>
+<i>Gambar 3.11.2 Sequence Diagram UC11 - Membatalkan Pengonfirmasian Pengambilan Produk Surplus</i>
 </p>
 
 ### 3.11.3 Diagram Kelas
@@ -816,7 +821,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional* | *(diwarisi dari AkunPengguna)* |
 | *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | *(diwarisi dari AkunPengguna)* |
 | *C32* | *AdminSistem* | *kewenangan* | *verifikasiPendaftaran()* |
-| *C33* | *GeolocationAdapter* | *(tidak ada)* | *+getCoordinates(), +calculateDistance()* |
+| *C33* | *GeolocationAdapter* | *-* | *+getCoordinates(), +calculateDistance()* |
 | *C34* | *PenyaringanController* | *-* | *saringProdukSurplus(), cariProdukSurplus(), validasiKriteria(), saringBerdasarkanJenis(), saringBerdasarkanJarak(), saringBerdasarkanBatasWaktu()* |
 
 <br>
