@@ -37,18 +37,7 @@ Dipersiapkan oleh:
 | *C* | *Menambahkan operasi getStatus() di C02 dan catatPenjualan() di C06 serta merevisi sequence diagram dan diagram kelas UC04 dan menambah* |
 | *D* | *Menambahkan kelas PenyaringanController (C34)(menambahkan deskripsi perubahan yang tidak ada di M7)* |
 | *E* | *Merevisi sequence diagram dan class diagram UC09 dan UC10* |
-| *F* | *Merevisi sequence diagram dan class diagram UC05 dan UC066, serta mengubah nama operasi C07 dari buatPrediksi jadi simpanPrediksi* |
-| ... | |
-
----
-
-<br>
-
-> **Petunjuk pengerjaan:** *[Silahkan hapus bagian ini setelah selesai mengerjakan]*
->
-> Dokumen ini melanjutkan **Deskripsi Perancangan Perangkat Lunak**. Gunakan nama, ID, kebutuhan, dan use case yang konsisten dengan kedua dokumen tersebut. Contoh pola ID baru di bawah dapat disesuaikan dengan kesepakatan kelompok, ID yang sudah ada tetap dipertahankan.
-
-<br>
+| *F* | *Merevisi sequence diagram dan class diagram UC05 dan UC06, serta mengubah nama operasi C07 dari buatPrediksi jadi simpanPrediksi* |
 
 ---
 
@@ -56,7 +45,7 @@ Dipersiapkan oleh:
 # BAB 1: Pendahuluan
 
 ## 1.1 Tujuan Penulisan Dokumen
-Tuliskan dengan ringkas tujuan dokumen DPPL ini dibuat dan siapa saja yang akan menggunakan dokumen ini.
+Dokumen Deskripsi Perancangan Perangkat Lunak (DPPL) ini dibuat untuk menjabarkan rancangan teknis dari sistem FoodLink. Dokumen ini menerjemahkan kebutuhan sistem dari dokumen SKPL ke dalam bentuk arsitektur, diagram kelas, sequence diagram, rancangan antarmuka, serta query basis data. Dokumen ini ditujukan bagi tim pengembang sebagai panduan dalam menulis kode program dengan arsitektur MVC, tim penguji sebagai acuan penyusunan skenario pengujian, serta dosen dan asisten sebagai bentuk pemenuhan tugas besar mata kuliah IF2150 Rekayasa Perangkat Lunak.
 
 ## 1.2 Lingkup Masalah
 FoodLink merupakan suatu sistem perangkat lunak yang bertujuan untuk mengurangi pemborosan makanan dengan menghubungkan pemilik usaha F&B dan juga organisasi non-pemerintah (NGO). Sistem membantu pemilik F&B untuk mencatat data penjualan dan sisa produk harian untuk menghasilkan rekomendasi produksi, serta menyediakan akses untuk mengumumkan produk surplus yang dapat didonasikan atau dijual lagi dengan harga diskon. Sementara itu, NGO dapat menemukan, menyaring, dan mengklaim produk surplus di sekitar lokasinya. Dengan begitu, FoodLink akan mendukung pencapaian SDG 12 dan SDG 2.
@@ -105,7 +94,8 @@ Tabel 1.4. Aturan Penomoran
 - Slide materi perkuliahan IF2150 RPL: https://drive.google.com/drive/folders/1SWxicyDoWrjlpJ18f9Oe_IuCYA-qGmrf?usp=sharing
 
 ## 1.6 Deskripsi Umum Dokumen (Ikhtisar)
-Tuliskan sistematika pembahasan dokumen ini secara ringkas dan runut, dengan maksimal 1 paragraf.
+
+Dokumen Deskripsi Perancangan Perangkat Lunak (DPPL) ini disusun secara sistematis ke dalam tujuh bab. Dokumen diawali dengan **Bab 1** yang memuat pendahuluan, tujuan, dan lingkup sistem. **Bab 2** menjabarkan perancangan arsitektur perangkat lunak yang menggunakan pola *Model-View-Controller* (MVC) beserta identifikasi komponennya. Selanjutnya, **Bab 3** menguraikan realisasi dari setiap Use Case yang mencakup identifikasi kelas, sequence diagram, dan diagram kelas. **Bab 4** menyajikan gambaran utuh diagram kelas keseluruhan sistem beserta daftar kelas perancangannya. **Bab 5** memuat perancangan rinci untuk setiap kelas, meliputi operasi, atribut, serta kerangka algoritma dan query basis data. **Bab 6** mendeskripsikan rancangan antarmuka pengguna (UI) beserta spesifikasi objeknya. Dokumen ini ditutup dengan **Bab 7** yang menyajikan matriks kerunutan (*traceability*) untuk memetakan keterkaitan antara kelas perancangan dengan use case terkait.
 
 <br>
 
@@ -845,17 +835,44 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 
 # BAB 5: Perancangan Rinci Kelas
 
-Bagian ini diisi dengan daftar seluruh kelas dalam tabel berikut:
-
 Tabel 5.1. Daftar Kelas Perancangan dan Kelas Analisis Terkait
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 | :--- | :--- | :--- |
-| 1 | *[Nama kelas perancangan]* | *[Nama kelas analisis pada SKPL atau -]* |
-| 2 | *[Nama kelas perancangan]* | *[Nama kelas analisis pada SKPL atau -]* |
-| ... | *...* | *...* |
-
-Untuk **setiap kelas**, identifikasi operasi berdasarkan tanggung jawab kelas beserta *visibility*-nya, serta atribut beserta *visibility* dan tipenya. Buat subbab tersendiri untuk setiap kelas.
+| 1 | *AkunPengguna* | *AkunPengguna* |
+| 2 | *Pendaftaran* | *Pendaftaran* |
+| 3 | *DokumenPendukung* | *DokumenPendukung* |
+| 4 | *VerifikasiController* | *VerifikasiController* |
+| 5 | *Produk* | *Produk* |
+| 6 | *DataPenjualan* | *DataPenjualan* |
+| 7 | *PrediksiProduksi* | *PrediksiProduksi* |
+| 8 | *ProdukSurplus* | *ProdukSurplus* |
+| 9 | *MetodeDistribusiSurplus* | *MetodeDistribusiSurplus* |
+| 10 | *DokumenKlaim* | *DokumenKlaim* |
+| 11 | *LogAktivitas* | *LogAktivitas* |
+| 12 | *RegistrasiPage* | *RegistrasiPage* |
+| 13 | *VerifikasiPage* | *VerifikasiPage* |
+| 14 | *StatusPendaftaranPage* | *StatusPendaftaranPage* |
+| 15 | *PenjualanPage* | *PenjualanPage* |
+| 16 | *PrediksiPage* | *PrediksiPage* |
+| 17 | *ProdukSurplusPage* | *ProdukSurplusPage* |
+| 18 | *DistribusiSurplusPage* | *DistribusiSurplusPage* |
+| 19 | *DaftarSurplusPage* | *DaftarSurplusPage* |
+| 20 | *KlaimPage* | *KlaimPage* |
+| 21 | *PengambilanPage* | *PengambilanPage* |
+| 22 | *LogAktivitasPage* | *LogAktivitasPage* |
+| 23 | *AuthController* | *AuthController* |
+| 24 | *PenjualanController* | *PenjualanController* |
+| 25 | *PrediksiController* | *PrediksiController* |
+| 26 | *ProdukSurplusController* | *ProdukSurplusController* |
+| 27 | *SurplusController* | *SurplusController* |
+| 28 | *KlaimController* | *KlaimController* |
+| 29 | *LogController* | *LogController* |
+| 30 | *PemilikFnB* | *PemilikFnB* |
+| 31 | *PerwakilanNGO* | *PerwakilanNGO* |
+| 32 | *AdminSistem* | *AdminSistem* |
+| 33 | *GeolocationAdapter* | *(Kelas integrasi eksternal, ditambahkan pada tahap perancangan)* |
+| 34 | *PenyaringanController* | *(Kelas controller tambahan untuk memisahkan logika penyaringan)* |
 
 
 ## 5.1 Kelas AkunPengguna
@@ -4476,10 +4493,39 @@ Tabel 6.24. Rancangan Antarmuka Keseluruhan
 
 Petakan kelas perancangan dengan use case yang terkait. Gunakan **BAB 6 Traceability pada dokumen SKPL** sebagai acuan keterkaitan kelas analisis dan use case, lalu sesuaikan dengan realisasi use case dan kelas perancangan pada BAB 3–BAB 5 DPPL.
 
-Tabel 7.1. Matriks Kerunutan Kelas terhadap Use Case
-
 | Kelas | Use Case Terkait |
 | :--- | :--- |
-| *[ID kelas - Nama kelas]* | *[ID UC - Nama use case; tuliskan seluruh use case terkait]* |
-| *[ID kelas - Nama kelas]* | *[ID UC - Nama use case]* |
-| *...* | *...* |
+| *C01 - AkunPengguna* | *UC01 - Melakukan Registrasi Akun; UC02 - Memverifikasi Pendaftaran Akun; UC11 - Mengonfirmasi Pengambilan Produk Surplus; UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C02 - Pendaftaran* | *UC01 - Melakukan Registrasi Akun; UC02 - Memverifikasi Pendaftaran Akun; UC03 - Menampilkan Status Pendaftaran* |
+| *C03 - DokumenPendukung* | *UC01 - Melakukan Registrasi Akun; UC02 - Memverifikasi Pendaftaran Akun* |
+| *C04 - VerifikasiController* | *UC02 - Memverifikasi Pendaftaran Akun* |
+| *C05 - Produk* | *UC04 - Mencatat Data Penjualan Harian; UC05 - Melihat Hasil Prediksi Produksi; UC06 - Mencatat Produk Surplus; UC08 - Melihat Informasi Produk Surplus; UC09 - Menyaring Informasi Produk Surplus; UC10 - Mengklaim Produk Surplus* |
+| *C06 - DataPenjualan* | *UC04 - Mencatat Data Penjualan Harian; UC05 - Melihat Hasil Prediksi Produksi* |
+| *C07 - PrediksiProduksi* | *UC05 - Melihat Hasil Prediksi Produksi* |
+| *C08 - ProdukSurplus* | *UC06 - Mencatat Produk Surplus; UC07 - Mengatur Metode Distribusi Surplus; UC08 - Melihat Informasi Produk Surplus; UC09 - Menyaring Informasi Produk Surplus; UC10 - Mengklaim Produk Surplus; UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C09 - MetodeDistribusiSurplus* | *UC07 - Mengatur Metode Distribusi Surplus; UC08 - Melihat Informasi Produk Surplus; UC09 - Menyaring Informasi Produk Surplus; UC10 - Mengklaim Produk Surplus* |
+| *C10 - DokumenKlaim* | *UC10 - Mengklaim Produk Surplus; UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C11 - LogAktivitas* | *UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C12 - RegistrasiPage* | *UC01 - Melakukan Registrasi Akun* |
+| *C13 - VerifikasiPage* | *UC02 - Memverifikasi Pendaftaran Akun* |
+| *C14 - StatusPendaftaranPage* | *UC03 - Menampilkan Status Pendaftaran* |
+| *C15 - PenjualanPage* | *UC04 - Mencatat Data Penjualan Harian* |
+| *C16 - PrediksiPage* | *UC05 - Melihat Hasil Prediksi Produksi* |
+| *C17 - ProdukSurplusPage* | *UC06 - Mencatat Produk Surplus* |
+| *C18 - DistribusiSurplusPage* | *UC07 - Mengatur Metode Distribusi Surplus* |
+| *C19 - DaftarSurplusPage* | *UC08 - Melihat Informasi Produk Surplus; UC09 - Menyaring Informasi Produk Surplus* |
+| *C20 - KlaimPage* | *UC10 - Mengklaim Produk Surplus* |
+| *C21 - PengambilanPage* | *UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C22 - LogAktivitasPage* | *UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C23 - AuthController* | *UC01 - Melakukan Registrasi Akun; UC03 - Menampilkan Status Pendaftaran* |
+| *C24 - PenjualanController* | *UC04 - Mencatat Data Penjualan Harian* |
+| *C25 - PrediksiController* | *UC05 - Melihat Hasil Prediksi Produksi* |
+| *C26 - ProdukSurplusController* | *UC06 - Mencatat Produk Surplus; UC07 - Mengatur Metode Distribusi Surplus* |
+| *C27 - SurplusController* | *UC08 - Melihat Informasi Produk Surplus; UC09 - Menyaring Informasi Produk Surplus; UC10 - Mengklaim Produk Surplus* |
+| *C28 - KlaimController* | *UC10 - Mengklaim Produk Surplus; UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C29 - LogController* | *UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C30 - PemilikFnB* | *UC01 - Melakukan Registrasi Akun; UC04 - Mencatat Data Penjualan Harian; UC05 - Melihat Hasil Prediksi Produksi; UC06 - Mencatat Produk Surplus; UC07 - Mengatur Metode Distribusi Surplus; UC08 - Melihat Informasi Produk Surplus; UC09 - Menyaring Informasi Produk Surplus; UC10 - Mengklaim Produk Surplus; UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C31 - PerwakilanNGO* | *UC01 - Melakukan Registrasi Akun; UC03 - Menampilkan Status Pendaftaran; UC08 - Melihat Informasi Produk Surplus; UC09 - Menyaring Informasi Produk Surplus; UC10 - Mengklaim Produk Surplus; UC11 - Mengonfirmasi Pengambilan Produk Surplus* |
+| *C32 - AdminSistem* | *UC02 - Memverifikasi Pendaftaran Akun; UC12 - Mengecek Log Aktivitas Pengguna* |
+| *C33 - GeolocationAdapter* | *UC08 - Melihat Informasi Produk Surplus; UC09 - Menyaring Informasi Produk Surplus* |
+| *C34 - PenyaringanController* | *UC09 - Menyaring Informasi Produk Surplus* |
