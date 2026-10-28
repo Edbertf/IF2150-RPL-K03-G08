@@ -916,7 +916,7 @@ FUNCTION registrasi(dataForm)
 END FUNCTION
 ```
 
-Tabel 5.1.1. Query Operasi registrasi()
+Tabel 5.1.3. Query Operasi registrasi()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
@@ -961,7 +961,7 @@ Tabel 5.2.3. Query Operasi ajukanPendaftaran()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-002* | *INSERT INTO pendaftaran(id_akun, tanggal_daftar, status_verifikasi) VALUES ($1, CURRENT_DATE, 'menunggu verifikasi) RETURNING id_pendaftaran;* | *Meyimpan pendaftaran baru dengan tanggal hari ini dan status awal "menunggu verifikasi", lalu mengembalikan idPendaftaran* |
+| *Q-002* | *INSERT INTO pendaftaran(id_akun, tanggal_daftar, status_verifikasi) VALUES ($1, CURRENT_DATE, 'menunggu verifikasi') RETURNING id_pendaftaran;* | *Meyimpan pendaftaran baru dengan tanggal hari ini dan status awal "menunggu verifikasi", lalu mengembalikan idPendaftaran* |
 
 ### 5.2.2 Algoritma/Query
 
@@ -1218,7 +1218,7 @@ Tabel 5.6.1. Operasi Kelas DataPenjualan
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
 | *getDataHistoris(): Array* | *Public* | *Mengambil data historis penjualan untuk dijadikan prediksi* |
-| *catatPenjualan(data: Object): void* | *Public* | *Menyimpan data penjualan harian* |
+| *catatPenjualan(data: Array): void* | *Public* | *Menyimpan data penjualan harian* |
 
 Tabel 5.6.2. Atribut Kelas DataPenjualan
 
@@ -1232,7 +1232,7 @@ Tabel 5.6.2. Atribut Kelas DataPenjualan
 ### 5.6.1 Algoritma/Query
 
 **Nama Kelas:** *DataPenjualan*  
-**Nama Operasi:** *catatPenjualan(data: Object): void*  
+**Nama Operasi:** *catatPenjualan(data: Array): void*  
 **ID Algoritma:** *Algo-012*
 
 ```text
@@ -1247,7 +1247,7 @@ Tabel 5.6.3. Query Operasi catatPenjualan()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| *Q-009* |INSERT INTO data_penjualan (id_penjualan, id_produk, tanggal, jumlah_terjual, jumlah_tersisa) VALUES (DEFAULT, $1, $2, $3, $4);* | *Menyimpan data penjualan harian* |
+| *Q-009* | *INSERT INTO data_penjualan (id_penjualan, id_produk, tanggal, jumlah_terjual, jumlah_tersisa) VALUES (DEFAULT, $1, $2, $3, $4);* | *Menyimpan data penjualan harian* |
 
 ### 5.6.2 Algoritma/Query
 
