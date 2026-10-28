@@ -798,7 +798,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C05* | *Produk* | *idProduk, namaProduk, kategori* | *getDetailProduk()* |
 | *C06* | *DataPenjualan* | *idPenjualan, tanggal, jumlahTerjual, jumlahTersisa* | *getDataHistoris(), catatPenjualan()* |
 | *C07* | *PrediksiProduksi* | *idPrediksi, tanggalPrediksi, jumlahRekomendasi* | *buatPrediksi(), getHasilPrediksi()* |
-| *C08* | *ProdukSurplus* | *idSurplus, idProduk, idPemilik, jumlah, batasWaktuPengambilan, status* | *simpanProdukSurplus(), setStatus(), getDetailSurplus(), getProdukSurplusTersedia(), getDaftarSurplus()* |
+| *C08* | *ProdukSurplus* | *idSurplus, idProduk, idPemilik, jumlah, batasWaktuPengambilan, status* | *simpanProdukSurplus(), setStatus(), getDetailSurplus(), getProdukSurplusTersedia(), getStatus()* |
 | *C09* | *MetodeDistribusiSurplus* | *idDistribusi, jenisDistribusi, harga* | *pilihMetodeDistribusi(), getInfoDistribusi(), getJenisDistribusi(), getHarga()* |
 | *C10* | *DokumenKlaim* | *idKlaim, idNgo, idSurplus, waktuKlaim, statusKlaim* | *catatKlaim(), getDetailKlaim(), getWaktuKlaim(), getStatusKlaim()* |
 | *C11* | *LogAktivitas* | *idLog, aktivitas, waktu* | *getDaftarLog(), cariLog()* |
@@ -809,18 +809,18 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C16* | *PrediksiPage* | *-* | *lihatHasilPrediksi(), tampilkanDashboardPrediksi(), tampilkanGrafik(), tampilkanPesanError()* |
 | *C17* | *ProdukSurplusPage* | *-* | *tampilkanFormulirSurplus(), kirimDataSurplus(), resetFormulir(), tampilkanNotifikasiSukses(), kosongkanIsian()* |
 | *C18* | *DistribusiSurplusPage* | *-* | *pilihProdukSurplus(), tampilkanFormDistribusi(), tampilkanOpsiDistribusi(), tampilkanKolomHarga(), tampilkanKeteranganGratis(), simpanDistribusi(), tampilkanPesanKesalahan(), tampilkanPesanSukses()* |
-| *C19* | *DaftarSurplusPage* | *lokasiPengguna, daftarSurplus* | *lihatDaftarSurplus(), mintaLokasiPengguna(), masukkanLokasiPengguna(), tampilkanDaftarSurplus(), pilihProduk(), tampilkanDetailProduk(), bukaFiturPenyaringan(), tampilkanFiturPenyaringan(), bukaDaftarSurplus(), tampilkanDaftarProdukSesuai()* |
-| *C20* | *KlaimPage* | *produkTerpilih* | *pilihProduk(), tampilkanDetailProduk(), klaim(), tampilkanKlaimBerhasil(), tampilkanKlaimDitolak()* |
+| *C19* | *DaftarSurplusPage* | *lokasiPengguna, daftarSurplus, kataKunci, kriteriaFilter* | *saringDaftarSurplus(), tampilkanFormFilter(), kirimKriteriaFilter(), tampilkanHasilFilter(), tampilkanPesanTidakAda(), pilihProduk(), tampilkanDetailProduk()* |
+| *C20* | *KlaimPage* | *idSurplusTerpilih, hasilKlaim, pesanError* | *tampilkanHalaman(), tampilkanDetailProduk(), kirimKlaim(), tampilkanKlaimBerhasil(), tampilkanPesanDitolak()* |
 | *C21* | *PengambilanPage* | *-* | *bukaDetailPengambilan(), tampilkanDetailPengambilan(), tampilkanPopupKonfirmasi(), pilihKonfirmasiPengambilan(), pilihYes(), pilihNo(), tutupPopupKonfirmasi(), tampilkanPesanBerhasil()* |
 | *C22* | *LogAktivitasPage* | *daftarLogTampil* | *bukaDashboardLog(), tampilkanDashboardLog(), terapkanFilter(), tampilkanTabelLog(), tampilkanPesanLogKosong()* |
 | *C23* | *AuthController* | *-* | *registrasiAkun(), validasiKelengkapanData(), validasiFormatDokumen(), cekStatusPendaftaran()* |
 | *C24* | *PenjualanController* | *-* | *validasiInputPenjualan(), simpanDataPenjualan()* |
 | *C25* | *PrediksiController* | *-* | *cekKecukupanData(), jalankanPrediksi()* |
 | *C26* | *ProdukSurplusController* | *-* | *validasiDataSurplus(), simpanDataSurplus(), tampilkanFormDistribusi(), simpanMetodeDistribusi(), validasiMetodeDistribusi()* |
-| *C27* | *SurplusController* | *-* | *ambilDaftarSurplus(), ambilDetailSurplus(), urutkanBerdasarkanJarak(), getDaftarSurplus(), getDetailProduk(), getMetodeDistribusi()* |
-| *C28* | *KlaimController* | *-* | *getDetailProduk(), klaim(), ambilDetailPengambilan(), konfirmasiPengambilan()* |
+| *C27* | *SurplusController* | *-* | *ambilDaftarSurplus(), ambilDetailSurplus(), urutkanBerdasarkanJarak()* |
+| *C28* | *KlaimController* | *-* | *setujuiKlaim(), tolakKlaim(), cekKetersediaan(), kunciProduk(), ambilDetailPengambilan(), konfirmasiPengambilan()* |
 | *C29* | *LogController* | *-* | *tampilkanLog(), saringLog()* |
-| *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional* | *catatProdukSurplus(), lihatHasilPrediksi(), getLokasiUsaha(), getDataUsaha(), aturDistribusiSurplus()* |
+| *C30* | *PemilikFnB* | *namaUsaha, alamatUsaha, jamOperasional, idPemilik* | *catatProdukSurplus(), lihatHasilPrediksi(), getLokasiUsaha(), getDataUsaha(), aturDistribusiSurplus()* |
 | *C31* | *PerwakilanNGO* | *namaOrganisasi, nomorLegalitas, lokasi* | *lihatDaftarSurplus(), ajukanKlaim(), getDataNgo()* |
 | *C32* | *AdminSistem* | *kewenangan* | *verifikasiPendaftaran()* |
 | *C33* | *GeolocationAdapter* | *-* | *hitungJarak()* |
