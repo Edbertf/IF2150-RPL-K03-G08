@@ -148,3 +148,5 @@
 | *27-10-2026* | *Edbert Fernando* | *mengerjakan 5.1 - 5.6* | *4 jam 30 menit* | *Done* | *Kesulitan membuat algo dan query, juga memastikan bahwa operasi/atribut yang digunakan itu konsisten* |
 | *28-10-2026* | *Abdur Rauuf Fawaaz* | *merevisi sequence diagram dan class diagram UC09 dan UC10* | *4 jam* | *Done* | *-* |
 | *28-10-2026* | *Abdur Rauuf Fawaaz* | *mengerjakan 5.29-5.34* | *2 jam* | *Done* | *-* |
+| *28-10-2026* | *Ernest Clarence Gunawan* | *merevisi sequence diagram dan class diagram yang masih ga konsisten, menyesuaikan tabel daftar kelas perancangan keseluruhan dengan semua realisasi use case* | *7 jam* | *Done* | *semua yang ngerjain pada ga konsisten semua (minus inisiatif untuk nyesuaian dan ngecek )* |
+| *28-10-2026* | *Ernest Clarence Gunawan* | *mengerjakan perancangan rinci kelas untuk C12-C17* | *2 jam* | *Done* | *-* |
