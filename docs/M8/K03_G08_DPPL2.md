@@ -35,6 +35,8 @@ Dipersiapkan oleh:
 | *A* | *Merevisi realisasi UC11 dan UC12: mengganti identifikasi kelas pada kedua use case, menyeragamkan penamaan atribut dan operasi ke bahasa Indonesia, lalu mengganti sequence diagram dan class diagram sehingga konsisten dengan perubahan yang dilakukan* |
 | *B* | *Merapikan serta menyesuaikan daftar kelas perancangan keseluruhan dengan perubahan yang ada (menambah atribut dan operasi yang belum ada di tabel, menghapus yang tidak digunakan di realisasi)* |
 | *C* | *Menambahkan operasi getStatus() di C02 dan catatPenjualan() di C06 serta merevisi sequence diagram dan diagram kelas UC04 dan menambah* |
+| *D* | *Menambahkan kelas PenyaringanController (C34)(menambahkan deskripsi perubahan yang tidak ada di M7)* |
+| *E* | *Merevisi sequence diagram dan class diagram UC09 dan UC10* |
 | ... |  |
 
 ---
@@ -583,8 +585,8 @@ Tabel 3.9 Identifikasi Kelas Use Case UC09
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
 | 1 | *PerwakilanNGO (C31)* | *PerwakilanNGO (C31)* |
-| 2 | *DaftarSurplusPage* (C19) | *AkunPengguna* (C01) |
-| 3 | *SurplusController* (C27) | *ProdukSurplus* (C08) |
+| 2 | *DaftarSurplusPage* (C19) | *DaftarSurplusPage* (C19) |
+| 3 | *SurplusController* (C27) | *SurplusController* (C27) |
 | 4 | *ProdukSurplus* (C08) | *ProdukSurplus* (C08) |
 | 5 | *MetodeDistribusiSurplus* (C09) | *MetodeDistribusiSurplus* (C09) |
 | 6 | *PenyaringanController* (C34) | *PenyaringanController* (C34) |
@@ -612,7 +614,7 @@ Tabel 3.9 Identifikasi Kelas Use Case UC09
 ### 3.9.3 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas Menyaring Produk Surplus" src="./assets/diagram/Gambar 3.9.3 Diagram Kelas Menyaring Produk.jpg" width="35%">
+<img alt="Diagram Kelas Menyaring Produk Surplus" src="./assets/diagram/Gambar 3.9.3 Diagram Kelas Menyaring Produk.jpg" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.9.3 Diagram Kelas Menyaring Produk Surplus</i>
@@ -625,14 +627,14 @@ Tabel 3.9 Identifikasi Kelas Use Case UC09
 
 ### 3.10.1 Identifikasi Kelas
 
-Tabel 3.10 Identifikasi Kelas Use Case UC09
+Tabel 3.10 Identifikasi Kelas Use Case UC10
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 |:--- | :--- | :--- |
 | 1 | *PerwakilanNGO (C31)* | *PerwakilanNGO (C31)* |
 | 2 | *KlaimPage* (C20) | *KlaimPage* (C20) |
-| 3 | *KlaimController* (C28) | *KlaimSurplus* (C28) |
-| 4 | *SurplusController* (C27) | *ProdukSurplus* (C08) |
+| 3 | *KlaimController* (C28) | *KlaimController* (C28) |
+| 4 | *SurplusController* (C27) | *SurplusController* (C27) |
 | 5 | *MetodeDistribusiSurplus* (C09) | *MetodeDistribusiSurplus* (C09) |
 | 6 | *ProdukSurplus* (C08) | *ProdukSurplus* (C08) |
 | 7 | *DokumenKlaim* (C10) | *DokumenKlaim* (C10) |
@@ -660,7 +662,7 @@ Tabel 3.10 Identifikasi Kelas Use Case UC09
 ### 3.10.3 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas Mengklaim Produk Surplus" src="./assets/diagram/Gambar 3.10.3 Diagram Kelas Mengklaim Produk.jpg" width="35%">
+<img alt="Diagram Kelas Mengklaim Produk Surplus" src="./assets/diagram/Gambar 3.10.3 Diagram Kelas Mengklaim Produk.jpg" width="50%">
 </p>
 <p align="center">
 <i>Gambar 3.10.3 Diagram Kelas Mengklaim Produk Surplus</i>
