@@ -1282,6 +1282,470 @@ Tabel 5.6.4. Query Operasi getDataHistoris()
 | :--- | :--- | :--- |
 | *Q-C06-02* | *SELECT tanggal, jumlah_terjual, jumlah_tersisa FROM data_penjualan ORDER BY tanggal DESC LIMIT 7;* | *mengambil data historis hingga 7 hari untuk dijadikan prediksi* |
 
+## 5.12 Kelas RegistrasiPage
+
+**Nama Kelas:** *RegistrasiPage*  
+**ID Kelas:** *C12*
+
+Tabel 5.12.1. Operasi Kelas RegistrasiPage
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *pilihTipeAkun(tipeAkun: String): void* | *public* | *Menentukan tipe akun yang dipilih pengguna.* |
+| *tampilkanFormRegistrasi(tipeAkun: String): void* | *public* | *Menampilkan formulir registrasi sesuai tipe akun.* |
+| *kirimFormulir(dataForm: Object, daftarDokumen: Array): void* | *public* | *Mengirim data formulir dan dokumen ke AuthController.* |
+| *tampilkanPesanBerhasil(): void* | *public* | *Menampilkan notifikasi pendaftaran berhasil.* |
+| *tampilkanPesanError(daftarError: Array): void* | *public* | *Menampilkan pesan kesalahan validasi isian.* |
+
+Tabel 5.12.2. Atribut Kelas RegistrasiPage
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+*Kelas ini merupakan boundary class (View) sehingga tidak memiliki atribut.*
+
+### 5.12.1 Algoritma/Query
+
+**Nama Kelas:** *RegistrasiPage*  
+**Nama Operasi:** *pilihTipeAkun(tipeAkun)*  
+**ID Algoritma:** *Algo-C12-01*
+
+```text
+Procedure pilihTipeAkun(tipeAkun)
+    If (tipeAkun = "Pemilik F&B") Then
+        tampilkanFormRegistrasi("Pemilik F&B")
+    Else If (tipeAkun = "Perwakilan NGO") Then
+        tampilkanFormRegistrasi("Perwakilan NGO")
+    Else
+        TAMPILKAN pesan("Tipe akun tidak valid.")
+    End If
+End Procedure
+```
+
+### 5.12.2 Algoritma/Query
+
+**Nama Kelas:** *RegistrasiPage*  
+**Nama Operasi:** *tampilkanFormRegistrasi(tipeAkun)*  
+**ID Algoritma:** *Algo-C12-02*
+
+```text
+Procedure tampilkanFormRegistrasi(tipeAkun)
+    If (tipeAkun = "Pemilik F&B") Then
+        TAMPILKAN FormRegistrasiFNB
+    Else If (tipeAkun = "Perwakilan NGO") Then
+        TAMPILKAN FormRegistrasiNGO
+    End If
+End Procedure
+```
+
+### 5.12.3 Algoritma/Query
+
+**Nama Kelas:** *RegistrasiPage*  
+**Nama Operasi:** *kirimFormulir(dataForm, daftarDokumen)*  
+**ID Algoritma:** *Algo-C12-03*
+
+```text
+Procedure kirimFormulir(dataForm, daftarDokumen)
+    daftarError ← AuthController.registrasiAkun(dataForm.tipeAkun, dataForm, daftarDokumen)
+    
+    If (daftarError is empty) Then
+        tampilkanPesanBerhasil()
+    Else
+        tampilkanPesanError(daftarError)
+    End If
+End Procedure
+```
+
+### 5.12.4 Algoritma/Query
+
+**Nama Kelas:** *RegistrasiPage*  
+**Nama Operasi:** *tampilkanPesanBerhasil()*  
+**ID Algoritma:** *Algo-C12-04*
+
+```text
+Procedure tampilkanPesanBerhasil()
+    TAMPILKAN pesan("Registrasi Berhasil! Silakan tunggu verifikasi admin.")
+    PINDAH KE Halaman StatusPendaftaran
+End Procedure
+```
+
+### 5.12.5 Algoritma/Query
+
+**Nama Kelas:** *RegistrasiPage*  
+**Nama Operasi:** *tampilkanPesanError(daftarError)*  
+**ID Algoritma:** *Algo-C12-05*
+
+```text
+Procedure tampilkanPesanError(daftarError)
+    For each error in daftarError
+        TAMPILKAN pesan(error)
+    End For
+End Procedure
+```
+
+## 5.13 Kelas VerifikasiPage
+
+**Nama Kelas:** *VerifikasiPage*  
+**ID Kelas:** *C13*
+
+Tabel 5.13.1. Operasi Kelas VerifikasiPage
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *bukaDaftarVerifikasi(): void* | *public* | *Meminta dan menampilkan daftar pendaftar yang menunggu verifikasi.* |
+| *tampilkanDaftarVerifikasi(daftarPendaftar: List): void* | *public* | *Merender antarmuka daftar pendaftar.* |
+| *pilihPendaftar(idPendaftaran: String): void* | *public* | *Memilih pendaftar tertentu untuk melihat detailnya.* |
+| *tampilkanDetailPendaftar(detailPendaftar: Map): void* | *public* | *Menampilkan data diri dan dokumen pendukung pendaftar.* |
+| *kirimKeputusan(idPendaftaran: String, keputusan: String): void* | *public* | *Mengirim keputusan admin (terima/tolak) ke VerifikasiController.* |
+
+Tabel 5.13.2. Atribut Kelas VerifikasiPage
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+*Kelas ini merupakan boundary class (View) sehingga tidak memiliki atribut.*
+
+### 5.13.1 Algoritma/Query
+
+**Nama Kelas:** *VerifikasiPage*  
+**Nama Operasi:** *bukaDaftarVerifikasi()*  
+**ID Algoritma:** *Algo-C13-01*
+
+```text
+Procedure bukaDaftarVerifikasi()
+    daftarPendaftar ← VerifikasiController.tampilkanDaftarPendaftar()
+    tampilkanDaftarVerifikasi(daftarPendaftar)
+End Procedure
+```
+
+### 5.13.2 Algoritma/Query
+
+**Nama Kelas:** *VerifikasiPage*  
+**Nama Operasi:** *tampilkanDaftarVerifikasi(daftarPendaftar)*  
+**ID Algoritma:** *Algo-C13-02*
+
+```text
+Procedure tampilkanDaftarVerifikasi(daftarPendaftar)
+    If (daftarPendaftar is empty) Then
+        TAMPILKAN pesan("Tidak ada pendaftar yang menunggu verifikasi.")
+    Else
+        TAMPILKAN tabel daftarPendaftar
+    End If
+End Procedure
+```
+
+### 5.13.3 Algoritma/Query
+
+**Nama Kelas:** *VerifikasiPage*  
+**Nama Operasi:** *pilihPendaftar(idPendaftaran)*  
+**ID Algoritma:** *Algo-C13-03*
+
+```text
+Procedure pilihPendaftar(idPendaftaran)
+    detailPendaftar ← VerifikasiController.ambilDetailPendaftar(idPendaftaran)
+    tampilkanDetailPendaftar(detailPendaftar)
+End Procedure
+```
+
+### 5.13.4 Algoritma/Query
+
+**Nama Kelas:** *VerifikasiPage*  
+**Nama Operasi:** *tampilkanDetailPendaftar(detailPendaftar)*  
+**ID Algoritma:** *Algo-C13-04*
+
+```text
+Procedure tampilkanDetailPendaftar(detailPendaftar)
+    TAMPILKAN data diri pendaftar
+    TAMPILKAN dokumen pendukung pendaftar
+End Procedure
+```
+
+### 5.13.5 Algoritma/Query
+
+**Nama Kelas:** *VerifikasiPage*  
+**Nama Operasi:** *kirimKeputusan(idPendaftaran, keputusan)*  
+**ID Algoritma:** *Algo-C13-05*
+
+```text
+Procedure kirimKeputusan(idPendaftaran, keputusan)
+    status ← VerifikasiController.prosesVerifikasi(idPendaftaran, keputusan)
+    
+    If (status = "Berhasil") Then
+        TAMPILKAN pesan("Keputusan verifikasi berhasil disimpan.")
+        PINDAH KE Halaman VerifikasiPage
+    Else
+        TAMPILKAN pesan("Gagal menyimpan keputusan verifikasi.")
+    End If
+End Procedure
+```
+
+## 5.14 Kelas StatusPendaftaranPage
+
+**Nama Kelas:** *StatusPendaftaranPage*  
+**ID Kelas:** *C14*
+
+Tabel 5.14.1. Operasi Kelas StatusPendaftaranPage
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *tampilkanStatusPendaftaran(): void* | *public* | *Menampilkan status pendaftaran pengguna berdasarkan hasil pengecekan.* |
+
+Tabel 5.14.2. Atribut Kelas StatusPendaftaranPage
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+*Kelas ini merupakan boundary class (View) sehingga tidak memiliki atribut.*
+
+### 5.14.1 Algoritma/Query
+
+**Nama Kelas:** *StatusPendaftaranPage*  
+**Nama Operasi:** *tampilkanStatusPendaftaran()*  
+**ID Algoritma:** *Algo-C14-01*
+
+```text
+Procedure tampilkanStatusPendaftaran()
+    statusVerifikasi ← AuthController.cekStatusPendaftaran()
+    
+    If (statusVerifikasi = "menunggu") Then
+        TAMPILKAN pesan("Pendaftaran sedang menunggu verifikasi admin.")
+    Else If (statusVerifikasi = "ditolak") Then
+        TAMPILKAN pesan("Pendaftaran ditolak. Silakan periksa kembali dokumen Anda.")
+    Else If (statusVerifikasi = "diterima") Then
+        TAMPILKAN pesan("Pendaftaran diterima. Selamat bergabung!")
+    Else
+        TAMPILKAN pesan("Status pendaftaran tidak diketahui.")
+    End If
+End Procedure
+```
+
+## 5.15 Kelas PenjualanPage
+
+**Nama Kelas:** *PenjualanPage*  
+**ID Kelas:** *C15*
+
+Tabel 5.15.1. Operasi Kelas PenjualanPage
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *tampilkanFormPenjualan(): void* | *public* | *Menampilkan formulir input data penjualan harian beserta daftar produk.* |
+| *kirimDataPenjualan(data: Object): void* | *public* | *Mengirimkan data penjualan yang telah diisi ke PenjualanController.* |
+
+Tabel 5.15.2. Atribut Kelas PenjualanPage
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+*Kelas ini merupakan boundary class (View) sehingga tidak memiliki atribut.*
+
+### 5.15.1 Algoritma/Query
+
+**Nama Kelas:** *PenjualanPage*  
+**Nama Operasi:** *tampilkanFormPenjualan()*  
+**ID Algoritma:** *Algo-C15-01*
+
+```text
+Procedure tampilkanFormPenjualan()
+    daftarProduk ← Produk.getDetailProduk()
+    TAMPILKAN form penjualan(daftarProduk)
+End Procedure
+```
+
+### 5.15.2 Algoritma/Query
+
+**Nama Kelas:** *PenjualanPage*  
+**Nama Operasi:** *kirimDataPenjualan(data)*  
+**ID Algoritma:** *Algo-C15-02*
+
+```text
+Procedure kirimDataPenjualan(data)
+    status ← PenjualanController.simpanDataPenjualan(data)
+    
+    If (status = "Berhasil") Then
+        TAMPILKAN pesan("Data penjualan berhasil disimpan.")
+    Else
+        TAMPILKAN pesan("Format isian penjualan tidak valid.")
+    End If
+End Procedure
+```
+
+## 5.16 Kelas PrediksiPage
+
+**Nama Kelas:** *PrediksiPage*  
+**ID Kelas:** *C16*
+
+Tabel 5.16.1. Operasi Kelas PrediksiPage
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *lihatHasilPrediksi(): void* | *public* | *Titik awal UC05: memicu pengecekan data dan penarikan hasil prediksi.* |
+| *tampilkanDashboardPrediksi(hasil: List): void* | *public* | *Menampilkan ringkasan hasil rekomendasi produksi.* |
+| *tampilkanGrafik(dataGrafik: Map): void* | *public* | *Menampilkan visualisasi grafik tren penjualan dan prediksi.* |
+| *tampilkanPesanError(pesan: String): void* | *public* | *Menampilkan pesan kesalahan jika data historis belum memenuhi syarat.* |
+
+Tabel 5.16.2. Atribut Kelas PrediksiPage
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+*Kelas ini merupakan boundary class (View) sehingga tidak memiliki atribut.*
+
+### 5.16.1 Algoritma/Query
+
+**Nama Kelas:** *PrediksiPage*  
+**Nama Operasi:** *lihatHasilPrediksi()*  
+**ID Algoritma:** *Algo-C16-01*
+
+```text
+Procedure lihatHasilPrediksi()
+    isCukup ← PrediksiController.cekKecukupanData()
+    
+    If (isCukup = true) Then
+        hasilPrediksi ← PrediksiController.jalankanPrediksi()
+        tampilkanDashboardPrediksi(hasilPrediksi)
+        tampilkanGrafik(hasilPrediksi)
+    Else
+        tampilkanPesanError("Data historis belum memenuhi syarat minimal 7 hari.")
+    End If
+End Procedure
+```
+
+### 5.16.2 Algoritma/Query
+
+**Nama Kelas:** *PrediksiPage*  
+**Nama Operasi:** *tampilkanDashboardPrediksi(hasil)*  
+**ID Algoritma:** *Algo-C16-02*
+
+```text
+Procedure tampilkanDashboardPrediksi(hasil)
+    If (hasil is empty) Then
+        TAMPILKAN pesan("Belum ada rekomendasi produksi untuk saat ini.")
+    Else
+        For each item in hasil
+            TAMPILKAN item.namaProduk, item.jumlahRekomendasi
+        End For
+    End If
+End Procedure
+```
+
+### 5.16.3 Algoritma/Query
+
+**Nama Kelas:** *PrediksiPage*  
+**Nama Operasi:** *tampilkanGrafik(dataGrafik)*  
+**ID Algoritma:** *Algo-C16-03*
+
+```text
+Procedure tampilkanGrafik(dataGrafik)
+    TAMPILKAN grafik tren(dataGrafik)
+End Procedure
+```
+
+### 5.16.4 Algoritma/Query
+
+**Nama Kelas:** *PrediksiPage*  
+**Nama Operasi:** *tampilkanPesanError(pesan)*  
+**ID Algoritma:** *Algo-C16-04*
+
+```text
+Procedure tampilkanPesanError(pesan)
+    TAMPILKAN pesan kesalahan(pesan)
+End Procedure
+```
+
+## 5.17 Kelas ProdukSurplusPage
+
+**Nama Kelas:** *ProdukSurplusPage*  
+**ID Kelas:** *C17*
+
+Tabel 5.17.1. Operasi Kelas ProdukSurplusPage
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *tampilkanFormulirSurplus(): void* | *public* | *Menampilkan formulir input data produk surplus yang akan didonasikan/dijual.* |
+| *kirimDataSurplus(dataSurplus: Map): void* | *public* | *Mengirimkan data produk surplus yang telah diisi ke ProdukSurplusController.* |
+| *resetFormulir(): void* | *public* | *Meminta penghapusan seluruh isian pada formulir.* |
+| *tampilkanNotifikasiSukses(): void* | *public* | *Menampilkan notifikasi bahwa data produk surplus berhasil disimpan.* |
+| *kosongkanIsian(): void* | *public* | *Membersihkan seluruh field input pada formulir.* |
+
+Tabel 5.17.2. Atribut Kelas ProdukSurplusPage
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+*Kelas ini merupakan boundary class (View) sehingga tidak memiliki atribut.*
+
+### 5.17.1 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplusPage*  
+**Nama Operasi:** *tampilkanFormulirSurplus(): void*  
+**ID Algoritma:** *Algo-C17-01*
+
+```text
+Procedure tampilkanFormulirSurplus()
+    TAMPILKAN form input produk surplus
+End Procedure
+```
+
+### 5.17.2 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplusPage*  
+**Nama Operasi:** *kirimDataSurplus(dataSurplus)*  
+**ID Algoritma:** *Algo-C17-02*
+
+```text
+Procedure kirimDataSurplus(dataSurplus)
+    statusSukses ← ProdukSurplusController.simpanDataSurplus(dataSurplus)
+    
+    If (statusSukses = true) Then
+        tampilkanNotifikasiSukses()
+    Else
+        TAMPILKAN pesan("Gagal menyimpan data. Periksa kembali isian Anda.")
+    End If
+End Procedure
+```
+
+### 5.17.3 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplusPage*  
+**Nama Operasi:** *resetFormulir()*  
+**ID Algoritma:** *Algo-C17-03*
+
+```text
+Procedure resetFormulir()
+    kosongkanIsian()
+End Procedure
+```
+
+### 5.17.4 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplusPage*  
+**Nama Operasi:** *tampilkanNotifikasiSukses()*  
+**ID Algoritma:** *Algo-C17-04*
+
+```text
+Procedure tampilkanNotifikasiSukses()
+    TAMPILKAN notifikasi("Produk surplus berhasil dicatat.")
+End Procedure
+```
+
+### 5.17.5 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplusPage*  
+**Nama Operasi:** *kosongkanIsian()*  
+**ID Algoritma:** *Algo-C17-05*
+
+```text
+Procedure kosongkanIsian()
+    BERSIHKAN semua field input pada form
+End Procedure
+```
+
 ## 5.24 Kelas PenjualanController
 
 **Nama Kelas:** *PenjualanController*  
