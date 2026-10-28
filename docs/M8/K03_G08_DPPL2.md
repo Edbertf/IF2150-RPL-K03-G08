@@ -37,7 +37,8 @@ Dipersiapkan oleh:
 | *C* | *Menambahkan operasi getStatus() di C02 dan catatPenjualan() di C06 serta merevisi sequence diagram dan diagram kelas UC04 dan menambah* |
 | *D* | *Menambahkan kelas PenyaringanController (C34)(menambahkan deskripsi perubahan yang tidak ada di M7)* |
 | *E* | *Merevisi sequence diagram dan class diagram UC09 dan UC10* |
-| ... |  |
+| *F* | *Merevisi sequence diagram dan class diagram UC05 dan UC066, serta mengubah nama operasi C07 dari buatPrediksi jadi simpanPrediksi* |
+| ... | |
 
 ---
 
@@ -797,7 +798,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | *C04* | *VerifikasiController* | *-* | *tampilkanDaftarPendaftar(), ambilDetailPendaftar(), prosesVerifikasi()* |
 | *C05* | *Produk* | *idProduk, namaProduk, kategori* | *getDetailProduk()* |
 | *C06* | *DataPenjualan* | *idPenjualan, tanggal, jumlahTerjual, jumlahTersisa* | *getDataHistoris(), catatPenjualan()* |
-| *C07* | *PrediksiProduksi* | *idPrediksi, tanggalPrediksi, jumlahRekomendasi* | *buatPrediksi(), getHasilPrediksi()* |
+| *C07* | *PrediksiProduksi* | *idPrediksi, tanggalPrediksi, jumlahRekomendasi* | *simpanPrediksi(), getHasilPrediksi()* |
 | *C08* | *ProdukSurplus* | *idSurplus, idProduk, idPemilik, jumlah, batasWaktuPengambilan, status* | *simpanProdukSurplus(), setStatus(), getDetailSurplus(), getProdukSurplusTersedia(), getStatus()* |
 | *C09* | *MetodeDistribusiSurplus* | *idDistribusi, jenisDistribusi, harga* | *pilihMetodeDistribusi(), getInfoDistribusi(), getJenisDistribusi(), getHarga()* |
 | *C10* | *DokumenKlaim* | *idKlaim, idNgo, idSurplus, waktuKlaim, statusKlaim* | *catatKlaim(), getDetailKlaim(), getWaktuKlaim(), getStatusKlaim()* |
@@ -1275,6 +1276,543 @@ Tabel 5.6.4. Query Operasi getDataHistoris()
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
 | *Q-C06-02* | *SELECT tanggal, jumlah_terjual, jumlah_tersisa FROM data_penjualan ORDER BY tanggal DESC LIMIT 7;* | *mengambil data historis hingga 7 hari untuk dijadikan prediksi* |
+
+## 5.24 Kelas PenjualanController
+
+**Nama Kelas:** *PenjualanController*  
+**ID Kelas:** *C24*
+
+Tabel 5.24.1. Operasi Kelas PenjualanController
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *validasiInputPenjualan(dataPenjualan: Array): Boolean* | *Public* | *Memeriksa isian penjualan harian untuk setiap produk: idProduk harus terisi, serta jumlahTerjual dan jumlahTersisa harus bilangan bulat yang tidak kurang dari 0. Mengembalikan false jika ada isian yang tidak valid.* |
+| *simpanDataPenjualan(dataPenjualan: Array): void* | *Public* | *Operasi utama UC04. Memvalidasi isian terlebih dahulu, lalu meminta DataPenjualan menyimpan data penjualan harian. Jika isian tidak valid, data tidak disimpan dan muncul galat untuk ditampilkan PenjualanPage.* |
+
+Tabel 5.24.2. Atribut Kelas PenjualanController
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.24.1 Algoritma/Query
+
+**Nama Kelas:** *PenjualanController*  
+**Nama Operasi:** *validasiInputPenjualan(dataPenjualan: Array): Boolean*  
+**ID Algoritma:** *Algo-C24-01*
+
+```text
+FUNCTION validasiInputPenjualan(dataPenjualan)
+    IF dataPenjualan kosong THEN
+        RETURN false
+    END IF
+    UNTUK SETIAP produk DALAM dataPenjualan
+        IF produk.idProduk kosong THEN
+            RETURN false
+        END IF
+        IF produk.jumlahTerjual BUKAN bilangan bulat ATAU produk.jumlahTerjual < 0 THEN
+            RETURN false
+        END IF
+        IF produk.jumlahTersisa BUKAN bilangan bulat ATAU produk.jumlahTersisa < 0 THEN
+            RETURN false
+        END IF
+    AKHIR UNTUK
+    RETURN true
+END FUNCTION
+```
+
+Tabel 5.24.3. Query Operasi validasiInputPenjualan()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Validasi dilakukan pada data di memori tanpa mengakses database.* |
+
+### 5.24.2 Algoritma/Query
+
+**Nama Kelas:** *PenjualanController*  
+**Nama Operasi:** *simpanDataPenjualan(dataPenjualan: Array): void*  
+**ID Algoritma:** *Algo-C24-02*
+
+```text
+PROCEDURE simpanDataPenjualan(dataPenjualan)
+    IF NOT validasiInputPenjualan(dataPenjualan) THEN
+        RAISE Error("Format isian penjualan tidak valid.")
+    END IF
+    catatPenjualan(dataPenjualan) pada DataPenjualan
+END PROCEDURE
+```
+
+Tabel 5.24.4. Query Operasi simpanDataPenjualan()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Query penyimpanan berada pada catatPenjualan() di kelas DataPenjualan (C06, Q-C06-01).* |
+
+## 5.25 Kelas PrediksiController
+
+**Nama Kelas:** *PrediksiController*  
+**ID Kelas:** *C25*
+
+Tabel 5.25.1. Operasi Kelas PrediksiController
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *cekKecukupanData(): Boolean* | *Public* | *Memeriksa apakah data historis penjualan sudah memenuhi syarat minimal 7 hari untuk dipakai prediksi. Mengembalikan false jika data belum cukup.* |
+| *jalankanPrediksi(): Array* | *Public* | *Operasi utama UC05. Memeriksa kecukupan data historis, lalu meminta PrediksiProduksi menghitung rekomendasi produksi dan mengembalikan hasilnya untuk ditampilkan PrediksiPage. Jika data belum cukup, muncul galat.* |
+
+Tabel 5.25.2. Atribut Kelas PrediksiController
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.25.1 Algoritma/Query
+
+**Nama Kelas:** *PrediksiController*  
+**Nama Operasi:** *cekKecukupanData(): Boolean*  
+**ID Algoritma:** *Algo-C25-01*
+
+```text
+FUNCTION cekKecukupanData()
+    dataHistoris <- getDataHistoris() pada DataPenjualan
+    IF JUMLAH(dataHistoris) < 7 THEN
+        RETURN false
+    END IF
+    RETURN true
+END FUNCTION
+```
+
+Tabel 5.25.3. Query Operasi cekKecukupanData()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Query pengambilan data historis berada pada getDataHistoris() di kelas DataPenjualan (C06, Q-C06-02).* |
+
+### 5.25.2 Algoritma/Query
+
+**Nama Kelas:** *PrediksiController*  
+**Nama Operasi:** *jalankanPrediksi(): Array*  
+**ID Algoritma:** *Algo-C25-02*
+
+```text
+FUNCTION jalankanPrediksi()
+    IF NOT cekKecukupanData() THEN
+        RAISE Error("Data historis belum memenuhi syarat minimal 7 hari.")
+    END IF
+    dataHistoris <- getDataHistoris() pada DataPenjualan
+    buatPrediksi(dataHistoris) pada PrediksiProduksi
+    hasilPrediksi <- getHasilPrediksi() pada PrediksiProduksi
+    RETURN hasilPrediksi
+END FUNCTION
+```
+
+Tabel 5.25.4. Query Operasi jalankanPrediksi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Pengambilan data historis dilakukan oleh DataPenjualan (C06), sedangkan perhitungan dan penyimpanan prediksi dilakukan oleh PrediksiProduksi (C07).* |
+
+## 5.26 Kelas ProdukSurplusController
+
+**Nama Kelas:** *ProdukSurplusController*  
+**ID Kelas:** *C26*
+
+Tabel 5.26.1. Operasi Kelas ProdukSurplusController
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *validasiDataSurplus(dataSurplus: Object): Boolean* | *Public* | *Memeriksa data produk surplus dari ProdukSurplusPage: idProduk harus terisi, jumlah harus angka lebih dari nol, dan batasWaktuPengambilan tidak boleh di masa lalu. Mengembalikan false jika ada isian yang tidak valid.* |
+| *simpanDataSurplus(dataSurplus: Object): Number* | *Public* | *Titik akhir UC06. Memvalidasi data surplus, lalu meminta ProdukSurplus menyimpannya. Mengembalikan idSurplus yang terbentuk. Jika data tidak valid, muncul galat.* |
+| *tampilkanFormDistribusi(idSurplus: Number): Object* | *Public* | *Titik awal UC07. Mengambil ringkasan produk surplus yang dipilih dan opsi metode distribusi (\"Donasi\" atau \"Jual Diskon\") untuk ditampilkan DistribusiSurplusPage.* |
+| *validasiMetodeDistribusi(jenisDistribusi: String, harga: Number): Boolean* | *Public* | *Memeriksa pilihan distribusi: jenisDistribusi harus \"Donasi\" atau \"Jual Diskon\". Untuk \"Jual Diskon\", harga harus angka lebih dari nol. Untuk \"Donasi\", harga harus kosong atau nol.* |
+| *simpanMetodeDistribusi(idSurplus: Number, jenisDistribusi: String, harga: Number): void* | *Public* | *Operasi utama UC07. Memvalidasi pilihan distribusi, lalu meminta MetodeDistribusiSurplus menyimpannya untuk produk surplus terkait. Jika tidak valid (misalnya harga jual tidak valid), muncul galat.* |
+
+Tabel 5.26.2. Atribut Kelas ProdukSurplusController
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.26.1 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplusController*  
+**Nama Operasi:** *validasiDataSurplus(dataSurplus: Object): Boolean*  
+**ID Algoritma:** *Algo-C26-01*
+
+```text
+FUNCTION validasiDataSurplus(dataSurplus)
+    IF dataSurplus.idProduk kosong THEN
+        RETURN false
+    END IF
+    IF dataSurplus.jumlah BUKAN angka ATAU dataSurplus.jumlah <= 0 THEN
+        RETURN false
+    END IF
+    IF dataSurplus.batasWaktuPengambilan kosong
+       ATAU dataSurplus.batasWaktuPengambilan < WAKTU_SEKARANG THEN
+        RETURN false
+    END IF
+    RETURN true
+END FUNCTION
+```
+
+Tabel 5.26.3. Query Operasi validasiDataSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Validasi dilakukan pada data di memori tanpa mengakses database.* |
+
+### 5.26.2 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplusController*  
+**Nama Operasi:** *simpanDataSurplus(dataSurplus: Object): Number*  
+**ID Algoritma:** *Algo-C26-02*
+
+```text
+FUNCTION simpanDataSurplus(dataSurplus)
+    IF NOT validasiDataSurplus(dataSurplus) THEN
+        RAISE Error("Data produk surplus tidak valid.")
+    END IF
+    idSurplus <- simpanProdukSurplus(dataSurplus) pada ProdukSurplus
+    RETURN idSurplus
+END FUNCTION
+```
+
+Tabel 5.26.4. Query Operasi simpanDataSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Query penyimpanan berada pada simpanProdukSurplus() di kelas ProdukSurplus (C08).* |
+
+### 5.26.3 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplusController*  
+**Nama Operasi:** *tampilkanFormDistribusi(idSurplus: Number): Object*  
+**ID Algoritma:** *Algo-C26-03*
+
+```text
+FUNCTION tampilkanFormDistribusi(idSurplus)
+    IF idSurplus kosong THEN
+        RAISE Error("idSurplus harus diisi.")
+    END IF
+    detailSurplus <- getDetailSurplus(idSurplus) pada ProdukSurplus
+    opsiDistribusi <- DAFTAR ("Donasi", "Jual Diskon")
+    RETURN { detailSurplus, opsiDistribusi }
+END FUNCTION
+```
+
+Tabel 5.26.5. Query Operasi tampilkanFormDistribusi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Query pengambilan detail surplus berada pada getDetailSurplus() di kelas ProdukSurplus (C08).* |
+
+### 5.26.4 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplusController*  
+**Nama Operasi:** *validasiMetodeDistribusi(jenisDistribusi: String, harga: Number): Boolean*  
+**ID Algoritma:** *Algo-C26-04*
+
+```text
+FUNCTION validasiMetodeDistribusi(jenisDistribusi, harga)
+    IF jenisDistribusi BUKAN salah satu dari ("Donasi", "Jual Diskon") THEN
+        RETURN false
+    END IF
+    IF jenisDistribusi = "Jual Diskon" THEN
+        IF harga kosong ATAU harga BUKAN angka ATAU harga <= 0 THEN
+            RETURN false
+        END IF
+    ELSE
+        IF harga tidak kosong DAN harga <> 0 THEN
+            RETURN false
+        END IF
+    END IF
+    RETURN true
+END FUNCTION
+```
+
+Tabel 5.26.6. Query Operasi validasiMetodeDistribusi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Validasi dilakukan pada data di memori tanpa mengakses database.* |
+
+### 5.26.5 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplusController*  
+**Nama Operasi:** *simpanMetodeDistribusi(idSurplus: Number, jenisDistribusi: String, harga: Number): void*  
+**ID Algoritma:** *Algo-C26-05*
+
+```text
+PROCEDURE simpanMetodeDistribusi(idSurplus, jenisDistribusi, harga)
+    IF NOT validasiMetodeDistribusi(jenisDistribusi, harga) THEN
+        RAISE Error("Metode distribusi atau harga penjualan tidak valid.")
+    END IF
+    IF jenisDistribusi = "Donasi" THEN
+        harga <- 0
+    END IF
+    pilihMetodeDistribusi(idSurplus, jenisDistribusi, harga) pada MetodeDistribusiSurplus
+END PROCEDURE
+```
+
+Tabel 5.26.7. Query Operasi simpanMetodeDistribusi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Query penyimpanan berada pada pilihMetodeDistribusi() di kelas MetodeDistribusiSurplus (C09).* |
+
+## 5.27 Kelas SurplusController
+
+**Nama Kelas:** *SurplusController*  
+**ID Kelas:** *C27*
+
+Tabel 5.27.1. Operasi Kelas SurplusController
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *ambilDaftarSurplus(lokasi: String): Array* | *Public* | *Operasi utama UC08. Mengambil produk surplus yang masih tersedia, melengkapi tiap produk dengan data produk, metode distribusi, dan jarak ke lokasi pengguna (dihitung GeolocationAdapter), lalu mengurutkannya dari jarak terdekat. Jika lokasi kosong, muncul galat. Hasilnya juga dipakai PenyaringanController (C34) pada UC09.* |
+| *ambilDetailSurplus(idSurplus: Number, lokasi: String): Object* | *Public* | *Mengambil detail satu produk surplus (produk, jumlah, batas pengambilan, metode distribusi, alamat dan jarak lokasi pengambilan) untuk ditampilkan pada halaman detail produk.* |
+| *urutkanBerdasarkanJarak(daftarSurplus: Array): Array* | *Public* | *Mengurutkan daftar produk surplus dari jarakProduk terkecil ke terbesar.* |
+
+Tabel 5.27.2. Atribut Kelas SurplusController
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.27.1 Algoritma/Query
+
+**Nama Kelas:** *SurplusController*  
+**Nama Operasi:** *ambilDaftarSurplus(lokasi: String): Array*  
+**ID Algoritma:** *Algo-C27-01*
+
+```text
+FUNCTION ambilDaftarSurplus(lokasi)
+    IF lokasi kosong THEN
+        RAISE Error("Lokasi pengguna belum tersedia.")
+    END IF
+    daftarSurplus <- getProdukSurplusTersedia() pada ProdukSurplus
+    hasil <- DAFTAR KOSONG
+    UNTUK SETIAP surplus DALAM daftarSurplus
+        detailProduk <- getDetailProduk() pada Produk milik surplus.idProduk
+        infoDistribusi <- getInfoDistribusi() pada MetodeDistribusiSurplus milik surplus.idSurplus
+        lokasiPemilik <- getLokasiUsaha(surplus.idPemilik) pada PemilikFnB
+        jarak <- hitungJarak(lokasi, lokasiPemilik) pada GeolocationAdapter
+        TAMBAHKAN {
+            idSurplus: surplus.idSurplus,
+            namaProduk: detailProduk.namaProduk,
+            jenisProduk: detailProduk.kategori,
+            jumlah: surplus.jumlah,
+            batasWaktuPengambilan: surplus.batasWaktuPengambilan,
+            jenisDistribusi: infoDistribusi.jenisDistribusi,
+            harga: infoDistribusi.harga,
+            jarakProduk: jarak
+        } KE hasil
+    AKHIR UNTUK
+    RETURN urutkanBerdasarkanJarak(hasil)
+END FUNCTION
+```
+
+Tabel 5.27.3. Query Operasi ambilDaftarSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Query pengambilan produk surplus tersedia berada pada getProdukSurplusTersedia() di kelas ProdukSurplus (C08), alamat usaha pada getLokasiUsaha() di kelas PemilikFnB (C30, Q-C30-01), dan jarak dihitung GeolocationAdapter (C33) melalui layanan peta pihak ketiga.* |
+
+### 5.27.2 Algoritma/Query
+
+**Nama Kelas:** *SurplusController*  
+**Nama Operasi:** *ambilDetailSurplus(idSurplus: Number, lokasi: String): Object*  
+**ID Algoritma:** *Algo-C27-02*
+
+```text
+FUNCTION ambilDetailSurplus(idSurplus, lokasi)
+    IF idSurplus kosong THEN
+        RAISE Error("idSurplus harus diisi.")
+    END IF
+    detailSurplus <- getDetailSurplus(idSurplus) pada ProdukSurplus
+    detailProduk <- getDetailProduk() pada Produk milik detailSurplus.idProduk
+    infoDistribusi <- getInfoDistribusi() pada MetodeDistribusiSurplus milik idSurplus
+    lokasiPemilik <- getLokasiUsaha(detailSurplus.idPemilik) pada PemilikFnB
+    jarak <- hitungJarak(lokasi, lokasiPemilik) pada GeolocationAdapter
+    RETURN GABUNGKAN detailSurplus, detailProduk, infoDistribusi, lokasiPemilik, dan jarak
+END FUNCTION
+```
+
+Tabel 5.27.4. Query Operasi ambilDetailSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Data diambil melalui ProdukSurplus (C08), Produk (C05), MetodeDistribusiSurplus (C09), dan PemilikFnB (C30).* |
+
+### 5.27.3 Algoritma/Query
+
+**Nama Kelas:** *SurplusController*  
+**Nama Operasi:** *urutkanBerdasarkanJarak(daftarSurplus: Array): Array*  
+**ID Algoritma:** *Algo-C27-03*
+
+```text
+FUNCTION urutkanBerdasarkanJarak(daftarSurplus)
+    RETURN URUTKAN daftarSurplus MENAIK berdasarkan jarakProduk
+END FUNCTION
+```
+
+Tabel 5.27.5. Query Operasi urutkanBerdasarkanJarak()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Pengurutan dilakukan pada daftar di memori tanpa mengakses database.* |
+
+## 5.28 Kelas KlaimController
+
+**Nama Kelas:** *KlaimController*  
+**ID Kelas:** *C28*
+
+Tabel 5.28.1. Operasi Kelas KlaimController
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *cekKetersediaan(idSurplus: Number): Boolean* | *Public* | *Memeriksa apakah produk surplus masih berstatus \"tersedia\". Mengembalikan false jika produk sudah diklaim NGO lain.* |
+| *kunciProduk(idSurplus: Number): void* | *Public* | *Mengubah status produk surplus menjadi \"terklaim\" agar tidak dapat diklaim NGO lain.* |
+| *setujuiKlaim(idSurplus: Number, idNgo: Number): Number* | *Public* | *Operasi utama UC10 pada skenario normal. Memastikan produk masih tersedia, mengunci produk, lalu mencatat klaim. Mengembalikan idKlaim.* |
+| *tolakKlaim(idSurplus: Number): String* | *Public* | *Skenario alternatif UC10 saat produk sudah diklaim NGO lain. Mengembalikan pesan penolakan untuk ditampilkan KlaimPage.* |
+| *ambilDetailPengambilan(idKlaim: Number): Object* | *Public* | *Titik awal UC11. Mengambil detail klaim beserta data produk surplus, Pemilik F&B, dan Perwakilan NGO untuk ditampilkan PengambilanPage.* |
+| *konfirmasiPengambilan(idKlaim: Number): String* | *Public* | *Operasi utama UC11. Menandai pengambilan produk surplus sebagai selesai dan mengembalikan pesan keberhasilan. Jika pengambilan sudah pernah dikonfirmasi, muncul galat.* |
+
+Tabel 5.28.2. Atribut Kelas KlaimController
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *-* | *-* | *-* |
+
+### 5.28.1 Algoritma/Query
+
+**Nama Kelas:** *KlaimController*  
+**Nama Operasi:** *cekKetersediaan(idSurplus: Number): Boolean*  
+**ID Algoritma:** *Algo-C28-01*
+
+```text
+FUNCTION cekKetersediaan(idSurplus)
+    statusSurplus <- getStatus() pada ProdukSurplus milik idSurplus
+    IF statusSurplus = "tersedia" THEN
+        RETURN true
+    END IF
+    RETURN false
+END FUNCTION
+```
+
+Tabel 5.28.3. Query Operasi cekKetersediaan()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Query pengambilan status berada pada getStatus() di kelas ProdukSurplus (C08).* |
+
+### 5.28.2 Algoritma/Query
+
+**Nama Kelas:** *KlaimController*  
+**Nama Operasi:** *kunciProduk(idSurplus: Number): void*  
+**ID Algoritma:** *Algo-C28-02*
+
+```text
+PROCEDURE kunciProduk(idSurplus)
+    setStatus(idSurplus, "terklaim") pada ProdukSurplus
+END PROCEDURE
+```
+
+Tabel 5.28.4. Query Operasi kunciProduk()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Query pembaruan status berada pada setStatus() di kelas ProdukSurplus (C08).* |
+
+### 5.28.3 Algoritma/Query
+
+**Nama Kelas:** *KlaimController*  
+**Nama Operasi:** *setujuiKlaim(idSurplus: Number, idNgo: Number): Number*  
+**ID Algoritma:** *Algo-C28-03*
+
+```text
+FUNCTION setujuiKlaim(idSurplus, idNgo)
+    IF NOT cekKetersediaan(idSurplus) THEN
+        RAISE Error("Produk surplus sudah tidak tersedia.")
+    END IF
+    kunciProduk(idSurplus)
+    idKlaim <- catatKlaim(idNgo, idSurplus) pada DokumenKlaim
+    RETURN idKlaim
+END FUNCTION
+```
+
+Tabel 5.28.5. Query Operasi setujuiKlaim()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Pembaruan status dilakukan oleh setStatus() di kelas ProdukSurplus (C08) dan pencatatan klaim oleh catatKlaim() di kelas DokumenKlaim (C10).* |
+
+### 5.28.4 Algoritma/Query
+
+**Nama Kelas:** *KlaimController*  
+**Nama Operasi:** *tolakKlaim(idSurplus: Number): String*  
+**ID Algoritma:** *Algo-C28-04*
+
+```text
+FUNCTION tolakKlaim(idSurplus)
+    RETURN "Produk surplus sudah diklaim oleh NGO lain."
+END FUNCTION
+```
+
+Tabel 5.28.6. Query Operasi tolakKlaim()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Penolakan tidak mengubah data sehingga tidak ada akses database.* |
+
+### 5.28.5 Algoritma/Query
+
+**Nama Kelas:** *KlaimController*  
+**Nama Operasi:** *ambilDetailPengambilan(idKlaim: Number): Object*  
+**ID Algoritma:** *Algo-C28-05*
+
+```text
+FUNCTION ambilDetailPengambilan(idKlaim)
+    IF idKlaim kosong THEN
+        RAISE Error("idKlaim harus diisi.")
+    END IF
+    detailKlaim <- getDetailKlaim(idKlaim) pada DokumenKlaim
+    detailSurplus <- getDetailSurplus(detailKlaim.idSurplus) pada ProdukSurplus
+    dataUsaha <- getDataUsaha() pada PemilikFnB milik detailSurplus.idPemilik
+    dataNgo <- getDataNgo() pada PerwakilanNGO milik detailKlaim.idNgo
+    RETURN GABUNGKAN detailKlaim, detailSurplus, dataUsaha, dan dataNgo
+END FUNCTION
+```
+
+Tabel 5.28.7. Query Operasi ambilDetailPengambilan()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Data diambil melalui DokumenKlaim (C10), ProdukSurplus (C08), PemilikFnB (C30), dan PerwakilanNGO (C31).* |
+
+### 5.28.6 Algoritma/Query
+
+**Nama Kelas:** *KlaimController*  
+**Nama Operasi:** *konfirmasiPengambilan(idKlaim: Number): String*  
+**ID Algoritma:** *Algo-C28-06*
+
+```text
+FUNCTION konfirmasiPengambilan(idKlaim)
+    detailKlaim <- getDetailKlaim(idKlaim) pada DokumenKlaim
+    statusSurplus <- getStatus() pada ProdukSurplus milik detailKlaim.idSurplus
+    IF statusSurplus = "selesai" THEN
+        RAISE Error("Pengambilan produk surplus sudah dikonfirmasi.")
+    END IF
+    setStatus(detailKlaim.idSurplus, "selesai") pada ProdukSurplus
+    RETURN "Pengambilan produk surplus berhasil dikonfirmasi."
+END FUNCTION
+```
+
+Tabel 5.28.8. Query Operasi konfirmasiPengambilan()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *-* | *-* | *Controller tidak mengakses database secara langsung. Pembaruan status berada pada setStatus() di kelas ProdukSurplus (C08).* |
 
 ## 5.29 Kelas LogController
 
