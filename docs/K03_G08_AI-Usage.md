@@ -75,7 +75,8 @@ Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan A
 | :--- | :--- | :--- | :--- |
 | *Chat-gpt* | *Brainstorming ilustrasi web-app* | *"berikan ilusstrasi ilustrasi mengenai web yang memiliki kemiripan dengan proyek FoodLink,berikan juga color pallete yang sesuai dengan logo (upload logonya yang sudah dibuat) "* | *AI memberikan contoh contoh website dan memberikan sedikit ilustrasi beserta color pallete yang mirip dengan logo* |
 | *Claude* | *Memulai pengerjaan desain web* | *"Untuk membuat User Interface website(jelaskan website seperti apa, deskripsi umum, tujuan dan pada device apa saja di implementasikan) menggunakan color-pallete ini(color pallete yang sudah di siapkan oleh Chat-gpt sebelumnya), website seperti apa yang sebaiknya dibuat"* | *AI memberikan desain kasar yang sesuai dengan parameter parameter yang diberikan. contohnya ada 3 user(pihak fnb, pihak ngo, admin sistem) dia mengenerate user page yang dikhususkan untuk masing masing user pada figma. Prompting dilakukan beberapa kali karena ada beberapa ketidaksesuaian dengan gambaran awal* |
-| *Claude dan deepseek* | *Menyusun algo dan query* | *(Penjelasan terkait dokumen sebelumnya), Bantu implementasi algo dan query untuk ...* | *Memeriksa pemakaian atribut dan operasi, menanyakan terkait esensi beberapa hal*
+| *Claude dan deepseek* | *Menyusun algo dan query* | *(Penjelasan terkait dokumen sebelumnya), Bantu implementasi algo dan query untuk ...* | *Memeriksa pemakaian atribut dan operasi, menanyakan terkait esensi beberapa hal*|
+| *Chat-gpt* | *Menyusun algo dan query* | *(Penjelasan terkait dokumen sebelumnya), Bantu implementasi algo dan query untuk ...* | *Memeriksa pemakaian atribut dan operasi, menanyakan terkait esensi beberapa hal*|
 
 ---
 ### Pernyataan Integritas dan Persetujuan
