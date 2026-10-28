@@ -151,3 +151,4 @@
 | *28-10-2026* | *Ernest Clarence Gunawan* | *merevisi sequence diagram dan class diagram yang masih ga konsisten, menyesuaikan tabel daftar kelas perancangan keseluruhan dengan semua realisasi use case* | *7 jam* | *Done* | *semua yang ngerjain pada ga konsisten semua (minus inisiatif untuk nyesuaian dan ngecek )* |
 | *28-10-2026* | *Ernest Clarence Gunawan* | *mengerjakan perancangan rinci kelas untuk C12-C17* | *2 jam* | *Done* | *-* |
 | *28-10-2026* | *Excell Timothy Josua Tarigan* | *mengerjakan 5.24-5.28 dan memperbaiki UC05 dan UC06* | *5 jam* | *Done* | *banyak kelas yang operasinya tidak konsisten* |
+| *28-10-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian 5.18-5.23* | *4 jam* | *Done* | *banyak yang memiliki subbab lagi menurut saya, jadi pengerjaannya lama* |
