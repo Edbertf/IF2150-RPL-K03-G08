@@ -26,6 +26,8 @@
 * [Milestone 2](#milestone-2)
 * [Milestone 4](#milestone-4)
 * [Milestone 7](#milestone-7)
+* [Milestone 8](#milestone-8)
+* [Milestone 9](#milestone-9)
 
 ---
 
@@ -56,19 +58,6 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | :--- | :--- | :--- | :--- |
 | *Nano Banana 2* | *Membuat logo FoodLink* | *"Aku mau membuat logo untuk perangkat lunak bernama FoodLink, berikut dekripsinya:" (deskripsi FoodLink)* | *AI memberikan beberapa opsi logo, dan kelompok menggunakan yang paling cocok* |
 | *Claude* | *Merevisi sequence diagram UC01 agar sesuai arahan asistensi akbar* | *(Penjelasan UC01, Sequence diagram yang belum benar, File PPT Asistensi Akbar Milestone 7) "Saya telah membuat sebuah sequence diagram untuk use case UC01, dan ternyata masi kurang lifeline, activation bar, dan pemisahan ECB, buatkan yang baru dong"* | *AI memberikan sequence diagram yang sudah sesuai ketentuan* |
----
-### Pernyataan Integritas dan Persetujuan
-
-Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan AI di atas adalah benar. Kami telah memvalidasi seluruh hasil AI dan bertanggung jawab penuh atas orisinalitas, keamanan, dan kebenaran hasil akhir dari tugas ini.
-
-| Tanda Tangan | Nama Anggota |
-| :---: | :--- |
-| <img src="./assets/ttd-anggota1.png" width="100"> | **13525024 - Excell Timothy Josua Tarigan** |
-| <img src="./assets/ttd-anggota2.jpeg" width="100"> | **13525036 - Dylan Frederico Ketaren** |
-| <img src="./assets/ttd-anggota3.jpeg" width="100"> | **13525111 - Edbert Fernando** |
-| <img src="./assets/ttd-anggota4.jpeg" width="100"> | **13525114 - Ernest Clarence Gunawan** |
-| <img src="./assets/ttd-anggota5.jpeg" width="100"> | **13525117 - Abdur Rauuf Fawaaz** |
-
 
 ### Milestone 8
 | Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
@@ -77,6 +66,11 @@ Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan A
 | *Claude* | *Memulai pengerjaan desain web* | *"Untuk membuat User Interface website(jelaskan website seperti apa, deskripsi umum, tujuan dan pada device apa saja di implementasikan) menggunakan color-pallete ini(color pallete yang sudah di siapkan oleh Chat-gpt sebelumnya), website seperti apa yang sebaiknya dibuat"* | *AI memberikan desain kasar yang sesuai dengan parameter parameter yang diberikan. contohnya ada 3 user(pihak fnb, pihak ngo, admin sistem) dia mengenerate user page yang dikhususkan untuk masing masing user pada figma. Prompting dilakukan beberapa kali karena ada beberapa ketidaksesuaian dengan gambaran awal* |
 | *Claude dan deepseek* | *Menyusun algo dan query* | *(Penjelasan terkait dokumen sebelumnya), Bantu implementasi algo dan query untuk ...* | *Memeriksa pemakaian atribut dan operasi, menanyakan terkait esensi beberapa hal*|
 | *Chat-gpt* | *Menyusun algo dan query* | *(Penjelasan terkait dokumen sebelumnya), Bantu implementasi algo dan query untuk ...* | *Memeriksa pemakaian atribut dan operasi, menanyakan terkait esensi beberapa hal*|
+
+### Milestone 9
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+| :--- | :--- | :--- | :--- |
+| *DeepSeek V4.1* | *Membantu inisialisi setup awal* | *"Bantu jelasin semua yang perlu aku lakuin untuk setup awal"* | *Mengikuti arahan dan melakukan testing apakah sudah bekerja* |
 
 ---
 ### Pernyataan Integritas dan Persetujuan
