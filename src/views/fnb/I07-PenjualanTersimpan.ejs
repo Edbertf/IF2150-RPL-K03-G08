@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Penjualan Tersimpan - FoodLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #79b549;
+            --primary-dark: #4a6b36;
+            --primary-soft: #e6f0df;
+            --orange: #e8842e;
+            --bg: #f7faf3;
+            --surface: #ffffff;
+            --text: #2f332c;
+            --muted: #767c73;
+            --border: #e5e9e1;
+            --input-bg: #f4f7f1;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ---------- Sidebar ---------- */
+        .sidebar {
+            position: sticky;
+            top: 0;
+            display: flex;
+            flex: 0 0 var(--sidebar-width);
+            flex-direction: column;
+            width: var(--sidebar-width);
+            height: 100vh;
+            padding: 22px 20px 18px;
+            overflow-y: auto;
+            background-color: var(--surface);
+            border-right: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 34px;
+            padding-left: 4px;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            display: block;
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+        }
+
+        .brand-text {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+            line-height: 1;
+        }
+
+        .brand-text .food {
+            color: var(--orange);
+        }
+
+        .brand-text .link {
+            color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 8px;
+            color: var(--muted);
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1;
+            text-decoration: none;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .nav-item svg {
+            flex: 0 0 20px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-item:hover {
+            background-color: var(--input-bg);
+            color: var(--primary-dark);
+        }
+
+        .nav-item.active {
+            background-color: #e8f3df;
+            color: #5f9136;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: auto;
+            padding: 12px;
+            border-radius: 10px;
+            background-color: #f4f6f2;
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            flex: 0 0 38px;
+            border-radius: 50%;
+            background-color: #fdebd0;
+            color: var(--orange);
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .user-info {
+            min-width: 0;
+        }
+
+        .user-info .name {
+            max-width: 118px;
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .user-info .role {
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* ---------- Main ---------- */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            padding: 48px 44px 64px;
+        }
+
+        .success-wrap {
+            width: 100%;
+            max-width: 640px;
+            margin: 40px auto 0;
+            text-align: center;
+        }
+
+        .success-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 26px;
+            border-radius: 50%;
+            background-color: #e9f3e0;
+            color: var(--primary);
+        }
+
+        .success-wrap h1 {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+            line-height: 1.15;
+        }
+
+        .pill {
+            display: inline-block;
+            margin: 12px 0 18px;
+            padding: 5px 14px;
+            border-radius: 999px;
+            background-color: var(--primary-soft);
+            color: var(--primary-dark);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .success-text {
+            max-width: 560px;
+            margin: 0 auto 26px;
+            color: var(--muted);
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .success-text b {
+            color: var(--text);
+            font-weight: 800;
+        }
+
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 520px;
+            height: 50px;
+            margin: 0 auto;
+            border-radius: 8px;
+            background-color: var(--primary);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: background-color 0.15s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #6aa63f;
+        }
+
+        .btn-primary:focus-visible {
+            outline: 3px solid rgba(121, 181, 73, 0.3);
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 860px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                flex: none;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 14px;
+                padding: 14px 18px;
+            }
+
+            .brand {
+                margin-bottom: 0;
+                padding-left: 0;
+            }
+
+            .nav-menu {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+
+            .nav-item {
+                padding: 9px 12px;
+            }
+
+            .user-profile {
+                margin-top: 0;
+                margin-left: auto;
+            }
+
+            .main-content {
+                padding: 28px 20px 48px;
+            }
+
+            .success-wrap {
+                margin-top: 12px;
+            }
+
+            .success-wrap h1 {
+                font-size: 27px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .user-profile {
+                display: none;
+            }
+
+            .success-icon {
+                width: 96px;
+                height: 96px;
+            }
+        }
+    </style>
+</head>
+<body>
+<%
+    const infoProgres = (typeof progres !== 'undefined' && progres) ? progres : { terisi: 0, target: 7 };
+    const target = Number(infoProgres.target) || 7;
+    const terisi = Number(infoProgres.terisi) || 0;
+
+    const tanggalDasar = (typeof tanggal !== 'undefined' && tanggal)
+        ? tanggal
+        : new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta' }).format(new Date());
+
+    const tanggalSingkat = new Intl.DateTimeFormat('id-ID', {
+        timeZone: 'Asia/Jakarta',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+    }).format(new Date(`${tanggalDasar}T00:00:00+07:00`));
+
+    const kalimatPrediksi = terisi >= target
+        ? 'Prediksi produksi sudah aktif.'
+        : `Prediksi produksi aktif setelah ${target} hari data terkumpul (${terisi}/${target} terpenuhi).`;
+%>
+
+    <aside class="sidebar">
+        <a class="brand" href="/" aria-label="FoodLink - Dashboard">
+            <img class="brand-logo" src="/assets/logo.png" alt="" width="40" height="40">
+            <span class="brand-text"><span class="food">Food</span><span class="link">Link</span></span>
+        </a>
+
+        <nav class="nav-menu" aria-label="Navigasi utama">
+            <a class="nav-item" href="/">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M5 20V10m7 10V4m7 16v-7"/>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a class="nav-item active" href="/fnb/penjualan" aria-current="page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M6 3h8l4 4v14H6zM14 3v4h4"/>
+                </svg>
+                <span>Penjualan</span>
+            </a>
+
+            <a class="nav-item" href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10"/>
+                </svg>
+                <span>Surplus</span>
+            </a>
+
+            <a class="nav-item" href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6"/>
+                </svg>
+                <span>Profil</span>
+            </a>
+        </nav>
+
+        <div class="user-profile">
+            <div class="user-avatar" aria-hidden="true">B</div>
+            <div class="user-info">
+                <div class="name">Bakery Sinar Pagi</div>
+                <div class="role">Pemilik F&amp;B</div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="success-wrap">
+            <div class="success-icon" aria-hidden="true">
+                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                     focusable="false">
+                    <path d="M4 12l5 5L20 6"/>
+                </svg>
+            </div>
+
+            <h1>Penjualan Tersimpan</h1>
+            <span class="pill">Tercatat</span>
+
+            <p class="success-text">
+                Data penjualan <b><%= tanggalSingkat %></b> tersimpan per produk dan tanggal.
+                <%= kalimatPrediksi %>
+            </p>
+
+            <a class="btn-primary" href="/">Ke Dashboard</a>
+        </div>
+    </main>
+</body>
+</html>
