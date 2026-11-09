@@ -2,7 +2,7 @@ const Produk = require('../models/Produk');
 const DataPenjualan = require('../models/DataPenjualan');
 
 const TARGET_HARI = 7;
-const BATAS_MAKS = 100000;
+const BATAS_MAKS = 1000;
 
 function formatTanggal(tanggal) {
     const dasar = new Date(`${tanggal}T00:00:00+07:00`);
