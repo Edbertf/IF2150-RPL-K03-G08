@@ -1238,7 +1238,448 @@ Tabel 5.6.4. Query Operasi getDataHistoris()
 | :--- | :--- | :--- |
 | *Q-C06-02* | *SELECT tanggal, jumlah_terjual, jumlah_tersisa FROM data_penjualan ORDER BY tanggal DESC LIMIT 7;* | *mengambil data historis hingga 7 hari untuk dijadikan prediksi* |
 
-<<<<<<< Updated upstream
+## 5.7 Kelas PrediksiProduksi
+
+**Nama Kelas:** *PrediksiProduksi*  
+**ID Kelas:** *C07*
+
+Tabel 5.7.1. Operasi Kelas PrediksiProduksi 
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *simpanPrediksi(dataPenjualan: Array): void* | *Public* | *Menerima data penjualan historis dan menyimpan hasil rekomendasi produksi* |
+| *getHasilPrediksi(): Array* | *Public* | *Mengambil data hasil rekomendasi produksi untuk ditampilkan pada halaman prediksi* |
+
+Tabel 5.7.2. Atribut Kelas PrediksiProduksi
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *idPrediksi* | *Private* | *Number* |
+| *tanggalPrediksi* | *Private* | *Date* |
+| *jumlahRekomendasi* | *Private* | *Number* |
+
+### 5.1.1 Algoritma/Query
+
+**Nama Kelas:** *PrediksiProduksi*  
+**Nama Operasi:** *simpanPrediksi(dataPenjualan: Array): void*  
+**ID Algoritma:** *Algo-C07-01*
+
+```text
+PROCEDURE simpanPrediksi(dataPenjualan)
+    IF dataPenjualan kosong THEN
+        RAISE Error("Data penjualan tidak boleh kosong.")
+    END IF
+    tanggalPrediksi <- DAPATKAN TANGGAL BESOK
+    UNTUK SETIAP data DALAM dataPenjualan
+        jumlahRekomendasi <- HITUNG_REKOMENDASI(data.jumlahTerjual, data.jumlahTersisa)
+        JALANKAN Q-C07-01 dengan (tanggalPrediksi, data.idProduk, jumlahRekomendasi)
+    AKHIR UNTUK
+END PROCEDURE
+```
+
+Tabel 5.7.3. Query Operasi simpanPrediksi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C07-01* | *INSERT INTO prediksi_produksi (tanggal_prediksi, id_produk, jumlah_rekomendasi) VALUES ($1, $2, $3);* | *Menyimpan hasil rekomendasi produksi* |
+
+### 5.7.2 Algoritma/Query
+
+**Nama Kelas:** *PrediksiProduksi*  
+**Nama Operasi:** *getHasilPrediksi():Array*  
+**ID Algoritma:** *Algo-C07-02*
+
+```text
+FUNCTION getHasilPrediksi()
+    hasilPrediksi <- JALANKAN Q-C07-02
+    RETURN hasilPrediksi
+END FUNCTION
+```
+
+Tabel 5.7.4. Query Operasi getHasilPrediksi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C07-02* | *SELECT id_prediksi, tanggal_prediksi, id_produk, jumlah_rekomendasi FROM prediksi_produksi WHERE tanggal_prediksi >= CURRENT_DATE ORDER BY tanggal_prediksi ASC;* | *Mengambil data rekomendasi produksi* |
+
+## 5.8 Kelas ProdukSurplus
+
+**Nama Kelas:** *ProdukSurplus*  
+**ID Kelas:** *C08*
+
+Tabel 5.8.1. Operasi Kelas ProdukSurplus
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *simpanProdukSurplus(dataSurplus: Object): Number* | *Public* | *Menyimpan data produk surplus baru yang diinputkan oleh Pemilik F&B.* |
+| *setStatus(idSurplus: Number, status: String): void* | *Public* | *Memperbarui status produk surplus (menjadi "terklaim" atau "selesai").* |
+| *getDetailSurplus(idSurplus: Number): Object* | *Public* | *Mengambil data detail dari satu produk surplus.* |
+| *getProdukSurplusTersedia(): Array* | *Public* | *Mengambil daftar semua produk surplus berstatus "tersedia".* |
+| *getStatus(): String* | *Public* | *Mengambil status dari suatu produk surplus.* |
+
+Tabel 5.8.2. Atribut Kelas ProdukSurplus
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *idSurplus* | *Private* | *Number* |
+| *idProduk* | *Private* | *Number* |
+| *idPemilik* | *Private* | *Number* |
+| *jumlah* | *Private* | *Number* |
+| *batasWaktuPengambilan* | *Private* | *DateTime* |
+| *status* | *Private* | *String* |
+
+### 5.8.1 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplus*  
+**Nama Operasi:** *simpanProdukSurplus(dataSurplus: Object): Number*  
+**ID Algoritma:** *Algo-C08-01*
+
+```text
+FUNCTION simpanProdukSurplus(dataSurplus)
+    IF dataSurplus.idProduk kosong ATAU dataSurplus.jumlah <= 0 THEN
+        RAISE Error("Data produk surplus tidak valid.")
+    END IF
+    idSurplus <- JALANKAN Q-C08-01 dengan (dataSurplus.idProduk, dataSurplus.idPemilik, dataSurplus.jumlah, dataSurplus.batasWaktuPengambilan)
+    RETURN idSurplus
+END FUNCTION
+```
+
+Tabel 5.8.3. Query Operasi simpanProdukSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C08-01* | *INSERT INTO produk_surplus (id_produk, id_pemilik, jumlah, batas_waktu_pengambilan, status) VALUES ($1, $2, $3, $4, 'tersedia') RETURNING id_surplus;* | *Menyimpan data produk surplus baru dengan status awal "tersedia" dan mengembalikan id_surplus.* |
+
+### 5.8.2 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplus*  
+**Nama Operasi:** *setStatus(idSurplus: Number, status: String): void*  
+**ID Algoritma:** *Algo-C08-02*
+
+```text
+PROCEDURE setStatus(idSurplus, status)
+    IF status BUKAN salah satu dari ("tersedia", "terklaim", "selesai") THEN
+        RAISE Error("Status tidak valid.")
+    END IF
+    JALANKAN Q-C08-02 dengan (status, idSurplus)
+END PROCEDURE
+```
+
+Tabel 5.8.4. Query Operasi setStatus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C08-02* | *UPDATE produk_surplus SET status = $1 WHERE id_surplus = $2;* | *Memperbarui status produk surplus di database.* |
+
+### 5.8.3 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplus*  
+**Nama Operasi:** *getDetailSurplus(idSurplus: Number): Object*  
+**ID Algoritma:** *Algo-C08-03*
+
+```text
+FUNCTION getDetailSurplus(idSurplus)
+    detailSurplus <- JALANKAN Q-C08-03 dengan (idSurplus)
+    IF detailSurplus kosong THEN
+        RAISE Error("Produk surplus tidak ditemukan.")
+    END IF
+    RETURN detailSurplus
+END FUNCTION
+```
+
+Tabel 5.8.5. Query Operasi getDetailSurplus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C08-03* | *SELECT id_surplus, id_produk, id_pemilik, jumlah, batas_waktu_pengambilan, status FROM produk_surplus WHERE id_surplus = $1;* | *Mengambil detail satu produk surplus berdasarkan id_surplus.* |
+
+### 5.8.4 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplus*  
+**Nama Operasi:** *getProdukSurplusTersedia(): Array*  
+**ID Algoritma:** *Algo-C08-04*
+
+```text
+FUNCTION getProdukSurplusTersedia()
+    daftarSurplus <- JALANKAN Q-C08-04
+    RETURN daftarSurplus
+END FUNCTION
+```
+
+Tabel 5.8.6. Query Operasi getProdukSurplusTersedia()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C08-04* | *SELECT id_surplus, id_produk, id_pemilik, jumlah, batas_waktu_pengambilan, status FROM produk_surplus WHERE status = 'tersedia' AND batas_waktu_pengambilan > CURRENT_TIMESTAMP;* | *Mengambil daftar produk surplus yang masih tersedia dan belum melewati batas waktu.* |
+
+### 5.8.5 Algoritma/Query
+
+**Nama Kelas:** *ProdukSurplus*  
+**Nama Operasi:** *getStatus(): String*  
+**ID Algoritma:** *Algo-C08-05*
+
+```text
+FUNCTION getStatus()
+    statusSurplus <- JALANKAN Q-C08-05 dengan (idSurplus milik objek)
+    RETURN statusSurplus
+END FUNCTION
+```
+
+Tabel 5.8.7. Query Operasi getStatus()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C08-05* | *SELECT status FROM produk_surplus WHERE id_surplus = $1;* | *Mengambil status dari produk surplus tertentu.* |
+
+## 5.9 Kelas MetodeDistribusiSurplus
+
+**Nama Kelas:** *MetodeDistribusiSurplus*  
+**ID Kelas:** *C09*
+
+Tabel 5.9.1. Operasi Kelas MetodeDistribusiSurplus
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *pilihMetodeDistribusi(idProduk: Number, jenisDistribusi: String, harga: Number): void* | *Public* | *Menyimpan atau memperbarui metode distribusi (Donasi/Jual Diskon) dan harga untuk suatu produk.* |
+| *getInfoDistribusi(): Object* | *Public* | *Mengambil informasi jenis distribusi dan harga dari objek produk saat ini.* |
+| *getJenisDistribusi(): String* | *Public* | *Mengambil jenis distribusi (Donasi atau Jual Diskon) dari objek saat ini.* |
+
+Tabel 5.9.2. Atribut Kelas MetodeDistribusiSurplus
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *idDistribusi* | *Private* | *Number* |
+| *jenisDistribusi* | *Private* | *String* |
+| *harga* | *Private* | *Number* |
+
+### 5.9.1 Algoritma/Query
+
+**Nama Kelas:** *MetodeDistribusiSurplus*  
+**Nama Operasi:** *pilihMetodeDistribusi(idProduk: Number, jenisDistribusi: String, harga: Number): void*  
+**ID Algoritma:** *Algo-C09-01*
+
+```text
+PROCEDURE pilihMetodeDistribusi(idProduk, jenisDistribusi, harga)
+    IF jenisDistribusi = "Donasi" THEN
+        harga <- 0
+    END IF
+    JALANKAN Q-C09-01 dengan (idProduk, jenisDistribusi, harga)
+END PROCEDURE
+```
+
+Tabel 5.9.3. Query Operasi pilihMetodeDistribusi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C09-01* | *INSERT INTO metode_distribusi_surplus (id_produk, jenis_distribusi, harga) VALUES ($1, $2, $3) ON CONFLICT (id_produk) DO UPDATE SET jenis_distribusi = EXCLUDED.jenis_distribusi, harga = EXCLUDED.harga;* | *Menyimpan metode distribusi baru atau memperbarui jika produk sudah memiliki metode distribusi sebelumnya (menggunakan id_produk sebagai kunci relasi).* |
+
+### 5.9.2 Algoritma/Query
+
+**Nama Kelas:** *MetodeDistribusiSurplus*  
+**Nama Operasi:** *getInfoDistribusi(): Object*  
+**ID Algoritma:** *Algo-C09-02*
+
+```text
+FUNCTION getInfoDistribusi()
+    info <- JALANKAN Q-C09-02 dengan (idProduk milik objek)
+    IF info kosong THEN
+        RAISE Error("Informasi distribusi tidak ditemukan.")
+    END IF
+    RETURN info
+END FUNCTION
+```
+
+Tabel 5.9.4. Query Operasi getInfoDistribusi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C09-02* | *SELECT jenis_distribusi, harga FROM metode_distribusi_surplus WHERE id_produk = $1;* | *Mengambil jenis distribusi dan harga berdasarkan id_produk dari objek saat ini.* |
+
+### 5.9.3 Algoritma/Query
+
+**Nama Kelas:** *MetodeDistribusiSurplus*  
+**Nama Operasi:** *getJenisDistribusi(): String*  
+**ID Algoritma:** *Algo-C09-03*
+
+```text
+FUNCTION getJenisDistribusi()
+    jenis <- JALANKAN Q-C09-03 dengan (idProduk milik objek)
+    RETURN jenis
+END FUNCTION
+```
+
+Tabel 5.9.5. Query Operasi getJenisDistribusi()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C09-03* | *SELECT jenis_distribusi FROM metode_distribusi_surplus WHERE id_produk = $1;* | *Mengambil jenis distribusi saja berdasarkan id_produk objek saat ini.* |
+
+## 5.10 Kelas DokumenKlaim
+
+**Nama Kelas:** *DokumenKlaim*  
+**ID Kelas:** *C10*
+
+Tabel 5.10.1. Operasi Kelas DokumenKlaim
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *catatKlaim(idNgo: Number, idSurplus: Number): Number* | *Public* | *Mencatat data klaim baru oleh NGO untuk suatu produk surplus dan mengembalikan idKlaim.* |
+| *getDetailKlaim(idKlaim: Number): Object* | *Public* | *Mengambil data detail klaim berdasarkan idKlaim.* |
+| *getWaktuKlaim(idKlaim: Number): DateTime* | *Public* | *Mengambil informasi waktu klaim dilakukan.* |
+| *getStatusKlaim(idKlaim: Number): String* | *Public* | *Mengambil status dari suatu klaim.* |
+
+Tabel 5.10.2. Atribut Kelas DokumenKlaim
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *idKlaim* | *Private* | *Number* |
+| *idNgo* | *Private* | *Number* |
+| *idSurplus* | *Private* | *Number* |
+| *waktuKlaim* | *Private* | *DateTime* |
+| *statusKlaim* | *Private* | *String* |
+
+### 5.10.1 Algoritma/Query
+
+**Nama Kelas:** *DokumenKlaim*  
+**Nama Operasi:** *catatKlaim(idNgo: Number, idSurplus: Number): Number*  
+**ID Algoritma:** *Algo-C10-01*
+
+```text
+FUNCTION catatKlaim(idNgo, idSurplus)
+    waktuSekarang <- DAPATKAN WAKTU SEKARANG
+    idKlaim <- JALANKAN Q-C10-01 dengan (idNgo, idSurplus, waktuSekarang)
+    RETURN idKlaim
+END FUNCTION
+```
+
+Tabel 5.10.3. Query Operasi catatKlaim()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C10-01* | *INSERT INTO dokumen_klaim (id_ngo, id_surplus, waktu_klaim, status_klaim) VALUES ($1, $2, $3, 'terklaim') RETURNING id_klaim;* | *Menyimpan data klaim baru dengan status awal "terklaim" dan mengembalikan id_klaim.* |
+
+### 5.10.2 Algoritma/Query
+
+**Nama Kelas:** *DokumenKlaim*  
+**Nama Operasi:** *getDetailKlaim(idKlaim: Number): Object*  
+**ID Algoritma:** *Algo-C10-02*
+
+```text
+FUNCTION getDetailKlaim(idKlaim)
+    detailKlaim <- JALANKAN Q-C10-02 dengan (idKlaim)
+    IF detailKlaim kosong THEN
+        RAISE Error("Dokumen klaim tidak ditemukan.")
+    END IF
+    RETURN detailKlaim
+END FUNCTION
+```
+
+Tabel 5.10.4. Query Operasi getDetailKlaim()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C10-02* | *SELECT id_klaim, id_ngo, id_surplus, waktu_klaim, status_klaim FROM dokumen_klaim WHERE id_klaim = $1;* | *Mengambil seluruh detail data klaim berdasarkan id_klaim.* |
+
+### 5.10.3 Algoritma/Query
+
+**Nama Kelas:** *DokumenKlaim*  
+**Nama Operasi:** *getWaktuKlaim(idKlaim: Number): DateTime*  
+**ID Algoritma:** *Algo-C10-03*
+
+```text
+FUNCTION getWaktuKlaim(idKlaim)
+    waktuKlaim <- JALANKAN Q-C10-03 dengan (idKlaim)
+    RETURN waktuKlaim
+END FUNCTION
+```
+
+Tabel 5.10.5. Query Operasi getWaktuKlaim()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C10-03* | *SELECT waktu_klaim FROM dokumen_klaim WHERE id_klaim = $1;* | *Mengambil data waktu klaim berdasarkan id_klaim.* |
+
+### 5.10.4 Algoritma/Query
+
+**Nama Kelas:** *DokumenKlaim*  
+**Nama Operasi:** *getStatusKlaim(idKlaim: Number): String*  
+**ID Algoritma:** *Algo-C10-04*
+
+```text
+FUNCTION getStatusKlaim(idKlaim)
+    statusKlaim <- JALANKAN Q-C10-04 dengan (idKlaim)
+    RETURN statusKlaim
+END FUNCTION
+```
+
+Tabel 5.10.6. Query Operasi getStatusKlaim()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C10-04* | *SELECT status_klaim FROM dokumen_klaim WHERE id_klaim = $1;* | *Mengambil status klaim berdasarkan id_klaim.* |
+
+## 5.11 Kelas LogAktivitas
+
+**Nama Kelas:** *LogAktivitas*  
+**ID Kelas:** *C11*
+
+Tabel 5.11.1. Operasi Kelas LogAktivitas
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| *getDaftarLog(): Array* | *Public* | *Mengambil seluruh daftar log aktivitas pengguna yang tersimpan di database.* |
+| *cariLog(kriteria: String): Array* | *Public* | *Mencari dan menyaring daftar log aktivitas berdasarkan kriteria (jenis aktivitas) yang dipilih.* |
+
+Tabel 5.11.2. Atribut Kelas LogAktivitas
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| *idLog* | *Private* | *Number* |
+| *aktivitas* | *Private* | *String* |
+| *waktu* | *Private* | *DateTime* |
+
+### 5.11.1 Algoritma/Query
+
+**Nama Kelas:** *LogAktivitas*  
+**Nama Operasi:** *getDaftarLog(): Array*  
+**ID Algoritma:** *Algo-C11-01*
+
+```text
+FUNCTION getDaftarLog()
+    daftarLog <- JALANKAN Q-C11-01
+    RETURN daftarLog
+END FUNCTION
+```
+
+Tabel 5.11.3. Query Operasi getDaftarLog()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C11-01* | *SELECT id_log, aktivitas, waktu FROM log_aktivitas ORDER BY waktu DESC;* | *Mengambil seluruh data log aktivitas dan mengurutkannya dari yang terbaru.* |
+
+### 5.11.2 Algoritma/Query
+
+**Nama Kelas:** *LogAktivitas*  
+**Nama Operasi:** *cariLog(kriteria: String): Array*  
+**ID Algoritma:** *Algo-C11-02*
+
+```text
+FUNCTION cariLog(kriteria)
+    IF kriteria = "Semua" THEN
+        daftarLog <- JALANKAN Q-C11-01
+    ELSE
+        daftarLog <- JALANKAN Q-C11-02 dengan (kriteria)
+    END IF
+    RETURN daftarLog
+END FUNCTION
+```
+
+Tabel 5.11.4. Query Operasi cariLog()
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| *Q-C11-02* | *SELECT id_log, aktivitas, waktu FROM log_aktivitas WHERE aktivitas ILIKE '%' || $1 || '%' ORDER BY waktu DESC;* | *Mengambil log aktivitas yang mengandung kata kunci kriteria tertentu (misal: "Klaim", "Surplus", atau "Verifikasi").* |
+
 ## 5.12 Kelas RegistrasiPage
 
 **Nama Kelas:** *RegistrasiPage*  
@@ -2499,450 +2940,6 @@ FUNCTION cekStatusPendaftaran(idAkun)
 END FUNCTION
 ```
 
-=======
-## 5.7 Kelas PrediksiProduksi
-
-**Nama Kelas:** *PrediksiProduksi*  
-**ID Kelas:** *C07*
-
-Tabel 5.7.1. Operasi Kelas PrediksiProduksi 
-
-| Nama Operasi | Visibility (private, public) | Keterangan |
-| :--- | :--- | :--- |
-| *simpanPrediksi(dataPenjualan: Array): void* | *Public* | *Menerima data penjualan historis dan menyimpan hasil rekomendasi produksi* |
-| *getHasilPrediksi(): Array* | *Public* | *Mengambil data hasil rekomendasi produksi untuk ditampilkan pada halaman prediksi* |
-
-Tabel 5.7.2. Atribut Kelas PrediksiProduksi
-
-| Nama Atribut | Visibility (private, public) | Tipe |
-| :--- | :--- | :--- |
-| *idPrediksi* | *Private* | *Number* |
-| *tanggalPrediksi* | *Private* | *Date* |
-| *jumlahRekomendasi* | *Private* | *Number* |
-
-### 5.1.1 Algoritma/Query
-
-**Nama Kelas:** *PrediksiProduksi*  
-**Nama Operasi:** *simpanPrediksi(dataPenjualan: Array): void*  
-**ID Algoritma:** *Algo-C07-01*
-
-```text
-PROCEDURE simpanPrediksi(dataPenjualan)
-    IF dataPenjualan kosong THEN
-        RAISE Error("Data penjualan tidak boleh kosong.")
-    END IF
-    tanggalPrediksi <- DAPATKAN TANGGAL BESOK
-    UNTUK SETIAP data DALAM dataPenjualan
-        jumlahRekomendasi <- HITUNG_REKOMENDASI(data.jumlahTerjual, data.jumlahTersisa)
-        JALANKAN Q-C07-01 dengan (tanggalPrediksi, data.idProduk, jumlahRekomendasi)
-    AKHIR UNTUK
-END PROCEDURE
-```
-
-Tabel 5.7.3. Query Operasi simpanPrediksi()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C07-01* | *INSERT INTO prediksi_produksi (tanggal_prediksi, id_produk, jumlah_rekomendasi) VALUES ($1, $2, $3);* | *Menyimpan hasil rekomendasi produksi* |
-
-### 5.7.2 Algoritma/Query
-
-**Nama Kelas:** *PrediksiProduksi*  
-**Nama Operasi:** *getHasilPrediksi():Array*  
-**ID Algoritma:** *Algo-C07-02*
-
-```text
-FUNCTION getHasilPrediksi()
-    hasilPrediksi <- JALANKAN Q-C07-02
-    RETURN hasilPrediksi
-END FUNCTION
-```
-
-Tabel 5.7.4. Query Operasi getHasilPrediksi()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C07-02* | *SELECT id_prediksi, tanggal_prediksi, id_produk, jumlah_rekomendasi FROM prediksi_produksi WHERE tanggal_prediksi >= CURRENT_DATE ORDER BY tanggal_prediksi ASC;* | *Mengambil data rekomendasi produksi* |
-
-## 5.8 Kelas ProdukSurplus
-
-**Nama Kelas:** *ProdukSurplus*  
-**ID Kelas:** *C08*
-
-Tabel 5.8.1. Operasi Kelas ProdukSurplus
-
-| Nama Operasi | Visibility (private, public) | Keterangan |
-| :--- | :--- | :--- |
-| *simpanProdukSurplus(dataSurplus: Object): Number* | *Public* | *Menyimpan data produk surplus baru yang diinputkan oleh Pemilik F&B.* |
-| *setStatus(idSurplus: Number, status: String): void* | *Public* | *Memperbarui status produk surplus (menjadi "terklaim" atau "selesai").* |
-| *getDetailSurplus(idSurplus: Number): Object* | *Public* | *Mengambil data detail dari satu produk surplus.* |
-| *getProdukSurplusTersedia(): Array* | *Public* | *Mengambil daftar semua produk surplus berstatus "tersedia".* |
-| *getStatus(): String* | *Public* | *Mengambil status dari suatu produk surplus.* |
-
-Tabel 5.8.2. Atribut Kelas ProdukSurplus
-
-| Nama Atribut | Visibility (private, public) | Tipe |
-| :--- | :--- | :--- |
-| *idSurplus* | *Private* | *Number* |
-| *idProduk* | *Private* | *Number* |
-| *idPemilik* | *Private* | *Number* |
-| *jumlah* | *Private* | *Number* |
-| *batasWaktuPengambilan* | *Private* | *DateTime* |
-| *status* | *Private* | *String* |
-
-### 5.8.1 Algoritma/Query
-
-**Nama Kelas:** *ProdukSurplus*  
-**Nama Operasi:** *simpanProdukSurplus(dataSurplus: Object): Number*  
-**ID Algoritma:** *Algo-C08-01*
-
-```text
-FUNCTION simpanProdukSurplus(dataSurplus)
-    IF dataSurplus.idProduk kosong ATAU dataSurplus.jumlah <= 0 THEN
-        RAISE Error("Data produk surplus tidak valid.")
-    END IF
-    idSurplus <- JALANKAN Q-C08-01 dengan (dataSurplus.idProduk, dataSurplus.idPemilik, dataSurplus.jumlah, dataSurplus.batasWaktuPengambilan)
-    RETURN idSurplus
-END FUNCTION
-```
-
-Tabel 5.8.3. Query Operasi simpanProdukSurplus()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C08-01* | *INSERT INTO produk_surplus (id_produk, id_pemilik, jumlah, batas_waktu_pengambilan, status) VALUES ($1, $2, $3, $4, 'tersedia') RETURNING id_surplus;* | *Menyimpan data produk surplus baru dengan status awal "tersedia" dan mengembalikan id_surplus.* |
-
-### 5.8.2 Algoritma/Query
-
-**Nama Kelas:** *ProdukSurplus*  
-**Nama Operasi:** *setStatus(idSurplus: Number, status: String): void*  
-**ID Algoritma:** *Algo-C08-02*
-
-```text
-PROCEDURE setStatus(idSurplus, status)
-    IF status BUKAN salah satu dari ("tersedia", "terklaim", "selesai") THEN
-        RAISE Error("Status tidak valid.")
-    END IF
-    JALANKAN Q-C08-02 dengan (status, idSurplus)
-END PROCEDURE
-```
-
-Tabel 5.8.4. Query Operasi setStatus()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C08-02* | *UPDATE produk_surplus SET status = $1 WHERE id_surplus = $2;* | *Memperbarui status produk surplus di database.* |
-
-### 5.8.3 Algoritma/Query
-
-**Nama Kelas:** *ProdukSurplus*  
-**Nama Operasi:** *getDetailSurplus(idSurplus: Number): Object*  
-**ID Algoritma:** *Algo-C08-03*
-
-```text
-FUNCTION getDetailSurplus(idSurplus)
-    detailSurplus <- JALANKAN Q-C08-03 dengan (idSurplus)
-    IF detailSurplus kosong THEN
-        RAISE Error("Produk surplus tidak ditemukan.")
-    END IF
-    RETURN detailSurplus
-END FUNCTION
-```
-
-Tabel 5.8.5. Query Operasi getDetailSurplus()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C08-03* | *SELECT id_surplus, id_produk, id_pemilik, jumlah, batas_waktu_pengambilan, status FROM produk_surplus WHERE id_surplus = $1;* | *Mengambil detail satu produk surplus berdasarkan id_surplus.* |
-
-### 5.8.4 Algoritma/Query
-
-**Nama Kelas:** *ProdukSurplus*  
-**Nama Operasi:** *getProdukSurplusTersedia(): Array*  
-**ID Algoritma:** *Algo-C08-04*
-
-```text
-FUNCTION getProdukSurplusTersedia()
-    daftarSurplus <- JALANKAN Q-C08-04
-    RETURN daftarSurplus
-END FUNCTION
-```
-
-Tabel 5.8.6. Query Operasi getProdukSurplusTersedia()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C08-04* | *SELECT id_surplus, id_produk, id_pemilik, jumlah, batas_waktu_pengambilan, status FROM produk_surplus WHERE status = 'tersedia' AND batas_waktu_pengambilan > CURRENT_TIMESTAMP;* | *Mengambil daftar produk surplus yang masih tersedia dan belum melewati batas waktu.* |
-
-### 5.8.5 Algoritma/Query
-
-**Nama Kelas:** *ProdukSurplus*  
-**Nama Operasi:** *getStatus(): String*  
-**ID Algoritma:** *Algo-C08-05*
-
-```text
-FUNCTION getStatus()
-    statusSurplus <- JALANKAN Q-C08-05 dengan (idSurplus milik objek)
-    RETURN statusSurplus
-END FUNCTION
-```
-
-Tabel 5.8.7. Query Operasi getStatus()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C08-05* | *SELECT status FROM produk_surplus WHERE id_surplus = $1;* | *Mengambil status dari produk surplus tertentu.* |
-
-## 5.9 Kelas MetodeDistribusiSurplus
-
-**Nama Kelas:** *MetodeDistribusiSurplus*  
-**ID Kelas:** *C09*
-
-Tabel 5.9.1. Operasi Kelas MetodeDistribusiSurplus
-
-| Nama Operasi | Visibility (private, public) | Keterangan |
-| :--- | :--- | :--- |
-| *pilihMetodeDistribusi(idProduk: Number, jenisDistribusi: String, harga: Number): void* | *Public* | *Menyimpan atau memperbarui metode distribusi (Donasi/Jual Diskon) dan harga untuk suatu produk.* |
-| *getInfoDistribusi(): Object* | *Public* | *Mengambil informasi jenis distribusi dan harga dari objek produk saat ini.* |
-| *getJenisDistribusi(): String* | *Public* | *Mengambil jenis distribusi (Donasi atau Jual Diskon) dari objek saat ini.* |
-
-Tabel 5.9.2. Atribut Kelas MetodeDistribusiSurplus
-
-| Nama Atribut | Visibility (private, public) | Tipe |
-| :--- | :--- | :--- |
-| *idDistribusi* | *Private* | *Number* |
-| *jenisDistribusi* | *Private* | *String* |
-| *harga* | *Private* | *Number* |
-
-### 5.9.1 Algoritma/Query
-
-**Nama Kelas:** *MetodeDistribusiSurplus*  
-**Nama Operasi:** *pilihMetodeDistribusi(idProduk: Number, jenisDistribusi: String, harga: Number): void*  
-**ID Algoritma:** *Algo-C09-01*
-
-```text
-PROCEDURE pilihMetodeDistribusi(idProduk, jenisDistribusi, harga)
-    IF jenisDistribusi = "Donasi" THEN
-        harga <- 0
-    END IF
-    JALANKAN Q-C09-01 dengan (idProduk, jenisDistribusi, harga)
-END PROCEDURE
-```
-
-Tabel 5.9.3. Query Operasi pilihMetodeDistribusi()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C09-01* | *INSERT INTO metode_distribusi_surplus (id_produk, jenis_distribusi, harga) VALUES ($1, $2, $3) ON CONFLICT (id_produk) DO UPDATE SET jenis_distribusi = EXCLUDED.jenis_distribusi, harga = EXCLUDED.harga;* | *Menyimpan metode distribusi baru atau memperbarui jika produk sudah memiliki metode distribusi sebelumnya (menggunakan id_produk sebagai kunci relasi).* |
-
-### 5.9.2 Algoritma/Query
-
-**Nama Kelas:** *MetodeDistribusiSurplus*  
-**Nama Operasi:** *getInfoDistribusi(): Object*  
-**ID Algoritma:** *Algo-C09-02*
-
-```text
-FUNCTION getInfoDistribusi()
-    info <- JALANKAN Q-C09-02 dengan (idProduk milik objek)
-    IF info kosong THEN
-        RAISE Error("Informasi distribusi tidak ditemukan.")
-    END IF
-    RETURN info
-END FUNCTION
-```
-
-Tabel 5.9.4. Query Operasi getInfoDistribusi()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C09-02* | *SELECT jenis_distribusi, harga FROM metode_distribusi_surplus WHERE id_produk = $1;* | *Mengambil jenis distribusi dan harga berdasarkan id_produk dari objek saat ini.* |
-
-### 5.9.3 Algoritma/Query
-
-**Nama Kelas:** *MetodeDistribusiSurplus*  
-**Nama Operasi:** *getJenisDistribusi(): String*  
-**ID Algoritma:** *Algo-C09-03*
-
-```text
-FUNCTION getJenisDistribusi()
-    jenis <- JALANKAN Q-C09-03 dengan (idProduk milik objek)
-    RETURN jenis
-END FUNCTION
-```
-
-Tabel 5.9.5. Query Operasi getJenisDistribusi()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C09-03* | *SELECT jenis_distribusi FROM metode_distribusi_surplus WHERE id_produk = $1;* | *Mengambil jenis distribusi saja berdasarkan id_produk objek saat ini.* |
-
-## 5.10 Kelas DokumenKlaim
-
-**Nama Kelas:** *DokumenKlaim*  
-**ID Kelas:** *C10*
-
-Tabel 5.10.1. Operasi Kelas DokumenKlaim
-
-| Nama Operasi | Visibility (private, public) | Keterangan |
-| :--- | :--- | :--- |
-| *catatKlaim(idNgo: Number, idSurplus: Number): Number* | *Public* | *Mencatat data klaim baru oleh NGO untuk suatu produk surplus dan mengembalikan idKlaim.* |
-| *getDetailKlaim(idKlaim: Number): Object* | *Public* | *Mengambil data detail klaim berdasarkan idKlaim.* |
-| *getWaktuKlaim(idKlaim: Number): DateTime* | *Public* | *Mengambil informasi waktu klaim dilakukan.* |
-| *getStatusKlaim(idKlaim: Number): String* | *Public* | *Mengambil status dari suatu klaim.* |
-
-Tabel 5.10.2. Atribut Kelas DokumenKlaim
-
-| Nama Atribut | Visibility (private, public) | Tipe |
-| :--- | :--- | :--- |
-| *idKlaim* | *Private* | *Number* |
-| *idNgo* | *Private* | *Number* |
-| *idSurplus* | *Private* | *Number* |
-| *waktuKlaim* | *Private* | *DateTime* |
-| *statusKlaim* | *Private* | *String* |
-
-### 5.10.1 Algoritma/Query
-
-**Nama Kelas:** *DokumenKlaim*  
-**Nama Operasi:** *catatKlaim(idNgo: Number, idSurplus: Number): Number*  
-**ID Algoritma:** *Algo-C10-01*
-
-```text
-FUNCTION catatKlaim(idNgo, idSurplus)
-    waktuSekarang <- DAPATKAN WAKTU SEKARANG
-    idKlaim <- JALANKAN Q-C10-01 dengan (idNgo, idSurplus, waktuSekarang)
-    RETURN idKlaim
-END FUNCTION
-```
-
-Tabel 5.10.3. Query Operasi catatKlaim()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C10-01* | *INSERT INTO dokumen_klaim (id_ngo, id_surplus, waktu_klaim, status_klaim) VALUES ($1, $2, $3, 'terklaim') RETURNING id_klaim;* | *Menyimpan data klaim baru dengan status awal "terklaim" dan mengembalikan id_klaim.* |
-
-### 5.10.2 Algoritma/Query
-
-**Nama Kelas:** *DokumenKlaim*  
-**Nama Operasi:** *getDetailKlaim(idKlaim: Number): Object*  
-**ID Algoritma:** *Algo-C10-02*
-
-```text
-FUNCTION getDetailKlaim(idKlaim)
-    detailKlaim <- JALANKAN Q-C10-02 dengan (idKlaim)
-    IF detailKlaim kosong THEN
-        RAISE Error("Dokumen klaim tidak ditemukan.")
-    END IF
-    RETURN detailKlaim
-END FUNCTION
-```
-
-Tabel 5.10.4. Query Operasi getDetailKlaim()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C10-02* | *SELECT id_klaim, id_ngo, id_surplus, waktu_klaim, status_klaim FROM dokumen_klaim WHERE id_klaim = $1;* | *Mengambil seluruh detail data klaim berdasarkan id_klaim.* |
-
-### 5.10.3 Algoritma/Query
-
-**Nama Kelas:** *DokumenKlaim*  
-**Nama Operasi:** *getWaktuKlaim(idKlaim: Number): DateTime*  
-**ID Algoritma:** *Algo-C10-03*
-
-```text
-FUNCTION getWaktuKlaim(idKlaim)
-    waktuKlaim <- JALANKAN Q-C10-03 dengan (idKlaim)
-    RETURN waktuKlaim
-END FUNCTION
-```
-
-Tabel 5.10.5. Query Operasi getWaktuKlaim()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C10-03* | *SELECT waktu_klaim FROM dokumen_klaim WHERE id_klaim = $1;* | *Mengambil data waktu klaim berdasarkan id_klaim.* |
-
-### 5.10.4 Algoritma/Query
-
-**Nama Kelas:** *DokumenKlaim*  
-**Nama Operasi:** *getStatusKlaim(idKlaim: Number): String*  
-**ID Algoritma:** *Algo-C10-04*
-
-```text
-FUNCTION getStatusKlaim(idKlaim)
-    statusKlaim <- JALANKAN Q-C10-04 dengan (idKlaim)
-    RETURN statusKlaim
-END FUNCTION
-```
-
-Tabel 5.10.6. Query Operasi getStatusKlaim()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C10-04* | *SELECT status_klaim FROM dokumen_klaim WHERE id_klaim = $1;* | *Mengambil status klaim berdasarkan id_klaim.* |
-
-## 5.11 Kelas LogAktivitas
-
-**Nama Kelas:** *LogAktivitas*  
-**ID Kelas:** *C11*
-
-Tabel 5.11.1. Operasi Kelas LogAktivitas
-
-| Nama Operasi | Visibility (private, public) | Keterangan |
-| :--- | :--- | :--- |
-| *getDaftarLog(): Array* | *Public* | *Mengambil seluruh daftar log aktivitas pengguna yang tersimpan di database.* |
-| *cariLog(kriteria: String): Array* | *Public* | *Mencari dan menyaring daftar log aktivitas berdasarkan kriteria (jenis aktivitas) yang dipilih.* |
-
-Tabel 5.11.2. Atribut Kelas LogAktivitas
-
-| Nama Atribut | Visibility (private, public) | Tipe |
-| :--- | :--- | :--- |
-| *idLog* | *Private* | *Number* |
-| *aktivitas* | *Private* | *String* |
-| *waktu* | *Private* | *DateTime* |
-
-### 5.11.1 Algoritma/Query
-
-**Nama Kelas:** *LogAktivitas*  
-**Nama Operasi:** *getDaftarLog(): Array*  
-**ID Algoritma:** *Algo-C11-01*
-
-```text
-FUNCTION getDaftarLog()
-    daftarLog <- JALANKAN Q-C11-01
-    RETURN daftarLog
-END FUNCTION
-```
-
-Tabel 5.11.3. Query Operasi getDaftarLog()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C11-01* | *SELECT id_log, aktivitas, waktu FROM log_aktivitas ORDER BY waktu DESC;* | *Mengambil seluruh data log aktivitas dan mengurutkannya dari yang terbaru.* |
-
-### 5.11.2 Algoritma/Query
-
-**Nama Kelas:** *LogAktivitas*  
-**Nama Operasi:** *cariLog(kriteria: String): Array*  
-**ID Algoritma:** *Algo-C11-02*
-
-```text
-FUNCTION cariLog(kriteria)
-    IF kriteria = "Semua" THEN
-        daftarLog <- JALANKAN Q-C11-01
-    ELSE
-        daftarLog <- JALANKAN Q-C11-02 dengan (kriteria)
-    END IF
-    RETURN daftarLog
-END FUNCTION
-```
-
-Tabel 5.11.4. Query Operasi cariLog()
-
-| No Query | Query | Keterangan |
-| :--- | :--- | :--- |
-| *Q-C11-02* | *SELECT id_log, aktivitas, waktu FROM log_aktivitas WHERE aktivitas ILIKE '%' || $1 || '%' ORDER BY waktu DESC;* | *Mengambil log aktivitas yang mengandung kata kunci kriteria tertentu (misal: "Klaim", "Surplus", atau "Verifikasi").* |
-
->>>>>>> Stashed changes
 ## 5.24 Kelas PenjualanController
 
 **Nama Kelas:** *PenjualanController*  
@@ -3688,15 +3685,12 @@ PROCEDURE verifikasiPendaftaran(idPendaftaran, keputusan)
 END PROCEDURE
 ```
 
-<<<<<<< Updated upstream
 Tabel 5.32.3. Query Operasi verifikasiPendaftaran()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
 | *-* | *-* | *Perubahan status disimpan oleh updateStatus() di kelas Pendaftaran (C02, Q-C02-04).* |
 
-=======
->>>>>>> Stashed changes
 ## 5.33 Kelas GeolocationAdapter
 
 **Nama Kelas:** *GeolocationAdapter*  
@@ -3739,12 +3733,10 @@ FUNCTION hitungJarak(lokasiPengguna, lokasiPemilik)
     RETURN PEMBULATAN(jarak, 2)
 END FUNCTION
 
-<<<<<<< Updated upstream
 // Fungsi bantu internal (bukan operasi kelas)
 FUNCTION AMBIL_KOORDINAT(lokasi)
     IF lokasi berformat "lat,lng" THEN             // dari HTML5 Geolocation API
         RETURN { lat: PARSE(lat dari lokasi), lng: PARSE(lng dari lokasi) }
-=======
 ### 5.33.2 Algoritma/Query
 
 **Nama Kelas:** *GeolocationAdapter*  
@@ -3752,10 +3744,9 @@ FUNCTION AMBIL_KOORDINAT(lokasi)
 **ID Algoritma:** *Algo-C33-02*
 
 ```text
-FUNCTION ambilKoordinat(alamat)
+FUNCTION ambilKoordinat(alamat) 
     IF alamat kosong THEN
         RAISE Error("Lokasi harus diisi.")
->>>>>>> Stashed changes
     END IF
     respons <- GEOCODING_API.cari(lokasi)          // Google Maps Geocoding API atau OSM Nominatim
     IF respons gagal ATAU respons kosong THEN
@@ -3765,15 +3756,12 @@ FUNCTION ambilKoordinat(alamat)
 END FUNCTION
 ```
 
-<<<<<<< Updated upstream
 Tabel 5.33.3. Query Operasi hitungJarak()
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
 | *-* | *-* | *Kelas ini memakai layanan peta pihak ketiga, bukan database.* |
 
-=======
->>>>>>> Stashed changes
 ## 5.34 Kelas PenyaringanController
 
 **Nama Kelas:** *PenyaringanController*  
@@ -3930,7 +3918,7 @@ END FUNCTION
 
 ---
 
-# BAB 6: Perancangan Antarmuka
+    # BAB 6: Perancangan Antarmuka
 
 ## 6.1 Rancangan Antarmuka I-01
 
