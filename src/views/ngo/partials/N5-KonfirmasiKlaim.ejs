@@ -1,0 +1,56 @@
+<div class="modal-backdrop"
+     id="claimModal"
+     hidden>
+
+    <div class="modal-container">
+
+        <div class="modal-icon">
+            ⬡
+        </div>
+
+        <h2>Klaim produk ini?</h2>
+
+        <p>
+            Anda akan mengklaim
+            <strong>
+                <%= surplus.jumlah %>
+                <%= surplus.satuan || 'porsi' %>
+                <%= surplus.namaProduk %>
+            </strong>
+            dari <strong><%= surplus.namaUsaha %></strong>.
+            Ambil sebelum
+            <%= surplus.batasWaktuSingkat %>.
+        </p>
+
+        <form
+            method="POST"
+            action="/ngo/surplus/<%= surplus.idSurplus %>/klaim"
+            id="claimForm">
+
+            <div class="modal-actions">
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                    id="confirmClaim">
+
+                    Ya, Klaim
+
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-outline"
+                    id="cancelClaim">
+
+                    Batal
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

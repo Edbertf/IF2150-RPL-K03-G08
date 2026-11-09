@@ -1,0 +1,108 @@
+const db = require('../config/db');
+
+const ProdukSurplus = require('../models/ProdukSurplus');
+const DokumenKlaim = require('../models/DokumenKlaim');
+
+// Memvalidasi ID agar berupa bilangan bulat positif.
+function validasiId(id, namaId) {
+  const nilai = Number(id);
+
+  if (!Number.isSafeInteger(nilai) || nilai <= 0) {
+    throw new Error(`${namaId} tidak valid.`);
+  }
+
+  return nilai;
+}
+
+const KlaimController = {
+  /**
+   * Memeriksa apakah produk surplus masih tersedia.
+   *
+   * @param {number} idSurplus
+   * @returns {boolean}
+   */
+  cekKetersediaan(idSurplus) {
+    const id = validasiId(idSurplus, 'ID surplus');
+
+    const status = ProdukSurplus.getStatus(id);
+
+    return status === 'tersedia';
+  },
+
+  /**
+   * Mengubah status produk surplus menjadi terklaim.
+   *
+   * @param {number} idSurplus
+   * @returns {boolean}
+   */
+  kunciProduk(idSurplus) {
+    const id = validasiId(idSurplus, 'ID surplus');
+
+    if (!KlaimController.cekKetersediaan(id)) {
+      throw new Error('Produk surplus sudah tidak tersedia.');
+    }
+
+    ProdukSurplus.setStatus(id, 'terklaim');
+
+    return true;
+  },
+
+  /**
+   * Menyetujui klaim dan mencatat dokumen klaim.
+   *
+   * Pengubahan status produk dan pencatatan klaim
+   * dilakukan dalam satu transaksi database.
+   *
+   * @param {number} idSurplus
+   * @param {number} idNgo
+   * @returns {number} ID klaim yang berhasil dibuat.
+   */
+  setujuiKlaim(idSurplus, idNgo) {
+    const id = validasiId(idSurplus, 'ID surplus');
+    const ngo = validasiId(idNgo, 'ID NGO');
+
+    const prosesKlaim = db.transaction(() => {
+      // Memeriksa ketersediaan sebelum mengunci produk.
+      if (!KlaimController.cekKetersediaan(id)) {
+        throw new Error(
+          KlaimController.tolakKlaim(id)
+        );
+      }
+
+      // Mengunci produk dengan mengubah statusnya.
+      KlaimController.kunciProduk(id);
+
+      // Mencatat klaim dan memperoleh ID klaim.
+      const idKlaim = DokumenKlaim.catatKlaim(ngo, id);
+
+      if (!Number.isSafeInteger(Number(idKlaim)) || Number(idKlaim) <= 0) {
+        throw new Error('Dokumen klaim gagal dibuat.');
+      }
+
+      return Number(idKlaim);
+    });
+
+    // Menggunakan transaksi IMMEDIATE untuk memulai transaksi tulis.
+    return prosesKlaim.immediate();
+  },
+
+  /**
+   * Menghasilkan pesan ketika klaim tidak dapat diproses.
+   *
+   * @param {number} idSurplus
+   * @returns {string}
+   */
+  tolakKlaim(idSurplus) {
+    const id = validasiId(idSurplus, 'ID surplus');
+
+    const status = ProdukSurplus.getStatus(id);
+
+    if (status === null || status === undefined) {
+      return 'Produk surplus tidak ditemukan.';
+    }
+
+    return `Klaim tidak dapat diproses karena produk surplus berstatus "${status}".`;
+  },
+};
+
+module.exports = KlaimController;
