@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const db = require('../config/db');
 require('./init')();
 
@@ -9,9 +10,13 @@ if (jumlahPemilik > 0) {
     process.exit(0);
 }
 
+const akun = db.prepare(
+    'INSERT INTO akun_pengguna (email, kata_sandi, tipe_akun) VALUES (?, ?, ?)'
+).run('demo@foodlink.test', bcrypt.hashSync('password123', 10), 'pemilik_fnb');
+
 const pemilik = db.prepare(
-    'INSERT INTO pemilik_fnb (nama_usaha, alamat_usaha) VALUES (?, ?)'
-).run('Bakery Sinar Pagi', 'Jl. Contoh No. 1, Bandung');
+    'INSERT INTO pemilik_fnb (id_akun, nama_usaha, alamat_usaha) VALUES (?, ?, ?)'
+).run(akun.lastInsertRowid, 'Bakery Sinar Pagi', 'Jl. Contoh No. 1, Bandung');
 
 const produk = [
     { nama: 'Roti Tawar', terjual: 42, tersisa: 8 },
