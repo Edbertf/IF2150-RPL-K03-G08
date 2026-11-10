@@ -232,6 +232,46 @@ a.sub:hover { color: var(--primary-dark); }
 .dok a { color: var(--primary-dark); font-weight: 800; text-decoration: none; }
 .dok a:hover { text-decoration: underline; }
 
+.pill.r { background-color: var(--danger-soft); color: var(--danger); }
+
+.aksi { display: flex; gap: 12px; margin-top: 18px; }
+
+.btn {
+    flex: 1;
+    padding: 14px;
+    border: 0;
+    border-radius: 14px;
+    font: inherit;
+    font-weight: 800;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn.setuju { background-color: var(--primary); color: #ffffff; }
+.btn.setuju:hover { filter: brightness(0.95); }
+
+.btn.tolak { border: 1.5px solid var(--danger); background-color: #ffffff; color: var(--danger); }
+.btn.tolak:hover { background-color: var(--danger-soft); }
+
+.hasil { max-width: 520px; margin: 8vh auto 0; text-align: center; }
+.hasil h1 { font-size: 28px; }
+.hasil p { margin: 16px 0 26px; color: var(--muted); line-height: 1.55; }
+.hasil .btn { display: block; width: 100%; background-color: var(--primary); color: #ffffff; }
+
+.bulat {
+    display: grid;
+    place-items: center;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background-color: var(--primary-soft);
+    color: var(--primary-dark);
+}
+
+.bulat.tolak { background-color: var(--danger-soft); color: var(--danger); }
+
 @media (max-width: 900px) {
     body { flex-direction: column; }
 

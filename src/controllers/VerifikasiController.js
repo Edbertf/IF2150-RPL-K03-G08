@@ -81,3 +81,48 @@ exports.sajikanDokumen = (req, res) => {
         }
     });
 };
+
+exports.prosesVerifikasi = (req, res) => {
+    const idPendaftaran = Number(req.params.idPendaftaran);
+    const keputusan = req.body.keputusan;
+    const status = keputusan === 'terima' ? 'diterima' : (keputusan === 'tolak' ? 'ditolak' : null);
+
+    if (!status) {
+        const pesan = encodeURIComponent('Keputusan tidak dikenal.');
+        return res.redirect(`/admin/verifikasi/${idPendaftaran}?pesan=${pesan}`);
+    }
+
+    const berubah = Pendaftaran.updateStatus(idPendaftaran, status);
+
+    if (!berubah) {
+        const pesan = encodeURIComponent('Pendaftaran tidak ditemukan atau sudah pernah diverifikasi.');
+        return res.redirect(`/admin/verifikasi/${idPendaftaran}?pesan=${pesan}`);
+    }
+
+    return res.redirect(`/admin/verifikasi/${idPendaftaran}/hasil`);
+};
+
+exports.tampilkanHasilVerifikasi = (req, res) => {
+    const idPendaftaran = Number(req.params.idPendaftaran);
+    const detail = Pendaftaran.getDetailPendaftar(idPendaftaran);
+
+    if (!detail) {
+        return res.status(404).send('Pendaftaran tidak ditemukan.');
+    }
+
+    if (detail.statusVerifikasi === 'menunggu verifikasi') {
+        return res.redirect(`/admin/verifikasi/${idPendaftaran}`);
+    }
+
+    const diterima = detail.statusVerifikasi === 'diterima';
+    const nama = detail.namaUsaha || detail.namaOrganisasi || detail.email;
+
+    res.render('admin/I21-I22-HasilVerifikasi', {
+        diterima,
+        detail: perkaya(detail),
+        nama,
+        pesan: diterima
+            ? `Status ${nama} diperbarui menjadi diterima dan pendaftar dapat langsung menggunakan FoodLink.`
+            : `Status ${nama} diperbarui menjadi ditolak. Pendaftar disarankan memperbaiki dokumennya lalu mendaftar ulang.`
+    });
+};

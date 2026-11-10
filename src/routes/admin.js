@@ -6,6 +6,8 @@ router.use(butuhPeran('admin_sistem'));
 
 router.get('/verifikasi', VerifikasiController.tampilkanDaftarPendaftar);
 router.get('/verifikasi/:idPendaftaran', VerifikasiController.ambilDetailPendaftar);
+router.post('/verifikasi/:idPendaftaran', VerifikasiController.prosesVerifikasi);
+router.get('/verifikasi/:idPendaftaran/hasil', VerifikasiController.tampilkanHasilVerifikasi);
 router.get('/verifikasi/:idPendaftaran/dokumen/:idDokumen', VerifikasiController.sajikanDokumen);
 
 module.exports = router;

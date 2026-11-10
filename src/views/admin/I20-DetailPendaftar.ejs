@@ -66,7 +66,16 @@
             <% } %>
         </div>
 
-        <!-- Tombol Setujui/Tolak ditambahkan pada langkah berikutnya. -->
+        <% if (detail.statusVerifikasi === 'menunggu verifikasi') { %>
+            <form action="/admin/verifikasi/<%= detail.idPendaftaran %>" method="POST">
+                <div class="aksi">
+                    <button class="btn tolak" type="submit" name="keputusan" value="tolak">Tolak</button>
+                    <button class="btn setuju" type="submit" name="keputusan" value="terima">Setujui</button>
+                </div>
+            </form>
+        <% } else { %>
+            <p class="sub">Pendaftaran ini sudah diverifikasi. Keputusan tidak dapat diubah lagi.</p>
+        <% } %>
     </main>
 </body>
 </html>
