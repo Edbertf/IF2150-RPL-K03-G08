@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>FoodLink - Catat Surplus</title>
+    <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="side">
+            <div class="brand"><img src="/logo.png"><span><b>Food</b>Link</span></div>
+            <button class="nav on">Surplus</button>
+            <div class="who"><div class="av"><%= user.namaUsaha.charAt(0) %></div><div><b><%= user.namaUsaha %></b><small>Pemilik F&B</small></div></div>
+        </aside>
+
+        <main class="main">
+            <h1>Kelola Produk Surplus</h1>
+            <div class="pg">
+                <div class="card">
+                    <h2>Catat Produk Surplus (Langkah 1/2)</h2>
+                    
+                    <% if (error) { %>
+                        <p class="err" style="display:block;"><%= error %></p>
+                    <% } %>
+
+                    <form action="/surplus/catat" method="POST" style="margin-top:16px;">
+                        <label>Pilih Produk</label>
+                        <select name="idProduk" required>
+                            <option value="">-- Pilih Produk --</option>
+                            <option value="1">Roti Tawar Gandum</option>
+                            <option value="2">Nasi Goreng Spesial</option>
+                            <option value="3">Es Kopi Susu</option>
+                        </select>
+
+                        <label>Jumlah Surplus (Porsi/Item)</label>
+                        <input type="number" name="jumlah" min="1" required>
+
+                        <label>Batas Waktu Pengambilan</label>
+                        <input type="datetime-local" name="batasWaktu" required>
+
+                        <label>Lokasi Pengambilan</label>
+                        <input type="text" name="lokasi" value="Jl. Dago No. 10, Bandung" required>
+
+                        <div class="row" style="margin-top: 24px;">
+                            <button type="submit" class="btn">Lanjut: Atur Distribusi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

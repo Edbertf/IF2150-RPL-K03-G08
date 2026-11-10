@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>FoodLink - Donasi</title>
+    <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="side">
+            <div class="brand"><img src="/logo.png"><span><b>Food</b>Link</span></div>
+            <button class="nav on">Surplus</button>
+        </aside>
+
+        <main class="main">
+            <h1>Kelola Produk Surplus</h1>
+            <div class="pg">
+                <div class="card">
+                    <h2>Atur Metode Distribusi (Langkah 2/2)</h2>
+                    
+                    <% if (error) { %>
+                        <p class="err" style="display:block;"><%= error %></p>
+                    <% } %>
+
+                    <div class="seg" style="margin: 20px 0;">
+                        <!-- Tab Aktif -->
+                        <a href="/surplus/<%= idSurplus %>/donasi" style="text-decoration:none; flex:1;">
+                            <button class="w on">Donasi Gratis</button>
+                        </a>
+                        <!-- Tab Tidak Aktif, mengarah ke I-10 -->
+                        <a href="/surplus/<%= idSurplus %>/jual" style="text-decoration:none; flex:1;">
+                            <button class="w">Jual Diskon</button>
+                        </a>
+                    </div>
+
+                    <form action="/surplus/<%= idSurplus %>/donasi" method="POST">
+                        <div class="warn" style="margin-bottom:20px;">
+                            Produk ini akan disumbangkan secara gratis ke lembaga sosial.
+                        </div>
+                        <button type="submit" class="btn w">Publikasikan sebagai Donasi</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
