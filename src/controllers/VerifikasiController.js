@@ -1,4 +1,6 @@
 // C04 VerifikasiController
+const fs = require('fs');
+
 const Pendaftaran = require('../models/Pendaftaran');
 const DokumenPendukung = require('../models/DokumenPendukung');
 
@@ -43,9 +45,14 @@ exports.ambilDetailPendaftar = (req, res) => {
         return res.status(404).send('Pendaftaran tidak ditemukan.');
     }
 
+    const dokumen = DokumenPendukung.getDokumen(idPendaftaran).map((d) => ({
+        ...d,
+        tersedia: fs.existsSync(DokumenPendukung.ambilPathBerkas(idPendaftaran, d.namaFile))
+    }));
+
     res.render('admin/I20-DetailPendaftar', {
         detail: perkaya(detail),
-        dokumen: DokumenPendukung.getDokumen(idPendaftaran),
+        dokumen,
         pesan: req.query.pesan || null
     });
 };
@@ -62,12 +69,15 @@ exports.sajikanDokumen = (req, res) => {
         return res.status(404).send('Dokumen tidak ditemukan.');
     }
 
-    res.sendFile(
-        DokumenPendukung.ambilPathBerkas(idPendaftaran, dokumen.namaFile),
-        (err) => {
-            if (err && !res.headersSent) {
-                res.status(404).send('Berkas dokumen tidak tersedia.');
-            }
+    const berkas = DokumenPendukung.ambilPathBerkas(idPendaftaran, dokumen.namaFile);
+
+    if (!fs.existsSync(berkas)) {
+        return res.status(404).send('Berkas dokumen tidak ditemukan di server.');
+    }
+
+    res.sendFile(berkas, (err) => {
+        if (err && !res.headersSent) {
+            res.status(404).send('Berkas dokumen tidak tersedia.');
         }
-    );
+    });
 };

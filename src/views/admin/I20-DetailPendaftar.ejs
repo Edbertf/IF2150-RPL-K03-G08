@@ -55,8 +55,12 @@
                             <b><%= d.namaFile %></b>
                             <small><%= d.tipeDokumen %></small>
                         </div>
-                        <a href="/admin/verifikasi/<%= detail.idPendaftaran %>/dokumen/<%= d.idDokumen %>"
-                           target="_blank" rel="noopener">Lihat</a>
+                        <% if (d.tersedia) { %>
+                            <a href="/admin/verifikasi/<%= detail.idPendaftaran %>/dokumen/<%= d.idDokumen %>"
+                               target="_blank" rel="noopener">Lihat</a>
+                        <% } else { %>
+                            <span class="sub">Berkas tidak ditemukan</span>
+                        <% } %>
                     </div>
                 <% }); %>
             <% } %>
