@@ -192,7 +192,9 @@ Tabel B.1. Perubahan dari DPPL
 
 | No | Bagian DPPL | Rancangan Awal | Implementasi Akhir | Alasan |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | *[mis. Kelas C05, layar I-03, tabel `orders`]* | *[Yang direncanakan]* | *[Yang dibuat]* | *[Alasan perubahan]* |
+| 1 | *DBMS (Lingkungan Implementasi)* | *PostgreSQL 15* | *SQLite (better-sqlite3)* | *Biar aplikasi dapat jalan tanpa setup database yang cukup ribet* |
+| 2 | *operasi C30 & C31* | *Tidak ada operasi penyimpanan profil* | *Menambah operasi simpanProfil() di models/PemilikFnB.js dan models/PerwakilanNGO.js* | *Algo-C23-01 menetapkan "simpan data profil sesuai tipe akun", tetapi operasinya belum didefinisikan di DPPL* |
+| 3 | *I-02 & I-03* | *Tidak ada input Jam Operasional dan Nomor Legalitas* | *Ditambahkan pada form F&B dan NGO* | *Diwajibkan Algo-C23-02 serta merupakan atribut C30 (jamOperasional) dan C31 (nomorLegalitas)* |
 | *...* | *...* | *...* | *...* | *...* |
 
 ## B.2 Bukti Penerapan Best Practices
