@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
     res.render('I01-SelamatDatang');
 });
 
+app.use('/admin', require('./routes/admin'));
 app.use('/fnb', require('./routes/fnb'));
 app.use('/daftar', require('./routes/auth'));
 

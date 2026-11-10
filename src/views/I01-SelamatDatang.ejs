@@ -223,7 +223,9 @@
                     <a class="btn" href="/fnb/penjualan">Buka Halaman Penjualan</a>
                 <% } %>
 
-                <!-- TODO UC02: tambahkan tautan ke /admin/verifikasi untuk role admin_sistem. -->
+                <% if (sudahMasuk.role === 'admin_sistem') { %>
+                    <a class="btn o" href="/admin/verifikasi">Buka Verifikasi Pendaftar</a>
+                <% } %>
 
                 <form action="/keluar" method="POST">
                     <button class="btn ol" type="submit">Keluar</button>

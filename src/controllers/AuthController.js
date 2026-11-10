@@ -285,8 +285,7 @@ function bangunIdentitas(akun) {
 }
 
 function tujuanSetelahMasuk(pengguna) {
-    // Halaman /admin/verifikasi baru ada pada langkah 4 UC02.
-    if (pengguna.role === 'admin_sistem') return '/';
+    if (pengguna.role === 'admin_sistem') return '/admin/verifikasi';
     if (pengguna.role === 'pemilik_fnb') return '/fnb/penjualan';
     return '/';
 }
