@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js",
-    "db:seed": "node database/seed.js"
+    "db:seed": "node database/seed.js",
+    "test": "node --test"
   },
   "keywords": [],
   "type": "commonjs",
