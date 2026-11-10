@@ -12,6 +12,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 initDatabase(); 
 //login sementara
 app.use((req, res, next) => {
+    if (req.path.startsWith('/admin')) {
+        req.user = { idAkun: 2, role: 'admin_sistem', nama: 'Admin Sistem' };
+        return next();
+    }
+
     req.user = { idPemilik: 1, role: 'pemilik_fnb', namaUsaha: 'Bakery Sinar Pagi' };
     next();
 });
@@ -22,6 +27,7 @@ app.get('/', (req, res) => {
 
 app.use('/fnb', require('./routes/fnb'));
 app.use('/daftar', require('./routes/auth'));
+app.use('/admin/log', require('./routes/log'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
