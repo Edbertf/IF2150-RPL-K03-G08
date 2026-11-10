@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Verifikasi Pendaftar - FoodLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <%- include('partials-sidebar', { aktif: 'verifikasi' }) %>
+
+    <main class="main">
+        <div class="top">
+            <div>
+                <h1>Verifikasi Pendaftar</h1>
+                <div class="sub">Periksa dokumen sebelum memutuskan.</div>
+            </div>
+            <span class="pill y"><%= daftar.length %> menunggu</span>
+        </div>
+
+        <% if (pesan) { %>
+            <div class="galat" role="alert"><%= pesan %></div>
+        <% } %>
+
+        <% if (daftar.length === 0) { %>
+            <div class="kosong">Tidak ada pendaftar yang menunggu verifikasi.</div>
+        <% } else { %>
+            <% daftar.forEach(function (p) { %>
+                <a class="pendaftar" href="/admin/verifikasi/<%= p.idPendaftaran %>">
+                    <div class="av" aria-hidden="true"><%= p.namaTampil.charAt(0).toUpperCase() %></div>
+                    <div class="isi">
+                        <b><%= p.namaTampil %></b>
+                        <small><%= p.labelTipe %> &middot; <%= p.tanggalTampil %></small>
+                    </div>
+                    <span class="pill y">Menunggu</span>
+                </a>
+            <% }); %>
+        <% } %>
+    </main>
+</body>
+</html>
