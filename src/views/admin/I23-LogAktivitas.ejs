@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log Aktivitas - FoodLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #79b549;
+            --primary-dark: #4a6b36;
+            --primary-soft: #e8f3df;
+            --orange: #e8842e;
+            --bg: #f7faf3;
+            --surface: #ffffff;
+            --text: #2f332c;
+            --muted: #767c73;
+            --border: #e5e9e1;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ---------- Sidebar ---------- */
+        .sidebar {
+            position: sticky;
+            top: 0;
+            display: flex;
+            flex: 0 0 var(--sidebar-width);
+            flex-direction: column;
+            width: var(--sidebar-width);
+            height: 100vh;
+            padding: 22px 20px 18px;
+            overflow-y: auto;
+            background-color: var(--surface);
+            border-right: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 34px;
+            padding-left: 4px;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            display: block;
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+        }
+
+        .brand-text {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+            line-height: 1;
+        }
+
+        .brand-text .food {
+            color: var(--orange);
+        }
+
+        .brand-text .link {
+            color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 8px;
+            color: var(--muted);
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1;
+            text-decoration: none;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .nav-item svg {
+            flex: 0 0 20px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-item:hover {
+            background-color: #f4f7f1;
+            color: var(--primary-dark);
+        }
+
+        .nav-item.active {
+            background-color: var(--primary-soft);
+            color: #5f9136;
+        }
+
+        .nav-item[aria-disabled="true"] {
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+        .logout-form { margin: 0; }
+        .logout-button {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            font: inherit;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: auto;
+            padding: 12px;
+            border-radius: 10px;
+            background-color: #f4f6f2;
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            flex: 0 0 38px;
+            border-radius: 50%;
+            background-color: #fdecc8;
+            color: #a86400;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .user-info {
+            min-width: 0;
+        }
+
+        .user-info .name {
+            max-width: 118px;
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .user-info .role {
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* ---------- Main ---------- */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            max-width: 1180px;
+            padding: 44px 42px 64px;
+        }
+
+        h1 {
+            margin-bottom: 26px;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+            line-height: 1.2;
+        }
+
+        .alert {
+            margin-bottom: 18px;
+            padding: 12px 16px;
+            border: 1px solid #f0c9c9;
+            border-radius: 8px;
+            background-color: #fdf2f2;
+            color: #a33a3a;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* ---------- Filter ---------- */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background-color: var(--surface);
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+        }
+
+        .chip:hover {
+            border-color: #cfe0bf;
+            color: var(--primary-dark);
+        }
+
+        .chip:focus-visible {
+            outline: 3px solid rgba(121, 181, 73, 0.3);
+            outline-offset: 2px;
+        }
+
+        .chip.active {
+            border-color: var(--primary);
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
+        /* ---------- Daftar log ---------- */
+        .log-card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background-color: var(--surface);
+            box-shadow: 0 1px 2px rgba(47, 51, 44, 0.04);
+        }
+
+        .log-list {
+            list-style: none;
+        }
+
+        .log-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 28px;
+            padding: 19px 26px;
+            border-top: 1px solid #f0f3ec;
+        }
+
+        .log-item:first-child {
+            border-top: none;
+        }
+
+        .log-time {
+            flex: 0 0 64px;
+            padding-top: 1px;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.5;
+        }
+
+        .log-body {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .log-user {
+            font-size: 15px;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .log-activity {
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.45;
+            overflow-wrap: anywhere;
+        }
+
+        /* ---------- Empty state ---------- */
+        .empty {
+            padding: 62px 24px 68px;
+            text-align: center;
+        }
+
+        .empty p {
+            max-width: 420px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .empty a {
+            display: inline-block;
+            margin-top: 14px;
+            color: var(--primary-dark);
+            font-size: 14px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .empty a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 980px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                flex: none;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 14px;
+                padding: 14px 18px;
+            }
+
+            .brand {
+                margin-bottom: 0;
+                padding-left: 0;
+            }
+
+            .nav-menu {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+
+            .nav-item {
+                padding: 9px 12px;
+            }
+
+            .user-profile {
+                margin-top: 0;
+                margin-left: auto;
+            }
+
+            .main-content {
+                padding: 28px 20px 48px;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .user-profile {
+                display: none;
+            }
+
+            .log-item {
+                gap: 16px;
+                padding: 16px 18px;
+            }
+
+            .log-time {
+                flex-basis: 52px;
+            }
+        }
+    </style>
+</head>
+<body>
+<%
+    const daftarLog = Array.isArray(daftar) ? daftar : [];
+    const filterTersedia = Array.isArray(pilihanFilter) ? pilihanFilter : ['Semua'];
+    const filterAktifTampil = typeof filterAktif !== 'undefined' && filterAktif ? filterAktif : 'Semua';
+    const adaLog = typeof adaLogKeseluruhan !== 'undefined' ? adaLogKeseluruhan : daftarLog.length > 0;
+
+    function tautanFilter(nama) {
+        return nama === 'Semua' ? '/admin/log' : `/admin/log?kategori=${encodeURIComponent(nama)}`;
+    }
+%>
+
+    <aside class="sidebar">
+        <a class="brand" href="/" aria-label="FoodLink - Beranda">
+            <img class="brand-logo" src="/assets/logo.png" alt="" width="40" height="40">
+            <span class="brand-text"><span class="food">Food</span><span class="link">Link</span></span>
+        </a>
+
+        <nav class="nav-menu" aria-label="Navigasi utama">
+            <a class="nav-item" href="#" aria-disabled="true" title="Belum tersedia">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M9 12l2 2 4-5"/>
+                    <path d="M12 3l7 4v5c0 4.4-3 8.4-7 9-4-.6-7-4.6-7-9V7z"/>
+                </svg>
+                <span>Verifikasi</span>
+            </a>
+
+            <a class="nav-item active" href="/admin/log" aria-current="page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M4 5h16M4 12h16M4 19h10"/>
+                </svg>
+                <span>Log Aktivitas</span>
+            </a>
+
+            <form class="logout-form" action="/keluar" method="POST">
+                <button class="nav-item logout-button" type="submit">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M10 17l5-5-5-5"/>
+                    <path d="M15 12H3"/>
+                    <path d="M15 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/>
+                </svg>
+                <span>Keluar</span>
+                </button>
+            </form>
+        </nav>
+
+        <div class="user-profile">
+            <div class="user-avatar" aria-hidden="true">A</div>
+            <div class="user-info">
+                <div class="name">Admin Sistem</div>
+                <div class="role">Admin</div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <h1>Log Aktivitas</h1>
+
+        <% if (typeof pesanError !== 'undefined' && pesanError) { %>
+            <div class="alert" role="alert"><%= pesanError %></div>
+        <% } %>
+
+        <nav class="filters" aria-label="Filter log aktivitas">
+            <% filterTersedia.forEach((nama) => { %>
+                <a class="chip <%= nama === filterAktifTampil ? 'active' : '' %>"
+                   href="<%= tautanFilter(nama) %>"
+                   <%= nama === filterAktifTampil ? 'aria-current="true"' : '' %>><%= nama %></a>
+            <% }); %>
+        </nav>
+
+        <section class="log-card" aria-label="Daftar log aktivitas">
+            <% if (daftarLog.length === 0) { %>
+                <div class="empty">
+                    <% if (!adaLog) { %>
+                        <p>Belum ada log aktivitas.</p>
+                    <% } else { %>
+                        <p>Tidak ada log aktivitas yang sesuai dengan filter.</p>
+                        <a href="/admin/log">Tampilkan semua log</a>
+                    <% } %>
+                </div>
+            <% } else { %>
+                <ul class="log-list">
+                    <% daftarLog.forEach((baris) => { %>
+                        <li class="log-item">
+                            <span class="log-time"><%= baris.waktuTampil %></span>
+                            <div class="log-body">
+                                <span class="log-user"><%= baris.pengguna %></span>
+                                <span class="log-activity"><%= baris.aktivitas %></span>
+                            </div>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } %>
+        </section>
+    </main>
+</body>
+</html>
