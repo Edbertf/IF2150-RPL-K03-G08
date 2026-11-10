@@ -471,6 +471,21 @@
 .kode-klaim { color: var(--primary-dark); letter-spacing: .06em; }
 .klaim-sukses > .btn-klaim { display: inline-block; text-decoration: none; }
 
+.success-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.success-actions .btn-klaim {
+    margin: 0;
+}
+
+.success-actions a {
+    display: block;
+    text-decoration: none;
+}
+
 .kosong-klaim h2 { margin-bottom: 6px; color: var(--text); }
 .kosong-klaim p { margin-bottom: 18px; }
 .kosong-klaim .btn-klaim { display: inline-block; width: auto; text-decoration: none; }

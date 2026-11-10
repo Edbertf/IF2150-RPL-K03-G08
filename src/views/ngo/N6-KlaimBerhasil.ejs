@@ -4,12 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Klaim Berhasil - FoodLink</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/admin.css">
     <link rel="stylesheet" href="/css/ngo.css">
 </head>
+
 <body>
     <%- include('partials-sidebar', { aktif: 'klaim', pengguna }) %>
 
@@ -18,18 +20,129 @@
             <div class="sukses-ikon" aria-hidden="true">✓</div>
             <span class="badge donasi">Klaim tercatat</span>
             <h1 id="judul-sukses">Klaim berhasil</h1>
-            <p class="sub">Tunjukkan kode klaim ini kepada pemilik usaha saat mengambil produk.</p>
+            <p class="sub">
+                Tunjukkan kode klaim ini kepada pemilik usaha saat mengambil produk.
+            </p>
 
             <div class="ringkasan-klaim">
-                <div class="kv"><span>Produk</span><b><%= detail.namaProduk %></b></div>
-                <div class="kv"><span>Jumlah</span><b><%= detail.jumlahTampil %></b></div>
-                <div class="kv"><span>Kode klaim</span><b class="kode-klaim"><%= hasilKlaim.kodeKlaim %></b></div>
-                <div class="kv"><span>Ambil sebelum</span><b><%= detail.batasWaktuTampil %></b></div>
-                <div class="kv"><span>Lokasi pengambilan</span><b><%= detail.lokasiPengambilan || 'Alamat belum tersedia' %></b></div>
+                <div class="kv">
+                    <span>Produk</span>
+                    <b><%= detail.namaProduk %></b>
+                </div>
+
+                <div class="kv">
+                    <span>Jumlah</span>
+                    <b><%= detail.jumlahTampil %></b>
+                </div>
+
+                <div class="kv">
+                    <span>Kode klaim</span>
+                    <b class="kode-klaim"><%= hasilKlaim.kodeKlaim %></b>
+                </div>
+
+                <div class="kv">
+                    <span>Ambil sebelum</span>
+                    <b><%= detail.batasWaktuTampil %></b>
+                </div>
+
+                <div class="kv">
+                    <span>Lokasi pengambilan</span>
+                    <b><%= detail.lokasiPengambilan || 'Alamat belum tersedia' %></b>
+                </div>
             </div>
 
-            <a class="btn-klaim" href="/ngo/surplus">Kembali ke daftar surplus</a>
+            <!-- Actions -->
+            <div class="success-actions">
+                <button
+                    type="button"
+                    class="btn-klaim"
+                    id="confirmPickup">
+                    Konfirmasi Pengambilan
+                </button>
+
+                <a class="btn-outline" href="/ngo/surplus">
+                    Kembali ke daftar surplus
+                </a>
+            </div>
         </section>
     </main>
+
+    <!-- Popup Konfirmasi Pengambilan UC11 -->
+    <div
+        class="modal-backdrop"
+        id="pickupModal"
+        hidden>
+
+        <div
+            class="modal-container"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="pickupModalTitle">
+
+            <div class="modal-icon" aria-hidden="true">♥</div>
+
+            <h2 id="pickupModalTitle">
+                Konfirmasi Pengambilan
+            </h2>
+
+            <p>
+                Apakah produk surplus
+                <strong><%= detail.namaProduk %></strong>
+                sudah diambil?
+            </p>
+
+            <form
+                method="POST"
+                action="/ngo/klaim/<%= hasilKlaim.idKlaim %>/konfirmasi-pengambilan"
+                id="pickupForm">
+
+                <div class="modal-actions">
+                    <button
+                        type="submit"
+                        class="btn-klaim"
+                        id="confirmPickupYes">
+                        Ya, Sudah Diambil
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-outline"
+                        id="cancelPickup">
+                        Tidak, Belum Diambil
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const pickupModal = document.getElementById('pickupModal');
+        const openPickupButton = document.getElementById('confirmPickup');
+        const cancelPickupButton = document.getElementById('cancelPickup');
+
+        // Membuka popup konfirmasi.
+        openPickupButton.addEventListener('click', () => {
+            pickupModal.hidden = false;
+        });
+
+        // Pilihan No: menutup popup tanpa mengirim request.
+        cancelPickupButton.addEventListener('click', () => {
+            pickupModal.hidden = true;
+        });
+
+        // Klik overlay juga menutup popup.
+        pickupModal.addEventListener('click', (event) => {
+            if (event.target === pickupModal) {
+                pickupModal.hidden = true;
+            }
+        });
+
+        // Tombol Escape menutup popup.
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                pickupModal.hidden = true;
+            }
+        });
+    </script>
 </body>
 </html>

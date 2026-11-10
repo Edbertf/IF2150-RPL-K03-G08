@@ -9,6 +9,7 @@ router.use(butuhPeran('perwakilan_ngo'));
 
 // UC08: daftar dan detail produk surplus.
 router.get('/surplus', SurplusController.tampilkanDaftarSurplus);
+
 router.get('/surplus/:idSurplus', async (req, res) => {
     const pengguna = req.user || {};
 
@@ -72,6 +73,7 @@ router.post('/surplus/:idSurplus/klaim', (req, res) => {
     }
 });
 
+// N6 - KLAIM BERHASIL
 router.get('/klaim/:idKlaim/berhasil', async (req, res) => {
     const pengguna = req.user || {};
     const idKlaim = Number(req.params.idKlaim);
@@ -83,6 +85,7 @@ router.get('/klaim/:idKlaim/berhasil', async (req, res) => {
     try {
         const klaim = DokumenKlaim.getDetailKlaim(idKlaim);
         const idNgo = pengguna.idNgo ?? pengguna.idAkun;
+
         if (Number(klaim.idNgo) !== Number(idNgo)) {
             return res.status(403).send('Anda tidak memiliki akses ke dokumen klaim ini.');
         }
@@ -101,6 +104,96 @@ router.get('/klaim/:idKlaim/berhasil', async (req, res) => {
             }
         });
     } catch (error) {
+        return res.status(404).send(error.message);
+    }
+});
+
+// ==========================================
+// UC11 - MEMPROSES KONFIRMASI PENGAMBILAN
+// ==========================================
+
+router.post('/klaim/:idKlaim/konfirmasi-pengambilan', (req, res) => {
+    const pengguna = req.user || {};
+    const idKlaim = Number(req.params.idKlaim);
+    const idNgo = pengguna.idNgo ?? pengguna.idAkun;
+
+    if (!Number.isSafeInteger(idKlaim) || idKlaim <= 0) {
+        return res.status(400).send('ID klaim tidak valid.');
+    }
+
+    try {
+        const detailPengambilan =
+            KlaimController.ambilDetailPengambilan(idKlaim);
+
+        if (
+            Number(detailPengambilan.detailKlaim.idNgo) !==
+            Number(idNgo)
+        ) {
+            return res.status(403).send(
+                'Anda tidak memiliki akses ke klaim ini.'
+            );
+        }
+
+        const pesan = KlaimController.konfirmasiPengambilan(idKlaim);
+
+        console.log(pesan);
+
+        return res.redirect(
+            `/ngo/klaim/${idKlaim}/pengambilan-selesai`
+        );
+    } catch (error) {
+        console.error('Gagal mengonfirmasi pengambilan:', error);
+
+        if (
+            error.message ===
+            'Pengambilan produk surplus sudah dikonfirmasi.'
+        ) {
+            return res.status(409).send(error.message);
+        }
+
+        return res.status(500).send(
+            'Terjadi kesalahan saat mengonfirmasi pengambilan.'
+        );
+    }
+});
+
+// ==========================================
+// N7 - PENGAMBILAN SELESAI
+// ==========================================
+
+router.get('/klaim/:idKlaim/pengambilan-selesai', (req, res) => {
+    const pengguna = req.user || {};
+    const idKlaim = Number(req.params.idKlaim);
+    const idNgo = pengguna.idNgo ?? pengguna.idAkun;
+
+    if (!Number.isSafeInteger(idKlaim) || idKlaim <= 0) {
+        return res.status(400).send('ID klaim tidak valid.');
+    }
+
+    try {
+        const pengambilan =
+            KlaimController.ambilDetailPengambilan(idKlaim);
+
+        if (
+            Number(pengambilan.detailKlaim.idNgo) !==
+            Number(idNgo)
+        ) {
+            return res.status(403).send(
+                'Anda tidak memiliki akses ke klaim ini.'
+            );
+        }
+
+        if (pengambilan.detailSurplus.status !== 'selesai') {
+            return res.status(409).send(
+                'Pengambilan produk belum dikonfirmasi.'
+            );
+        }
+
+        return res.render('ngo/N7-PengambilanSelesai', {
+            pengambilan
+        });
+    } catch (error) {
+        console.error('Gagal menampilkan halaman N7:', error);
         return res.status(404).send(error.message);
     }
 });
