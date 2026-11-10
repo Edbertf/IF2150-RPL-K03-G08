@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const PenjualanController = require('../controllers/PenjualanController');
+const PrediksiController = require('../controllers/PrediksiController');
 
 // guard sementara sambil nunggu UC01-03
 router.use((req, res, next) => {
@@ -9,6 +10,7 @@ router.use((req, res, next) => {
     next();
 });
 
+router.get('/dashboard', PrediksiController.tampilkanDashboard);
 router.get('/penjualan', PenjualanController.tampilkanFormPenjualan);
 router.post('/penjualan', PenjualanController.kirimDataPenjualan);
 router.get('/penjualan/tersimpan', PenjualanController.tampilkanPenjualanTersimpan);
