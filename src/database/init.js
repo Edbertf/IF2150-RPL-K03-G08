@@ -33,17 +33,6 @@ const initDatabase = () => {
             );
         `);
 
-        // UC07
-        db.exec(`
-            CREATE TABLE IF NOT EXISTS metode_distribusi_surplus (
-                id_distribusi INTEGER PRIMARY KEY AUTOINCREMENT,
-                id_surplus INTEGER NOT NULL,
-                jenis_distribusi TEXT NOT NULL,
-                harga INTEGER NOT NULL DEFAULT 0,
-                FOREIGN KEY (id_surplus) REFERENCES produk_surplus(id_surplus)
-            );
-        `);
-
         const cekProduk = db.prepare("SELECT COUNT(*) AS count FROM produk").get();
         if (cekProduk.count === 0) {
             db.exec(`
