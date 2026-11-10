@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pendaftaran Dikirim - FoodLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #79b549;
+            --text: #2f332c;
+            --muted: #767c73;
+            --bg: #f6f8f2;
+            --warn-soft: #fdeede;
+            --warn: #b25800;
+            --badge-bg: #fdecc8;
+            --badge-text: #a86400;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Nunito', system-ui, sans-serif;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 98px 20px 72px;
+            text-align: center;
+        }
+
+        .ikon {
+            display: grid;
+            place-items: center;
+            width: 122px;
+            height: 122px;
+            margin: 0 auto 26px;
+            border-radius: 50%;
+            background-color: var(--warn-soft);
+            color: var(--warn);
+        }
+
+        h1 {
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+        }
+
+        .badge {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 5px 14px;
+            border-radius: 99px;
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+            font-size: 12.5px;
+            font-weight: 800;
+        }
+
+        p {
+            margin: 18px 0 26px;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px 24px;
+            border: 0;
+            border-radius: 14px;
+            background-color: var(--primary);
+            color: #ffffff;
+            font: inherit;
+            font-size: 16px;
+            font-weight: 800;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            filter: brightness(0.95);
+        }
+
+        .btn:focus-visible {
+            outline: 3px solid rgba(121, 181, 73, 0.35);
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 560px) {
+            .wrap {
+                padding: 56px 18px 48px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="ikon">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 2"/>
+            </svg>
+        </div>
+
+        <h1>Pendaftaran Dikirim</h1>
+        <span class="badge">Menunggu Verifikasi</span>
+        <p>Admin FoodLink sedang memeriksa dokumen Anda. Anda akan melihat hasilnya di halaman
+           status setelah verifikasi selesai.</p>
+
+        <a class="btn" href="/">Kembali ke Beranda</a>
+    </main>
+</body>
+</html>

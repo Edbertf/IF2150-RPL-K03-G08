@@ -17,10 +17,11 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('I01-SelamatDatang');
 });
 
 app.use('/fnb', require('./routes/fnb'));
+app.use('/daftar', require('./routes/auth'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
