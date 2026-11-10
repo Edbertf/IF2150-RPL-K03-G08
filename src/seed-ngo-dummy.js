@@ -14,7 +14,7 @@ try {
         let idNgo;
 
         if (akun) {
-            if (akun.tipe_akun !== 'ngo') {
+            if (akun.tipe_akun !== 'perwakilan_ngo') {
                 throw new Error('Email dummy sudah digunakan oleh tipe akun lain.');
             }
 
@@ -28,7 +28,7 @@ try {
                     tipe_akun
                 )
                 VALUES (?, ?, ?)
-            `).run(email, 'password-dummy', 'ngo');
+            `).run(email, 'password-dummy', 'perwakilan_ngo');
 
             idNgo = Number(hasilAkun.lastInsertRowid);
         }

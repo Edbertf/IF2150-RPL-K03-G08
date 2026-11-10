@@ -11,7 +11,7 @@ const DokumenKlaim = require('../models/DokumenKlaim');
 // ==========================================
 
 const DUMMY_NGO = {
-    idNgo: 3,
+    idNgo: 1,
     namaOrganisasi: 'Yayasan Berbagi Kasih',
     lokasi: 'Jl. Dipatiukur, Bandung'
 };

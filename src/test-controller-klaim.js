@@ -39,7 +39,7 @@ try {
         `).run(
             `test-ngo-${identitas}@foodlink.test`,
             'password-test',
-            'ngo'
+            'perwakilan_ngo'
         );
 
         const idNgo = Number(akunNgo.lastInsertRowid);
