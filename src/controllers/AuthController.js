@@ -1,5 +1,12 @@
 // C23 AuthController
 
+const fs = require('fs');
+const db = require('../config/db');
+const AkunPengguna = require('../models/AkunPengguna');
+const Pendaftaran = require('../models/Pendaftaran');
+const PemilikFnB = require('../models/PemilikFnB');
+const PerwakilanNGO = require('../models/PerwakilanNGO');
+const DokumenPendukung = require('../models/DokumenPendukung');
 const PANJANG_MIN_SANDI = 8;
 const PANJANG_MAKS_SANDI = 72; // bcrypt memotong kata sandi setelah 72 byte
 const BATAS_MAKS_DOKUMEN = 5 * 1024 * 1024;
@@ -120,3 +127,72 @@ exports.validasiFormatDokumen = (berkas) => exports.pesanErrorDokumen(berkas) ==
 // Dipakai routes/auth.js agar batas multer dan pesan validasi memakai angka sama.
 exports.BATAS_MAKS_DOKUMEN = BATAS_MAKS_DOKUMEN;
 exports.PANJANG_MIN_SANDI = PANJANG_MIN_SANDI;
+
+// Membawa daftar error per field
+class GalatRegistrasi extends Error {
+    constructor(daftarError) {
+        super(daftarError[0] ? daftarError[0].pesan : 'Registrasi gagal.');
+        this.name = 'GalatRegistrasi';
+        this.daftarError = daftarError;
+    }
+}
+
+exports.GalatRegistrasi = GalatRegistrasi;
+
+function hapusBerkasSementara(berkas) {
+    if (berkas && berkas.path) {
+        fs.rmSync(berkas.path, { force: true });
+    }
+}
+
+const simpanRegistrasi = db.transaction((formulir, berkas) => {
+    const idAkun = AkunPengguna.registrasi({
+        email: formulir.email,
+        kataSandi: formulir.kataSandi,
+        tipeAkun: formulir.tipeAkun
+    });
+
+    if (formulir.tipeAkun === 'pemilik_fnb') {
+        PemilikFnB.simpanProfil(idAkun, formulir);
+    } else {
+        PerwakilanNGO.simpanProfil(idAkun, formulir);
+    }
+
+    const idPendaftaran = Pendaftaran.ajukanPendaftaran(idAkun);
+
+    DokumenPendukung.unggahDokumen(idPendaftaran, berkas);
+
+    return { idAkun, idPendaftaran };
+});
+
+exports.registrasiAkun = (dataForm) => {
+    const berkas = dataForm.berkas ?? null;
+    const formulir = exports.normalisasiFormulir(dataForm);
+
+    try {
+        const daftarError = exports.daftarErrorKelengkapan(formulir);
+        const pesanDokumen = exports.pesanErrorDokumen(berkas);
+
+        if (pesanDokumen) {
+            daftarError.push({ field: 'dokumen', pesan: pesanDokumen });
+        }
+        if (daftarError.length > 0) {
+            throw new GalatRegistrasi(daftarError);
+        }
+
+        if (AkunPengguna.cariBerdasarkanEmail(formulir.email)) {
+            throw new GalatRegistrasi([{ field: 'email', pesan: 'Email sudah terdaftar.' }]);
+        }
+
+        const { idAkun, idPendaftaran } = simpanRegistrasi(formulir, berkas);
+
+        return { idAkun, idPendaftaran, status: 'menunggu verifikasi' };
+    } catch (err) {
+        hapusBerkasSementara(berkas);
+
+        if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+            throw new GalatRegistrasi([{ field: 'email', pesan: 'Email sudah terdaftar.' }]);
+        }
+        throw err;
+    }
+};
