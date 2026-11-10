@@ -10,11 +10,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 initDatabase(); 
-//login sementara
-app.use((req, res, next) => {
-    req.user = { idPemilik: 1, role: 'pemilik_fnb', namaUsaha: 'Bakery Sinar Pagi' };
-    next();
-});
+
+app.use(require('./config/sesi'));
+app.use(require('./middleware/pengguna'));;
+
+app.use('/', require('./routes/masuk'));
 
 app.get('/', (req, res) => {
     res.render('I01-SelamatDatang');

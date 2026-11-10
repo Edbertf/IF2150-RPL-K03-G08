@@ -1,13 +1,9 @@
 const router = require('express').Router();
 const PenjualanController = require('../controllers/PenjualanController');
 
-// guard sementara sambil nunggu UC01-03
-router.use((req, res, next) => {
-    if (!req.user || req.user.role !== 'pemilik_fnb') {
-        return res.status(403).send('Hanya pemilik F&B yang dapat mengakses halaman ini.');
-    }
-    next();
-});
+const { butuhPeran } = require('../middleware/peran');
+
+router.use(butuhPeran('pemilik_fnb'));
 
 router.get('/penjualan', PenjualanController.tampilkanFormPenjualan);
 router.post('/penjualan', PenjualanController.kirimDataPenjualan);

@@ -1,5 +1,6 @@
 // C23 AuthController
 
+const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const db = require('../config/db');
 const AkunPengguna = require('../models/AkunPengguna');
@@ -253,4 +254,77 @@ exports.kirimFormulirRegistrasi = (req, res) => {
 
 exports.tampilkanHalamanBerhasil = (req, res) => {
     res.render('auth/I04-StatusPendaftaran');
+};
+
+// ---------- Autentikasi ----------
+
+function bangunIdentitas(akun) {
+    if (akun.tipeAkun === 'admin_sistem') {
+        return { idAkun: akun.idAkun, role: 'admin_sistem', email: akun.email, nama: 'Admin Sistem' };
+    }
+
+    if (akun.tipeAkun === 'pemilik_fnb') {
+        const profil = PemilikFnB.cariBerdasarkanAkun(akun.idAkun);
+        return {
+            idAkun: akun.idAkun,
+            role: 'pemilik_fnb',
+            email: akun.email,
+            idPemilik: profil ? profil.idPemilik : null,
+            nama: profil ? profil.namaUsaha : akun.email
+        };
+    }
+
+    const profil = PerwakilanNGO.cariBerdasarkanAkun(akun.idAkun);
+    return {
+        idAkun: akun.idAkun,
+        role: 'perwakilan_ngo',
+        email: akun.email,
+        nama: profil ? profil.namaOrganisasi : akun.email,
+        lokasi: profil ? profil.lokasi : null
+    };
+}
+
+function tujuanSetelahMasuk(pengguna) {
+    // Halaman /admin/verifikasi baru ada pada langkah 4 UC02.
+    if (pengguna.role === 'admin_sistem') return '/';
+    if (pengguna.role === 'pemilik_fnb') return '/fnb/penjualan';
+    return '/';
+}
+
+exports.tampilkanHalamanMasuk = (req, res) => {
+    if (req.user) {
+        return res.redirect('/');
+    }
+    res.render('auth/I00-Masuk', { error: null, old: {} });
+};
+
+exports.masuk = (req, res) => {
+    const email = String(req.body.email || '').trim().toLowerCase();
+    const kataSandi = String(req.body.kataSandi || '');
+
+    const tampilkanGagal = (pesan) =>
+        res.status(400).render('auth/I00-Masuk', { error: pesan, old: { email } });
+
+    if (!email || !kataSandi) {
+        return tampilkanGagal('Email dan kata sandi wajib diisi.');
+    }
+
+    const akun = AkunPengguna.cariKredensial(email);
+
+    // Pesan disengaja sama untuk email tidak dikenal maupun kata sandi salah.
+    if (!akun || !bcrypt.compareSync(kataSandi, akun.kataSandi)) {
+        return tampilkanGagal('Email atau kata sandi salah.');
+    }
+
+    const pengguna = bangunIdentitas(akun);
+    req.session.pengguna = pengguna;
+
+    return res.redirect(tujuanSetelahMasuk(pengguna));
+};
+
+exports.keluar = (req, res) => {
+    req.session.destroy(() => {
+        res.clearCookie('foodlink.sid');
+        res.redirect('/');
+    });
 };
