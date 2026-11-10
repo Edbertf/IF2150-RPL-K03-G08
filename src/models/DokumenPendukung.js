@@ -3,7 +3,9 @@ const path = require('path');
 const db = require('../config/db');
 
 // Satu pendaftaran punya satu subfolder, sehingga nama berkas asli boleh dipakai apa adanya.
-const AKAR_STORAGE = path.resolve(__dirname, '..', 'storage', 'dokumen');
+const AKAR_STORAGE = process.env.STORAGE_DIR
+    ? path.resolve(process.env.STORAGE_DIR)
+    : path.resolve(__dirname, '..', 'storage', 'dokumen');
 
 const TIPE_DARI_EKSTENSI = {
     '.pdf': 'PDF',
