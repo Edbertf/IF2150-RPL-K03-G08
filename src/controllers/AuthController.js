@@ -196,3 +196,61 @@ exports.registrasiAkun = (dataForm) => {
         throw err;
     }
 };
+
+// ---------- Handler HTTP  ----------
+
+const LABEL_TIPE = {
+    fnb: 'pemilik_fnb',
+    ngo: 'perwakilan_ngo'
+};
+
+function tipeDari(req) {
+    if (req.body && req.body.tipeAkun === LABEL_TIPE.ngo) return 'ngo';
+    if (req.query && req.query.tipe === 'ngo') return 'ngo';
+    return 'fnb';
+}
+
+function renderForm(req, res, status, errorField) {
+    const old = { ...(req.body || {}) };
+    delete old.kataSandi; // jangan pernah mengirim balik kata sandi ke halaman
+
+    res.status(status).render('auth/I02-I03-Registrasi', {
+        tipe: tipeDari(req),
+        old,
+        errorField: errorField || {}
+    });
+}
+
+exports.tampilkanFormRegistrasi = (req, res) => {
+    renderForm(req, res, 200, {});
+};
+
+exports.tampilkanFormRegistrasiDenganError = (req, res, status, errorField) => {
+    renderForm(req, res, status, errorField);
+};
+
+exports.kirimFormulirRegistrasi = (req, res) => {
+    const dataForm = { ...req.body, berkas: req.file ?? null };
+
+    try {
+        exports.registrasiAkun(dataForm);
+        return res.redirect('/daftar/berhasil');
+    } catch (err) {
+        if (!(err instanceof exports.GalatRegistrasi)) {
+            throw err;
+        }
+
+        const errorField = {};
+        for (const item of err.daftarError) {
+            if (!errorField[item.field]) {
+                errorField[item.field] = item.pesan;
+            }
+        }
+
+        return renderForm(req, res, 400, errorField);
+    }
+};
+
+exports.tampilkanHalamanBerhasil = (req, res) => {
+    res.render('auth/I04-StatusPendaftaran');
+};

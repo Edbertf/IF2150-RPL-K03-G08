@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/fnb', require('./routes/fnb'));
+app.use('/daftar', require('./routes/auth'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
