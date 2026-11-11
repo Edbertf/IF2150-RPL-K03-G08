@@ -1,5 +1,4 @@
 const ProdukSurplus = require('../models/ProdukSurplus');
-const MetodeDistribusi = require('../models/MetodeDistribusi');
 
 class SurplusController {
     static tampilFormCatat(req, res) {
