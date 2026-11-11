@@ -192,9 +192,12 @@ Tabel B.1. Perubahan dari DPPL
 
 | No | Bagian DPPL | Rancangan Awal | Implementasi Akhir | Alasan |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | *DBMS (Lingkungan Implementasi)* | *PostgreSQL 15* | *SQLite (better-sqlite3)* | *Biar aplikasi dapat jalan tanpa setup database yang cukup ribet* |
+| 1 | *DBMS (Lingkungan Implementasi)* | *PostgreSQL 15* | *SQLite (better-sqlite3)* | *Mempermudah asisten dan anggota tim menjalankan aplikasi tanpa perlu instalasi server database lokal (zero-configuration)* |
 | 2 | *operasi C30 & C31* | *Tidak ada operasi penyimpanan profil* | *Menambah operasi simpanProfil() di models/PemilikFnB.js dan models/PerwakilanNGO.js* | *Algo-C23-01 menetapkan "simpan data profil sesuai tipe akun", tetapi operasinya belum didefinisikan di DPPL* |
 | 3 | *I-02 & I-03* | *Tidak ada input Jam Operasional dan Nomor Legalitas* | *Ditambahkan pada form F&B dan NGO* | *Diwajibkan Algo-C23-02 serta merupakan atribut C30 (jamOperasional) dan C31 (nomorLegalitas)* |
+| 4 | *Realisasi Use Case* | *Tidak ada Use Case (UC) khusus untuk Login/Logout dan manajemen sesi* | *Menambahkan Halaman Login (/masuk), manajemen sesi (express-session), dan Middleware pembatasan akses (Role-Based Access Control)* | *Ditambahkan sebagai penunjang (enabler) yang wajib ada agar UC02 (Verifikasi oleh Admin) dan UC03 (Cek Status oleh Pendaftar) dapat berjalan dengan benar.* |
+| 5 | *C04 Verifikasi Controller* | *Memiliki 3 operasi utama (tampilkanDaftarPendaftar, ambilDetailPendaftar, prosesVerifikasi)* | *Ditambah tampilkanHasilVerifikasi() dan sajikanDokumen()* | *Diperlukan untuk merender halaman konfirmasi (I-21/I-22) dan menangani proses penyajian berkas dokumen pendukung ke Admin* |
+| 6 | *C32 AdminSistem* | *Kelas dengan operasi verifikasiPendaftaran()* | *Tidak dibuat sebagai kelas terpisah; fungsinya diintegrasikan ke dalam middleware pengecekan peran (guard) dan VerifikasiController* | *Menyederhanakan struktur kode. Kewenangan Admin dinilai lebih efektif jika divalidasi di tingkat pembatasan akses (routing) sebelum proses verifikasi dijalankan* |
 | *...* | *...* | *...* | *...* | *...* |
 
 ## B.2 Bukti Penerapan Best Practices
