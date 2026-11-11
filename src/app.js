@@ -10,19 +10,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 initDatabase(); 
-
-app.use(require('./config/sesi'));
-app.use(require('./middleware/pengguna'));;
-
-app.use('/', require('./routes/masuk'));
+//login sementara
+app.use((req, res, next) => {
+    req.user = { idPemilik: 1, role: 'pemilik_fnb', namaUsaha: 'Bakery Sinar Pagi' };
+    next();
+});
 
 app.get('/', (req, res) => {
     res.render('I01-SelamatDatang');
 });
 
-app.use('/admin', require('./routes/admin'));
 app.use('/fnb', require('./routes/fnb'));
 app.use('/daftar', require('./routes/auth'));
+app.use('/status', require('./routes/status'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

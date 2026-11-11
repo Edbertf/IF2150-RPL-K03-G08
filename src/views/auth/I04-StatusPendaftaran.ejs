@@ -3,27 +3,28 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pendaftaran Dikirim - FoodLink</title>
+    <title><%= judul %> - FoodLink</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #79b549;
+            --primary-dark: #4f8a1f;
+            --primary-soft: #e8f2dc;
             --text: #2f332c;
             --muted: #767c73;
             --bg: #f6f8f2;
+            --border: #e3e8dc;
             --warn-soft: #fdeede;
             --warn: #b25800;
             --badge-bg: #fdecc8;
             --badge-text: #a86400;
+            --danger: #c0392b;
+            --danger-soft: #fbe9e9;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             min-height: 100vh;
@@ -53,11 +54,10 @@
             color: var(--warn);
         }
 
-        h1 {
-            font-size: 30px;
-            font-weight: 800;
-            letter-spacing: -0.4px;
-        }
+        .ikon.diterima { background-color: var(--primary-soft); color: var(--primary-dark); }
+        .ikon.ditolak { background-color: var(--danger-soft); color: var(--danger); }
+
+        h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.4px; }
 
         .badge {
             display: inline-block;
@@ -70,6 +70,9 @@
             font-weight: 800;
         }
 
+        .badge.diterima { background-color: var(--primary-soft); color: var(--primary-dark); }
+        .badge.ditolak { background-color: var(--danger-soft); color: var(--danger); }
+
         p {
             margin: 18px 0 26px;
             color: var(--muted);
@@ -79,6 +82,7 @@
         .btn {
             display: block;
             width: 100%;
+            margin-top: 12px;
             padding: 15px 24px;
             border: 0;
             border-radius: 14px;
@@ -92,42 +96,85 @@
             cursor: pointer;
         }
 
-        .btn:hover {
-            filter: brightness(0.95);
+        .btn:hover { filter: brightness(0.95); }
+
+        .btn.ol {
+            border: 1.5px solid var(--border);
+            background-color: #ffffff;
+            color: var(--primary-dark);
         }
 
-        .btn:focus-visible {
-            outline: 3px solid rgba(121, 181, 73, 0.35);
-            outline-offset: 2px;
-        }
+        .btn.ol:hover { background-color: var(--primary-soft); filter: none; }
+
+        .btn:focus-visible { outline: 3px solid rgba(121, 181, 73, 0.35); outline-offset: 2px; }
 
         @media (max-width: 560px) {
-            .wrap {
-                padding: 56px 18px 48px;
-            }
-
-            h1 {
-                font-size: 25px;
-            }
+            .wrap { padding: 56px 18px 48px; }
+            h1 { font-size: 25px; }
         }
     </style>
 </head>
 <body>
+<%
+    const VARIAN = {
+        'menunggu verifikasi': { ikon: 'jam', kelas: '', badge: 'Menunggu Verifikasi', badgeKelas: '' },
+        diterima: { ikon: 'cek', kelas: 'diterima', badge: 'Diterima', badgeKelas: 'diterima' },
+        ditolak: { ikon: 'silang', kelas: 'ditolak', badge: 'Ditolak', badgeKelas: 'ditolak' },
+        'tidak ditemukan': { ikon: 'silang', kelas: 'ditolak', badge: 'Tidak Ditemukan', badgeKelas: 'ditolak' }
+    };
+    const v = VARIAN[status] || VARIAN['menunggu verifikasi'];
+    const peran = (typeof pengguna !== 'undefined' && pengguna) ? pengguna.role : null;
+%>
     <main class="wrap">
-        <div class="ikon">
-            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="9"/>
-                <path d="M12 7v5l3 2"/>
-            </svg>
+        <div class="ikon <%= v.kelas %>" aria-hidden="true">
+            <% if (v.ikon === 'jam') { %>
+                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 7v5l3 2"/>
+                </svg>
+            <% } else if (v.ikon === 'cek') { %>
+                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5"/>
+                </svg>
+            <% } else { %>
+                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18M6 6l12 12"/>
+                </svg>
+            <% } %>
         </div>
 
-        <h1>Pendaftaran Dikirim</h1>
-        <span class="badge">Menunggu Verifikasi</span>
-        <p>Admin FoodLink sedang memeriksa dokumen Anda. Anda akan melihat hasilnya di halaman
-           status setelah verifikasi selesai.</p>
+        <h1><%= judul %></h1>
+        <span class="badge <%= v.badgeKelas %>"><%= v.badge %></span>
 
-        <a class="btn" href="/">Kembali ke Beranda</a>
+        <% if (status === 'menunggu verifikasi') { %>
+            <p>Admin FoodLink sedang memeriksa dokumen Anda. Anda akan melihat hasilnya di halaman
+               status ini setelah verifikasi selesai.</p>
+            <a class="btn" href="/">Kembali ke Beranda</a>
+
+        <% } else if (status === 'diterima') { %>
+            <p>Pendaftaran Anda telah diverifikasi. Selamat bergabung di FoodLink!</p>
+            <% if (peran === 'pemilik_fnb') { %>
+                <a class="btn" href="/fnb/penjualan">Buka Dashboard Penjualan</a>
+            <% } else { %>
+                <p>Fitur untuk Perwakilan NGO akan tersedia pada pengembangan berikutnya.</p>
+            <% } %>
+            <a class="btn ol" href="/">Kembali ke Beranda</a>
+
+        <% } else if (status === 'ditolak') { %>
+            <p>Pendaftaran Anda ditolak. Silakan periksa kembali dokumen pendukung dan persyaratan,
+               lalu ajukan pendaftaran ulang dengan email yang berbeda.</p>
+            <a class="btn" href="/daftar">Daftar Ulang</a>
+            <a class="btn ol" href="/">Kembali ke Beranda</a>
+
+        <% } else { %>
+            <p>Kami tidak menemukan data pendaftaran untuk akun ini. Silakan lakukan pendaftaran
+               terlebih dahulu.</p>
+            <a class="btn" href="/daftar">Daftar Sekarang</a>
+            <a class="btn ol" href="/">Kembali ke Beranda</a>
+        <% } %>
     </main>
 </body>
 </html>

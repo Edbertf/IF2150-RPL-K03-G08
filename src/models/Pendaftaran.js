@@ -76,3 +76,13 @@ exports.updateStatus = (idPendaftaran, status) => {
 
     return hasil.changes > 0;
 };
+
+// mengambil pendaftaran milik satu akun (satu akun satu pendaftaran).
+exports.cariBerdasarkanAkun = (idAkun) =>
+    db.prepare(`
+        SELECT id_pendaftaran     AS idPendaftaran,
+               tanggal_daftar     AS tanggalDaftar,
+               status_verifikasi  AS statusVerifikasi
+        FROM pendaftaran
+        WHERE id_akun = ?
+    `).get(idAkun) ?? null;
