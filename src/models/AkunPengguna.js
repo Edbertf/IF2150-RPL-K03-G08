@@ -23,3 +23,14 @@ exports.cariBerdasarkanEmail = (email) =>
         FROM akun_pengguna
         WHERE email = ?
     `).get(email) ?? null;
+
+// Dipakai login untuk memverifikasi kata sandi
+exports.cariKredensial = (email) =>
+    db.prepare(`
+        SELECT id_akun    AS idAkun,
+               email,
+               kata_sandi AS kataSandi,
+               tipe_akun  AS tipeAkun
+        FROM akun_pengguna
+        WHERE email = ?
+    `).get(email) ?? null;
