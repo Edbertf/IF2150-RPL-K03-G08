@@ -19,17 +19,13 @@ const initDatabase = () => {
             );
         `);
 
-        // UC06
         db.exec(`
-            CREATE TABLE IF NOT EXISTS produk_surplus (
-                id_surplus INTEGER PRIMARY KEY AUTOINCREMENT,
-                id_produk INTEGER NOT NULL,
-                id_pemilik INTEGER NOT NULL,
-                jumlah INTEGER NOT NULL,
-                batas_waktu TEXT NOT NULL,
-                lokasi_pengambilan TEXT NOT NULL,
-                status TEXT NOT NULL DEFAULT 'tersedia',
-                FOREIGN KEY (id_produk) REFERENCES produk(id_produk)
+            CREATE TABLE IF NOT EXISTS metode_distribusi_surplus (
+                id_distribusi INTEGER PRIMARY KEY AUTOINCREMENT,
+                id_surplus INTEGER NOT NULL,
+                jenis_distribusi TEXT NOT NULL,
+                harga INTEGER NOT NULL DEFAULT 0,
+                FOREIGN KEY (id_surplus) REFERENCES produk_surplus(id_surplus)
             );
         `);
 
