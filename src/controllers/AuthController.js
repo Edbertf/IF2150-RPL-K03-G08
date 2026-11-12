@@ -281,10 +281,22 @@ function bangunIdentitas(akun) {
 }
 
 function tujuanSetelahMasuk(pengguna) {
-    if (pengguna.role === 'admin_sistem') return '/admin/verifikasi';
+    if (pengguna.role === 'admin_sistem') {
+        return '/admin/verifikasi';
+    }
+
+    // Sudah diverifikasi: pemilik langsung ke halaman kerjanya.
+    const pendaftaran = Pendaftaran.cariBerdasarkanAkun(pengguna.idAkun);
+    if (
+        pendaftaran &&
+        pendaftaran.statusVerifikasi === 'diterima' &&
+        pengguna.role === 'pemilik_fnb'
+    ) {
+        return '/fnb/penjualan';
+    }
+
     return '/status';
 }
-
 exports.tampilkanHalamanMasuk = (req, res) => {
     if (req.user) {
         return res.redirect('/');
