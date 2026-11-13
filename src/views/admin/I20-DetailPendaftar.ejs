@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detail Pendaftar - FoodLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <%- include('partials-sidebar', { aktif: 'verifikasi' }) %>
+
+    <main class="main">
+        <div class="top">
+            <div>
+                <a class="sub" href="/admin/verifikasi">&larr; Kembali ke daftar</a>
+                <h1 style="margin-top:6px">Detail Pendaftar</h1>
+            </div>
+            <span class="pill y"><%= detail.statusVerifikasi %></span>
+        </div>
+
+        <% if (pesan) { %>
+            <div class="galat" role="alert"><%= pesan %></div>
+        <% } %>
+
+        <div class="kartu">
+            <h2>Data Pendaftar</h2>
+            <div class="kv"><span>Nama</span><b><%= detail.namaTampil %></b></div>
+            <div class="kv"><span>Tipe Akun</span><b><%= detail.labelTipe %></b></div>
+            <div class="kv"><span>Email</span><b><%= detail.email %></b></div>
+
+            <% if (detail.tipeAkun === 'pemilik_fnb') { %>
+                <div class="kv"><span>Alamat Usaha</span><b><%= detail.alamatUsaha %></b></div>
+                <div class="kv"><span>Jam Operasional</span><b><%= detail.jamOperasional %></b></div>
+            <% } else { %>
+                <div class="kv"><span>Nomor Legalitas</span><b><%= detail.nomorLegalitas %></b></div>
+                <div class="kv"><span>Alamat Kantor</span><b><%= detail.lokasi %></b></div>
+            <% } %>
+
+            <div class="kv"><span>Tanggal Daftar</span><b><%= detail.tanggalTampil %></b></div>
+        </div>
+
+        <div class="kartu">
+            <h2>Dokumen Pendukung</h2>
+
+            <% if (dokumen.length === 0) { %>
+                <p class="sub">Tidak ada dokumen yang diunggah.</p>
+            <% } else { %>
+                <% dokumen.forEach(function (d) { %>
+                    <div class="dok">
+                        <div class="ikon" aria-hidden="true"><%= d.tipeDokumen %></div>
+                        <div class="isi">
+                            <b><%= d.namaFile %></b>
+                            <small><%= d.tipeDokumen %></small>
+                        </div>
+                        <% if (d.tersedia) { %>
+                            <a href="/admin/verifikasi/<%= detail.idPendaftaran %>/dokumen/<%= d.idDokumen %>"
+                               target="_blank" rel="noopener">Lihat</a>
+                        <% } else { %>
+                            <span class="sub">Berkas tidak ditemukan</span>
+                        <% } %>
+                    </div>
+                <% }); %>
+            <% } %>
+        </div>
+
+        <% if (detail.statusVerifikasi === 'menunggu verifikasi') { %>
+            <form action="/admin/verifikasi/<%= detail.idPendaftaran %>" method="POST">
+                <div class="aksi">
+                    <button class="btn tolak" type="submit" name="keputusan" value="tolak">Tolak</button>
+                    <button class="btn setuju" type="submit" name="keputusan" value="terima">Setujui</button>
+                </div>
+            </form>
+        <% } else { %>
+            <p class="sub">Pendaftaran ini sudah diverifikasi. Keputusan tidak dapat diubah lagi.</p>
+        <% } %>
+    </main>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hasil Verifikasi - FoodLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <main class="main">
+        <div class="hasil">
+            <div class="bulat <%= diterima ? '' : 'tolak' %>" aria-hidden="true">
+                <% if (diterima) { %>
+                    <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 6 9 17l-5-5"/>
+                    </svg>
+                <% } else { %>
+                    <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6 6 18M6 6l12 12"/>
+                    </svg>
+                <% } %>
+            </div>
+
+            <h1><%= diterima ? 'Pendaftaran Diterima' : 'Pendaftaran Ditolak' %></h1>
+
+            <div style="margin-top:12px">
+                <span class="pill <%= diterima ? '' : 'r' %>"><%= diterima ? 'Diterima' : 'Ditolak' %></span>
+            </div>
+
+            <p><%= pesan %></p>
+
+            <a class="btn" href="/admin/verifikasi">Kembali ke Daftar</a>
+        </div>
+    </main>
+</body>
+</html>
