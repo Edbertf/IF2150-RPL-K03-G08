@@ -43,6 +43,25 @@ router.get('/surplus/:idSurplus', async (req, res) => {
     }
 });
 
+router.get('/klaim', (req, res) => {
+    const idNgo = req.user.idNgo ?? req.user.idAkun;
+    const daftarKlaim = DokumenKlaim.getDaftarKlaim(idNgo).map((klaim) => ({
+        ...klaim,
+        kodeKlaim: `FL-${String(klaim.idKlaim).padStart(5, '0')}`,
+        waktuKlaimTampil: new Intl.DateTimeFormat('id-ID', {
+            dateStyle: 'long',
+            timeStyle: 'short',
+            timeZone: 'Asia/Jakarta'
+        }).format(new Date(klaim.waktuKlaim)),
+        statusTampil: klaim.statusKlaim === 'selesai' ? 'Selesai diambil' : 'Menunggu pengambilan'
+    }));
+
+    return res.render('ngo/N7-KlaimSaya', {
+        pengguna: req.user,
+        daftarKlaim
+    });
+});
+
 router.post('/surplus/:idSurplus/klaim', (req, res) => {
     try {
         const idNgo = req.user.idNgo ?? req.user.idAkun;

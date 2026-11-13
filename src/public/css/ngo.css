@@ -471,9 +471,23 @@
 .kode-klaim { color: var(--primary-dark); letter-spacing: .06em; }
 .klaim-sukses > .btn-klaim { display: inline-block; text-decoration: none; }
 
+.kosong-klaim h2 { margin-bottom: 6px; color: var(--text); }
+.kosong-klaim p { margin-bottom: 18px; }
+.kosong-klaim .btn-klaim { display: inline-block; width: auto; text-decoration: none; }
+.ikon-klaim-kosong { margin-bottom: 8px; color: var(--primary); font-size: 40px; }
+.daftar-klaim { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.kartu-klaim { min-width: 0; padding: 18px; border: 1px solid var(--border); border-radius: 18px; background: #fff; }
+.kartu-klaim-atas { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.kartu-klaim h2 { margin-bottom: 3px; font-size: 18px; }
+.detail-riwayat-klaim { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.detail-riwayat-klaim div { display: flex; justify-content: space-between; gap: 14px; padding: 4px 0; font-size: 13px; }
+.detail-riwayat-klaim span { color: var(--muted); }
+.detail-riwayat-klaim b { text-align: right; }
+
 @media (max-width: 560px) {
     .klaim-sukses { margin-top: 10px; padding: 22px 16px; }
     .ringkasan-klaim { padding: 8px 12px; }
+    .daftar-klaim { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 1050px) {

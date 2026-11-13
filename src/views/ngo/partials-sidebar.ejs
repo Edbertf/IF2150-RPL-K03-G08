@@ -6,7 +6,7 @@
 
     <nav class="nav" aria-label="Navigasi NGO">
         <a class="<%= aktif === 'surplus' ? 'on' : '' %>" href="/ngo/surplus">Cari Produk Surplus</a>
-        <a class="nonaktif" href="#" title="Belum tersedia">Klaim Saya</a>
+        <a class="<%= aktif === 'klaim' ? 'on' : '' %>" href="/ngo/klaim"<%= aktif === 'klaim' ? ' aria-current="page"' : '' %>>Klaim Saya</a>
     </nav>
 
     <div class="who">

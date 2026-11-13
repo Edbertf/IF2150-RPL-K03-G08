@@ -42,23 +42,49 @@ if (/jl\. contoh/i.test(pemilik.alamatUsaha || '')) {
 }
 
 const akunNgo = db.prepare('SELECT id_akun FROM akun_pengguna WHERE email = ?').get(EMAIL_NGO);
+let idNgo;
 
 if (akunNgo) {
+    idNgo = akunNgo.id_akun;
     console.log('Akun NGO sudah ada:', EMAIL_NGO);
 } else {
-    const idAkun = AkunPengguna.registrasi({
+    idNgo = AkunPengguna.registrasi({
         email: EMAIL_NGO,
         kataSandi: SANDI_NGO,
         tipeAkun: 'perwakilan_ngo'
     });
 
-    PerwakilanNGO.simpanProfil(idAkun, {
+    PerwakilanNGO.simpanProfil(idNgo, {
         namaOrganisasi: 'NGO Pangan Peduli',
         nomorLegalitas: 'AHU-0000001.AH.01.07.TAHUN 2026',
         lokasi: LOKASI_NGO
     });
 
     console.log('Akun NGO dibuat:', EMAIL_NGO, '/', SANDI_NGO);
+}
+
+// Akun demo harus dapat melewati pemeriksaan verifikasi saat login.
+const pendaftaranNgo = db.prepare(`
+    SELECT id_pendaftaran, status_verifikasi
+    FROM pendaftaran
+    WHERE id_akun = ?
+`).get(idNgo);
+
+if (!pendaftaranNgo) {
+    const tanggalHariIni = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Jakarta'
+    }).format(new Date());
+
+    db.prepare(`
+        INSERT INTO pendaftaran (id_akun, tanggal_daftar, status_verifikasi)
+        VALUES (?, ?, 'diterima')
+    `).run(idNgo, tanggalHariIni);
+} else if (pendaftaranNgo.status_verifikasi !== 'diterima') {
+    db.prepare(`
+        UPDATE pendaftaran
+        SET status_verifikasi = 'diterima'
+        WHERE id_pendaftaran = ?
+    `).run(pendaftaranNgo.id_pendaftaran);
 }
 
 const produkContoh = [
