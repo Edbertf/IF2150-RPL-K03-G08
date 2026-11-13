@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Klaim Berhasil - FoodLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/ngo.css">
+</head>
+<body>
+    <%- include('partials-sidebar', { aktif: 'klaim', pengguna }) %>
+
+    <main class="main">
+        <section class="klaim-sukses" aria-labelledby="judul-sukses">
+            <div class="sukses-ikon" aria-hidden="true">✓</div>
+            <span class="badge donasi">Klaim tercatat</span>
+            <h1 id="judul-sukses">Klaim berhasil</h1>
+            <p class="sub">Tunjukkan kode klaim ini kepada pemilik usaha saat mengambil produk.</p>
+
+            <div class="ringkasan-klaim">
+                <div class="kv"><span>Produk</span><b><%= detail.namaProduk %></b></div>
+                <div class="kv"><span>Jumlah</span><b><%= detail.jumlahTampil %></b></div>
+                <div class="kv"><span>Kode klaim</span><b class="kode-klaim"><%= hasilKlaim.kodeKlaim %></b></div>
+                <div class="kv"><span>Ambil sebelum</span><b><%= detail.batasWaktuTampil %></b></div>
+                <div class="kv"><span>Lokasi pengambilan</span><b><%= detail.lokasiPengambilan || 'Alamat belum tersedia' %></b></div>
+            </div>
+
+            <a class="btn-klaim" href="/ngo/surplus">Kembali ke daftar surplus</a>
+        </section>
+    </main>
+</body>
+</html>

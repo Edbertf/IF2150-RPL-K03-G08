@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Penjualan Harian - FoodLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #79b549;
+            --primary-dark: #4a6b36;
+            --primary-soft: #e6f0df;
+            --primary-track: #cfe2c2;
+            --primary-tint: #f4f9ef;
+            --orange: #e8842e;
+            --bg: #f7faf3;
+            --surface: #ffffff;
+            --text: #2f332c;
+            --muted: #767c73;
+            --border: #e5e9e1;
+            --input-bg: #f4f7f1;
+            --danger: #c0392b;
+            --danger-bg: #fdecea;
+            --danger-border: #f5c6c0;
+            --sidebar-width: 250px;
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ---------- Sidebar ---------- */
+        .sidebar {
+            position: sticky;
+            top: 0;
+            display: flex;
+            flex: 0 0 var(--sidebar-width);
+            flex-direction: column;
+            width: var(--sidebar-width);
+            height: 100vh;
+            padding: 22px 20px 18px;
+            overflow-y: auto;
+            background-color: var(--surface);
+            border-right: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 34px;
+            padding-left: 4px;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            display: block;
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+        }
+
+        .brand-text {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+            line-height: 1;
+        }
+
+        .brand-text .food {
+            color: var(--orange);
+        }
+
+        .brand-text .link {
+            color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 8px;
+            color: var(--muted);
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1;
+            text-decoration: none;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .nav-item svg {
+            flex: 0 0 20px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-item:hover {
+            background-color: var(--input-bg);
+            color: var(--primary-dark);
+        }
+
+        .nav-item.active {
+            background-color: #e8f3df;
+            color: #5f9136;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: auto;
+            padding: 12px;
+            border-radius: 10px;
+            background-color: #f4f6f2;
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            flex: 0 0 38px;
+            border-radius: 50%;
+            background-color: #fdebd0;
+            color: var(--orange);
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .user-info {
+            min-width: 0;
+        }
+
+        .user-info .name {
+            max-width: 118px;
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .user-info .role {
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .logout {
+            width: 100%;
+            margin-top: 12px;
+            padding: 10px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background-color: #ffffff;
+            color: var(--muted);
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .logout:hover {
+            border-color: #c0392b;
+            color: #c0392b;
+        }
+
+        /* ---------- Main ---------- */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            max-width: 708px;
+            padding: 36px 44px 48px;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 26px;
+        }
+
+        .page-header h1 {
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+            line-height: 1.1;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background-color: var(--surface);
+            color: var(--text);
+            text-decoration: none;
+            transition: border-color 0.15s ease, color 0.15s ease;
+        }
+
+        .btn-back:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .info-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 18px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background-color: var(--surface);
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .info-card svg {
+            flex: 0 0 18px;
+            width: 18px;
+            height: 18px;
+            color: var(--primary);
+        }
+
+        .progress-banner {
+            padding: 13px 18px 15px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            background-color: var(--primary-soft);
+        }
+
+        .progress-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 9px;
+            color: var(--primary-dark);
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            overflow: hidden;
+            border-radius: 4px;
+            background-color: var(--primary-track);
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .error-message {
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            border: 1px solid var(--danger-border);
+            border-radius: 8px;
+            background-color: var(--danger-bg);
+            color: var(--danger);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* ---------- Form ---------- */
+        .form-card {
+            padding: 22px 30px 24px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background-color: var(--surface);
+        }
+
+        .table-header,
+        .product-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            align-items: center;
+        }
+
+        .table-header {
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .product-row {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .product-row:last-child {
+            border-bottom: 0;
+        }
+
+        .product-name {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .input-number {
+            width: 110px;
+            max-width: 100%;
+            padding: 10px 8px;
+            border: 1px solid #e3e8df;
+            border-radius: 8px;
+            outline: none;
+            background-color: var(--input-bg);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 800;
+            text-align: center;
+            transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .input-number:focus {
+            border-color: var(--primary);
+            background-color: var(--surface);
+            box-shadow: 0 0 0 3px rgba(121, 181, 73, 0.16);
+        }
+
+        .input-number::-webkit-outer-spin-button,
+        .input-number::-webkit-inner-spin-button {
+            margin: 0;
+            -webkit-appearance: none;
+        }
+
+        .input-number[type='number'] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        .helper-text {
+            margin: 16px 0 18px 2px;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            height: 48px;
+            border: 1.5px solid transparent;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+        }
+
+        .btn-outline {
+            border-color: var(--primary);
+            background-color: var(--surface);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-tint);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #6aa63f;
+        }
+
+        .btn:focus-visible,
+        .btn-back:focus-visible,
+        .nav-item:focus-visible {
+            outline: 3px solid rgba(121, 181, 73, 0.3);
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 860px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                flex: none;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 14px;
+                padding: 14px 18px;
+            }
+
+            .brand {
+                margin-bottom: 0;
+                padding-left: 0;
+            }
+
+            .nav-menu {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+
+            .nav-item {
+                padding: 9px 12px;
+            }
+
+            .user-profile {
+                margin-top: 0;
+                margin-left: auto;
+            }
+
+            .main-content {
+                max-width: none;
+                padding: 24px 20px 40px;
+            }
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .user-profile {
+                display: none;
+            }
+
+            .form-card {
+                padding: 18px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+<%
+    const daftar = (typeof daftarProduk !== 'undefined' && Array.isArray(daftarProduk))
+        ? daftarProduk
+        : [];
+    const isianLama = (typeof old !== 'undefined' && old) ? old : {};
+
+    const targetHari = (typeof progres !== 'undefined' && progres && progres.target) ? progres.target : 7;
+    const hariTerisi = (typeof progres !== 'undefined' && progres && typeof progres.terisi === 'number')
+        ? progres.terisi
+        : 0;
+    const persenBar = (typeof persen !== 'undefined' && typeof persen === 'number')
+        ? Math.max(0, Math.min(100, persen))
+        : Math.min(100, Math.round((hariTerisi / targetHari) * 100));
+
+    const tanggalDasar = (typeof tanggal !== 'undefined' && tanggal)
+        ? tanggal
+        : new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta' }).format(new Date());
+
+    const tanggalTampilView = (typeof tanggalTampil !== 'undefined' && tanggalTampil)
+        ? tanggalTampil
+        : new Intl.DateTimeFormat('id-ID', {
+            timeZone: 'Asia/Jakarta',
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        }).format(new Date(`${tanggalDasar}T00:00:00+07:00`));
+%>
+
+    <aside class="sidebar">
+        <a class="brand" href="/" aria-label="FoodLink - Dashboard">
+            <img class="brand-logo" src="/assets/logo.png" alt="" width="40" height="40">
+            <span class="brand-text"><span class="food">Food</span><span class="link">Link</span></span>
+        </a>
+
+        <nav class="nav-menu" aria-label="Navigasi utama">
+            <a class="nav-item" href="/fnb/dashboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M5 20V10m7 10V4m7 16v-7"/>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a class="nav-item active" href="/fnb/penjualan" aria-current="page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M6 3h8l4 4v14H6zM14 3v4h4"/>
+                </svg>
+                <span>Penjualan</span>
+            </a>
+
+            <a class="nav-item" href="/surplus/catat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10"/>
+                </svg>
+                <span>Surplus</span>
+            </a>
+
+            <a class="nav-item" href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6"/>
+                </svg>
+                <span>Profil</span>
+            </a>
+        </nav>
+
+        <% const siapa = (typeof pengguna !== 'undefined' && pengguna) ? pengguna : null; %>
+        <div class="user-profile">
+            <div class="user-avatar" aria-hidden="true"><%= siapa && siapa.nama ? siapa.nama.charAt(0).toUpperCase() : 'B' %></div>
+            <div class="user-info">
+                <div class="name"><%= siapa && siapa.nama ? siapa.nama : 'Bakery Sinar Pagi' %></div>
+                <div class="role">Pemilik F&amp;B</div>
+            </div>
+        </div>
+
+        <form action="/keluar" method="POST">
+            <button class="logout" type="submit">Keluar</button>
+        </form>
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+            <a href="/fnb/dashboard" class="btn-back" aria-label="Kembali ke dashboard">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     aria-hidden="true" focusable="false">
+                    <path d="M19 12H5m6-7-7 7 7 7"/>
+                </svg>
+            </a>
+            <h1>Penjualan Harian</h1>
+        </header>
+
+        <div class="info-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 2"/>
+            </svg>
+            <span><%= tanggalTampilView %></span>
+        </div>
+
+        <section class="progress-banner" aria-label="Progres pengumpulan data prediksi">
+            <div class="progress-header">
+                <span>Data terkumpul untuk prediksi</span>
+                <span><%= hariTerisi %>/<%= targetHari %> hari</span>
+            </div>
+            <div class="progress-bar-container" role="progressbar"
+                 aria-valuemin="0" aria-valuemax="<%= targetHari %>" aria-valuenow="<%= hariTerisi %>">
+                <div class="progress-bar" style="width: <%= persenBar %>%"></div>
+            </div>
+        </section>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="error-message" role="alert"><%= error %></div>
+        <% } %>
+
+        <form action="/fnb/penjualan" method="POST" novalidate>
+            <div class="form-card">
+                <div class="table-header">
+                    <div>Produk</div>
+                    <div class="center">Terjual</div>
+                    <div class="center">Sisa</div>
+                </div>
+
+                <% daftar.forEach(function (produk) { %>
+                    <div class="product-row">
+                        <div class="product-name"><%= produk.namaProduk %></div>
+                        <div class="center">
+                            <input
+                                type="number"
+                                class="input-number"
+                                name="terjual_<%= produk.idProduk %>"
+                                value="<%= isianLama['terjual_' + produk.idProduk] ?? produk.jumlahTerjual ?? '' %>"
+                                min="0"
+                                max ="1000"
+                                step="1"
+                                inputmode="numeric"
+                                autocomplete="off"
+                                aria-label="Jumlah terjual <%= produk.namaProduk %>">
+                        </div>
+                        <div class="center">
+                            <input
+                                type="number"
+                                class="input-number"
+                                name="tersisa_<%= produk.idProduk %>"
+                                value="<%= isianLama['tersisa_' + produk.idProduk] ?? produk.jumlahTersisa ?? '' %>"
+                                min="0"
+                                max ="1000"
+                                step="1"
+                                inputmode="numeric"
+                                autocomplete="off"
+                                aria-label="Jumlah tersisa <%= produk.namaProduk %>">
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+
+            <p class="helper-text">Isi angka nol atau positif untuk setiap produk.</p>
+
+            <div class="action-buttons">
+                <button
+                    type="button"
+                    class="btn btn-outline"
+                    onclick="this.form.querySelectorAll('input').forEach(function (i) { i.value = ''; })">
+                    Reset
+                </button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

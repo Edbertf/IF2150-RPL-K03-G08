@@ -1,13 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const SurplusController = require('../controllers/SurplusController');
+const CatatSurplusController = require('../controllers/CatatSurplusController');
+const DistribusiSurplusController = require('../controllers/DistribusiSurplusController');
+const { butuhPeran, butuhDiverifikasi } = require('../middleware/peran');
 
-router.get('/:id/donasi', SurplusController.tampilFormDonasi);
-router.post('/:id/donasi', SurplusController.simpanDonasi);
+router.use(butuhPeran('pemilik_fnb'), butuhDiverifikasi);
 
-router.get('/:id/jual', SurplusController.tampilFormJual);
-router.post('/:id/jual', SurplusController.simpanJual);
+router.get('/catat', CatatSurplusController.tampilFormCatat);
+router.post('/catat', CatatSurplusController.simpanDataSurplus);
+router.post('/produk/tambah', CatatSurplusController.simpanProdukBaru);
+router.get('/produk/:id/edit', CatatSurplusController.tampilEditProduk);
+router.post('/produk/:id/edit', CatatSurplusController.simpanEditProduk);
 
-router.get('/sukses', SurplusController.tampilSukses);
+router.get('/sukses', DistribusiSurplusController.tampilSukses);
+router.get('/:id/donasi', DistribusiSurplusController.tampilFormDistribusi);
+router.post('/:id/distribusi', DistribusiSurplusController.simpanDistribusi);
 
 module.exports = router;

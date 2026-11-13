@@ -74,7 +74,7 @@
 <body>
     <aside class="sidebar">
         <a class="brand" href="/fnb/dashboard">
-            <img src="/logo.png" alt="" width="38" height="38">
+            <img src="/assets/logo.png" alt="" width="38" height="38">
             <span class="brand-text"><span class="food">Food</span><span class="link">Link</span></span>
         </a>
         <nav class="nav-menu">
@@ -84,9 +84,9 @@
             <a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Profil</a>
         </nav>
         <div class="user-profile">
-            <div class="user-avatar"><%= user && user.namaUsaha ? user.namaUsaha.charAt(0).toUpperCase() : 'B' %></div>
+            <div class="user-avatar"><%= user.nama.charAt(0).toUpperCase() %></div>
             <div class="user-info">
-                <div class="name"><%= user && user.namaUsaha ? user.namaUsaha : 'Bakery Sinar Pagi' %></div>
+                <div class="name"><%= user.nama %></div>
                 <div class="role">Pemilik F&B</div>
             </div>
         </div>
@@ -106,15 +106,15 @@
             <div class="summary-box">
                 <div class="summary-row">
                     <span class="summary-label">Produk</span>
-                    <span class="summary-value"><%= typeof data !== 'undefined' && data.namaProduk ? data.namaProduk : 'Roti Tawar' %></span>
+                    <span class="summary-value"><%= data ? data.namaProduk : '-' %></span>
                 </div>
                 <div class="summary-row">
                     <span class="summary-label">Jumlah</span>
-                    <span class="summary-value"><%= typeof data !== 'undefined' && data.jumlah ? data.jumlah : '12' %> porsi</span>
+                    <span class="summary-value"><%= data ? data.jumlah : '-' %> porsi</span>
                 </div>
                 <div class="summary-row">
                     <span class="summary-label">Ambil sebelum</span>
-                    <span class="summary-value"><%= typeof data !== 'undefined' && data.ambilSebelum ? data.ambilSebelum : 'Hari ini, 20.00' %></span>
+                    <span class="summary-value"><%= data ? data.ambilSebelum : '-' %></span>
                 </div>
             </div>
 
@@ -123,7 +123,7 @@
                 <button type="button" class="tab-btn" id="tabDiskon">Jual Diskon</button>
             </div>
 
-            <form action="/surplus/sukses" method="POST" id="formDistribusi">
+            <form action="/surplus/<%= idSurplus %>/distribusi" method="POST" id="formDistribusi">
                 <input type="hidden" name="metode" id="inputMetode" value="donasi">
                 <div class="metode-info donasi" id="infoDonasi">
                     <div class="metode-icon">
@@ -147,19 +147,8 @@
 
                 <div id="formDiskon">
                     <label class="form-label">Harga Jual per Porsi (Rp)</label>
-                    <input type="text" name="hargaJual" id="inputHarga" class="form-control" placeholder="Rp 0">
+                    <input type="number" name="hargaJual" id="inputHarga" class="form-control" min="1" placeholder="Contoh: 5000">
                     <span class="input-hint">Harga harus berupa angka lebih dari 0.</span>
-
-                    <div class="kalkulasi-box">
-                        <div class="kalkulasi-row">
-                            <span>Harga normal</span>
-                            <span class="value" id="valHargaNormal" data-normal="16000">Rp 16.000</span>
-                        </div>
-                        <div class="kalkulasi-row">
-                            <span>Hemat</span>
-                            <span class="value" id="valHemat">0%</span>
-                        </div>
-                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Simpan</button>
@@ -192,21 +181,6 @@
             infoDiskon.style.display = 'flex';
             formDiskon.style.display = 'block';
             inputMetode.value = 'diskon';
-        });
-
-        const inputHarga = document.getElementById('inputHarga');
-        const valHemat = document.getElementById('valHemat');
-        const hargaNormal = parseInt(document.getElementById('valHargaNormal').getAttribute('data-normal'));
-
-        inputHarga.addEventListener('input', function(e) {
-            let num = parseInt(this.value.replace(/\D/g, '')) || 0;
-            this.value = num > 0 ? 'Rp ' + num.toLocaleString('id-ID') : '';
-            if (num > 0 && num < hargaNormal) {
-                let persen = Math.round(((hargaNormal - num) / hargaNormal) * 100);
-                valHemat.textContent = persen + '%';
-            } else {
-                valHemat.textContent = '0%';
-            }
         });
     </script>
 </body>

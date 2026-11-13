@@ -1,48 +1,41 @@
+const fs = require('fs');
+const path = require('path');
 const db = require('../config/db');
 
+const SCHEMA_DIR = path.join(__dirname, 'schema');
+
 const initDatabase = () => {
-    try {
-        db.exec(`
-            CREATE TABLE IF NOT EXISTS akun_pengguna (
-                id_akun INTEGER PRIMARY KEY AUTOINCREMENT,
-                email TEXT UNIQUE NOT NULL,
-                kata_sandi TEXT NOT NULL,
-                tipe_akun TEXT NOT NULL
-            );
-        `);
-
-        db.exec(`
-            CREATE TABLE IF NOT EXISTS produk (
-                id_produk INTEGER PRIMARY KEY AUTOINCREMENT,
-                nama_produk TEXT NOT NULL,
-                kategori TEXT NOT NULL
-            );
-        `);
-
-        db.exec(`
-            CREATE TABLE IF NOT EXISTS metode_distribusi_surplus (
-                id_distribusi INTEGER PRIMARY KEY AUTOINCREMENT,
-                id_surplus INTEGER NOT NULL,
-                jenis_distribusi TEXT NOT NULL,
-                harga INTEGER NOT NULL DEFAULT 0,
-                FOREIGN KEY (id_surplus) REFERENCES produk_surplus(id_surplus)
-            );
-        `);
-
-        const cekProduk = db.prepare("SELECT COUNT(*) AS count FROM produk").get();
-        if (cekProduk.count === 0) {
-            db.exec(`
-                INSERT INTO produk (nama_produk, kategori) VALUES 
-                ('Roti Tawar Gandum', 'Makanan'),
-                ('Nasi Goreng Spesial', 'Makanan'),
-                ('Es Kopi Susu', 'Minuman');
-            `);
-        }
-
-        console.log("Tabel database berhasil diinisialisasi secara keseluruhan!");
-    } catch (error) {
-        console.error("Gagal melakukan inisialisasi database:", error);
+    // Memastikan folder schema tersedia.
+    if (!fs.existsSync(SCHEMA_DIR)) {
+        throw new Error('Folder database/schema tidak ditemukan.');
     }
+
+    // Mengambil seluruh file SQL dan mengurutkannya.
+    const schemaFiles = fs.readdirSync(SCHEMA_DIR)
+        .filter((file) => file.endsWith('.sql'))
+        .sort();
+
+    if (schemaFiles.length === 0) {
+        throw new Error('Tidak ditemukan file schema SQL.');
+    }
+
+    // Menjalankan seluruh schema dalam satu transaksi.
+    const executeSchemas = db.transaction(() => {
+        for (const file of schemaFiles) {
+            const schemaPath = path.join(SCHEMA_DIR, file);
+            const sql = fs.readFileSync(schemaPath, 'utf8');
+
+            db.exec(sql);
+
+            console.log(`Schema berhasil dijalankan: ${file}`);
+        }
+    });
+
+    executeSchemas();
+
+    console.log(
+        `Database berhasil diinisialisasi dari ${schemaFiles.length} file schema.`
+    );
 };
 
 module.exports = initDatabase;
