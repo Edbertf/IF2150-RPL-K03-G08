@@ -173,7 +173,7 @@ test('pengguna selain admin sistem ditolak 403', async () => {
     const respons = await fetch(`${baseUrl}/admin/log`);
 
     assert.equal(respons.status, 403);
-    assert.match(await respons.text(), /Hanya admin sistem/);
+    assert.match(await respons.text(), /Halaman ini tidak tersedia untuk peran Anda\./);
 });
 
 test('halaman kosong menampilkan pesan belum ada log', async () => {

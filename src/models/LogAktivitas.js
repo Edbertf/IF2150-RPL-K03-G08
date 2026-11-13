@@ -18,6 +18,34 @@ const PILIH_LOG = `
 `;
 
 /**
+ * C11 catatLog(idAkun, aktivitas): menulis satu baris log aktivitas.
+ * Waktu disimpan dalam format SQLite "YYYY-MM-DD HH:mm:ss" zona Asia/Jakarta.
+ */
+function waktuSekarang() {
+    const bagian = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Jakarta',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hourCycle: 'h23'
+    })
+        .formatToParts(new Date())
+        .reduce((hasil, item) => ({ ...hasil, [item.type]: item.value }), {});
+
+    return `${bagian.year}-${bagian.month}-${bagian.day} ${bagian.hour}:${bagian.minute}:${bagian.second}`;
+}
+
+exports.catatLog = (idAkun, aktivitas) => {
+    db.prepare(`
+        INSERT INTO log_aktivitas (id_akun, aktivitas, waktu)
+        VALUES (?, ?, ?)
+    `).run(idAkun, aktivitas, waktuSekarang());
+};
+
+/**
  * C11 getDaftarLog(): seluruh log, terbaru di atas.
  * Tidak memakai LIMIT karena DPPL tidak membatasi jumlah baris.
  */

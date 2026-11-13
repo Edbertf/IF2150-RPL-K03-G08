@@ -6,7 +6,7 @@
 
     <nav class="nav" aria-label="Navigasi admin">
         <a class="<%= aktif === 'verifikasi' ? 'on' : '' %>" href="/admin/verifikasi">Verifikasi Pendaftar</a>
-        <a class="nonaktif" href="#" title="Belum tersedia">Log Aktivitas</a>
+        <a class="<%= aktif === 'log' ? 'on' : '' %>" href="/admin/log">Log Aktivitas</a>
     </nav>
 
     <div class="who">

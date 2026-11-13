@@ -8,6 +8,7 @@ const Pendaftaran = require('../models/Pendaftaran');
 const PemilikFnB = require('../models/PemilikFnB');
 const PerwakilanNGO = require('../models/PerwakilanNGO');
 const DokumenPendukung = require('../models/DokumenPendukung');
+const LogAktivitas = require('../models/LogAktivitas');
 const PANJANG_MIN_SANDI = 8;
 const PANJANG_MAKS_SANDI = 72; // bcrypt memotong kata sandi setelah 72 byte
 const BATAS_MAKS_DOKUMEN = 5 * 1024 * 1024;
@@ -162,6 +163,11 @@ const simpanRegistrasi = db.transaction((formulir, berkas) => {
     const idPendaftaran = Pendaftaran.ajukanPendaftaran(idAkun);
 
     DokumenPendukung.unggahDokumen(idPendaftaran, berkas);
+
+    const namaAkun = formulir.tipeAkun === 'pemilik_fnb'
+        ? formulir.namaUsaha
+        : formulir.namaOrganisasi;
+    LogAktivitas.catatLog(idAkun, `Mendaftarkan akun ${namaAkun}`);
 
     return { idAkun, idPendaftaran };
 });

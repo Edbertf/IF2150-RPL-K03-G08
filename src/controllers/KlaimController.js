@@ -1,7 +1,9 @@
 const db = require('../config/db');
 
+const Produk = require('../models/Produk');
 const ProdukSurplus = require('../models/ProdukSurplus');
 const DokumenKlaim = require('../models/DokumenKlaim');
+const LogAktivitas = require('../models/LogAktivitas');
 
 // Memvalidasi ID agar berupa bilangan bulat positif.
 function validasiId(id, namaId) {
@@ -78,6 +80,15 @@ const KlaimController = {
       if (!Number.isSafeInteger(Number(idKlaim)) || Number(idKlaim) <= 0) {
         throw new Error('Dokumen klaim gagal dibuat.');
       }
+
+      const detailSurplus = ProdukSurplus.getDetailSurplus(id);
+      const produk = Produk.getProduk(detailSurplus.idProduk);
+      const satuan = produk.kategori === 'Minuman' ? 'gelas' : 'porsi';
+
+      LogAktivitas.catatLog(
+        ngo,
+        `Mengklaim ${produk.namaProduk} (${detailSurplus.jumlah} ${satuan})`
+      );
 
       return Number(idKlaim);
     });

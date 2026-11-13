@@ -15,8 +15,11 @@ FoodLink memungkinkan Pemilik F&B mencatat penjualan harian dan produk surplus, 
 Fitur yang sudah berjalan di repository saat ini:
 
 1. **Registrasi akun** Pemilik F&B dan Perwakilan NGO beserta unggah dokumen pendukung (UC01) — sudah merge ke `develop`.
-2. **Pencatatan penjualan harian** per produk (UC04) — sudah merge ke `develop`.
-3. **Log aktivitas pengguna** untuk Admin Sistem, dengan filter Semua, Klaim, Surplus, dan Verifikasi (UC12) — ada di branch `feat/UC12-Mengecek-Log-Aktivitas-Pengguna`.
+2. **Login, logout, dan pembatasan peran** berbasis sesi; halaman yang dilindungi memakai `butuhPeran(...)` (UC01–UC03).
+3. **Verifikasi pendaftaran** oleh Admin Sistem dan **status pendaftaran** bagi pendaftar (UC02, UC03) — sudah merge ke `develop`.
+4. **Pencatatan penjualan harian** per produk (UC04) — sudah merge ke `develop`.
+5. **Klaim produk surplus** oleh Perwakilan NGO (UC10) — sudah merge ke `develop`.
+6. **Log aktivitas pengguna** untuk Admin Sistem, dengan filter Semua, Klaim, Surplus, dan Verifikasi (UC12) — ada di branch `feat/UC12-Mengecek-Log-Aktivitas-Pengguna`. Log ditulis otomatis oleh UC01, UC02, UC04, dan UC10, lalu dilengkapi data contoh dari seed.
 
 ---
 
@@ -25,21 +28,21 @@ Fitur yang sudah berjalan di repository saat ini:
 | Use Case | Keterangan | Status |
 | :--- | :--- | :--- |
 | UC01 Registrasi Akun | Form registrasi, validasi, unggah dokumen | Sudah merge ke `develop` |
-| UC02 Verifikasi Pendaftaran | Daftar dan detail pendaftar untuk admin | Ada di branch, belum merge |
-| UC03 Status Pendaftaran | Halaman status bagi pendaftar | Belum ada implementasi |
+| UC02 Verifikasi Pendaftaran | Daftar dan detail pendaftar untuk admin | Sudah merge ke `develop` |
+| UC03 Status Pendaftaran | Halaman status bagi pendaftar | Sudah merge ke `develop` |
 | UC04 Mencatat Penjualan Harian | Form dan rekap penjualan | Sudah merge ke `develop` |
 | UC05 Melihat Hasil Prediksi | Prediksi produksi dari data historis | Pull request terbuka |
 | UC06 Mencatat Produk Surplus | Form surplus | Ada di branch, belum merge |
 | UC07 Mengatur Metode Distribusi | Donasi / penjualan diskon | Ada di branch, belum merge |
-| UC08 Melihat Informasi Surplus | Daftar surplus untuk NGO | Branch ada, implementasi belum |
+| UC08 Melihat Informasi Surplus | Daftar surplus untuk NGO | Ada di branch UC08, belum merge |
 | UC09 Menyaring Produk Surplus | Filter kategori, jarak, waktu | Belum ada implementasi |
-| UC10 Mengklaim Produk Surplus | Pengajuan klaim | Ada di branch, belum merge |
+| UC10 Mengklaim Produk Surplus | Pengajuan klaim | Sudah merge ke `develop` |
 | UC11 Mengonfirmasi Pengambilan | Konfirmasi serah terima | Belum ada implementasi |
-| UC12 Mengecek Log Aktivitas | Halaman log dan filter untuk admin | Selesai di branch; log contoh berasal dari seed |
+| UC12 Mengecek Log Aktivitas | Halaman log dan filter untuk admin | Selesai di branch; log dari UC01, UC02, UC04, UC10 dan seed |
 
 Fitur **Kelola Produk (F8)** tidak diimplementasikan karena tidak termasuk 12 use case pada DPPL.
 
-> **Autentikasi masih sementara.** Belum ada halaman login dan sesi. `app.js` memasang pengguna tiruan: Pemilik F&B untuk halaman `/fnb`, Admin Sistem untuk halaman `/admin`. Jangan gunakan mekanisme ini di lingkungan produksi. Login dan pembatasan peran yang sebenarnya merupakan bagian UC01–UC03.
+> **Autentikasi.** Login tersedia di `/masuk` dan memakai `express-session` dengan kata sandi ter-hash bcrypt. Sesi disimpan pada cookie `foodlink.sid`, dan `middleware/pengguna.js` mengisi `req.user` dari sesi tersebut. Halaman terlindungi memakai `butuhPeran(...)`; pengguna yang belum diverifikasi diarahkan ke `/status` oleh `butuhDiverifikasi`. Logout memakai `POST /keluar` yang menghancurkan sesi.
 
 ---
 
@@ -73,7 +76,7 @@ src/
 ├── database/
 │   ├── init.js                # Menjalankan semua schema/*.sql
 │   ├── seed.js                # Data contoh
-│   └── schema/                # Definisi tabel (01–08)
+│   └── schema/                # Definisi tabel (01–11)
 ├── models/                    # Query dan akses data
 ├── public/assets/             # Logo
 ├── routes/                    # Definisi route Express
@@ -177,10 +180,15 @@ Server berjalan di `http://localhost:3000`.
 | Halaman | URL | Peran |
 | :--- | :--- | :--- |
 | Halaman selamat datang | `/` | Publik |
+| Login | `/masuk` | Publik |
 | Form registrasi | `/daftar` | Publik |
 | Halaman registrasi berhasil | `/daftar/berhasil` | Publik |
-| Form penjualan harian | `/fnb/penjualan` | Pemilik F&B |
-| Penjualan tersimpan | `/fnb/penjualan/tersimpan` | Pemilik F&B |
+| Status pendaftaran | `/status` | Pemilik F&B, Perwakilan NGO |
+| Form penjualan harian | `/fnb/penjualan` | Pemilik F&B terverifikasi |
+| Penjualan tersimpan | `/fnb/penjualan/tersimpan` | Pemilik F&B terverifikasi |
+| Detail produk surplus | `/ngo/surplus/:idSurplus` | Perwakilan NGO |
+| Klaim berhasil | `/ngo/klaim/:idKlaim/berhasil` | Perwakilan NGO |
+| Verifikasi pendaftar | `/admin/verifikasi` | Admin Sistem |
 | Log aktivitas | `/admin/log` | Admin Sistem |
 
 Filter log memakai query string, misalnya `/admin/log?kategori=Klaim`.
@@ -197,7 +205,7 @@ Akun hasil seed:
 | Admin Sistem | `admin@foodlink.test` | `admin123` |
 | Perwakilan NGO | `ngo@foodlink.test` | `password123` |
 
-> **Catatan:** halaman login belum tersedia. Akun di atas sudah ada di database, tetapi belum dapat dipakai lewat form sampai UC01–UC03 menyediakan autentikasi. Saat ini akses diatur oleh pengguna tiruan di `app.js`.
+> **Catatan:** masuk melalui `/masuk`. Admin langsung diarahkan ke `/admin/verifikasi`; pemilik F&B dan NGO yang sudah diverifikasi diarahkan ke halaman utamanya, sedangkan yang masih menunggu verifikasi diarahkan ke `/status`.
 
 ---
 
@@ -206,12 +214,24 @@ Akun hasil seed:
 | Method | Path | Akses | Keterangan |
 | :--- | :--- | :--- | :--- |
 | GET | `/` | Publik | Halaman selamat datang |
+| GET | `/masuk` | Publik | Form login |
+| POST | `/masuk` | Publik | Proses login, membuat sesi |
+| POST | `/keluar` | Pengguna login | Hancurkan sesi dan kembali ke beranda |
 | GET | `/daftar` | Publik | Form registrasi akun |
 | POST | `/daftar` | Publik | Kirim registrasi (multipart, dokumen maks. 5 MB: PDF/JPG/PNG) |
 | GET | `/daftar/berhasil` | Publik | Konfirmasi pengajuan |
-| GET | `/fnb/penjualan` | Pemilik F&B | Form penjualan harian |
-| POST | `/fnb/penjualan` | Pemilik F&B | Simpan penjualan |
-| GET | `/fnb/penjualan/tersimpan` | Pemilik F&B | Konfirmasi penjualan tersimpan |
+| GET | `/status` | Pemilik F&B, NGO | Status verifikasi pendaftaran |
+| GET | `/fnb/penjualan` | Pemilik F&B terverifikasi | Form penjualan harian |
+| POST | `/fnb/penjualan` | Pemilik F&B terverifikasi | Simpan penjualan |
+| GET | `/fnb/penjualan/tersimpan` | Pemilik F&B terverifikasi | Konfirmasi penjualan tersimpan |
+| GET | `/ngo/surplus/:idSurplus` | Perwakilan NGO | Detail produk surplus |
+| POST | `/ngo/surplus/:idSurplus/klaim` | Perwakilan NGO | Proses klaim surplus |
+| GET | `/ngo/klaim/:idKlaim/berhasil` | Perwakilan NGO | Konfirmasi klaim berhasil |
+| GET | `/admin/verifikasi` | Admin Sistem | Daftar pendaftar menunggu verifikasi |
+| GET | `/admin/verifikasi/:idPendaftaran` | Admin Sistem | Detail pendaftar dan dokumen |
+| POST | `/admin/verifikasi/:idPendaftaran` | Admin Sistem | Setujui/tolak pendaftaran |
+| GET | `/admin/verifikasi/:idPendaftaran/hasil` | Admin Sistem | Hasil keputusan verifikasi |
+| GET | `/admin/verifikasi/:idPendaftaran/dokumen/:idDokumen` | Admin Sistem | Unduh dokumen pendukung |
 | GET | `/admin/log` | Admin Sistem | Daftar log aktivitas, filter `?kategori=` |
 
 ---
@@ -228,9 +248,13 @@ Pengujian memakai `node:test` dan database sementara di folder temp, sehingga da
 | :--- | :--- | :--- |
 | `tests/validasi.test.js` | 20 | Validasi email, kata sandi, jam operasional, legalitas NGO, unggah dokumen (16 blok test; 4 di antaranya dihasilkan loop email tidak valid) |
 | `tests/registrasi.test.js` | 5 | Registrasi UC01: penyimpanan akun/profil/pendaftaran/dokumen, email duplikat, rollback |
+| `tests/verifikasi.test.js` | 8 | UC02: daftar tunggu, detail pendaftar, setujui/tolak, keputusan ganda, status tidak valid |
+| `tests/akses.test.js` | 6 | Pembatasan peran dan pengalihan pengguna yang belum diverifikasi |
+| `tests/status.test.js` | 5 | UC03: status pendaftaran untuk tiap keadaan |
 | `tests/log.test.js` | 11 | UC12: urutan log, filter teks, empat chip, kriteria tidak valid (400), admin 200, non-admin 403, dua keadaan kosong |
+| `tests/integrasi-log.test.js` | 4 | Penulisan log otomatis dari UC01 (registrasi), UC02 (verifikasi), UC04 (penjualan), UC10 (klaim) |
 
-Total: **36 test**. Angka ini dihitung dari test case yang benar-benar dijalankan `node --test`, bukan jumlah baris `test(` di berkas.
+Total: **59 test**. Angka ini dihitung dari test case yang benar-benar dijalankan `node --test`, bukan jumlah baris `test(` di berkas.
 
 Manual untuk UC12:
 
@@ -256,6 +280,9 @@ npm start
 | `produk` | `id_produk`, `id_pemilik`, `nama_produk`, `kategori` | Produk milik pemilik |
 | `data_penjualan` | `id_penjualan`, `id_produk`, `tanggal`, `jumlah_terjual`, `jumlah_tersisa` | Satu baris per produk per tanggal |
 | `perwakilan_ngo` | `id_akun` (PK/FK), `nama_organisasi`, `nomor_legalitas`, `lokasi` | Profil perwakilan NGO |
+| `metode_distribusi_surplus` | `id_distribusi`, `id_produk` (unik), `jenis_distribusi`, `harga` | Metode `Donasi` atau `Jual Diskon` per produk |
+| `produk_surplus` | `id_surplus`, `id_produk`, `id_pemilik`, `jumlah`, `batas_waktu_pengambilan`, `status` | Stok surplus: `tersedia`, `terklaim`, `selesai` |
+| `dokumen_klaim` | `id_klaim`, `id_ngo`, `id_surplus` (unik), `waktu_klaim`, `status_klaim` | Klaim yang diajukan NGO |
 | `log_aktivitas` | `id_log`, `id_akun`, `aktivitas`, `waktu` | Uraian aktivitas; filter memakai kata kunci pada `aktivitas` |
 
 Indeks pada `log_aktivitas`: `idx_log_waktu (waktu DESC)` untuk mempercepat urutan log terbaru.
@@ -266,6 +293,8 @@ Relasi utama:
 akun_pengguna 1—1 pemilik_fnb 1—N produk 1—N data_penjualan
 akun_pengguna 1—1 perwakilan_ngo
 akun_pengguna 1—1 pendaftaran 1—N dokumen_pendukung
+produk 1—1 metode_distribusi_surplus
+produk 1—N produk_surplus 1—1 dokumen_klaim
 akun_pengguna 1—N log_aktivitas
 ```
 
@@ -277,12 +306,12 @@ Pembagian per use case. Nama mengikuti akun GitHub yang tercatat pada commit.
 
 | Modul | Use Case | Penanggung jawab | Status |
 | :--- | :--- | :--- | :--- |
-| Autentikasi dan verifikasi | UC01, UC02, UC03 | `nesinezz` | UC01 selesai; UC02 di branch; UC03 belum |
+| Autentikasi dan verifikasi | UC01, UC02, UC03 | `nesinezz` | UC01–UC03 sudah merge ke `develop` |
 | Penjualan dan prediksi | UC04, UC05 | `Edbertf` | UC04 selesai; UC05 dalam review |
 | Produk surplus | UC06, UC07 | `ExcellActIV` | Ada di branch, belum merge |
-| Informasi dan penyaringan surplus | UC08, UC09 | — | Belum |
-| Klaim dan pengambilan | UC10, UC11 | `RauufFawaaz1` | UC10 di branch; UC11 belum |
-| Log aktivitas | UC12 | `Dylan1252` | Inti selesai, menunggu integrasi |
+| Informasi dan penyaringan surplus | UC08, UC09 | — | UC08 di branch; UC09 belum |
+| Klaim dan pengambilan | UC10, UC11 | `RauufFawaaz1` | UC10 sudah merge; UC11 belum |
+| Log aktivitas | UC12 | `Dylan1252` | Selesai; log otomatis terintegrasi dengan UC01, UC02, UC04, UC10 |
 | Dokumentasi dan pengujian | README, test, profiling | `Dylan1252` | Berjalan |
 
 Tabel ini diperbarui setelah setiap use case merge ke `develop`.
@@ -298,4 +327,4 @@ Tabel ini diperbarui setelah setiap use case merge ke `develop`.
 | `EADDRINUSE` | Port 3000 dipakai proses lain | Jalankan `PORT=3100 npm start` atau hentikan proses lama |
 | `SQLITE_BUSY` | Dua proses membuka database yang sama | Hentikan server lain sebelum menjalankan seed/test |
 | Dokumen ditolak | Format/ukuran tidak sesuai | Hanya PDF/JPG/PNG, maksimal 5 MB |
-| Halaman `/admin/log` kosong | Belum ada log di database | Jalankan `npm run db:seed`; integrasi log dari UC lain belum tersedia |
+| Halaman `/admin/log` kosong | Belum ada log di database | Jalankan `npm run db:seed`, atau lakukan aksi yang tercatat (registrasi, verifikasi, penjualan, klaim) |
