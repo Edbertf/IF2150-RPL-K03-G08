@@ -374,13 +374,18 @@
             </a>
         </nav>
 
+        <% const siapa = (typeof pengguna !== 'undefined' && pengguna) ? pengguna : null; %>
         <div class="user-profile">
-            <div class="user-avatar" aria-hidden="true">B</div>
+            <div class="user-avatar" aria-hidden="true"><%= siapa && siapa.nama ? siapa.nama.charAt(0).toUpperCase() : 'B' %></div>
             <div class="user-info">
-                <div class="name">Bakery Sinar Pagi</div>
+                <div class="name"><%= siapa && siapa.nama ? siapa.nama : 'Bakery Sinar Pagi' %></div>
                 <div class="role">Pemilik F&amp;B</div>
             </div>
         </div>
+
+        <form action="/keluar" method="POST">
+            <button class="logout" type="submit">Keluar</button>
+        </form>
     </aside>
 
     <main class="main-content">
