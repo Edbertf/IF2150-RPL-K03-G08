@@ -197,19 +197,44 @@
             <p>Hubungkan makanan surplus dengan mereka yang membutuhkan.</p>
         </section>
 
+        <%
+            const sudahMasuk = (typeof pengguna !== 'undefined' && pengguna) ? pengguna : null;
+            const labelPeran = sudahMasuk
+                ? (sudahMasuk.role === 'pemilik_fnb'
+                    ? 'Pemilik F&B'
+                    : (sudahMasuk.role === 'perwakilan_ngo' ? 'Perwakilan NGO' : 'Admin Sistem'))
+                : '';
+        %>
         <section class="wr">
-            <h2>Selamat datang</h2>
-            <span>Masuk sebagai</span>
+            <% if (!sudahMasuk) { %>
+                <h2>Selamat datang</h2>
+                <span>Masuk sebagai</span>
 
-            <a class="btn" href="/fnb/dashboard">Pemilik F&amp;B</a>
+                <a class="btn" href="/masuk">Pemilik F&amp;B</a>
+                <a class="btn o" href="/masuk">Perwakilan NGO</a>
+                <a class="btn ol" href="/masuk">Admin Sistem</a>
 
-            <!-- TODO UC08: jadikan <a href="..."> saat halaman daftar surplus NGO tersedia. -->
-            <button class="btn o" type="button" disabled title="Belum tersedia">Perwakilan NGO</button>
+                <span>Belum punya akun? <a class="lnk" href="/daftar">Daftar sekarang</a></span>
+            <% } else { %>
+                <h2>Halo, <%= sudahMasuk.nama %></h2>
+                <span>Anda sudah masuk sebagai <%= labelPeran %>.</span>
 
-            <!-- TODO UC02: jadikan <a href="/admin/verifikasi"> setelah halaman verifikasi dibuat. -->
-            <button class="btn ol" type="button" disabled title="Belum tersedia">Admin Sistem</button>
+                <% if (sudahMasuk.role === 'pemilik_fnb') { %>
+                    <a class="btn" href="/fnb/penjualan">Buka Halaman Penjualan</a>
+                <% } %>
 
-            <span>Belum punya akun? <a class="lnk" href="/daftar">Daftar sekarang</a></span>
+                <% if (sudahMasuk.role === 'perwakilan_ngo') { %>
+                    <a class="btn" href="/ngo/surplus">Cari Produk Surplus</a>
+                <% } %>
+
+                <% if (sudahMasuk.role === 'admin_sistem') { %>
+                    <a class="btn o" href="/admin/verifikasi">Buka Verifikasi Pendaftar</a>
+                <% } %>
+
+                <form action="/keluar" method="POST">
+                    <button class="btn ol" type="submit">Keluar</button>
+                </form>
+            <% } %>
         </section>
     </main>
 </body>

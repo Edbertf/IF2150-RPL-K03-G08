@@ -2,13 +2,10 @@ const router = require('express').Router();
 const PenjualanController = require('../controllers/PenjualanController');
 const PrediksiController = require('../controllers/PrediksiController');
 
-// guard sementara sambil nunggu UC01-03
-router.use((req, res, next) => {
-    if (!req.user || req.user.role !== 'pemilik_fnb') {
-        return res.status(403).send('Hanya pemilik F&B yang dapat mengakses halaman ini.');
-    }
-    next();
-});
+const { butuhPeran, butuhDiverifikasi } = require('../middleware/peran');
+
+// Urutan penting: periksa peran dulu (admin dapat 403), baru status pendaftaran.
+router.use(butuhPeran('pemilik_fnb'), butuhDiverifikasi);
 
 router.get('/dashboard', PrediksiController.tampilkanDashboard);
 router.get('/penjualan', PenjualanController.tampilkanFormPenjualan);

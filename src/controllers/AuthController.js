@@ -1,5 +1,6 @@
 // C23 AuthController
 
+const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const db = require('../config/db');
 const AkunPengguna = require('../models/AkunPengguna');
@@ -251,6 +252,147 @@ exports.kirimFormulirRegistrasi = (req, res) => {
     }
 };
 
+// ---------- Autentikasi ----------
+
+function bangunIdentitas(akun) {
+    if (akun.tipeAkun === 'admin_sistem') {
+        return { idAkun: akun.idAkun, role: 'admin_sistem', email: akun.email, nama: 'Admin Sistem' };
+    }
+
+    if (akun.tipeAkun === 'pemilik_fnb') {
+        const profil = PemilikFnB.cariBerdasarkanAkun(akun.idAkun);
+        return {
+            idAkun: akun.idAkun,
+            role: 'pemilik_fnb',
+            email: akun.email,
+            idPemilik: profil ? profil.idPemilik : null,
+            nama: profil ? profil.namaUsaha : akun.email
+        };
+    }
+
+    const profil = PerwakilanNGO.cariBerdasarkanAkun(akun.idAkun);
+    return {
+        idAkun: akun.idAkun,
+        idNgo: akun.idAkun,
+        role: 'perwakilan_ngo',
+        email: akun.email,
+        nama: profil ? profil.namaOrganisasi : akun.email,
+        lokasi: profil ? profil.lokasi : null
+    };
+}
+
+function tujuanSetelahMasuk(pengguna) {
+    // Admin langsung menuju halaman verifikasi.
+    if (pengguna.role === 'admin_sistem') {
+        return '/admin/verifikasi';
+    }
+
+    // Periksa status verifikasi pendaftaran pengguna.
+    const pendaftaran = Pendaftaran.cariBerdasarkanAkun(
+        pengguna.idAkun
+    );
+
+    const sudahDiverifikasi =
+        pendaftaran &&
+        pendaftaran.statusVerifikasi === 'diterima';
+
+    // Pengguna yang belum diverifikasi menuju halaman status.
+    if (!sudahDiverifikasi) {
+        return '/status';
+    }
+
+    // Pemilik FnB yang sudah diverifikasi.
+    if (pengguna.role === 'pemilik_fnb') {
+        return '/fnb/penjualan';
+    }
+
+    // NGO yang sudah diverifikasi.
+    if (pengguna.role === 'perwakilan_ngo') {
+        return '/ngo/surplus';
+    }
+
+    return '/status';
+}
+
+exports.tampilkanHalamanMasuk = (req, res) => {
+    if (req.user) {
+        return res.redirect('/');
+    }
+    res.render('auth/I00-Masuk', { error: null, old: {} });
+};
+
+exports.masuk = (req, res) => {
+    const email = String(req.body.email || '').trim().toLowerCase();
+    const kataSandi = String(req.body.kataSandi || '');
+
+    const tampilkanGagal = (pesan) =>
+        res.status(400).render('auth/I00-Masuk', { error: pesan, old: { email } });
+
+    if (!email || !kataSandi) {
+        return tampilkanGagal('Email dan kata sandi wajib diisi.');
+    }
+
+    const akun = AkunPengguna.cariKredensial(email);
+
+    // Pesan disengaja sama untuk email tidak dikenal maupun kata sandi salah.
+    if (!akun || !bcrypt.compareSync(kataSandi, akun.kataSandi)) {
+        return tampilkanGagal('Email atau kata sandi salah.');
+    }
+
+    const pengguna = bangunIdentitas(akun);
+    req.session.pengguna = pengguna;
+
+    return res.redirect(tujuanSetelahMasuk(pengguna));
+};
+
+exports.keluar = (req, res) => {
+    req.session.destroy(() => {
+        res.clearCookie('foodlink.sid');
+        res.redirect('/');
+    });
+};
+
+// ---------- Status pendaftaran (UC03) ----------
+
+exports.cekStatusPendaftaran = (idAkun) => {
+    const pendaftaran = Pendaftaran.cariBerdasarkanAkun(idAkun);
+
+    if (!pendaftaran) {
+        return { ditemukan: false, pesan: 'Pendaftaran belum tersedia.' };
+    }
+
+    return {
+        ditemukan: true,
+        status: pendaftaran.statusVerifikasi,
+        tanggalDaftar: pendaftaran.tanggalDaftar
+    };
+};
+
+exports.tampilkanStatusPendaftaran = (req, res) => {
+    const hasil = exports.cekStatusPendaftaran(req.user.idAkun);
+
+    if (!hasil.ditemukan) {
+        return res.status(404).render('auth/I04-StatusPendaftaran', {
+            status: 'tidak ditemukan',
+            judul: 'Status Tidak Ditemukan'
+        });
+    }
+
+    const judul = {
+        'menunggu verifikasi': 'Menunggu Verifikasi',
+        diterima: 'Pendaftaran Diterima',
+        ditolak: 'Pendaftaran Ditolak'
+    }[hasil.status] || 'Status Pendaftaran';
+
+    return res.render('auth/I04-StatusPendaftaran', {
+        status: hasil.status,
+        judul
+    });
+};
+
 exports.tampilkanHalamanBerhasil = (req, res) => {
-    res.render('auth/I04-StatusPendaftaran');
+    res.render('auth/I04-StatusPendaftaran', {
+        status: 'menunggu verifikasi',
+        judul: 'Pendaftaran Dikirim'
+    });
 };
