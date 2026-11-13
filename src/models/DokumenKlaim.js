@@ -50,6 +50,7 @@ exports.getDaftarKlaim = (idNgo) => db.prepare(`
         dk.id_surplus AS idSurplus,
         dk.waktu_klaim AS waktuKlaim,
         dk.status_klaim AS statusKlaim,
+        ps.status AS statusSurplus,
         ps.jumlah AS jumlah,
         ps.batas_waktu_pengambilan AS batasWaktuPengambilan,
         p.nama_produk AS namaProduk,

@@ -1,3 +1,4 @@
+
 const db = require('../config/db');
 
 exports.simpanProfil = (idAkun, dataForm) => {
@@ -27,6 +28,24 @@ exports.getNamaUsaha = (idPemilik) => {
     `).get(idPemilik);
 
     return baris ? baris.namaUsaha : null;
+};
+
+// Mengambil seluruh data usaha berdasarkan ID pemilik.
+exports.getDataUsaha = (idPemilik) => {
+    const dataUsaha = db.prepare(`
+        SELECT
+            nama_usaha AS namaUsaha,
+            alamat_usaha AS alamatUsaha,
+            jam_operasional AS jamOperasional
+        FROM pemilik_fnb
+        WHERE id_pemilik = ?
+    `).get(idPemilik);
+
+    if (!dataUsaha) {
+        throw new Error('Data Pemilik F&B tidak ditemukan.');
+    }
+
+    return dataUsaha;
 };
 
 exports.cariBerdasarkanAkun = (idAkun) =>

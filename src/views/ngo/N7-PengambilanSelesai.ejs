@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pengambilan Selesai - FoodLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/ngo.css">
+</head>
+<body>
+    <%- include('partials-sidebar', { aktif: 'klaim', pengguna }) %>
+
+    <main class="main">
+        <section class="klaim-sukses">
+            <div class="sukses-ikon" aria-hidden="true">✓</div>
+
+            <span class="badge netral">Selesai diambil</span>
+
+            <h1>Pengambilan Selesai!</h1>
+
+            <p>
+                Terima kasih telah membantu mengurangi pemborosan makanan.
+                Pengambilan produk surplus berhasil dikonfirmasi.
+            </p>
+
+            <div class="ringkasan-klaim">
+                <div>
+                    <span>Status pengambilan</span>
+                    <strong>Selesai</strong>
+                </div>
+            </div>
+
+            <a class="btn-klaim" href="/ngo/klaim">
+                Kembali ke Klaim Saya
+            </a>
+        </section>
+    </main>
+</body>
+</html>

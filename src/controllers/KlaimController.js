@@ -2,6 +2,8 @@ const db = require('../config/db');
 
 const ProdukSurplus = require('../models/ProdukSurplus');
 const DokumenKlaim = require('../models/DokumenKlaim');
+const PemilikFnB = require('../models/PemilikFnB');
+const PerwakilanNGO = require('../models/PerwakilanNGO');
 
 // Memvalidasi ID agar berupa bilangan bulat positif.
 function validasiId(id, namaId) {
@@ -102,6 +104,97 @@ const KlaimController = {
     }
 
     return `Klaim tidak dapat diproses karena produk surplus berstatus "${status}".`;
+  },
+
+  /**
+   * Mengambil seluruh detail pengambilan berdasarkan ID klaim.
+   *
+   * @param {number} idKlaim
+   * @returns {Object} Detail klaim, surplus, usaha, dan NGO.
+   */
+  ambilDetailPengambilan(idKlaim) {
+      const id = validasiId(idKlaim, 'ID klaim');
+
+      // 1. Mengambil detail dokumen klaim.
+      const detailKlaim = DokumenKlaim.getDetailKlaim(id);
+
+      if (!detailKlaim) {
+          throw new Error('Dokumen klaim tidak ditemukan.');
+      }
+
+      // 2. Mengambil detail produk surplus.
+      const detailSurplus = ProdukSurplus.getDetailSurplus(
+          detailKlaim.idSurplus
+      );
+
+      if (!detailSurplus) {
+          throw new Error('Detail produk surplus tidak ditemukan.');
+      }
+
+      // 3. Mengambil data pemilik usaha.
+      const dataUsaha = PemilikFnB.getDataUsaha(
+          detailSurplus.idPemilik
+      );
+
+      // 4. Mengambil data organisasi NGO.
+      const dataNgo = PerwakilanNGO.getDataNgo(
+          detailKlaim.idNgo
+      );
+
+      // 5. Menggabungkan seluruh informasi.
+      return {
+          detailKlaim,
+          detailSurplus,
+          dataUsaha,
+          dataNgo
+      };
+  },
+
+  /**
+   * Mengonfirmasi bahwa produk surplus telah diambil.
+   *
+   * @param {number} idKlaim
+   * @returns {string} Pesan keberhasilan.
+   */
+  konfirmasiPengambilan(idKlaim) {
+      const id = validasiId(idKlaim, 'ID klaim');
+
+      // Memproses perubahan status dalam satu transaksi.
+      const prosesKonfirmasi = db.transaction(() => {
+          // 1. Mengambil detail klaim.
+          const detailKlaim = DokumenKlaim.getDetailKlaim(id);
+
+          if (!detailKlaim) {
+              throw new Error('Dokumen klaim tidak ditemukan.');
+          }
+
+          // 2. Memeriksa status produk surplus.
+          const statusSurplus = ProdukSurplus.getStatus(
+              detailKlaim.idSurplus
+          );
+
+          if (statusSurplus === null || statusSurplus === undefined) {
+              throw new Error('Status produk surplus tidak ditemukan.');
+          }
+
+          // 3. Mencegah konfirmasi berulang.
+          if (statusSurplus === 'selesai') {
+              throw new Error(
+                  'Pengambilan produk surplus sudah dikonfirmasi.'
+              );
+          }
+
+          // 4. Mengubah status surplus menjadi selesai.
+          ProdukSurplus.setStatus(
+              detailKlaim.idSurplus,
+              'selesai'
+          );
+
+          // 5. Mengembalikan pesan keberhasilan.
+          return 'Pengambilan produk surplus berhasil dikonfirmasi.';
+      });
+
+      return prosesKonfirmasi.immediate();
   },
 };
 
