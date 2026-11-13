@@ -170,4 +170,4 @@
 | *11-11-2026* | *Edbert Fernando* | *Review PR* | *1.5 jam* | *done* | *-* |
 | *13-11-2026* | *Edbert Fernando* | *Review PR* | *1.5 jam* | *done* | *-* |
 | *13-11-2026* | *Ernest Clarence Gunawan* | *Realisasi UC01, 02,03* | *12 jam* | *done* | *-* |
-
+| *13-11-2026* | *Excell Timothy Josua Tarigan* | *implementasi UC06-07* | *12 jam* | *Done* | *kebingungan mengikuti konvensi kode dari teman* |
