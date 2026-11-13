@@ -59,13 +59,12 @@ exports.saringLog = (req, res) => {
         return exports.tampilkanLog(req, res);
     }
 
-    const semuaLog = LogAktivitas.getDaftarLog();
     const daftar = LogAktivitas.cariLog(kriteria);
 
     renderHalaman(res, {
         daftar,
         filterAktif: kriteria,
-        adaLogKeseluruhan: semuaLog.length > 0
+        adaLogKeseluruhan: LogAktivitas.adaLog()
     });
 };
 

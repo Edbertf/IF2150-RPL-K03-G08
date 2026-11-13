@@ -149,7 +149,7 @@ Skema dibuat otomatis saat aplikasi pertama kali dijalankan: `database/init.js` 
 Perintah seed:
 
 ```bash
-npm run db:seed          # pemilik demo, 4 produk, 6 hari data penjualan
+npm run db:seed          # pemilik demo, 4 produk, 7 hari data penjualan
 npm run db:seed:admin    # Admin Sistem + menerima pendaftaran akun demo
 npm run db:seed:surplus  # akun NGO, 3 produk surplus, metode distribusi
 ```
@@ -171,7 +171,7 @@ Data yang dibuat seed:
 - 1 Pemilik F&B: **Bakery Sinar Pagi** (`Jl. Dipatiukur, Bandung` setelah seed surplus)
 - 1 Perwakilan NGO: **Yayasan Nurani Berbagi** (`Jl. Dago No. 10, Bandung`)
 - 1 Admin Sistem
-- 6 produk dan 24 baris penjualan (4 produk × 6 hari)
+- 4 produk dengan 28 baris penjualan (7 hari); `db:seed:surplus` menambah produk surplus lain
 - 3 produk surplus dengan metode **Donasi** atau **Jual Diskon** (Nasi Goreng Spesial, Es Teh Manis, Roti Tawar)
 - 7 baris log aktivitas contoh untuk halaman `/admin/log`
 
@@ -286,10 +286,22 @@ Pengujian memakai `node:test` dengan database sementara di folder temp, sehingga
 | `tests/akses.test.js` | 6 | Pembatasan peran dan pengalihan pengguna yang belum diverifikasi |
 | `tests/status.test.js` | 5 | UC03: status pendaftaran untuk tiap keadaan |
 | `tests/informasiSurplus.test.js` | 14 | UC08: daftar/detail surplus dan jarak; UC09: filter jenis, jarak, waktu, kombinasi, nilai tidak valid |
-| `tests/log.test.js` | 12 | UC12: urutan log, filter teks, empat chip, kriteria tidak valid (400), admin 200, non-admin 403, dua keadaan kosong, batas 100 baris |
+| `tests/log.test.js` | 13 | UC12: urutan log, filter teks, empat chip, kriteria tidak valid (400), admin 200, non-admin 403, dua keadaan kosong, batas 100 baris, `adaLog` |
 | `tests/integrasi-log.test.js` | 7 | Penulisan log otomatis dari UC01 registrasi, UC02 verifikasi, UC04 penjualan, UC06 surplus/pengelolaan produk, UC07 distribusi, UC10 klaim, UC11 pengambilan |
 
 Total: **78 test**, seluruhnya lulus (`npm test`).
+
+Pengujian manual UC11 (memakai database pengembangan) tersedia di `tools/uji-manual-uc11.js` dan sengaja tidak diletakkan di `tests/` agar tidak ikut `npm test`.
+
+### Profiling UC12
+
+Query daftar log diuji dengan 20.000 baris sintetis:
+
+```bash
+npm run profil:log
+```
+
+Skrip membandingkan query lama (JOIN seluruh tabel lalu `LIMIT`), query sekarang (CTE membatasi 100 baris sebelum JOIN), filter, dan pemeriksaan keberadaan log, sekaligus mencetak `EXPLAIN QUERY PLAN`. Ringkasan hasil pada mesin pengembangan ada di [B.2.1 laporan M9](../docs/M9/K03_G08_Implementasi.md#b21-profiling-dan-optimasi).
 
 Contoh verifikasi manual UC12:
 

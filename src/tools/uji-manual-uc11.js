@@ -1,8 +1,8 @@
 const assert = require('node:assert/strict');
 
-const db = require('./config/db');
-const KlaimController = require('./controllers/KlaimController');
-const ProdukSurplus = require('./models/ProdukSurplus');
+const db = require('../config/db');
+const KlaimController = require('../controllers/KlaimController');
+const ProdukSurplus = require('../models/ProdukSurplus');
 
 const PENANDA_ROLLBACK = 'ROLLBACK_UJI_UC11';
 

@@ -64,7 +64,8 @@ function tanggalMundur(hari) {
 }
 
 const simpan = db.transaction(() => {
-    for (let i = 1; i <= 6; i += 1) {
+    // Tujuh hari agar dashboard prediksi (UC05) langsung dapat dijalankan.
+    for (let i = 1; i <= 7; i += 1) {
         const tanggal = tanggalMundur(i);
         const hariLalu = i - 1;
 

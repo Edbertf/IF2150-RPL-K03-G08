@@ -222,3 +222,17 @@ test('daftar log dibatasi 100 baris terbaru', () => {
     assert.equal(daftar.length, 100);
     assert.equal(daftar[0].aktivitas, 'Aktivitas tambahan 119');
 });
+
+test('adaLog benar saat ada log dan salah saat tabel kosong', () => {
+    assert.equal(LogAktivitas.adaLog(), true);
+
+    // Transaksi dibatalkan agar data log milik tes lain tidak berubah.
+    const kosongkanSementara = db.transaction(() => {
+        db.prepare('DELETE FROM log_aktivitas').run();
+        assert.equal(LogAktivitas.adaLog(), false);
+        throw new Error('batalkan');
+    });
+
+    assert.throws(() => kosongkanSementara(), /batalkan/);
+    assert.equal(LogAktivitas.adaLog(), true);
+});
