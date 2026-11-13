@@ -41,7 +41,7 @@
                     <path d="M12 8v5"></path>
                     <path d="M12 16h.01"></path>
                 </svg>
-                <span>Lokasi Anda belum tersedia, jadi jarak produk belum bisa dihitung. Daftar produk surplus tetap ditampilkan.</span>
+                <span>Lokasi belum tersedia. Jarak produk tidak dapat dihitung, tetapi daftar produk surplus tetap ditampilkan.</span>
             </div>
         <% } %>
 
@@ -111,7 +111,7 @@
                             </div>
 
                             <div class="nama-produk"><%= item.namaProduk %></div>
-                            <div class="meta"><%= item.jumlahTampil %> &middot; <%= item.namaUsaha %></div>
+                            <div class="meta"><%= item.kategori %> &middot; <%= item.jumlahTampil %> &middot; <%= item.namaUsaha %></div>
                             <div class="penjual"><%= item.lokasiPengambilan %></div>
 
                             <div class="deadline">

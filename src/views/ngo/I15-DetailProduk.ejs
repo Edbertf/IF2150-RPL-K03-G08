@@ -107,7 +107,13 @@
                         <div class="info-teks">
                             <small>Lokasi pengambilan</small>
                             <b><%= detail.lokasiPengambilan || 'Alamat belum tersedia' %></b>
-                            <span class="sisa"><%= detail.jarakTampil %> dari lokasi Anda</span>
+                            <span class="sisa">
+                                <% if (detail.jarakProduk === null) { %>
+                                    Jarak belum tersedia
+                                <% } else { %>
+                                    <%= detail.jarakTampil %> dari lokasi Anda
+                                <% } %>
+                            </span>
                         </div>
                     </div>
 

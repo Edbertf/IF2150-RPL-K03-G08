@@ -13,6 +13,7 @@ require('../database/init')();
 const AkunPengguna = require('../models/AkunPengguna');
 const PemilikFnB = require('../models/PemilikFnB');
 const SurplusController = require('../controllers/SurplusController');
+const { butuhPeran } = require('../middleware/peran');
 
 const BATAS_DEPAN = '2099-01-01 12:00';
 const BATAS_LEWAT = '2020-01-01 12:00';
@@ -160,13 +161,73 @@ test('pencarian kata kunci menyaring daftar pada halaman I-12', async () => {
     const { hasil, res } = resPalsu();
 
     await SurplusController.tampilkanDaftarSurplus(
-        { user: { lokasi: '-6.9,107.61' }, query: { q: 'nasi' } },
+        { user: { lokasi: '-6.9,107.61' }, query: { q: 'NASI' } },
         res
     );
 
     assert.equal(hasil.view, 'ngo/I12-DaftarSurplus');
     assert.ok(hasil.data.daftar.length > 0);
     assert.ok(hasil.data.daftar.every((item) => item.namaProduk.toLowerCase().includes('nasi')));
+});
+
+test('pencarian tanpa hasil mengembalikan daftar kosong tanpa error', async () => {
+    const { hasil, res } = resPalsu();
+
+    await SurplusController.tampilkanDaftarSurplus(
+        { user: { lokasi: '-6.9,107.61' }, query: { q: 'zzz-tidak-ada' } },
+        res
+    );
+
+    assert.equal(hasil.status, 200);
+    assert.equal(hasil.view, 'ngo/I12-DaftarSurplus');
+    assert.equal(hasil.data.daftar.length, 0);
+    assert.equal(hasil.data.galat, null);
+});
+
+test('lokasi pengguna kosong tetap menampilkan daftar tanpa jarak', async () => {
+    const idPemilik = buatPemilik('-6.9001,107.6101');
+    const surplus = buatSurplus({ idPemilik, nama: 'Produk Tanpa Lokasi Pengguna' });
+
+    const { hasil, res } = resPalsu();
+
+    await SurplusController.tampilkanDaftarSurplus(
+        { user: { lokasi: '' }, query: {} },
+        res
+    );
+
+    const item = hasil.data.daftar.find((baris) => baris.idSurplus === surplus.idSurplus);
+
+    assert.equal(hasil.data.lokasiTersedia, false);
+    assert.ok(item);
+    assert.equal(item.jarakProduk, null);
+    assert.equal(item.jarakTampil, 'Jarak belum tersedia');
+});
+
+test('guard hanya mengizinkan peran perwakilan_ngo', () => {
+    let statusKode = null;
+    let dilanjutkan = false;
+
+    const res = {
+        status(kode) {
+            statusKode = kode;
+            return res;
+        },
+        send() {}
+    };
+
+    butuhPeran('perwakilan_ngo')({ user: { role: 'pemilik_fnb' } }, res, () => {
+        dilanjutkan = true;
+    });
+
+    assert.equal(statusKode, 403);
+    assert.equal(dilanjutkan, false);
+
+    let lanjutNgo = false;
+    butuhPeran('perwakilan_ngo')({ user: { role: 'perwakilan_ngo' } }, {}, () => {
+        lanjutNgo = true;
+    });
+
+    assert.equal(lanjutNgo, true);
 });
 
 test('detail surplus memuat metode distribusi, harga, dan jarak', async () => {
