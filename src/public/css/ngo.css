@@ -471,6 +471,21 @@
 .kode-klaim { color: var(--primary-dark); letter-spacing: .06em; }
 .klaim-sukses > .btn-klaim { display: inline-block; text-decoration: none; }
 
+.success-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.success-actions .btn-klaim {
+    margin: 0;
+}
+
+.success-actions a {
+    display: block;
+    text-decoration: none;
+}
+
 .kosong-klaim h2 { margin-bottom: 6px; color: var(--text); }
 .kosong-klaim p { margin-bottom: 18px; }
 .kosong-klaim .btn-klaim { display: inline-block; width: auto; text-decoration: none; }
@@ -479,6 +494,25 @@
 .kartu-klaim { min-width: 0; padding: 18px; border: 1px solid var(--border); border-radius: 18px; background: #fff; }
 .kartu-klaim-atas { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
 .kartu-klaim h2 { margin-bottom: 3px; font-size: 18px; }
+
+.kartu-klaim {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.kartu-klaim:hover {
+    border-color: var(--primary);
+    box-shadow: 0 6px 18px rgba(35, 43, 31, .08);
+    transform: translateY(-2px);
+}
+
+.kartu-klaim:focus-visible {
+    outline: 3px solid rgba(121, 181, 73, .35);
+    outline-offset: 3px;
+}
+
 .detail-riwayat-klaim { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
 .detail-riwayat-klaim div { display: flex; justify-content: space-between; gap: 14px; padding: 4px 0; font-size: 13px; }
 .detail-riwayat-klaim span { color: var(--muted); }
@@ -506,4 +540,127 @@
     .ikon-produk { width: 72px; height: 72px; }
     .panel-detail { padding: 18px; }
     .panel-detail h2 { font-size: 23px; }
+}
+
+/* UC09: panel saringan produk surplus. */
+.btn-filter {
+    flex: none;
+    padding: 0 20px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background-color: #ffffff;
+    color: var(--text);
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.btn-filter:hover { border-color: var(--primary); color: var(--primary-dark); }
+.btn-filter:focus-visible { outline: 3px solid rgba(121, 181, 73, 0.35); outline-offset: 2px; }
+
+.jumlah-hasil {
+    margin: -6px 0 16px;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-weight: 700;
+}
+
+.jumlah-hasil b { color: var(--text); }
+
+.chip.hapus {
+    border-color: #f0d3ad;
+    background-color: var(--warn-soft);
+    color: var(--warn);
+}
+
+.chip.hapus:hover { border-color: var(--warn); color: var(--warn); }
+
+.panel-filter {
+    width: min(100%, 560px);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    text-align: left;
+}
+
+.panel-filter h2 { text-align: left; }
+
+.filter-sub {
+    margin-bottom: 18px !important;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.filter-field { margin-bottom: 16px; }
+
+.filter-field label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13.5px;
+    font-weight: 800;
+}
+
+.filter-field input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background-color: #ffffff;
+    color: var(--text);
+    font: inherit;
+}
+
+.filter-field input:focus {
+    border-color: var(--primary);
+    outline: 3px solid rgba(121, 181, 73, 0.22);
+}
+
+.filter-group {
+    margin: 0 0 16px;
+    padding: 0;
+    border: 0;
+}
+
+.filter-group legend {
+    padding: 0;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-size: 13.5px;
+    font-weight: 800;
+}
+
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filter-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 13px;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    background-color: #ffffff;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.filter-option input { margin: 0; accent-color: var(--primary); }
+
+.filter-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.filter-actions .btn-klaim { margin: 0; }
+
+@media (max-width: 560px) {
+    .btn-filter { width: 100%; padding: 13px 18px; }
+    .panel-filter { padding: 22px 18px; }
 }

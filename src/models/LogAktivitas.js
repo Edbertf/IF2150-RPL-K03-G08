@@ -17,6 +17,8 @@ const PILIH_LOG = `
     LEFT JOIN perwakilan_ngo AS ngo ON ngo.id_akun = akun.id_akun
 `;
 
+const BATAS_LOG = 100;
+
 /**
  * C11 catatLog(idAkun, aktivitas): menulis satu baris log aktivitas.
  * Waktu disimpan dalam format SQLite "YYYY-MM-DD HH:mm:ss" zona Asia/Jakarta.
@@ -46,22 +48,24 @@ exports.catatLog = (idAkun, aktivitas) => {
 };
 
 /**
- * C11 getDaftarLog(): seluruh log, terbaru di atas.
- * Tidak memakai LIMIT karena DPPL tidak membatasi jumlah baris.
+ * C11 getDaftarLog(): 100 log terbaru.
+ * Batas 100 baris menjaga halaman I-23 tetap ringan.
  */
 exports.getDaftarLog = () =>
     db.prepare(`
         ${PILIH_LOG}
         ORDER BY log.waktu DESC, log.id_log DESC
+        LIMIT ${BATAS_LOG}
     `).all();
 
 /**
- * C11 cariLog(kriteria): menyaring log berdasarkan kata kunci pada uraian
- * aktivitas. Perilaku ini mengikuti Q-C11-02 (ILIKE '%kriteria%').
+ * C11 cariLog(kriteria): menyaring 100 log terbaru berdasarkan kata kunci pada
+ * uraian aktivitas. Perilaku ini mengikuti Q-C11-02 (ILIKE '%kriteria%').
  */
 exports.cariLog = (kriteria) =>
     db.prepare(`
         ${PILIH_LOG}
         WHERE log.aktivitas LIKE ?
         ORDER BY log.waktu DESC, log.id_log DESC
+        LIMIT ${BATAS_LOG}
     `).all(`%${kriteria}%`);

@@ -53,3 +53,49 @@ exports.setStatus = (idSurplus, status) => {
         throw new Error('Produk surplus tidak ditemukan.');
     }
 };
+
+// UC06 mencatat surplus baru milik Pemilik F&B.
+exports.simpanProdukSurplus = ({ idProduk, idPemilik, jumlah, batasWaktu }) => {
+    const info = db.prepare(`
+        INSERT INTO produk_surplus (id_produk, id_pemilik, jumlah, batas_waktu_pengambilan, status)
+        VALUES (?, ?, ?, ?, 'tersedia')
+    `).run(idProduk, idPemilik, jumlah, batasWaktu);
+
+    return Number(info.lastInsertRowid);
+};
+
+exports.getSemuaProduk = (idPemilik) =>
+    db.prepare(`
+        SELECT id_produk, id_pemilik, nama_produk, kategori
+        FROM produk
+        WHERE id_pemilik = ?
+        ORDER BY nama_produk
+    `).all(idPemilik);
+
+exports.getProdukById = (idProduk, idPemilik) =>
+    db.prepare(`
+        SELECT id_produk, id_pemilik, nama_produk, kategori
+        FROM produk
+        WHERE id_produk = ? AND id_pemilik = ?
+    `).get(idProduk, idPemilik) ?? null;
+
+exports.tambahProduk = (idPemilik, namaProduk, kategori) => {
+    const info = db.prepare(`
+        INSERT INTO produk (id_pemilik, nama_produk, kategori)
+        VALUES (?, ?, ?)
+    `).run(idPemilik, namaProduk, kategori);
+
+    return Number(info.lastInsertRowid);
+};
+
+exports.updateProduk = (idProduk, idPemilik, namaProduk, kategori) => {
+    const hasil = db.prepare(`
+        UPDATE produk
+        SET nama_produk = ?, kategori = ?
+        WHERE id_produk = ? AND id_pemilik = ?
+    `).run(namaProduk, kategori, idProduk, idPemilik);
+
+    if (hasil.changes === 0) {
+        throw new Error('Produk tidak ditemukan.');
+    }
+};

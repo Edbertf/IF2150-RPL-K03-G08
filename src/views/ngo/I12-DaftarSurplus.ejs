@@ -31,7 +31,7 @@
                 <h1 class="judul-surplus">Cari Produk Surplus</h1>
                 <div class="sub">Temukan makanan dan minuman berlebih di sekitar lokasi Anda.</div>
             </div>
-            <span class="pill"><%= totalTersedia %> tersedia</span>
+            <span class="pill"><%= totalDitampilkan %> hasil</span>
         </div>
 
         <% if (!lokasiTersedia) { %>
@@ -52,6 +52,7 @@
         <form class="cari" action="/ngo/surplus" method="GET" role="search">
             <% if (jenisAktif) { %><input type="hidden" name="jenis" value="<%= jenisAktif %>"><% } %>
             <% if (jarakAktif) { %><input type="hidden" name="jarak" value="<%= jarakAktif %>"><% } %>
+            <% if (waktuAktif) { %><input type="hidden" name="waktu" value="<%= waktuAktif %>"><% } %>
             <div class="cari-kotak">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
                     <circle cx="11" cy="11" r="7"></circle>
@@ -60,13 +61,27 @@
                 <input type="search" name="q" value="<%= kataKunci %>" placeholder="Cari roti, nasi, minuman..." aria-label="Cari produk surplus">
             </div>
             <button class="btn-cari" type="submit">Cari</button>
+            <button class="btn-filter" type="button" id="openFilter"
+                    aria-haspopup="dialog" aria-controls="filterPanel">
+                Filter<%= adaFilter ? ' (aktif)' : '' %>
+            </button>
         </form>
 
         <div class="chips" aria-label="Filter cepat">
-            <a class="chip <%= !jenisAktif && !jarakAktif ? 'on' : '' %>" href="<%= tautan.semua %>">Semua</a>
+            <a class="chip <%= !jenisAktif && !jarakAktif && !waktuAktif ? 'on' : '' %>" href="<%= tautan.semua %>">Semua</a>
             <a class="chip <%= jenisAktif === 'Makanan' ? 'on' : '' %>" href="<%= tautan.makanan %>">Makanan</a>
             <a class="chip <%= jenisAktif === 'Minuman' ? 'on' : '' %>" href="<%= tautan.minuman %>">Minuman</a>
             <a class="chip <%= jarakAktif ? 'on' : '' %>" href="<%= tautan.dekat %>" aria-label="Hanya produk dalam radius 2 kilometer">&lt; 2 km</a>
+            <% if (adaFilter) { %>
+                <a class="chip hapus" href="<%= tautan.hapus %>">Hapus filter</a>
+            <% } %>
+        </div>
+
+        <div class="jumlah-hasil" role="status">
+            Menampilkan <b><%= totalDitampilkan %></b> hasil
+            <% if (totalDitampilkan !== totalTersedia) { %>
+                dari <b><%= totalTersedia %></b> produk tersedia
+            <% } %>
         </div>
 
         <% if (daftar.length === 0) { %>
@@ -74,8 +89,8 @@
                 <% if (totalTersedia === 0) { %>
                     Belum ada produk surplus yang tersedia saat ini.
                 <% } else { %>
-                    Tidak ada produk surplus yang sesuai dengan pencarian atau filter Anda.
-                    <a class="sub" href="/ngo/surplus">Tampilkan semua produk</a>
+                    Tidak ada produk surplus yang sesuai filter.
+                    <a class="sub" href="<%= tautan.hapus %>">Hapus filter</a>
                 <% } %>
             </div>
         <% } else { %>
@@ -127,5 +142,82 @@
             </div>
         <% } %>
     </main>
+
+    <div class="modal-backdrop" id="filterPanel" hidden>
+        <div class="modal-container panel-filter" role="dialog" aria-modal="true" aria-labelledby="judulFilter">
+            <h2 id="judulFilter">Saring Produk Surplus</h2>
+            <p class="filter-sub">Semua filter yang dipilih digabungkan (AND).</p>
+
+            <form action="/ngo/surplus" method="GET" id="filterForm">
+                <div class="filter-field">
+                    <label for="qFilter">Kata kunci</label>
+                    <input type="search" id="qFilter" name="q" value="<%= kataKunci %>"
+                           placeholder="Nama produk, misalnya roti">
+                </div>
+
+                <fieldset class="filter-group">
+                    <legend>Jenis produk</legend>
+                    <div class="filter-options">
+                        <label class="filter-option"><input type="radio" name="jenis" value="" <%= !jenisAktif ? 'checked' : '' %>> Semua</label>
+                        <label class="filter-option"><input type="radio" name="jenis" value="Makanan" <%= jenisAktif === 'Makanan' ? 'checked' : '' %>> Makanan</label>
+                        <label class="filter-option"><input type="radio" name="jenis" value="Minuman" <%= jenisAktif === 'Minuman' ? 'checked' : '' %>> Minuman</label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="filter-group">
+                    <legend>Jarak maksimal</legend>
+                    <div class="filter-options">
+                        <label class="filter-option"><input type="radio" name="jarak" value="" <%= !jarakAktif ? 'checked' : '' %>> Semua jarak</label>
+                        <% pilihanJarak.forEach(function (km) { %>
+                            <label class="filter-option"><input type="radio" name="jarak" value="<%= km %>" <%= jarakAktif === km ? 'checked' : '' %>> &le; <%= km %> km</label>
+                        <% }); %>
+                    </div>
+                </fieldset>
+
+                <fieldset class="filter-group">
+                    <legend>Batas waktu pengambilan</legend>
+                    <div class="filter-options">
+                        <label class="filter-option"><input type="radio" name="waktu" value="" <%= !waktuAktif ? 'checked' : '' %>> Semua</label>
+                        <label class="filter-option"><input type="radio" name="waktu" value="hari-ini" <%= waktuAktif === 'hari-ini' ? 'checked' : '' %>> Hari ini</label>
+                        <label class="filter-option"><input type="radio" name="waktu" value="besok" <%= waktuAktif === 'besok' ? 'checked' : '' %>> Besok</label>
+                    </div>
+                </fieldset>
+
+                <div class="filter-actions">
+                    <button type="submit" class="btn-klaim">Terapkan Filter</button>
+                    <button type="button" class="btn-outline" id="resetFilter">Reset</button>
+                    <button type="button" class="btn-outline" id="closeFilter">Tutup</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const filterPanel = document.getElementById('filterPanel');
+        const filterForm = document.getElementById('filterForm');
+
+        document.getElementById('openFilter').addEventListener('click', () => {
+            filterPanel.hidden = false;
+        });
+
+        document.getElementById('closeFilter').addEventListener('click', () => {
+            filterPanel.hidden = true;
+        });
+
+        filterPanel.addEventListener('click', (event) => {
+            if (event.target === filterPanel) filterPanel.hidden = true;
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') filterPanel.hidden = true;
+        });
+
+        document.getElementById('resetFilter').addEventListener('click', () => {
+            filterForm.q.value = '';
+            filterForm.querySelectorAll('input[type="radio"][value=""]').forEach((radio) => {
+                radio.checked = true;
+            });
+        });
+    </script>
 </body>
 </html>

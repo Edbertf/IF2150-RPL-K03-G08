@@ -205,3 +205,20 @@ test('filter tanpa hasil menampilkan pesan filter tidak cocok', async () => {
 
     assert.match(html, /Tidak ada log aktivitas yang sesuai dengan filter\./);
 });
+
+test('daftar log dibatasi 100 baris terbaru', () => {
+    for (let i = 0; i < 120; i += 1) {
+        const jam = String(10 + Math.floor(i / 60)).padStart(2, '0');
+        const menit = String(i % 60).padStart(2, '0');
+        insertLog.run(
+            idAkunPemilik,
+            `Aktivitas tambahan ${i}`,
+            `2026-11-11 ${jam}:${menit}:00`
+        );
+    }
+
+    const daftar = LogAktivitas.getDaftarLog();
+
+    assert.equal(daftar.length, 100);
+    assert.equal(daftar[0].aktivitas, 'Aktivitas tambahan 119');
+});

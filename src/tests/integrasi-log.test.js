@@ -16,6 +16,8 @@ const AuthController = require('../controllers/AuthController');
 const VerifikasiController = require('../controllers/VerifikasiController');
 const PenjualanController = require('../controllers/PenjualanController');
 const KlaimController = require('../controllers/KlaimController');
+const CatatSurplusController = require('../controllers/CatatSurplusController');
+const DistribusiSurplusController = require('../controllers/DistribusiSurplusController');
 
 const insertAkun = db.prepare(
     'INSERT INTO akun_pengguna (email, kata_sandi, tipe_akun) VALUES (?, ?, ?)'
@@ -201,4 +203,142 @@ test('UC10: klaim surplus menulis log NGO beserta jumlah porsi', () => {
 
     const log = ambilLogTerakhir(idNgo);
     assert.equal(log.aktivitas, 'Mengklaim Roti Sisa (8 porsi)');
+});
+
+function buatPemilik(email, namaUsaha) {
+    const idAkunPemilik = Number(
+        insertAkun.run(email, 'x', 'pemilik_fnb').lastInsertRowid
+    );
+
+    const idPemilik = Number(
+        db.prepare(`
+            INSERT INTO pemilik_fnb (id_akun, nama_usaha, alamat_usaha)
+            VALUES (?, ?, ?)
+        `).run(idAkunPemilik, namaUsaha, 'Jl. Integrasi No. 2').lastInsertRowid
+    );
+
+    return { idAkunPemilik, idPemilik };
+}
+
+function buatProduk(idPemilik, namaProduk, kategori = 'Makanan') {
+    return Number(
+        db.prepare(`
+            INSERT INTO produk (id_pemilik, nama_produk, kategori)
+            VALUES (?, ?, ?)
+        `).run(idPemilik, namaProduk, kategori).lastInsertRowid
+    );
+}
+
+function batasWaktuBesok() {
+    const tanggal = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Jakarta',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).format(new Date(Date.now() + 24 * 60 * 60 * 1000));
+
+    return `${tanggal} 23:59`;
+}
+
+test('UC06: pencatatan surplus dan pengelolaan produk menulis log pemilik', () => {
+    const { idAkunPemilik, idPemilik } = buatPemilik('uc06@integrasi.test', 'Toko UC06');
+    const idProduk = buatProduk(idPemilik, 'Roti Baru');
+    const user = { idAkun: idAkunPemilik, idPemilik, role: 'pemilik_fnb' };
+    const res = buatRes();
+
+    CatatSurplusController.simpanDataSurplus(
+        {
+            user,
+            body: {
+                idProduk: String(idProduk),
+                jumlah: '4',
+                batasWaktu: batasWaktuBesok().replace(' ', 'T')
+            }
+        },
+        res
+    );
+
+    assert.match(res.tujuan, /^\/surplus\/\d+\/donasi$/);
+    assert.equal(
+        ambilLogTerakhir(idAkunPemilik).aktivitas,
+        'Mencatat surplus Roti Baru (4 porsi)'
+    );
+
+    CatatSurplusController.simpanProdukBaru(
+        { user, body: { namaProduk: 'Kue Baru', kategori: 'Makanan' } },
+        buatRes()
+    );
+    assert.equal(
+        ambilLogTerakhir(idAkunPemilik).aktivitas,
+        'Menambahkan produk Kue Baru'
+    );
+
+    CatatSurplusController.simpanEditProduk(
+        {
+            user,
+            params: { id: String(idProduk) },
+            body: { namaProduk: 'Roti Baru Edit', kategori: 'Makanan' }
+        },
+        buatRes()
+    );
+    assert.equal(
+        ambilLogTerakhir(idAkunPemilik).aktivitas,
+        'Memperbarui produk Roti Baru Edit'
+    );
+});
+
+test('UC07: penetapan distribusi surplus menulis log pemilik', () => {
+    const { idAkunPemilik, idPemilik } = buatPemilik('uc07@integrasi.test', 'Toko UC07');
+    const idProduk = buatProduk(idPemilik, 'Roti Diskon');
+    const idSurplus = Number(
+        db.prepare(`
+            INSERT INTO produk_surplus (
+                id_produk, id_pemilik, jumlah, batas_waktu_pengambilan, status
+            )
+            VALUES (?, ?, ?, ?, 'tersedia')
+        `).run(idProduk, idPemilik, 3, '2026-11-15 18:00:00').lastInsertRowid
+    );
+
+    const sesi = {};
+    const res = buatRes();
+
+    DistribusiSurplusController.simpanDistribusi(
+        {
+            user: { idAkun: idAkunPemilik, idPemilik, role: 'pemilik_fnb' },
+            params: { id: String(idSurplus) },
+            body: { metode: 'diskon', hargaJual: '4000' },
+            session: sesi
+        },
+        res
+    );
+
+    assert.equal(res.tujuan, '/surplus/sukses');
+    assert.equal(sesi.suksesDistribusi.metode, 'diskon');
+    assert.equal(
+        ambilLogTerakhir(idAkunPemilik).aktivitas,
+        'Menetapkan distribusi surplus Roti Diskon sebagai Jual Diskon Rp 4.000'
+    );
+});
+
+test('UC11: konfirmasi pengambilan menulis log NGO', () => {
+    const { idPemilik } = buatPemilik('uc11@integrasi.test', 'Toko UC11');
+    const idProduk = buatProduk(idPemilik, 'Roti Ambil');
+    const idSurplus = Number(
+        db.prepare(`
+            INSERT INTO produk_surplus (
+                id_produk, id_pemilik, jumlah, batas_waktu_pengambilan, status
+            )
+            VALUES (?, ?, ?, ?, 'tersedia')
+        `).run(idProduk, idPemilik, 5, '2026-11-16 18:00:00').lastInsertRowid
+    );
+
+    const idKlaim = KlaimController.setujuiKlaim(idSurplus, idNgo);
+
+    const pesan = KlaimController.konfirmasiPengambilan(idKlaim);
+
+    assert.equal(pesan, 'Pengambilan produk surplus berhasil dikonfirmasi.');
+    assert.equal(
+        ambilLogTerakhir(idNgo).aktivitas,
+        'Mengonfirmasi pengambilan klaim Roti Ambil (5 porsi)'
+    );
 });
