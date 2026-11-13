@@ -45,12 +45,13 @@ function tanggalMundur(hari) {
 }
 
 const simpan = db.transaction(() => {
-    for (let i = 0; i < 6; i += 1) {
+    for (let i = 1; i <= 6; i += 1) {
         const tanggal = tanggalMundur(i);
+        const hariLalu = i - 1;
 
         produk.forEach((item, index) => {
-            const terjual = i === 0 ? item.terjual : Math.max(0, item.terjual - i * 3);
-            const tersisa = i === 0 ? item.tersisa : item.tersisa + i;
+            const terjual = Math.max(0, item.terjual - hariLalu * 3);
+            const tersisa = item.tersisa + hariLalu;
             insertPenjualan.run(idProduk[index], tanggal, terjual, tersisa);
         });
     }
