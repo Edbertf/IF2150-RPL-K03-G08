@@ -1,8 +1,9 @@
 const MetodeDistribusi = require('../models/MetodeDistribusi');
+const ProdukSurplus = require('../models/ProdukSurplus');
 
 class SurplusController {
     static tampilFormDonasi(req, res) {
-        res.render('surplus/I09-DonasiGratis', { user: req.user, idSurplus: req.params.id, error: null });
+        res.render('surplus/I09-AturDistribusi', { user: req.user, idSurplus: req.params.id, error: null });
     }
 
     static simpanDonasi(req, res) {
@@ -12,13 +13,12 @@ class SurplusController {
             res.redirect('/surplus/sukses');
         } catch (error) {
             console.error(error);
-            res.render('surplus/I09-DonasiGratis', { user: req.user, idSurplus: req.params.id, error: "Terjadi kesalahan server." });
+            res.render('surplus/I09-AturDistribusi', { user: req.user, idSurplus: req.params.id, error: "Terjadi kesalahan server." });
         }
     }
 
-    //UC07 (Jual Diskon)
     static tampilFormJual(req, res) {
-        res.render('surplus/I10-JualDiskon', { user: req.user, idSurplus: req.params.id, error: null });
+        res.render('surplus/I09-AturDistribusi', { user: req.user, idSurplus: req.params.id, error: null });
     }
 
     static simpanJual(req, res) {
@@ -27,14 +27,14 @@ class SurplusController {
             const harga = req.body.harga;
 
             if (!harga || harga <= 0) {
-                return res.render('surplus/I10-JualDiskon', { user: req.user, idSurplus, error: "Harga jual diskon harus lebih dari 0." });
+                return res.render('surplus/I09-AturDistribusi', { user: req.user, idSurplus, error: "Harga jual diskon harus lebih dari 0." });
             }
 
             MetodeDistribusi.pilihMetodeDistribusi({ idSurplus, jenisDistribusi: "Jual Diskon", harga: harga });
             res.redirect('/surplus/sukses');
         } catch (error) {
             console.error(error);
-            res.render('surplus/I10-JualDiskon', { user: req.user, idSurplus: req.params.id, error: "Terjadi kesalahan server." });
+            res.render('surplus/I09-AturDistribusi', { user: req.user, idSurplus: req.params.id, error: "Terjadi kesalahan server." });
         }
     }
     static tampilSukses(req, res) {
