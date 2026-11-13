@@ -164,3 +164,8 @@
 | *11-11-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian UC12* | *4 jam* | *Ongoing* | *Banyak Hal yang baru dipelajari terutama untuk logging* |
 | *13-11-2026* | *Dylan Frederico Ketaren* | *Menyelesaikan bagian UC12, membantu mengerjakan UC06,UC07,UC08,UC10* | *12 jam* | *done* | *Banyak Hal yang baru dipelajari terutama untuk logging* |
 | *13-11-2026* | *Abdur Rauuf Fawaaz* | *Merealisasikan UC10 dan UC11* | *10 jam* | *done* | *-* |
+| *09-11-2026* | *Edbert Fernando* | *Realisasi UC04* | *5 jam* | *done* | *-* |
+| *10-11-2026* | *Edbert Fernando* | *Realisasi UC05* | *4 jam* | *done* | *-* |
+| *10-11-2026* | *Edbert Fernando* | *Reviwe PR* | *1.5 jam* | *done* | *-* |
+| *11-11-2026* | *Edbert Fernando* | *Review PR* | *1.5 jam* | *done* | *-* |
+| *13-11-2026* | *Edbert Fernando* | *Review PR* | *1.5 jam* | *done* | *-* |
