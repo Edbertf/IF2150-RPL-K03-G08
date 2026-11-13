@@ -46,16 +46,29 @@ router.get('/surplus/:idSurplus', async (req, res) => {
 
 router.get('/klaim', (req, res) => {
     const idNgo = req.user.idNgo ?? req.user.idAkun;
-    const daftarKlaim = DokumenKlaim.getDaftarKlaim(idNgo).map((klaim) => ({
-        ...klaim,
-        kodeKlaim: `FL-${String(klaim.idKlaim).padStart(5, '0')}`,
-        waktuKlaimTampil: new Intl.DateTimeFormat('id-ID', {
-            dateStyle: 'long',
-            timeStyle: 'short',
-            timeZone: 'Asia/Jakarta'
-        }).format(new Date(klaim.waktuKlaim)),
-        statusTampil: klaim.statusKlaim === 'selesai' ? 'Selesai diambil' : 'Menunggu pengambilan'
-    }));
+
+    const daftarKlaim = DokumenKlaim.getDaftarKlaim(idNgo).map((klaim) => {
+        const pengambilanSelesai = klaim.statusSurplus === 'selesai';
+
+        return {
+            ...klaim,
+            kodeKlaim: `FL-${String(klaim.idKlaim).padStart(5, '0')}`,
+
+            waktuKlaimTampil: new Intl.DateTimeFormat('id-ID', {
+                dateStyle: 'long',
+                timeStyle: 'short',
+                timeZone: 'Asia/Jakarta'
+            }).format(new Date(klaim.waktuKlaim)),
+
+            statusTampil: pengambilanSelesai
+                ? 'Selesai diambil'
+                : 'Menunggu pengambilan',
+
+            urlDetail: pengambilanSelesai
+                ? `/ngo/klaim/${klaim.idKlaim}/pengambilan-selesai`
+                : `/ngo/klaim/${klaim.idKlaim}/berhasil`
+        };
+    });
 
     return res.render('ngo/N7-KlaimSaya', {
         pengguna: req.user,
@@ -190,6 +203,7 @@ router.get('/klaim/:idKlaim/pengambilan-selesai', (req, res) => {
         }
 
         return res.render('ngo/N7-PengambilanSelesai', {
+            pengguna,
             pengambilan
         });
     } catch (error) {

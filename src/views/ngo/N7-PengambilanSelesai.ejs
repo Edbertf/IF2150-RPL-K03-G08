@@ -6,81 +6,40 @@
 
     <title>Pengambilan Selesai - FoodLink</title>
 
-    <link rel="stylesheet" href="/css/ngo-uc10.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/ngo.css">
 </head>
-
 <body>
-    <div class="app-container">
+    <%- include('partials-sidebar', { aktif: 'klaim', pengguna }) %>
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="brand">
-                <img src="/assets/logo.png" alt="FoodLink">
-                <span><strong>Food</strong>Link</span>
-            </div>
+    <main class="main">
+        <section class="klaim-sukses">
+            <div class="sukses-ikon" aria-hidden="true">✓</div>
 
-            <nav class="sidebar-menu">
-                <a href="/ngo" class="menu-item">
-                    <span>⌂</span> Beranda
-                </a>
+            <span class="badge netral">Selesai diambil</span>
 
-                <a href="/ngo/klaim" class="menu-item">
-                    <span>⬡</span> Klaim Saya
-                </a>
+            <h1>Pengambilan Selesai!</h1>
 
-                <a href="/ngo/profil" class="menu-item">
-                    <span>♙</span> Profil
-                </a>
-            </nav>
+            <p>
+                Terima kasih telah membantu mengurangi pemborosan makanan.
+                Pengambilan produk surplus berhasil dikonfirmasi.
+            </p>
 
-            <div class="profile-card">
-                <div class="profile-avatar">Y</div>
-
+            <div class="ringkasan-klaim">
                 <div>
-                    <strong>
-                        <%= pengambilan.dataNgo.namaOrganisasi %>
-                    </strong>
-                    <small>Perwakilan NGO</small>
+                    <span>Status pengambilan</span>
+                    <strong>Selesai</strong>
                 </div>
             </div>
-        </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-
-            <section class="success-content">
-
-                <div class="success-icon">
-                    ♥
-                </div>
-
-                <h1>Pengambilan Selesai!</h1>
-
-                <span class="success-badge">
-                    Selesai
-                </span>
-
-                <p class="success-description">
-                    Terima kasih telah membantu mengurangi
-                    pemborosan makanan. Pengambilan produk surplus
-                    berhasil dikonfirmasi.
-                </p>
-
-                <div class="success-actions">
-
-                    <a
-                        href="/ngo"
-                        class="btn-primary">
-
-                        Kembali ke Daftar
-
-                    </a>
-
-                </div>
-
-            </section>
-
-        </main>
-    </div>
+            <a class="btn-klaim" href="/ngo/klaim">
+                Kembali ke Klaim Saya
+            </a>
+        </section>
+    </main>
 </body>
 </html>

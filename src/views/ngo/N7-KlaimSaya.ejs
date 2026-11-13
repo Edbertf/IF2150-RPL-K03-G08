@@ -32,19 +32,43 @@
         <% } else { %>
             <div class="daftar-klaim">
                 <% daftarKlaim.forEach(function (klaim) { %>
-                    <article class="kartu-klaim">
+                    <a
+                        href="<%= klaim.urlDetail %>"
+                        class="kartu-klaim"
+                        aria-label="Lihat klaim <%= klaim.kodeKlaim %>">
+
                         <div class="kartu-klaim-atas">
-                            <span class="badge <%= klaim.statusKlaim === 'selesai' ? 'netral' : 'donasi' %>"><%= klaim.statusTampil %></span>
-                            <span class="kode-klaim"><%= klaim.kodeKlaim %></span>
+                            <span class="badge <%= klaim.statusSurplus === 'selesai' ? 'netral' : 'donasi' %>">
+                                <%= klaim.statusTampil %>
+                            </span>
+
+                            <span class="kode-klaim">
+                                <%= klaim.kodeKlaim %>
+                            </span>
                         </div>
+
                         <h2><%= klaim.namaProduk %></h2>
-                        <p class="meta"><%= klaim.kategori %> &middot; <%= klaim.jumlah %> <%= klaim.kategori === 'Minuman' ? 'gelas' : 'porsi' %></p>
+
+                        <p class="meta">
+                            <%= klaim.kategori %> &middot;
+                            <%= klaim.jumlah %>
+                            <%= klaim.kategori === 'Minuman' ? 'gelas' : 'porsi' %>
+                        </p>
+
                         <p class="penjual"><%= klaim.namaUsaha %></p>
+
                         <div class="detail-riwayat-klaim">
-                            <div><span>Waktu klaim</span><b><%= klaim.waktuKlaimTampil %></b></div>
-                            <div><span>Ambil sebelum</span><b><%= klaim.batasWaktuPengambilan %></b></div>
+                            <div>
+                                <span>Waktu klaim</span>
+                                <b><%= klaim.waktuKlaimTampil %></b>
+                            </div>
+
+                            <div>
+                                <span>Ambil sebelum</span>
+                                <b><%= klaim.batasWaktuPengambilan %></b>
+                            </div>
                         </div>
-                    </article>
+                    </a>
                 <% }); %>
             </div>
         <% } %>
