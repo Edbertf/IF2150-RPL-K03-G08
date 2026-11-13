@@ -1,82 +1,119 @@
-const TITIK_DIKENAL = [
-  { kata: 'juanda', lat: -6.8975, lng: 107.6135 },
-  { kata: 'dipatiukur', lat: -6.893, lng: 107.618 },
-  { kata: 'cihampelas', lat: -6.8955, lng: 107.6045 },
-  { kata: 'braga', lat: -6.9175, lng: 107.6098 },
-  { kata: 'setiabudi', lat: -6.8725, lng: 107.5935 },
-  { kata: 'dago', lat: -6.8915, lng: 107.6107 },
-  { kata: 'riau', lat: -6.9045, lng: 107.6185 },
-  { kata: 'sukajadi', lat: -6.8875, lng: 107.5935 },
-  { kata: 'pasteur', lat: -6.8935, lng: 107.5875 },
-  { kata: 'buahbatu', lat: -6.9405, lng: 107.6305 },
-];
+const CACHE_KOORDINAT = new Map();
+const BATAS_WAKTU_GEOCODING = 4000;
 
-const PUSAT_BANDUNG = { lat: -6.9, lng: 107.61 };
-
-function hashString(text) {
-  let hash = 2166136261;
-
-  for (let i = 0; i < text.length; i += 1) {
-    hash ^= text.charCodeAt(i);
-    hash = Math.imul(hash, 16777619);
-  }
-
-  return hash >>> 0;
+function teksLokasi(nilai) {
+    return String(nilai ?? '').trim();
 }
 
-const toRadians = (degree) => (degree * Math.PI) / 180;
+function parseKoordinat(nilai) {
+    const cocok = /^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/.exec(nilai);
 
-const geolocationAdapter = {
-  geocode(alamat) {
-    const text = String(alamat || '').toLowerCase();
+    if (!cocok) return null;
 
-    const match = TITIK_DIKENAL.find((titik) =>
-      text.includes(titik.kata)
-    );
+    const lat = Number(cocok[1]);
+    const lng = Number(cocok[2]);
 
-    if (match) {
-      return {
-        latitude: match.lat,
-        longitude: match.lng,
-      };
-    }
-
-    const hash = hashString(text || 'foodlink');
-    const offsetLat = ((hash % 200) - 100) / 10000;
-    const offsetLng = (((hash >>> 8) % 200) - 100) / 10000;
-
-    return {
-      latitude: Number((PUSAT_BANDUNG.lat + offsetLat).toFixed(6)),
-      longitude: Number((PUSAT_BANDUNG.lng + offsetLng).toFixed(6)),
-    };
-  },
-
-  hitungJarak(lat1, lng1, lat2, lng2) {
     if (
-      [lat1, lng1, lat2, lng2].some(
-        (value) =>
-          value === null ||
-          value === undefined ||
-          Number.isNaN(Number(value))
-      )
+        !Number.isFinite(lat) ||
+        !Number.isFinite(lng) ||
+        lat < -90 ||
+        lat > 90 ||
+        lng < -180 ||
+        lng > 180
     ) {
-      return null;
+        return null;
     }
+
+    return { lat, lng };
+}
+
+function keRadian(derajat) {
+    return (derajat * Math.PI) / 180;
+}
+
+// C33 ambilKoordinat(alamat): menerima "lat,lng" atau alamat teks.
+async function ambilKoordinat(alamat) {
+    const lokasi = teksLokasi(alamat);
+
+    if (!lokasi) {
+        throw new Error('Lokasi harus diisi.');
+    }
+
+    const koordinatLangsung = parseKoordinat(lokasi);
+    if (koordinatLangsung) return koordinatLangsung;
+
+    const kunci = lokasi.toLowerCase();
+    if (CACHE_KOORDINAT.has(kunci)) return CACHE_KOORDINAT.get(kunci);
+
+    const url = new URL('https://nominatim.openstreetmap.org/search');
+    url.searchParams.set('format', 'jsonv2');
+    url.searchParams.set('limit', '1');
+    url.searchParams.set('countrycodes', 'id');
+    url.searchParams.set('q', lokasi);
+
+    const pengendali = new AbortController();
+    const penjaga = setTimeout(() => pengendali.abort(), BATAS_WAKTU_GEOCODING);
+
+    try {
+        const respons = await fetch(url, {
+            headers: {
+                'User-Agent': 'FoodLink/1.0 (proyek IF2150)',
+                'Accept-Language': 'id'
+            },
+            signal: pengendali.signal
+        });
+
+        if (!respons.ok) {
+            throw new Error(`Lokasi tidak ditemukan: ${lokasi}`);
+        }
+
+        const hasil = await respons.json();
+        const pertama = Array.isArray(hasil) ? hasil[0] : null;
+
+        if (!pertama) {
+            throw new Error(`Lokasi tidak ditemukan: ${lokasi}`);
+        }
+
+        const koordinat = {
+            lat: Number(pertama.lat),
+            lng: Number(pertama.lon)
+        };
+
+        if (!Number.isFinite(koordinat.lat) || !Number.isFinite(koordinat.lng)) {
+            throw new Error(`Lokasi tidak ditemukan: ${lokasi}`);
+        }
+
+        CACHE_KOORDINAT.set(kunci, koordinat);
+        return koordinat;
+    } catch (galat) {
+        if (galat.name === 'AbortError') {
+            throw new Error(`Lokasi tidak ditemukan: ${lokasi}`);
+        }
+
+        throw galat;
+    } finally {
+        clearTimeout(penjaga);
+    }
+}
+
+// C33 hitungJarak(lokasiPengguna, lokasiPemilik): jarak km (2 desimal).
+async function hitungJarak(lokasiPengguna, lokasiPemilik) {
+    const pengguna = await ambilKoordinat(lokasiPengguna);
+    const pemilik = await ambilKoordinat(lokasiPemilik);
 
     const R = 6371;
-    const dLat = toRadians(Number(lat2) - Number(lat1));
-    const dLng = toRadians(Number(lng2) - Number(lng1));
+    const dLat = keRadian(pemilik.lat - pengguna.lat);
+    const dLng = keRadian(pemilik.lng - pengguna.lng);
 
     const a =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(toRadians(Number(lat1))) *
-        Math.cos(toRadians(Number(lat2))) *
-        Math.sin(dLng / 2) ** 2;
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(keRadian(pengguna.lat)) *
+            Math.cos(keRadian(pemilik.lat)) *
+            Math.sin(dLng / 2) ** 2;
 
-    const distance = 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
+    const jarak = 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
 
-    return Math.round(distance * 10) / 10;
-  },
-};
+    return Math.round(jarak * 100) / 100;
+}
 
-module.exports = geolocationAdapter;
+module.exports = { ambilKoordinat, hitungJarak };

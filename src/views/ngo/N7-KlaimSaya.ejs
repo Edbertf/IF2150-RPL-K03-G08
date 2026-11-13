@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Klaim Saya - FoodLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/ngo.css">
+</head>
+<body>
+    <%- include('partials-sidebar', { aktif: 'klaim', pengguna }) %>
+
+    <main class="main">
+        <div class="top">
+            <div>
+                <h1>Klaim Saya</h1>
+                <div class="sub">Riwayat produk surplus yang Anda klaim.</div>
+            </div>
+            <span class="pill"><%= daftarKlaim.length %> klaim</span>
+        </div>
+
+        <% if (daftarKlaim.length === 0) { %>
+            <section class="kosong kosong-klaim">
+                <div class="ikon-klaim-kosong" aria-hidden="true">⌕</div>
+                <h2>Belum ada klaim</h2>
+                <p>Produk yang berhasil Anda klaim akan muncul di sini.</p>
+                <a class="btn-klaim" href="/ngo/surplus">Cari produk surplus</a>
+            </section>
+        <% } else { %>
+            <div class="daftar-klaim">
+                <% daftarKlaim.forEach(function (klaim) { %>
+                    <article class="kartu-klaim">
+                        <div class="kartu-klaim-atas">
+                            <span class="badge <%= klaim.statusKlaim === 'selesai' ? 'netral' : 'donasi' %>"><%= klaim.statusTampil %></span>
+                            <span class="kode-klaim"><%= klaim.kodeKlaim %></span>
+                        </div>
+                        <h2><%= klaim.namaProduk %></h2>
+                        <p class="meta"><%= klaim.kategori %> &middot; <%= klaim.jumlah %> <%= klaim.kategori === 'Minuman' ? 'gelas' : 'porsi' %></p>
+                        <p class="penjual"><%= klaim.namaUsaha %></p>
+                        <div class="detail-riwayat-klaim">
+                            <div><span>Waktu klaim</span><b><%= klaim.waktuKlaimTampil %></b></div>
+                            <div><span>Ambil sebelum</span><b><%= klaim.batasWaktuPengambilan %></b></div>
+                        </div>
+                    </article>
+                <% }); %>
+            </div>
+        <% } %>
+    </main>
+</body>
+</html>

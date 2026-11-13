@@ -41,3 +41,24 @@ exports.getDetailKlaim = (idKlaim) => {
 
     return detailKlaim;
 };
+
+// Mengambil riwayat klaim untuk satu NGO, terbaru lebih dulu.
+exports.getDaftarKlaim = (idNgo) => db.prepare(`
+    SELECT
+        dk.id_klaim AS idKlaim,
+        dk.id_ngo AS idNgo,
+        dk.id_surplus AS idSurplus,
+        dk.waktu_klaim AS waktuKlaim,
+        dk.status_klaim AS statusKlaim,
+        ps.jumlah AS jumlah,
+        ps.batas_waktu_pengambilan AS batasWaktuPengambilan,
+        p.nama_produk AS namaProduk,
+        p.kategori AS kategori,
+        pf.nama_usaha AS namaUsaha
+    FROM dokumen_klaim dk
+    JOIN produk_surplus ps ON ps.id_surplus = dk.id_surplus
+    JOIN produk p ON p.id_produk = ps.id_produk
+    JOIN pemilik_fnb pf ON pf.id_pemilik = ps.id_pemilik
+    WHERE dk.id_ngo = ?
+    ORDER BY dk.waktu_klaim DESC, dk.id_klaim DESC
+`).all(idNgo);

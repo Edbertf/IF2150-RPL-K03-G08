@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detail Produk - FoodLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/ngo.css">
+</head>
+<body>
+    <%- include('partials-sidebar', { aktif: 'surplus', pengguna }) %>
+
+    <main class="main">
+        <div class="top detail-top">
+            <a class="kembali" href="/ngo/surplus" aria-label="Kembali ke daftar surplus">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M19 12H5"></path>
+                    <path d="m12 19-7-7 7-7"></path>
+                </svg>
+            </a>
+            <div>
+                <h1>Detail Produk</h1>
+                <div class="sub">Informasi lengkap produk surplus sebelum diambil.</div>
+            </div>
+        </div>
+
+        <% if (tidakDitemukan || !detail) { %>
+            <div class="kosong">
+                <p><%= pesan || 'Produk surplus tidak ditemukan.' %></p>
+                <p class="kosong-aksi"><a class="btn-kecil" href="/ngo/surplus">Kembali ke daftar surplus</a></p>
+            </div>
+        <% } else { %>
+            <div class="detail-grid">
+                <div class="hero-produk" aria-hidden="true">
+                    <% if (detail.kategori === 'Minuman') { %>
+                        <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 8h14l-1.5 10.5a2 2 0 0 1-2 1.5h-7a2 2 0 0 1-2-1.5Z"></path>
+                            <path d="M7 8V5a1.5 1.5 0 0 1 1.5-1.5h7A1.5 1.5 0 0 1 17 5v3"></path>
+                            <path d="M8 12h8"></path>
+                        </svg>
+                    <% } else { %>
+                        <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 11h16a8 8 0 0 1-16 0Z"></path>
+                            <path d="M9 7c0-1.5 2-1.5 2-3"></path>
+                            <path d="M14 7c0-1.5 2-1.5 2-3"></path>
+                        </svg>
+                    <% } %>
+                </div>
+
+                <section class="panel-detail">
+                    <div class="baris-badge">
+                        <span class="badge <%= detail.badgeKelas %>"><%= detail.badgeTeks %></span>
+                        <span class="badge netral"><%= detail.kategori %></span>
+                    <% if (detail.status !== 'tersedia') { %>
+                        <span class="badge bahaya">Sudah terklaim</span>
+                        <% } %>
+                    </div>
+
+                    <h2><%= detail.namaProduk %></h2>
+
+                    <div class="penjual-detail">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M3 9.5 12 3l9 6.5"></path>
+                            <path d="M5 10v10h14V10"></path>
+                        </svg>
+                        <%= detail.namaUsaha %>
+                    </div>
+
+                    <div class="info-baris">
+                        <div class="info-ikon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 11h16a8 8 0 0 1-16 0Z"></path>
+                            </svg>
+                        </div>
+                        <div class="info-teks">
+                            <small>Jumlah tersedia</small>
+                            <b><%= detail.jumlahTampil %></b>
+                        </div>
+                    </div>
+
+                    <div class="info-baris">
+                        <div class="info-ikon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path d="M12 7v5l3 2"></path>
+                            </svg>
+                        </div>
+                        <div class="info-teks">
+                            <small>Batas waktu pengambilan</small>
+                            <b><%= detail.batasWaktuTampil %></b>
+                            <% if (detail.sisaWaktuTampil) { %>
+                                <span class="sisa">Sisa <%= detail.sisaWaktuTampil %></span>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <div class="info-baris">
+                        <div class="info-ikon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div class="info-teks">
+                            <small>Lokasi pengambilan</small>
+                            <b><%= detail.lokasiPengambilan || 'Alamat belum tersedia' %></b>
+                            <span class="sisa">
+                                <% if (detail.jarakProduk === null) { %>
+                                    Jarak belum tersedia
+                                <% } else { %>
+                                    <%= detail.jarakTampil %> dari lokasi Anda
+                                <% } %>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="peta" role="img" aria-label="Peta lokasi pengambilan <%= detail.lokasiPengambilan %>">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span>Peta lokasi pengambilan</span>
+                    </div>
+
+                    <% if (detail.status === 'tersedia') { %>
+                        <button class="btn-klaim" type="button" id="openClaimModal">Ajukan Klaim</button>
+                    <% } else { %>
+                        <div class="pesan-tidak-tersedia" role="status">Produk ini sudah tidak tersedia untuk diklaim.</div>
+                    <% } %>
+                </section>
+            </div>
+        <% } %>
+    </main>
+    <% if (detail && detail.status === 'tersedia') { %>
+        <%- include('partials/N5-KonfirmasiKlaim', { surplus }) %>
+        <script>
+            const claimModal = document.getElementById('claimModal');
+            document.getElementById('openClaimModal').addEventListener('click', () => {
+                claimModal.hidden = false;
+            });
+            document.getElementById('cancelClaim').addEventListener('click', () => {
+                claimModal.hidden = true;
+            });
+            claimModal.addEventListener('click', (event) => {
+                if (event.target === claimModal) claimModal.hidden = true;
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') claimModal.hidden = true;
+            });
+        </script>
+    <% } %>
+</body>
+</html>

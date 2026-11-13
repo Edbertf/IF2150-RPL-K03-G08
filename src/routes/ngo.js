@@ -1,222 +1,107 @@
-const express = require('express');
-const router = express.Router();
-
+const router = require('express').Router();
 const { butuhPeran } = require('../middleware/peran');
-
-router.use(butuhPeran('perwakilan_ngo'));
-
 const SurplusController = require('../controllers/SurplusController');
 const KlaimController = require('../controllers/KlaimController');
 const DokumenKlaim = require('../models/DokumenKlaim');
 
+// Seluruh fitur NGO hanya untuk Perwakilan NGO yang sudah masuk.
+router.use(butuhPeran('perwakilan_ngo'));
 
-// ==========================================
-// HELPER
-// ==========================================
+// UC08: daftar dan detail produk surplus.
+router.get('/surplus', SurplusController.tampilkanDaftarSurplus);
+router.get('/surplus/:idSurplus', async (req, res) => {
+    const pengguna = req.user || {};
 
-// Mengubah batas waktu dari database menjadi format tampilan.
-function formatBatasWaktu(nilaiTanggal) {
-    if (!nilaiTanggal) {
-        return '-';
-    }
-
-    const tanggal = new Date(
-        String(nilaiTanggal).replace(' ', 'T')
-    );
-
-    if (Number.isNaN(tanggal.getTime())) {
-        return String(nilaiTanggal);
-    }
-
-    const jam = new Intl.DateTimeFormat('id-ID', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hourCycle: 'h23'
-    }).format(tanggal);
-
-    const hariIni = new Date();
-    const tanggalHariIni = new Date(
-        hariIni.getFullYear(),
-        hariIni.getMonth(),
-        hariIni.getDate()
-    );
-
-    const tanggalTarget = new Date(
-        tanggal.getFullYear(),
-        tanggal.getMonth(),
-        tanggal.getDate()
-    );
-
-    const selisihHari = Math.round(
-        (tanggalTarget - tanggalHariIni) / (1000 * 60 * 60 * 24)
-    );
-
-    let labelTanggal;
-
-    if (selisihHari === 0) {
-        labelTanggal = 'Hari ini';
-    } else if (selisihHari === 1) {
-        labelTanggal = 'Besok';
-    } else {
-        labelTanggal = new Intl.DateTimeFormat('id-ID', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric'
-        }).format(tanggal);
-    }
-
-    return `${labelTanggal}, ${jam}`;
-}
-
-// Mengubah hasil SurplusController menjadi objek yang digunakan EJS.
-function buatDataSurplus(detail, namaOrganisasi) {
-    const batasWaktu = formatBatasWaktu(
-        detail.detailSurplus.batasWaktuPengambilan
-    );
-
-    const jarak = Number(detail.jarak)
-        .toFixed(1)
-        .replace('.', ',');
-
-    return {
-        idSurplus: detail.detailSurplus.idSurplus,
-
-        kategori: detail.detailProduk.kategori,
-        jenisDistribusi: detail.infoDistribusi.jenisDistribusi,
-
-        namaProduk: detail.detailProduk.namaProduk,
-        namaUsaha: detail.namaUsaha,
-
-        jumlah: detail.detailSurplus.jumlah,
-        satuan: 'porsi',
-
-        alamatUsaha: detail.lokasiPemilik,
-        jarak: `${jarak} km`,
-
-        batasWaktuTampil: batasWaktu,
-        batasWaktuSingkat: batasWaktu,
-
-        namaOrganisasi
-    };
-}
-
-// ==========================================
-// N4 - DETAIL PRODUK
-// ==========================================
-
-router.get('/surplus/:idSurplus', (req, res) => {
     try {
-        const detail = SurplusController.ambilDetailSurplus(
+        const detail = await SurplusController.ambilDetailSurplus(
             req.params.idSurplus,
-            req.user.lokasi
+            pengguna.lokasi
         );
 
-        // N4 hanya dapat dibuka jika surplus masih tersedia.
-        if (detail.detailSurplus.status !== 'tersedia') {
-            return res.status(409).send(
-                'Produk surplus sudah tidak tersedia.'
-            );
-        }
-
-        const surplus = buatDataSurplus(detail, req.user.nama);
-
-        return res.render('ngo/N4-DetailProduk', {
-            surplus
+        return res.render('ngo/I15-DetailProduk', {
+            pengguna,
+            detail,
+            surplus: {
+                idSurplus: detail.idSurplus,
+                namaProduk: detail.namaProduk,
+                namaUsaha: detail.namaUsaha,
+                jumlah: detail.jumlah,
+                satuan: detail.kategori === 'Minuman' ? 'gelas' : 'porsi',
+                batasWaktuSingkat: detail.batasWaktuTampil
+            },
+            tidakDitemukan: false,
+            pesan: null
         });
-
     } catch (error) {
-        console.error('Gagal menampilkan detail surplus:', error);
-
-        return res.status(404).send(error.message);
+        return res.status(404).render('ngo/I15-DetailProduk', {
+            pengguna,
+            detail: null,
+            surplus: null,
+            tidakDitemukan: true,
+            pesan: error.message
+        });
     }
 });
 
-// ==========================================
-// N5 - PROSES KONFIRMASI KLAIM
-// ==========================================
+router.get('/klaim', (req, res) => {
+    const idNgo = req.user.idNgo ?? req.user.idAkun;
+    const daftarKlaim = DokumenKlaim.getDaftarKlaim(idNgo).map((klaim) => ({
+        ...klaim,
+        kodeKlaim: `FL-${String(klaim.idKlaim).padStart(5, '0')}`,
+        waktuKlaimTampil: new Intl.DateTimeFormat('id-ID', {
+            dateStyle: 'long',
+            timeStyle: 'short',
+            timeZone: 'Asia/Jakarta'
+        }).format(new Date(klaim.waktuKlaim)),
+        statusTampil: klaim.statusKlaim === 'selesai' ? 'Selesai diambil' : 'Menunggu pengambilan'
+    }));
+
+    return res.render('ngo/N7-KlaimSaya', {
+        pengguna: req.user,
+        daftarKlaim
+    });
+});
 
 router.post('/surplus/:idSurplus/klaim', (req, res) => {
     try {
         const idNgo = req.user.idNgo ?? req.user.idAkun;
-
-        const idKlaim = KlaimController.setujuiKlaim(
-            req.params.idSurplus,
-            idNgo
-        );
-
-        // Jika berhasil, arahkan NGO ke halaman N6.
-        return res.redirect(
-            `/ngo/klaim/${idKlaim}/berhasil`
-        );
-
+        const idKlaim = KlaimController.setujuiKlaim(req.params.idSurplus, idNgo);
+        return res.redirect(`/ngo/klaim/${idKlaim}/berhasil`);
     } catch (error) {
-        console.error('Gagal memproses klaim:', error);
-
-        // Produk mungkin sudah diklaim oleh NGO lain.
         return res.status(409).send(error.message);
     }
 });
 
-// ==========================================
-// N6 - KLAIM BERHASIL
-// ==========================================
+router.get('/klaim/:idKlaim/berhasil', async (req, res) => {
+    const pengguna = req.user || {};
+    const idKlaim = Number(req.params.idKlaim);
 
-router.get('/klaim/:idKlaim/berhasil', (req, res) => {
+    if (!Number.isSafeInteger(idKlaim) || idKlaim <= 0) {
+        return res.status(400).send('ID klaim tidak valid.');
+    }
+
     try {
-        const idKlaim = Number(req.params.idKlaim);
-
-        if (!Number.isSafeInteger(idKlaim) || idKlaim <= 0) {
-            return res.status(400).send('ID klaim tidak valid.');
+        const klaim = DokumenKlaim.getDetailKlaim(idKlaim);
+        const idNgo = pengguna.idNgo ?? pengguna.idAkun;
+        if (Number(klaim.idNgo) !== Number(idNgo)) {
+            return res.status(403).send('Anda tidak memiliki akses ke dokumen klaim ini.');
         }
 
-        // Mengambil dokumen klaim dari database.
-        const detailKlaim = DokumenKlaim.getDetailKlaim(idKlaim);
-
-        if (!detailKlaim) {
-            return res.status(404).send('Dokumen klaim tidak ditemukan.');
-        }
-
-        // Memastikan klaim tersebut milik NGO dummy yang sedang digunakan.
-        const idNgo = req.user.idNgo ?? req.user.idAkun;
-
-        if (Number(detailKlaim.idNgo) !== Number(idNgo)) {
-            return res.status(403).send(
-                'Anda tidak memiliki akses ke dokumen klaim ini.'
-            );
-        }
-
-        // Mengambil kembali detail surplus untuk kebutuhan N6.
-        const detail = SurplusController.ambilDetailSurplus(
-            detailKlaim.idSurplus,
-            req.user.lokasi
+        const surplus = await SurplusController.ambilDetailSurplus(
+            klaim.idSurplus,
+            pengguna.lokasi
         );
 
-        const surplus = {
-            namaOrganisasi: req.user.nama,
-            namaProduk: detail.detailProduk.namaProduk,
-            jumlah: detail.detailSurplus.jumlah,
-            satuan: 'porsi',
-            batasWaktuSingkat: formatBatasWaktu(
-                detail.detailSurplus.batasWaktuPengambilan
-            )
-        };
-
-        const hasilKlaim = {
-            idKlaim: detailKlaim.idKlaim,
-
-            // Kode tampilan sementara, belum disimpan sebagai kolom database.
-            kodeKlaim: `FL-${String(idKlaim).padStart(5, '0')}`
-        };
-
         return res.render('ngo/N6-KlaimBerhasil', {
-            surplus,
-            hasilKlaim
+            pengguna,
+            detail: surplus,
+            hasilKlaim: {
+                idKlaim: klaim.idKlaim,
+                kodeKlaim: `FL-${String(klaim.idKlaim).padStart(5, '0')}`
+            }
         });
-
     } catch (error) {
-        console.error('Gagal menampilkan halaman klaim:', error);
-
-        return res.status(500).send(error.message);
+        return res.status(404).send(error.message);
     }
 });
 
