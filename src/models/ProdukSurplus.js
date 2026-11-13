@@ -36,3 +36,20 @@ exports.getStatus = (idSurplus) => {
 
     return baris ? baris.status : null;
 };
+
+// UC10 memperbarui status dalam transaksi bersama pencatatan dokumen klaim.
+exports.setStatus = (idSurplus, status) => {
+    if (!['tersedia', 'terklaim', 'selesai'].includes(status)) {
+        throw new Error('Status produk surplus tidak valid.');
+    }
+
+    const hasil = db.prepare(`
+        UPDATE produk_surplus
+        SET status = ?
+        WHERE id_surplus = ?
+    `).run(status, idSurplus);
+
+    if (hasil.changes === 0) {
+        throw new Error('Produk surplus tidak ditemukan.');
+    }
+};

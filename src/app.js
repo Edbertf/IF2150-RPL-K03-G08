@@ -24,6 +24,7 @@ app.use('/admin', require('./routes/admin'));
 app.use('/fnb', require('./routes/fnb'));
 app.use('/ngo', require('./routes/ngo'));
 app.use('/daftar', require('./routes/auth'));
+app.use('/status', require('./routes/status'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -252,10 +252,6 @@ exports.kirimFormulirRegistrasi = (req, res) => {
     }
 };
 
-exports.tampilkanHalamanBerhasil = (req, res) => {
-    res.render('auth/I04-StatusPendaftaran');
-};
-
 // ---------- Autentikasi ----------
 
 function bangunIdentitas(akun) {
@@ -277,6 +273,7 @@ function bangunIdentitas(akun) {
     const profil = PerwakilanNGO.cariBerdasarkanAkun(akun.idAkun);
     return {
         idAkun: akun.idAkun,
+        idNgo: akun.idAkun,
         role: 'perwakilan_ngo',
         email: akun.email,
         nama: profil ? profil.namaOrganisasi : akun.email,
@@ -285,9 +282,37 @@ function bangunIdentitas(akun) {
 }
 
 function tujuanSetelahMasuk(pengguna) {
-    if (pengguna.role === 'admin_sistem') return '/admin/verifikasi';
-    if (pengguna.role === 'pemilik_fnb') return '/fnb/penjualan';
-    return '/';
+    // Admin langsung menuju halaman verifikasi.
+    if (pengguna.role === 'admin_sistem') {
+        return '/admin/verifikasi';
+    }
+
+    // Periksa status verifikasi pendaftaran pengguna.
+    const pendaftaran = Pendaftaran.cariBerdasarkanAkun(
+        pengguna.idAkun
+    );
+
+    const sudahDiverifikasi =
+        pendaftaran &&
+        pendaftaran.statusVerifikasi === 'diterima';
+
+    // Pengguna yang belum diverifikasi menuju halaman status.
+    if (!sudahDiverifikasi) {
+        return '/status';
+    }
+
+    // Pemilik FnB yang sudah diverifikasi.
+    if (pengguna.role === 'pemilik_fnb') {
+        return '/fnb/penjualan';
+    }
+
+    // NGO yang sudah diverifikasi.
+    if (pengguna.role === 'perwakilan_ngo') {
+        // TODO: Arahkan ke /ngo/surplus setelah UC08 tersedia.
+        return '/';
+    }
+
+    return '/status';
 }
 
 exports.tampilkanHalamanMasuk = (req, res) => {
@@ -325,5 +350,50 @@ exports.keluar = (req, res) => {
     req.session.destroy(() => {
         res.clearCookie('foodlink.sid');
         res.redirect('/');
+    });
+};
+
+// ---------- Status pendaftaran (UC03) ----------
+
+exports.cekStatusPendaftaran = (idAkun) => {
+    const pendaftaran = Pendaftaran.cariBerdasarkanAkun(idAkun);
+
+    if (!pendaftaran) {
+        return { ditemukan: false, pesan: 'Pendaftaran belum tersedia.' };
+    }
+
+    return {
+        ditemukan: true,
+        status: pendaftaran.statusVerifikasi,
+        tanggalDaftar: pendaftaran.tanggalDaftar
+    };
+};
+
+exports.tampilkanStatusPendaftaran = (req, res) => {
+    const hasil = exports.cekStatusPendaftaran(req.user.idAkun);
+
+    if (!hasil.ditemukan) {
+        return res.status(404).render('auth/I04-StatusPendaftaran', {
+            status: 'tidak ditemukan',
+            judul: 'Status Tidak Ditemukan'
+        });
+    }
+
+    const judul = {
+        'menunggu verifikasi': 'Menunggu Verifikasi',
+        diterima: 'Pendaftaran Diterima',
+        ditolak: 'Pendaftaran Ditolak'
+    }[hasil.status] || 'Status Pendaftaran';
+
+    return res.render('auth/I04-StatusPendaftaran', {
+        status: hasil.status,
+        judul
+    });
+};
+
+exports.tampilkanHalamanBerhasil = (req, res) => {
+    res.render('auth/I04-StatusPendaftaran', {
+        status: 'menunggu verifikasi',
+        judul: 'Pendaftaran Dikirim'
     });
 };

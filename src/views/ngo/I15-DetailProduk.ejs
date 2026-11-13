@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/ngo.css">
 </head>
 <body>
-    <%- include('partials-sidebar', { aktif: 'surplus' }) %>
+    <%- include('partials-sidebar', { aktif: 'surplus', pengguna }) %>
 
     <main class="main">
         <div class="top detail-top">
@@ -54,8 +54,8 @@
                     <div class="baris-badge">
                         <span class="badge <%= detail.badgeKelas %>"><%= detail.badgeTeks %></span>
                         <span class="badge netral"><%= detail.kategori %></span>
-                        <% if (detail.status !== 'tersedia') { %>
-                            <span class="badge bahaya">Sudah terklaim</span>
+                    <% if (detail.status !== 'tersedia') { %>
+                        <span class="badge bahaya">Sudah terklaim</span>
                         <% } %>
                     </div>
 
@@ -125,10 +125,32 @@
                         <span>Peta lokasi pengambilan</span>
                     </div>
 
-                    <%# Aksi "Ajukan Klaim" (I-16) ditambahkan oleh UC10 di bagian ini. %>
+                    <% if (detail.status === 'tersedia') { %>
+                        <button class="btn-klaim" type="button" id="openClaimModal">Ajukan Klaim</button>
+                    <% } else { %>
+                        <div class="pesan-tidak-tersedia" role="status">Produk ini sudah tidak tersedia untuk diklaim.</div>
+                    <% } %>
                 </section>
             </div>
         <% } %>
     </main>
+    <% if (detail && detail.status === 'tersedia') { %>
+        <%- include('partials/N5-KonfirmasiKlaim', { surplus }) %>
+        <script>
+            const claimModal = document.getElementById('claimModal');
+            document.getElementById('openClaimModal').addEventListener('click', () => {
+                claimModal.hidden = false;
+            });
+            document.getElementById('cancelClaim').addEventListener('click', () => {
+                claimModal.hidden = true;
+            });
+            claimModal.addEventListener('click', (event) => {
+                if (event.target === claimModal) claimModal.hidden = true;
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') claimModal.hidden = true;
+            });
+        </script>
+    <% } %>
 </body>
 </html>

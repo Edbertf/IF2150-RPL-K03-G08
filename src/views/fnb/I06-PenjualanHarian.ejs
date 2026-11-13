@@ -172,6 +172,24 @@
             font-weight: 600;
         }
 
+        .logout {
+            width: 100%;
+            margin-top: 12px;
+            padding: 10px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background-color: #ffffff;
+            color: var(--muted);
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .logout:hover {
+            border-color: #c0392b;
+            color: #c0392b;
+        }
+
         /* ---------- Main ---------- */
         .main-content {
             flex: 1;
@@ -535,13 +553,18 @@
             </a>
         </nav>
 
+        <% const siapa = (typeof pengguna !== 'undefined' && pengguna) ? pengguna : null; %>
         <div class="user-profile">
-            <div class="user-avatar" aria-hidden="true">B</div>
+            <div class="user-avatar" aria-hidden="true"><%= siapa && siapa.nama ? siapa.nama.charAt(0).toUpperCase() : 'B' %></div>
             <div class="user-info">
-                <div class="name">Bakery Sinar Pagi</div>
+                <div class="name"><%= siapa && siapa.nama ? siapa.nama : 'Bakery Sinar Pagi' %></div>
                 <div class="role">Pemilik F&amp;B</div>
             </div>
         </div>
+
+        <form action="/keluar" method="POST">
+            <button class="logout" type="submit">Keluar</button>
+        </form>
     </aside>
 
     <main class="main-content">
