@@ -223,6 +223,10 @@
                     <a class="btn" href="/fnb/penjualan">Buka Halaman Penjualan</a>
                 <% } %>
 
+                <% if (sudahMasuk.role === 'perwakilan_ngo') { %>
+                    <a class="btn" href="/ngo/surplus">Cari Produk Surplus</a>
+                <% } %>
+
                 <% if (sudahMasuk.role === 'admin_sistem') { %>
                     <a class="btn o" href="/admin/verifikasi">Buka Verifikasi Pendaftar</a>
                 <% } %>

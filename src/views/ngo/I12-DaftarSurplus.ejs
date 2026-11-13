@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cari Produk Surplus - FoodLink</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/ngo.css">
+</head>
+<body>
+    <%- include('partials-sidebar', { aktif: 'surplus' }) %>
+
+    <main class="main">
+        <div class="lokasi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <% if (lokasiTersedia) { %>
+                Lokasi Anda: <b><%= lokasi %></b>
+            <% } else { %>
+                Lokasi Anda: <b>belum tersedia</b>
+            <% } %>
+        </div>
+
+        <div class="top">
+            <div>
+                <h1 class="judul-surplus">Cari Produk Surplus</h1>
+                <div class="sub">Temukan makanan dan minuman berlebih di sekitar lokasi Anda.</div>
+            </div>
+            <span class="pill"><%= totalTersedia %> tersedia</span>
+        </div>
+
+        <% if (!lokasiTersedia) { %>
+            <div class="info-lokasi" role="status">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 8v5"></path>
+                    <path d="M12 16h.01"></path>
+                </svg>
+                <span>Lokasi Anda belum tersedia, jadi jarak produk belum bisa dihitung. Daftar produk surplus tetap ditampilkan.</span>
+            </div>
+        <% } %>
+
+        <% if (galat) { %>
+            <div class="galat" role="alert"><%= galat %></div>
+        <% } %>
+
+        <form class="cari" action="/ngo/surplus" method="GET" role="search">
+            <% if (jenisAktif) { %><input type="hidden" name="jenis" value="<%= jenisAktif %>"><% } %>
+            <% if (jarakAktif) { %><input type="hidden" name="jarak" value="<%= jarakAktif %>"><% } %>
+            <div class="cari-kotak">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="m20 20-3.5-3.5"></path>
+                </svg>
+                <input type="search" name="q" value="<%= kataKunci %>" placeholder="Cari roti, nasi, minuman..." aria-label="Cari produk surplus">
+            </div>
+            <button class="btn-cari" type="submit">Cari</button>
+        </form>
+
+        <div class="chips" aria-label="Filter cepat">
+            <a class="chip <%= !jenisAktif && !jarakAktif ? 'on' : '' %>" href="<%= tautan.semua %>">Semua</a>
+            <a class="chip <%= jenisAktif === 'Makanan' ? 'on' : '' %>" href="<%= tautan.makanan %>">Makanan</a>
+            <a class="chip <%= jenisAktif === 'Minuman' ? 'on' : '' %>" href="<%= tautan.minuman %>">Minuman</a>
+            <a class="chip <%= jarakAktif ? 'on' : '' %>" href="<%= tautan.dekat %>" aria-label="Hanya produk dalam radius 2 kilometer">&lt; 2 km</a>
+        </div>
+
+        <% if (daftar.length === 0) { %>
+            <div class="kosong">
+                <% if (totalTersedia === 0) { %>
+                    Belum ada produk surplus yang tersedia saat ini.
+                <% } else { %>
+                    Tidak ada produk surplus yang sesuai dengan pencarian atau filter Anda.
+                    <a class="sub" href="/ngo/surplus">Tampilkan semua produk</a>
+                <% } %>
+            </div>
+        <% } else { %>
+            <div class="grid-surplus">
+                <% daftar.forEach(function (item) { %>
+                    <a class="kartu-surplus" href="/ngo/surplus/<%= item.idSurplus %>">
+                        <div class="ikon-produk" aria-hidden="true">
+                            <% if (item.kategori === 'Minuman') { %>
+                                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 8h14l-1.5 10.5a2 2 0 0 1-2 1.5h-7a2 2 0 0 1-2-1.5Z"></path>
+                                    <path d="M7 8V5a1.5 1.5 0 0 1 1.5-1.5h7A1.5 1.5 0 0 1 17 5v3"></path>
+                                    <path d="M8 12h8"></path>
+                                </svg>
+                            <% } else { %>
+                                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 11h16a8 8 0 0 1-16 0Z"></path>
+                                    <path d="M9 7c0-1.5 2-1.5 2-3"></path>
+                                    <path d="M14 7c0-1.5 2-1.5 2-3"></path>
+                                </svg>
+                            <% } %>
+                        </div>
+
+                        <div class="isi-kartu">
+                            <div class="baris-atas">
+                                <span class="badge <%= item.badgeKelas %>"><%= item.badgeTeks %></span>
+                                <span class="jarak">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                    <%= item.jarakTampil %>
+                                </span>
+                            </div>
+
+                            <div class="nama-produk"><%= item.namaProduk %></div>
+                            <div class="meta"><%= item.jumlahTampil %> &middot; <%= item.namaUsaha %></div>
+                            <div class="penjual"><%= item.lokasiPengambilan %></div>
+
+                            <div class="deadline">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <path d="M12 7v5l3 2"></path>
+                                </svg>
+                                Batas ambil: <%= item.batasWaktuTampil %>
+                            </div>
+                        </div>
+                    </a>
+                <% }); %>
+            </div>
+        <% } %>
+    </main>
+</body>
+</html>

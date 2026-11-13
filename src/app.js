@@ -22,6 +22,7 @@ app.get('/', (req, res) => {
 
 app.use('/admin', require('./routes/admin'));
 app.use('/fnb', require('./routes/fnb'));
+app.use('/ngo', require('./routes/ngo'));
 app.use('/daftar', require('./routes/auth'));
 
 const PORT = process.env.PORT || 3000;

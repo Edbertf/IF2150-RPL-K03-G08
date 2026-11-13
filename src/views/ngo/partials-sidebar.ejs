@@ -1,0 +1,23 @@
+<aside class="sidebar">
+    <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="38" height="38">
+        <span><span class="food">Food</span><span class="link">Link</span></span>
+    </a>
+
+    <nav class="nav" aria-label="Navigasi NGO">
+        <a class="<%= aktif === 'surplus' ? 'on' : '' %>" href="/ngo/surplus">Cari Produk Surplus</a>
+        <a class="nonaktif" href="#" title="Belum tersedia">Klaim Saya</a>
+    </nav>
+
+    <div class="who">
+        <div class="av" aria-hidden="true"><%= (pengguna && pengguna.nama ? pengguna.nama : 'N').charAt(0).toUpperCase() %></div>
+        <div>
+            <b><%= pengguna ? pengguna.nama : 'Perwakilan NGO' %></b>
+            <small>Perwakilan NGO</small>
+        </div>
+    </div>
+
+    <form action="/keluar" method="POST">
+        <button class="keluar" type="submit">Keluar</button>
+    </form>
+</aside>
