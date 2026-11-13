@@ -219,8 +219,13 @@
                 <h2>Halo, <%= sudahMasuk.nama %></h2>
                 <span>Anda sudah masuk sebagai <%= labelPeran %>.</span>
 
+                <% if (sudahMasuk.role === 'pemilik_fnb') { %>
+                    <%# TODO UC05 (PR #14): arahkan ke /fnb/dashboard setelah tersedia. %>
+                    <a class="btn" href="/fnb/penjualan">Buka Halaman Penjualan</a>
+                <% } %>
+
                 <% if (sudahMasuk.role === 'pemilik_fnb' || sudahMasuk.role === 'perwakilan_ngo') { %>
-                    <a class="btn" href="/status">Lihat Status Pendaftaran</a>
+                    <a class="btn ol" href="/status">Lihat Status Pendaftaran</a>
                 <% } %>
 
                 <% if (sudahMasuk.role === 'admin_sistem') { %>
