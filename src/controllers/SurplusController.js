@@ -217,6 +217,9 @@ function saringJenis(daftar, jenisProduk) {
     return daftar.filter((item) => item.kategori === jenisProduk);
 }
 
+const PILIHAN_JARAK = [1, 2, 5, 10];
+const PILIHAN_WAKTU = ['hari-ini', 'besok'];
+
 function saringJarak(daftar, jarakMaks) {
     if (!jarakMaks) return daftar;
 
@@ -225,17 +228,36 @@ function saringJarak(daftar, jarakMaks) {
     );
 }
 
+function tanggalJakarta(nilai) {
+    const waktu = parseWaktu(nilai);
+    return Number.isFinite(waktu) ? bagianTanggal(waktu) : null;
+}
+
+function saringWaktu(daftar, waktu) {
+    if (!waktu) return daftar;
+
+    const selisihHari = waktu === 'besok' ? 1 : 0;
+    const tanggalTarget = bagianTanggal(
+        Date.now() + selisihHari * 24 * 60 * 60 * 1000
+    );
+
+    return daftar.filter(
+        (item) => tanggalJakarta(item.batasWaktuPengambilan) === tanggalTarget
+    );
+}
+
 function ambilQuery(req, nama) {
     const nilai = req.query ? req.query[nama] : undefined;
     return Array.isArray(nilai) ? teks(nilai[0]) : teks(nilai);
 }
 
-function tautanDaftar({ q, jenis, jarak } = {}) {
+function tautanDaftar({ q, jenis, jarak, waktu } = {}) {
     const parameter = new URLSearchParams();
 
     if (q) parameter.set('q', q);
     if (jenis) parameter.set('jenis', jenis);
     if (jarak) parameter.set('jarak', String(jarak));
+    if (waktu) parameter.set('waktu', waktu);
 
     const query = parameter.toString();
     return query ? `/ngo/surplus?${query}` : '/ngo/surplus';
@@ -248,7 +270,12 @@ exports.tampilkanDaftarSurplus = async (req, res) => {
     const kataKunci = ambilQuery(req, 'q');
     const jenisDiminta = ambilQuery(req, 'jenis');
     const jenisAktif = ['Makanan', 'Minuman'].includes(jenisDiminta) ? jenisDiminta : '';
-    const jarakAktif = ambilQuery(req, 'jarak') === '2' ? 2 : null;
+
+    const jarakDiminta = Number(ambilQuery(req, 'jarak'));
+    const jarakAktif = PILIHAN_JARAK.includes(jarakDiminta) ? jarakDiminta : null;
+
+    const waktuDiminta = ambilQuery(req, 'waktu');
+    const waktuAktif = PILIHAN_WAKTU.includes(waktuDiminta) ? waktuDiminta : '';
 
     let daftar = [];
     let galat = null;
@@ -261,9 +288,12 @@ exports.tampilkanDaftarSurplus = async (req, res) => {
 
     const totalTersedia = daftar.length;
 
-    daftar = saringJarak(
-        saringJenis(saringKataKunci(daftar, kataKunci), jenisAktif),
-        jarakAktif
+    daftar = saringWaktu(
+        saringJarak(
+            saringJenis(saringKataKunci(daftar, kataKunci), jenisAktif),
+            jarakAktif
+        ),
+        waktuAktif
     );
 
     return res.render('ngo/I12-DaftarSurplus', {
@@ -276,15 +306,30 @@ exports.tampilkanDaftarSurplus = async (req, res) => {
         kataKunci,
         jenisAktif,
         jarakAktif,
+        waktuAktif,
+        pilihanJarak: PILIHAN_JARAK,
+        adaFilter: Boolean(kataKunci || jenisAktif || jarakAktif || waktuAktif),
         galat,
         tautan: {
-            semua: tautanDaftar({ q: kataKunci }),
-            makanan: tautanDaftar({ q: kataKunci, jenis: 'Makanan', jarak: jarakAktif }),
-            minuman: tautanDaftar({ q: kataKunci, jenis: 'Minuman', jarak: jarakAktif }),
+            semua: tautanDaftar({ q: kataKunci, waktu: waktuAktif }),
+            hapus: '/ngo/surplus',
+            makanan: tautanDaftar({
+                q: kataKunci,
+                jenis: 'Makanan',
+                jarak: jarakAktif,
+                waktu: waktuAktif
+            }),
+            minuman: tautanDaftar({
+                q: kataKunci,
+                jenis: 'Minuman',
+                jarak: jarakAktif,
+                waktu: waktuAktif
+            }),
             dekat: tautanDaftar({
                 q: kataKunci,
                 jenis: jenisAktif,
-                jarak: jarakAktif ? null : 2
+                jarak: jarakAktif ? null : 2,
+                waktu: waktuAktif
             })
         }
     });

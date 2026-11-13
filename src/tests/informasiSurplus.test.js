@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const ejs = require('ejs');
 
 const folderUji = fs.mkdtempSync(path.join(os.tmpdir(), 'foodlink-surplus-'));
 process.env.DB_PATH = path.join(folderUji, 'uji.db');
@@ -17,6 +18,19 @@ const { butuhPeran } = require('../middleware/peran');
 
 const BATAS_DEPAN = '2099-01-01 12:00';
 const BATAS_LEWAT = '2020-01-01 12:00';
+
+function batasHari(offsetHari) {
+    const bagian = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Jakarta',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    })
+        .formatToParts(Date.now() + offsetHari * 24 * 60 * 60 * 1000)
+        .reduce((hasil, item) => ({ ...hasil, [item.type]: item.value }), {});
+
+    return `${bagian.year}-${bagian.month}-${bagian.day} 23:59:59`;
+}
 
 let urut = 0;
 
@@ -228,6 +242,159 @@ test('guard hanya mengizinkan peran perwakilan_ngo', () => {
     });
 
     assert.equal(lanjutNgo, true);
+});
+
+test('UC09: filter jarak mendukung pilihan 1, 2, 5, dan 10 km', async () => {
+    const titik = [
+        { nama: 'Uji Jarak 0,5', alamat: '-6.8955,107.61', maksimal: 1 },
+        { nama: 'Uji Jarak 1,5', alamat: '-6.9135,107.61', maksimal: 2 },
+        { nama: 'Uji Jarak 4', alamat: '-6.936,107.61', maksimal: 5 },
+        { nama: 'Uji Jarak 9', alamat: '-6.981,107.61', maksimal: 10 }
+    ];
+
+    for (const baris of titik) {
+        buatSurplus({
+            idPemilik: buatPemilik(baris.alamat),
+            nama: baris.nama
+        });
+    }
+
+    const harapan = { 1: 1, 2: 2, 5: 3, 10: 4 };
+
+    for (const [jarak, jumlah] of Object.entries(harapan)) {
+        const { hasil, res } = resPalsu();
+
+        await SurplusController.tampilkanDaftarSurplus(
+            {
+                user: { lokasi: '-6.9,107.61' },
+                query: { q: 'Uji Jarak', jarak }
+            },
+            res
+        );
+
+        assert.equal(hasil.data.daftar.length, jumlah);
+        assert.equal(hasil.data.jarakAktif, Number(jarak));
+        assert.equal(hasil.data.totalDitampilkan, hasil.data.daftar.length);
+        assert.ok(
+            hasil.data.daftar.every(
+                (item) => item.jarakProduk !== null && item.jarakProduk <= Number(jarak)
+            )
+        );
+    }
+});
+
+test('UC09: filter waktu membedakan Hari ini, Besok, dan Semua', async () => {
+    const idPemilik = buatPemilik('-6.9001,107.6101');
+
+    buatSurplus({ idPemilik, nama: 'Uji Waktu Hari Ini', batasWaktu: batasHari(0) });
+    buatSurplus({ idPemilik, nama: 'Uji Waktu Besok', batasWaktu: batasHari(1) });
+
+    const cari = async (waktu) => {
+        const { hasil, res } = resPalsu();
+
+        await SurplusController.tampilkanDaftarSurplus(
+            { user: { lokasi: '-6.9,107.61' }, query: { q: 'Uji Waktu', waktu } },
+            res
+        );
+
+        return hasil.data;
+    };
+
+    assert.deepEqual(
+        (await cari('hari-ini')).daftar.map((item) => item.namaProduk),
+        ['Uji Waktu Hari Ini']
+    );
+    assert.deepEqual(
+        (await cari('besok')).daftar.map((item) => item.namaProduk),
+        ['Uji Waktu Besok']
+    );
+    assert.equal((await cari('')).daftar.length, 2);
+});
+
+test('UC09: kombinasi filter bersifat AND dan hasil tetap urut jarak terdekat', async () => {
+    const dekat = buatPemilik('-6.9001,107.6101');
+    const jauh = buatPemilik('-7.08,107.61');
+
+    buatSurplus({
+        idPemilik: dekat,
+        nama: 'Uji And Roti Dekat',
+        batasWaktu: batasHari(0)
+    });
+    buatSurplus({
+        idPemilik: dekat,
+        nama: 'Uji And Kopi Dekat',
+        kategori: 'Minuman',
+        batasWaktu: batasHari(0)
+    });
+    buatSurplus({
+        idPemilik: jauh,
+        nama: 'Uji And Roti Jauh',
+        batasWaktu: batasHari(1)
+    });
+
+    const { hasil, res } = resPalsu();
+
+    await SurplusController.tampilkanDaftarSurplus(
+        {
+            user: { lokasi: '-6.9,107.61' },
+            query: {
+                q: 'Uji And',
+                jenis: 'Makanan',
+                jarak: '2',
+                waktu: 'hari-ini'
+            }
+        },
+        res
+    );
+
+    assert.deepEqual(
+        hasil.data.daftar.map((item) => item.namaProduk),
+        ['Uji And Roti Dekat']
+    );
+    assert.equal(hasil.data.totalDitampilkan, 1);
+    assert.equal(hasil.data.adaFilter, true);
+    assert.equal(hasil.data.tautan.hapus, '/ngo/surplus');
+});
+
+test('UC09: nilai filter tidak valid diabaikan dan tanpa filter adaFilter false', async () => {
+    const { hasil, res } = resPalsu();
+
+    await SurplusController.tampilkanDaftarSurplus(
+        {
+            user: { lokasi: '-6.9,107.61' },
+            query: { jenis: 'Lainnya', jarak: '3', waktu: 'kemarin' }
+        },
+        res
+    );
+
+    assert.equal(hasil.data.jenisAktif, '');
+    assert.equal(hasil.data.jarakAktif, null);
+    assert.equal(hasil.data.waktuAktif, '');
+    assert.equal(hasil.data.adaFilter, false);
+    assert.equal(hasil.data.tautan.hapus, '/ngo/surplus');
+});
+
+test('UC09: filter tanpa hasil menampilkan pesan yang diminta', async () => {
+    const { hasil, res } = resPalsu();
+
+    await SurplusController.tampilkanDaftarSurplus(
+        { user: { lokasi: '-6.9,107.61' }, query: { q: 'zzz-tidak-ada' } },
+        res
+    );
+
+    assert.equal(hasil.data.daftar.length, 0);
+    assert.equal(hasil.data.totalDitampilkan, 0);
+
+    const html = await ejs.renderFile(
+        path.join(__dirname, '..', 'views', 'ngo', 'I12-DaftarSurplus.ejs'),
+        hasil.data
+    );
+
+    assert.match(html, /Tidak ada produk surplus yang sesuai filter\./);
+    assert.match(html, /Hapus filter/);
+    assert.match(html, /id="filterPanel"/);
+    assert.match(html, /id="resetFilter"/);
+    assert.match(html, /id="closeFilter"/);
 });
 
 test('detail surplus memuat metode distribusi, harga, dan jarak', async () => {
