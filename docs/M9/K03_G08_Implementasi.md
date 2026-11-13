@@ -243,7 +243,8 @@ Tabel B.4. Kontribusi Anggota
 
 | NIM | Nama | Modul / Fitur yang Dikerjakan | Persentase Kontribusi |
 | :--- | :--- | :--- | :--- |
-| *[NIM 1]* | *[Nama]* | *[Modul/fitur]* | *[%]* |
+| *13525117* | *Abdur Rauuf Fawaaz* | *Use Case 10* | *90%* |
+| *13525117* | *Abdur Rauuf Fawaaz* | *Use Case 11* | *100%* |
 | *...* | *...* | *...* | *...* |
 
 ## B.5 Traceability Kelas Perancangan ke Implementasi
@@ -254,9 +255,17 @@ Tabel B.5. Traceability Kelas Perancangan ke Implementasi
 
 | ID Kelas | Nama Kelas Perancangan | Bentuk Implementasi | Lokasi (File dan Nama) | Keterangan |
 | :--- | :--- | :--- | :--- | :--- |
-| *[C01]* | *[Nama kelas pada DPPL]* | *[mis. Kelas / Fungsi / Komponen / Route / Tabel]* | *[mis. `src/models/user.py` - `User`]* | *[Cara atribut dan operasi kelas diwujudkan; "-" jika tidak ada penjelasan tambahan]* |
-| *[C02]* | *[Nama kelas pada DPPL]* | *[Bentuk implementasi]* | *[mis. `src/components/LoginForm.tsx` - `LoginForm`]* | *[mis. atribut menjadi *state*, operasi menjadi *handler*]* |
-| *[C03]* | *[Nama kelas pada DPPL]* | *[Bentuk implementasi]* | *[mis. `src/routes/auth.js` - `POST /login`]* | *[Keterangan]* |
+| *[C01]* | *AkunPengguna* | *Modul model dan middleware autentikasi* | *`src/models/AkunPengguna.js`; `src/middleware/pengguna.js`; `src/middleware/peran.js`* | *Menyediakan identitas pengguna yang sedang login melalui `req.user` dan membatasi akses fitur NGO. Digunakan sebagai pendukung validasi akses pada UC11.* |
+| *[C05]* | *Produk* | *Modul model* | *`src/models/Produk.js`* | *Mengambil informasi produk yang terkait dengan produk surplus, seperti nama produk dan kategori. Digunakan pada UC10.* |
+| *[C08]* | *ProdukSurplus* | *Modul model* | *`src/models/ProdukSurplus.js`* | *Mengambil detail produk surplus dan memperbarui statusnya, termasuk dari `tersedia` menjadi `terklaim` pada UC10 dan `selesai` pada UC11.* |
+| *[C09]* | *MetodeDistribusiSurplus* | *Modul model* | *`src/models/MetodeDistribusiSurplus.js`* | *Mengambil informasi metode distribusi dan harga produk surplus untuk ditampilkan pada detail produk. Digunakan pada UC10.* |
+| *[C10]* | *DokumenKlaim* | *Modul model* | *`src/models/DokumenKlaim.js`* | *Mencatat klaim baru serta mengambil detail dan daftar klaim berdasarkan NGO. Digunakan pada UC10 dan UC11.* |
+| *[C20]* | *KlaimPage* | *Halaman EJS dan route Express* | *`src/views/ngo/I15-DetailProduk.ejs`; `src/views/ngo/N6-KlaimBerhasil.ejs`; `src/views/ngo/N7-KlaimSaya.ejs`; `src/routes/ngo.js`* | *Menampilkan detail produk, meneruskan pengajuan klaim, menampilkan hasil klaim beserta kode klaim, dan menampilkan daftar klaim NGO. Halaman daftar klaim merupakan tampilan pendukung yang ditambahkan pada implementasi. Digunakan pada UC10.* |
+| *[C21]* | *PengambilanPage* | *Halaman EJS, JavaScript sisi klien, dan route Express* | *`src/views/ngo/N6-KlaimBerhasil.ejs`; `src/views/ngo/N7-PengambilanSelesai.ejs`; `src/routes/ngo.js`* | *Menampilkan modal konfirmasi pengambilan, mengirim pilihan konfirmasi ke server, dan menampilkan hasil ketika pengambilan berhasil. Digunakan pada UC11.* |
+| *[C27]* | *SurplusController* | *Modul controller* | *`src/controllers/SurplusController.js`; `src/routes/ngo.js`* | *Mengambil daftar dan detail produk surplus, termasuk menggabungkan informasi produk, metode distribusi, dan pemilik usaha untuk ditampilkan pada halaman NGO. Digunakan pada UC10.* |
+| *[C28]* | *KlaimController* | *Modul controller* | *`src/controllers/KlaimController.js`; `src/routes/ngo.js`* | *Menangani pemeriksaan ketersediaan produk, proses persetujuan/penolakan klaim, pengambilan detail pengambilan, serta konfirmasi pengambilan. Digunakan pada UC10 dan UC11.* |
+| *[C30]* | *PemilikFnB* | *Modul model* | *`src/models/PemilikFnB.js`* | *Mengambil informasi usaha dan lokasi pemilik F&B yang terkait dengan produk surplus untuk ditampilkan pada detail produk dan detail pengambilan. Digunakan pada UC10 dan UC11.* |
+| *[C31]* | *PerwakilanNGO* | *Modul model dan data pengguna pada sesi* | *`src/models/PerwakilanNGO.js`; `src/middleware/pengguna.js`; `src/routes/ngo.js`* | *Menyediakan informasi NGO dan identitas NGO yang sedang login untuk proses klaim serta pemeriksaan kepemilikan klaim. Digunakan pada UC10 dan UC11.* |
 | *...* | *...* | *...* | *...* | *...* |
 
 Catatan:
