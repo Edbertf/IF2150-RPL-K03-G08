@@ -4,11 +4,39 @@ const db = require('./config/db');
 const KlaimController = require('./controllers/KlaimController');
 const ProdukSurplus = require('./models/ProdukSurplus');
 
-const ID_KLAIM = 1;
-const ID_SURPLUS = 1;
 const PENANDA_ROLLBACK = 'ROLLBACK_UJI_UC11';
 
 try {
+    // Cari klaim yang masih dapat digunakan untuk pengujian.
+    const dataUji = db.prepare(`
+        SELECT
+            dk.id_klaim AS idKlaim,
+            dk.id_surplus AS idSurplus
+        FROM dokumen_klaim dk
+        JOIN produk_surplus ps
+            ON ps.id_surplus = dk.id_surplus
+        WHERE dk.status_klaim = 'terklaim'
+          AND ps.status = 'terklaim'
+        ORDER BY dk.id_klaim DESC
+        LIMIT 1
+    `).get();
+
+    if (!dataUji) {
+        throw new Error(
+            'Tidak ditemukan klaim dengan status surplus terklaim. ' +
+            'Siapkan data klaim terlebih dahulu.'
+        );
+    }
+
+    const ID_KLAIM = dataUji.idKlaim;
+    const ID_SURPLUS = dataUji.idSurplus;
+
+    console.log('Menggunakan data pengujian:');
+    console.log({
+        idKlaim: ID_KLAIM,
+        idSurplus: ID_SURPLUS
+    });
+
     // Memastikan kondisi awal sesuai.
     const statusAwal = ProdukSurplus.getStatus(ID_SURPLUS);
 
@@ -18,7 +46,7 @@ try {
         'Status awal surplus seharusnya terklaim.'
     );
 
-    console.log('Status awal:', statusAwal);
+    console.log('\nStatus awal:', statusAwal);
 
     // Transaksi luar untuk mengembalikan kondisi database.
     const jalankanPengujian = db.transaction(() => {
@@ -56,8 +84,8 @@ try {
         );
         console.log('Skenario 2 berhasil.');
 
-        // Sengaja menggagalkan transaksi luar agar seluruh
-        // perubahan pengujian dikembalikan.
+        // Sengaja menggagalkan transaksi luar agar
+        // seluruh perubahan pengujian dikembalikan.
         throw new Error(PENANDA_ROLLBACK);
     });
 
