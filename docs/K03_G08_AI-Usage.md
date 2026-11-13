@@ -73,6 +73,7 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | *DeepSeek V4.1* | *Membantu inisialisi setup awal* | *"Bantu jelasin semua yang perlu aku lakuin untuk setup awal"* | *Mengikuti arahan dan melakukan testing apakah sudah bekerja* |
 | *Chat GPT* | *Membantu refactor* | *"Memandu langkah-langkah untuk melakukan refactor"* | *Ngelakuin langkah-langkah dengan modifikasi lanjutan* |
 | *Chat GPT* | *Membantu testing* | *"Memandu langkah-langkah untuk melakukan testing"* | *Ngelakuin langkah-langkah dengan disertai pengecekan lanjutan* |
+| *Deepseek* | *Implementasi UC* | *"Bantu implementasi UC"* | *TEsting dan cek sesuai dengan DPPL2* |
 
 ---
 ### Pernyataan Integritas dan Persetujuan
