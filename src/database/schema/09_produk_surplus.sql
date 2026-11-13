@@ -1,6 +1,6 @@
 -- C08 ProdukSurplus
--- Menyimpan informasi produk surplus yang tersedia untuk diklaim.
-
+-- Menyimpan produk surplus yang dicatat Pemilik F&B.
+-- Ditulis oleh UC06, dibaca oleh UC08/UC09/UC10.
 CREATE TABLE IF NOT EXISTS produk_surplus (
     id_surplus INTEGER PRIMARY KEY AUTOINCREMENT,
     id_produk INTEGER NOT NULL,

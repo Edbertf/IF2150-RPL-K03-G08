@@ -1,6 +1,6 @@
 -- C09 MetodeDistribusiSurplus
--- Menyimpan metode distribusi surplus untuk setiap produk.
-
+-- Menyimpan metode distribusi (Donasi / Jual Diskon) untuk setiap produk.
+-- Ditulis oleh UC07, dibaca oleh UC08 saat menampilkan badge dan harga.
 CREATE TABLE IF NOT EXISTS metode_distribusi_surplus (
     id_distribusi INTEGER PRIMARY KEY AUTOINCREMENT,
     id_produk INTEGER NOT NULL UNIQUE,

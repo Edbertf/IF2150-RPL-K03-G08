@@ -1,141 +1,319 @@
+// C27 SurplusController
 const ProdukSurplus = require('../models/ProdukSurplus');
 const Produk = require('../models/Produk');
-const MetodeDistribusiSurplus = require('../models/MetodeDistribusiSurplus');
 const PemilikFnB = require('../models/PemilikFnB');
-const geolocationAdapter = require('../models/GeolocationAdapter');
+const MetodeDistribusiSurplus = require('../models/MetodeDistribusiSurplus');
+const GeolocationAdapter = require('../models/GeolocationAdapter');
 
-/**
- * Mengubah alamat atau koordinat lokasi menjadi format koordinat.
- *
- * lokasi dapat berupa:
- * 1. String alamat, misalnya "Jl. Juanda, Bandung".
- * 2. Objek koordinat, misalnya { latitude: -6.89, longitude: 107.61 }.
- */
-function ubahLokasiKeKoordinat(lokasi) {
-  // Jika lokasi berupa alamat.
-  if (typeof lokasi === 'string' && lokasi.trim() !== '') {
-    return geolocationAdapter.geocode(lokasi);
-  }
+const ZONA_WAKTU = 'Asia/Jakarta';
 
-  // Jika lokasi sudah berupa koordinat.
-  if (lokasi && typeof lokasi === 'object') {
-    const latitude = lokasi.latitude ?? lokasi.lat;
-    const longitude = lokasi.longitude ?? lokasi.lng;
+function teks(nilai) {
+    return String(nilai ?? '').trim();
+}
 
-    if (
-      latitude === undefined ||
-      longitude === undefined ||
-      latitude === null ||
-      longitude === null ||
-      latitude === '' ||
-      longitude === ''
-    ) {
-      throw new Error('Koordinat lokasi tidak lengkap.');
+function parseWaktu(nilai) {
+    const isi = teks(nilai);
+    if (!isi) return NaN;
+
+    if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}(:\d{2})?$/.test(isi)) {
+        return new Date(`${isi.replace(' ', 'T')}+07:00`).getTime();
     }
 
-    const lat = Number(latitude);
-    const lng = Number(longitude);
+    return new Date(isi).getTime();
+}
 
-    if (
-      !Number.isFinite(lat) ||
-      !Number.isFinite(lng) ||
-      lat < -90 ||
-      lat > 90 ||
-      lng < -180 ||
-      lng > 180
-    ) {
-      throw new Error('Koordinat lokasi tidak valid.');
+function belumLewat(nilai) {
+    const waktu = parseWaktu(nilai);
+    return Number.isFinite(waktu) && waktu > Date.now();
+}
+
+function bagianTanggal(waktu) {
+    const bagian = new Intl.DateTimeFormat('en-CA', {
+        timeZone: ZONA_WAKTU,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).formatToParts(waktu);
+
+    const ambil = (jenis) => bagian.find((item) => item.type === jenis).value;
+    return `${ambil('year')}-${ambil('month')}-${ambil('day')}`;
+}
+
+function jamJakarta(waktu) {
+    return new Intl.DateTimeFormat('id-ID', {
+        timeZone: ZONA_WAKTU,
+        hour: '2-digit',
+        minute: '2-digit',
+        hourCycle: 'h23'
+    }).format(waktu);
+}
+
+function formatBatasWaktu(nilai) {
+    const waktu = parseWaktu(nilai);
+    if (!Number.isFinite(waktu)) return '-';
+
+    const sekarang = Date.now();
+    const tanggal = bagianTanggal(waktu);
+
+    if (tanggal === bagianTanggal(sekarang)) return `Hari ini, ${jamJakarta(waktu)}`;
+    if (tanggal === bagianTanggal(sekarang + 24 * 60 * 60 * 1000)) {
+        return `Besok, ${jamJakarta(waktu)}`;
+    }
+
+    return new Intl.DateTimeFormat('id-ID', {
+        timeZone: ZONA_WAKTU,
+        day: 'numeric',
+        month: 'short'
+    }).format(waktu) + `, ${jamJakarta(waktu)}`;
+}
+
+function formatSisaWaktu(nilai) {
+    const waktu = parseWaktu(nilai);
+    if (!Number.isFinite(waktu)) return '';
+
+    const selisihMenit = Math.floor((waktu - Date.now()) / 60000);
+    if (selisihMenit <= 0) return 'sudah lewat';
+
+    const hari = Math.floor(selisihMenit / 1440);
+    const jam = Math.floor((selisihMenit % 1440) / 60);
+    const menit = selisihMenit % 60;
+
+    if (hari > 0) return `${hari} hari ${jam} jam`;
+    if (jam > 0 && menit > 0) return `${jam} jam ${menit} menit`;
+    if (jam > 0) return `${jam} jam`;
+    return `${menit} menit`;
+}
+
+function formatJarak(jarak) {
+    if (jarak === null || jarak === undefined || !Number.isFinite(jarak)) {
+        return 'Jarak belum tersedia';
+    }
+
+    return `${jarak.toFixed(1).replace('.', ',')} km`;
+}
+
+function formatRupiah(harga) {
+    return `Rp ${Number(harga).toLocaleString('id-ID')}`;
+}
+
+function satuan(kategori) {
+    if (kategori === 'Minuman') return 'gelas';
+    if (kategori === 'Makanan') return 'porsi';
+    return 'item';
+}
+
+function urutkanBerdasarkanJarak(daftarSurplus) {
+    return [...daftarSurplus].sort((a, b) => {
+        const jarakA = a.jarakProduk;
+        const jarakB = b.jarakProduk;
+
+        if (jarakA === null && jarakB === null) return a.idSurplus - b.idSurplus;
+        if (jarakA === null) return 1;
+        if (jarakB === null) return -1;
+
+        return jarakA - jarakB || a.idSurplus - b.idSurplus;
+    });
+}
+
+async function susunSurplus(surplus, lokasi) {
+    const produk = Produk.getProduk(surplus.idProduk);
+    if (!produk) return null;
+
+    const infoDistribusi = MetodeDistribusiSurplus.getInfoDistribusi(produk.idProduk);
+    const namaUsaha = PemilikFnB.getNamaUsaha(surplus.idPemilik) || 'Pemilik F&B';
+    const lokasiPengambilan = PemilikFnB.getLokasiUsaha(surplus.idPemilik) || '';
+
+    let jarakProduk = null;
+
+    if (teks(lokasi) && teks(lokasiPengambilan)) {
+        try {
+            jarakProduk = await GeolocationAdapter.hitungJarak(lokasi, lokasiPengambilan);
+        } catch {
+            // Alamat yang tidak bisa di-geocode tetap ditampilkan tanpa jarak.
+            jarakProduk = null;
+        }
+    }
+
+    const kategori = produk.kategori || 'Makanan';
+    const jumlah = Number(surplus.jumlah);
+    const jenisDistribusi = infoDistribusi ? infoDistribusi.jenisDistribusi : null;
+    const harga = infoDistribusi ? Number(infoDistribusi.harga) : 0;
+
+    let badgeTeks = 'Metode belum diatur';
+    let badgeKelas = 'netral';
+
+    if (jenisDistribusi === 'Donasi') {
+        badgeTeks = 'Donasi';
+        badgeKelas = 'donasi';
+    } else if (jenisDistribusi === 'Jual Diskon') {
+        badgeTeks = formatRupiah(harga);
+        badgeKelas = 'harga';
     }
 
     return {
-      latitude: lat,
-      longitude: lng,
+        idSurplus: surplus.idSurplus,
+        namaProduk: produk.namaProduk,
+        kategori,
+        jumlah,
+        jumlahTampil: `${jumlah} ${satuan(kategori)}`,
+        namaUsaha,
+        lokasiPengambilan,
+        jarakProduk,
+        jarakTampil: formatJarak(jarakProduk),
+        batasWaktuPengambilan: surplus.batasWaktuPengambilan,
+        batasWaktuTampil: formatBatasWaktu(surplus.batasWaktuPengambilan),
+        sisaWaktuTampil: formatSisaWaktu(surplus.batasWaktuPengambilan),
+        jenisDistribusi,
+        harga,
+        badgeTeks,
+        badgeKelas,
+        status: surplus.status
     };
-  }
-
-  throw new Error('Lokasi NGO tidak valid.');
 }
 
-const SurplusController = {
-  /**
-   * Mengambil detail produk surplus beserta informasi pendukungnya.
-   *
-   * @param {number} idSurplus ID produk surplus.
-   * @param {string|Object} lokasi Lokasi NGO.
-   * @returns {Object} Informasi lengkap produk surplus.
-   */
-  ambilDetailSurplus(idSurplus, lokasi) {
+// C27 ambilDaftarSurplus(lokasi)
+async function ambilDaftarSurplus(lokasi) {
+    const daftar = ProdukSurplus.getProdukSurplusTersedia();
+    const hasil = [];
+
+    for (const surplus of daftar) {
+        if (!belumLewat(surplus.batasWaktuPengambilan)) continue;
+
+        const item = await susunSurplus(surplus, lokasi);
+        if (item) hasil.push(item);
+    }
+
+    return urutkanBerdasarkanJarak(hasil);
+}
+
+// C27 ambilDetailSurplus(idSurplus, lokasi)
+async function ambilDetailSurplus(idSurplus, lokasi) {
     const id = Number(idSurplus);
 
     if (!Number.isInteger(id) || id <= 0) {
-      throw new Error('ID produk surplus tidak valid.');
+        throw new Error('ID produk surplus tidak valid.');
     }
 
-    // 1. Mengambil detail produk surplus.
-    const detailSurplus = ProdukSurplus.getDetailSurplus(id);
+    const surplus = ProdukSurplus.getDetailSurplus(id);
 
-    if (!detailSurplus) {
-      throw new Error('Produk surplus tidak ditemukan.');
+    if (!surplus) {
+        throw new Error('Produk surplus tidak ditemukan.');
     }
 
-    // 2. Mengambil detail produk berdasarkan ID produk.
-    const detailProduk = Produk.getProduk(detailSurplus.idProduk);
+    return susunSurplus(surplus, lokasi);
+}
 
-    if (!detailProduk) {
-      throw new Error('Data produk tidak ditemukan.');
+function saringKataKunci(daftar, kataKunci) {
+    const kunci = teks(kataKunci).toLowerCase();
+    if (!kunci) return daftar;
+
+    return daftar.filter((item) =>
+        teks(item.namaProduk).toLowerCase().includes(kunci)
+    );
+}
+
+function saringJenis(daftar, jenisProduk) {
+    if (!jenisProduk) return daftar;
+    return daftar.filter((item) => item.kategori === jenisProduk);
+}
+
+function saringJarak(daftar, jarakMaks) {
+    if (!jarakMaks) return daftar;
+
+    return daftar.filter(
+        (item) => item.jarakProduk !== null && item.jarakProduk <= jarakMaks
+    );
+}
+
+function ambilQuery(req, nama) {
+    const nilai = req.query ? req.query[nama] : undefined;
+    return Array.isArray(nilai) ? teks(nilai[0]) : teks(nilai);
+}
+
+function tautanDaftar({ q, jenis, jarak } = {}) {
+    const parameter = new URLSearchParams();
+
+    if (q) parameter.set('q', q);
+    if (jenis) parameter.set('jenis', jenis);
+    if (jarak) parameter.set('jarak', String(jarak));
+
+    const query = parameter.toString();
+    return query ? `/ngo/surplus?${query}` : '/ngo/surplus';
+}
+
+// Handler halaman I-12 (daftar surplus).
+exports.tampilkanDaftarSurplus = async (req, res) => {
+    const pengguna = req.user || {};
+    const lokasi = teks(pengguna.lokasi);
+    const kataKunci = ambilQuery(req, 'q');
+    const jenisDiminta = ambilQuery(req, 'jenis');
+    const jenisAktif = ['Makanan', 'Minuman'].includes(jenisDiminta) ? jenisDiminta : '';
+    const jarakAktif = ambilQuery(req, 'jarak') === '2' ? 2 : null;
+
+    let daftar = [];
+    let galat = null;
+
+    try {
+        daftar = await ambilDaftarSurplus(lokasi);
+    } catch (kesalahan) {
+        galat = 'Daftar produk surplus gagal dimuat. Silakan coba lagi.';
     }
 
-    // 3. Mengambil informasi metode distribusi.
-    const infoDistribusi =
-      MetodeDistribusiSurplus.getInfoDistribusi(detailSurplus.idProduk);
+    const totalTersedia = daftar.length;
 
-    if (!infoDistribusi) {
-      throw new Error('Informasi distribusi produk tidak ditemukan.');
-    }
-
-    // 4. Mengambil alamat usaha pemilik surplus.
-    const lokasiPemilik = PemilikFnB.getLokasiUsaha(
-      detailSurplus.idPemilik
+    daftar = saringJarak(
+        saringJenis(saringKataKunci(daftar, kataKunci), jenisAktif),
+        jarakAktif
     );
 
-    const namaUsaha = PemilikFnB.getNamaUsaha(
-        detailSurplus.idPemilik
-    );
-
-    if (!namaUsaha || !namaUsaha.trim()) {
-        throw new Error('Nama usaha pemilik tidak ditemukan.');
-    }
-
-    if (!lokasiPemilik || !lokasiPemilik.trim()) {
-      throw new Error('Lokasi usaha pemilik tidak ditemukan.');
-    }
-
-    // 5. Menghitung jarak lokasi NGO dengan lokasi usaha pemilik.
-    const koordinatNgo = ubahLokasiKeKoordinat(lokasi);
-    const koordinatPemilik =
-      geolocationAdapter.geocode(lokasiPemilik);
-
-    const jarak = geolocationAdapter.hitungJarak(
-      koordinatNgo.latitude,
-      koordinatNgo.longitude,
-      koordinatPemilik.latitude,
-      koordinatPemilik.longitude
-    );
-
-    if (jarak === null) {
-      throw new Error('Jarak antara lokasi NGO dan pemilik gagal dihitung.');
-    }
-
-    // 6. Mengembalikan seluruh informasi.
-    return {
-      detailSurplus,
-      detailProduk,
-      infoDistribusi,
-      lokasiPemilik,
-      namaUsaha,
-      jarak,
-    };
-  },
+    return res.render('ngo/I12-DaftarSurplus', {
+        pengguna,
+        lokasi,
+        lokasiTersedia: Boolean(lokasi),
+        daftar,
+        totalTersedia,
+        totalDitampilkan: daftar.length,
+        kataKunci,
+        jenisAktif,
+        jarakAktif,
+        galat,
+        tautan: {
+            semua: tautanDaftar({ q: kataKunci }),
+            makanan: tautanDaftar({ q: kataKunci, jenis: 'Makanan', jarak: jarakAktif }),
+            minuman: tautanDaftar({ q: kataKunci, jenis: 'Minuman', jarak: jarakAktif }),
+            dekat: tautanDaftar({
+                q: kataKunci,
+                jenis: jenisAktif,
+                jarak: jarakAktif ? null : 2
+            })
+        }
+    });
 };
 
-module.exports = SurplusController;
+// Handler halaman I-15 (detail produk).
+exports.tampilkanDetailSurplus = async (req, res) => {
+    const pengguna = req.user || {};
+    const lokasi = teks(pengguna.lokasi);
+
+    try {
+        const detail = await ambilDetailSurplus(req.params.idSurplus, lokasi);
+
+        return res.render('ngo/I15-DetailProduk', {
+            pengguna,
+            detail,
+            tidakDitemukan: false,
+            pesan: null
+        });
+    } catch (kesalahan) {
+        return res.status(404).render('ngo/I15-DetailProduk', {
+            pengguna,
+            detail: null,
+            tidakDitemukan: true,
+            pesan: kesalahan.message
+        });
+    }
+};
+
+exports.ambilDaftarSurplus = ambilDaftarSurplus;
+exports.ambilDetailSurplus = ambilDetailSurplus;
+exports.urutkanBerdasarkanJarak = urutkanBerdasarkanJarak;

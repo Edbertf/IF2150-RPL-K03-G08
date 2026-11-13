@@ -1,24 +1,14 @@
-<div class="modal-backdrop"
-     id="claimModal"
-     hidden>
+<div class="modal-backdrop" id="claimModal" hidden>
 
     <div class="modal-container">
 
-        <div class="modal-icon">
-            ⬡
-        </div>
+        <div class="modal-icon" aria-hidden="true">?</div>
 
         <h2>Klaim produk ini?</h2>
 
         <p>
-            Anda akan mengklaim
-            <strong>
-                <%= surplus.jumlah %>
-                <%= surplus.satuan || 'porsi' %>
-                <%= surplus.namaProduk %>
-            </strong>
-            dari <strong><%= surplus.namaUsaha %></strong>.
-            Ambil sebelum
+            Anda akan mengklaim <strong><%= surplus.jumlah %> <%= surplus.satuan %> <%= surplus.namaProduk %></strong>
+            dari <strong><%= surplus.namaUsaha %></strong>. Pastikan produk dapat diambil sebelum
             <%= surplus.batasWaktuSingkat %>.
         </p>
 
@@ -31,10 +21,10 @@
 
                 <button
                     type="submit"
-                    class="btn-primary"
+                    class="btn-klaim"
                     id="confirmClaim">
 
-                    Ya, Klaim
+                    Ya, ajukan klaim
 
                 </button>
 
@@ -43,7 +33,7 @@
                     class="btn-outline"
                     id="cancelClaim">
 
-                    Batal
+                    Kembali
 
                 </button>
 

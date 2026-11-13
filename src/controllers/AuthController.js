@@ -314,8 +314,7 @@ function tujuanSetelahMasuk(pengguna) {
 
     // NGO yang sudah diverifikasi.
     if (pengguna.role === 'perwakilan_ngo') {
-        // TODO: Arahkan ke /ngo/surplus setelah UC08 tersedia.
-        return '/';
+        return '/ngo/surplus';
     }
 
     return '/status';
