@@ -163,3 +163,4 @@
 | *07-11-2026* | *Ernest Clarence Gunawan* | *melakukan inisialisi setup awal* | *1 jam* | *Done* | *banyak kebingungan karena baru pertama kali ngesetup* |
 | *11-11-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian UC12* | *4 jam* | *Ongoing* | *Banyak Hal yang baru dipelajari terutama untuk logging* |
 | *13-11-2026* | *Dylan Frederico Ketaren* | *Menyelesaikan bagian UC12, membantu mengerjakan UC06,UC07,UC08,UC10* | *12 jam* | *done* | *Banyak Hal yang baru dipelajari terutama untuk logging* |
+| *13-11-2026* | *Abdur Rauuf Fawaaz* | *Merealisasikan UC10 dan UC11* | *10 jam* | *done* | *-* |
