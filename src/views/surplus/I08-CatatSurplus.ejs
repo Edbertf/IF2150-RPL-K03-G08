@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Catat Produk Surplus - FoodLink</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #79b549; --primary-dark: #639839; --bg: #f7f9f6; --surface: #ffffff; --text: #2f332c; --muted: #767c73; --border: #e5e9e1; --input-bg: #ffffff; --sidebar-width: 250px; --orange-light: #fbeee4; --orange-text: #c06518; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { display: flex; min-height: 100vh; background-color: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; }
+        
+        .sidebar { position: fixed; width: var(--sidebar-width); height: 100vh; background-color: var(--surface); border-right: 1px solid var(--border); padding: 24px 20px; display: flex; flex-direction: column; }
+        .brand { display: flex; align-items: center; gap: 8px; margin-bottom: 40px; text-decoration: none; padding-left: 8px; }
+        .brand img { width: 32px; height: 32px; }
+        .brand-text { font-size: 20px; font-weight: 800; }
+        .brand-text .food { color: #e8842e; } .brand-text .link { color: var(--primary); }
+        .nav-menu { display: flex; flex-direction: column; gap: 8px; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: var(--muted); font-size: 15px; font-weight: 700; text-decoration: none; }
+        .nav-item.active { background-color: #eaf3e1; color: var(--primary-dark); }
+        .nav-item svg { width: 20px; height: 20px; stroke-width: 2.5; }
+        
+        .user-profile { margin-top: auto; display: flex; align-items: center; gap: 12px; padding: 12px; background-color: #f8f9f6; border-radius: 12px; }
+        .user-avatar { width: 36px; height: 36px; background-color: #fdebd0; color: #e8842e; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+        .user-info .name { font-size: 13px; font-weight: 800; color: var(--text); }
+        .user-info .role { font-size: 11px; font-weight: 600; color: var(--muted); }
+
+        /* MAIN CONTENT */
+        .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; }
+        
+        /* HEADER */
+        .page-header { width: 100%; max-width: 600px; display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+        .btn-back { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: var(--surface); border: 1px solid var(--border); border-radius: 50%; color: var(--text); text-decoration: none; font-weight: bold; }
+        .page-header h1 { font-size: 24px; font-weight: 800; }
+
+        /* CARD FORM UTAMA */
+        .card { width: 100%; max-width: 600px; background-color: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 800; color: var(--text); }
+        .form-control { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; background-color: var(--input-bg); font-family: inherit; font-size: 14px; color: var(--text); outline: none; transition: border-color 0.2s; }
+        .form-control:focus { border-color: var(--primary); }
+        
+        .alert-warning { background-color: var(--orange-light); color: var(--orange-text); padding: 12px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 8px; }
+        
+        .btn { display: flex; align-items: center; justify-content: center; width: 100%; height: 48px; border-radius: 8px; font-size: 15px; font-weight: 800; cursor: pointer; text-decoration: none; border: none; font-family: inherit; transition: opacity 0.2s; }
+        .btn-primary { background-color: var(--primary); color: white; margin-bottom: 12px; }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-outline { background-color: white; border: 1px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background-color: #fcfdfa; }
+
+        /* MODAL (POPUP) KELOLA PRODUK */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; z-index: 1000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-card { background: var(--surface); width: 100%; max-width: 500px; border-radius: 16px; padding: 24px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-title { font-size: 18px; font-weight: 800; }
+        .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--muted); }
+        
+        .table-produk { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        .table-produk td { padding: 12px 8px; border-top: 1px solid var(--border); font-size: 14px; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <a class="brand" href="/fnb/dashboard">
+            <img src="/assets/logo.png" alt="">
+            <span class="brand-text"><span class="food">Food</span><span class="link">Link</span></span>
+        </a>
+        <nav class="nav-menu">
+            <a class="nav-item" href="/fnb/dashboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg> 
+                Dashboard
+            </a>
+            
+            <a class="nav-item" href="/fnb/penjualan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                    <polyline points="13 2 13 9 20 9"></polyline>
+                </svg> 
+                Penjualan
+            </a>
+            
+            <a class="nav-item active" href="/surplus/catat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg> 
+                Surplus
+            </a>
+            
+            <a class="nav-item" href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg> 
+                Profil
+            </a>
+        </nav>
+        <div class="user-profile">
+            <div class="user-avatar"><%= user.nama.charAt(0).toUpperCase() %></div>
+            <div class="user-info">
+                <div class="name"><%= user.nama %></div>
+                <div class="role">Pemilik F&B</div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header">
+            <a href="/fnb/dashboard" class="btn-back">←</a>
+            <h1>Catat Produk Surplus</h1>
+        </div>
+
+        <section class="card">
+            <form action="/surplus/catat" method="POST">
+                
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <label class="form-label" style="margin: 0;">Produk</label>
+                        <button type="button" onclick="bukaModal()" style="background: none; border: none; color: var(--primary); font-size: 13px; font-weight: 800; cursor: pointer;">+ Kelola Produk</button>
+                    </div>
+                    <select name="idProduk" class="form-control" required>
+                        <option value="">-- Pilih Produk --</option>
+                        <% produkList.forEach(function(p) { %>
+                            <option value="<%= p.id_produk %>"><%= p.nama_produk %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Jumlah Surplus</label>
+                    <input type="number" name="jumlah" class="form-control" min="1" placeholder="Contoh: 12 porsi" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Batas Waktu Pengambilan</label>
+                    <input type="datetime-local" name="batasWaktu" class="form-control" required>
+                </div>
+
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <div class="alert-warning">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <button type="submit" class="btn btn-primary">Lanjut: Atur Distribusi</button>
+                <button type="reset" class="btn btn-outline">Reset</button>
+
+            </form>
+        </section>
+    </main>
+
+    <div id="modalKelola" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 class="modal-title"><%= produkEdit ? 'Edit Produk' : 'Kelola Master Produk' %></h2>
+                <button type="button" class="close-btn" onclick="tutupModal()">×</button>
+            </div>
+
+            <form action="<%= produkEdit ? '/surplus/produk/' + produkEdit.id_produk + '/edit' : '/surplus/produk/tambah' %>" method="POST" style="background: var(--bg); padding: 16px; border-radius: 12px; margin-bottom: 20px;">
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <input type="text" name="namaProduk" class="form-control" placeholder="Nama Produk (Cth: Roti Tawar)" value="<%= produkEdit ? produkEdit.nama_produk : '' %>" required>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <select name="kategori" class="form-control" required style="flex: 1;">
+                        <option value="Makanan" <%= produkEdit && produkEdit.kategori === 'Makanan' ? 'selected' : '' %>>Makanan</option>
+                        <option value="Minuman" <%= produkEdit && produkEdit.kategori === 'Minuman' ? 'selected' : '' %>>Minuman</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary" style="width: auto; padding: 0 20px; margin: 0;">
+                        <%= produkEdit ? 'Simpan' : 'Tambah' %>
+                    </button>
+                </div>
+                <% if (produkEdit) { %>
+                    <div style="text-align: right; margin-top: 8px;">
+                        <a href="/surplus/catat" style="font-size: 12px; font-weight: 700; color: var(--muted); text-decoration: none;">Batal Edit</a>
+                    </div>
+                <% } %>
+            </form>
+
+            <h3 style="font-size: 14px; font-weight: 800; color: var(--muted); margin-bottom: 8px;">Daftar Produk Anda</h3>
+            <div style="max-height: 200px; overflow-y: auto;">
+                <table class="table-produk">
+                    <tbody>
+                        <% produkList.forEach(item => { %>
+                        <tr>
+                            <td><%= item.nama_produk %></td>
+                            <td style="text-align: right;">
+                                <a href="/surplus/catat?edit=<%= item.id_produk %>" style="color: #e8842e; font-size: 13px; font-weight: 800; text-decoration: none;">Edit</a>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('modalKelola');
+        
+        function bukaModal() {
+            modal.classList.add('active');
+        }
+        
+        function tutupModal() {
+            modal.classList.remove('active');
+            if(window.location.search.includes('edit=')) {
+                window.location.href = '/surplus/catat';
+            }
+        }
+        <% if (produkEdit) { %>
+            bukaModal();
+        <% } %>
+    </script>
+</body>
+</html>

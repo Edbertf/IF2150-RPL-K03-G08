@@ -1,0 +1,23 @@
+<aside class="sidebar">
+    <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="38" height="38">
+        <span><span class="food">Food</span><span class="link">Link</span></span>
+    </a>
+
+    <nav class="nav" aria-label="Navigasi admin">
+        <a class="<%= aktif === 'verifikasi' ? 'on' : '' %>" href="/admin/verifikasi">Verifikasi Pendaftar</a>
+        <a class="<%= aktif === 'log' ? 'on' : '' %>" href="/admin/log">Log Aktivitas</a>
+    </nav>
+
+    <div class="who">
+        <div class="av" aria-hidden="true">A</div>
+        <div>
+            <b><%= pengguna ? pengguna.nama : 'Admin Sistem' %></b>
+            <small>Admin Sistem</small>
+        </div>
+    </div>
+
+    <form action="/keluar" method="POST">
+        <button class="keluar" type="submit">Keluar</button>
+    </form>
+</aside>

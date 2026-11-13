@@ -27,158 +27,6 @@ Dipersiapkan oleh:
 | *13525111* | *Edbert Fernando* |
 | *13525114* | *Ernest Clarence Gunawan* |
 | *13525117* | *Abdur Rauuf Fawaaz* |
----
-
-> **Petunjuk pengerjaan:** *[Silahkan hapus bagian ini setelah selesai mengerjakan]*
->
-> Dokumen ini adalah **spesifikasi sekaligus template laporan singkat** Tugas 9. Bagian **Ketentuan Implementasi** (Bagian A) adalah aturan yang harus kalian ikuti, boleh dihapus dari laporan akhir. Bagian **Laporan Implementasi** (Bagian B) adalah yang **wajib kalian isi**. Gunakan nama, ID, kebutuhan, use case, dan kelas yang konsisten dengan SKPL, APL, dan DPPL.
-
----
-
-**Deadline:** Rabu, 11 November 2026, 21.50 WIB
-**Asistensi akbar:** *[Hari, DD Bulan YYYY, HH.MM WIB, lokasi/link]*
-
----
-
-# BAGIAN A: Ketentuan Implementasi
-
-## A.1 Deskripsi Tugas
-
-Pada tugas ini, kalian mengimplementasikan perangkat lunak yang telah dirancang pada tugas-tugas sebelumnya (SKPL, APL, DPPL) menjadi aplikasi yang **dapat dijalankan**. Platform bebas (web, desktop, atau mobile) selama aplikasi dapat dijalankan ulang oleh asisten mengikuti petunjuk kalian.
-
-Ketentuan umum:
-- Setiap anggota bertanggung jawab atas **minimal satu fitur atau modul** dan harus terlihat jelas di riwayat commit/PR.
-- Implementasi harus **mengacu pada DPPL**. Jika ada yang berubah (kelas, layar, basis data, dsb.), catat di Bagian B.1. Perubahan itu wajar, tetapi harus tercatat dan beralasan.
-- Implementasi **tidak harus berupa kelas** (misalnya fungsi, komponen, *route/handler*, *stored procedure*, atau skrip). Namun, setiap kelas perancangan pada DPPL **wajib dapat ditelusuri** ke implementasinya, dan penelusuran ini dicatat di Bagian B.5.
-- Seluruh use case pada SKPL **diprioritaskan** untuk diimplementasikan. Status tiap use case akan dilaporkan pada HIUPL (Tugas 10).
-- Seluruh mahasiswa **wajib** mengikuti asistensi akbar.
-
-## A.2 Platform, Bahasa, dan Teknologi
-
-Kalian **bebas** memilih bahasa, framework, library, dan basis data, dengan syarat:
-
-1. **Dapat dijalankan ulang** oleh asisten pada mesin biasa dengan mengikuti README. Versi bahasa/runtime dan seluruh dependensi harus tertulis jelas.
-2. **Dependensi dikelola lewat file standar**, misalnya `package.json` + lockfile, `requirements.txt`/`pyproject.toml`, `pom.xml`/`build.gradle`, `composer.json`, `pubspec.yaml`, dan sejenisnya. Jangan meng-commit folder hasil instalasi (`node_modules/`, `venv/`, `build/`, dll.).
-3. **Jika memakai layanan eksternal** (basis data cloud, API pihak ketiga, auth, dll.), sediakan cara menjalankan tanpa akun pribadi kalian, atau sediakan data/akun uji pada README. Basis data **sangat disarankan** dapat dijalankan lokal (SQLite, atau Docker Compose untuk PostgreSQL/MySQL/MongoDB).
-4. **Arsitektur sesuai DPPL.** Pola arsitektur yang kalian pilih di APL/DPPL (MVC, layered, client-server, dll.) harus terlihat pada struktur kode.
-
-Ketentuan tambahan per platform:
-
-| Platform | Ketentuan |
-| :--- | :--- |
-| **Web** | Berjalan lokal lewat satu-dua perintah yang terdokumentasi. Boleh juga di-*deploy*; jika ya, cantumkan URL, tetapi **tetap wajib bisa dijalankan lokal** (URL deploy bisa mati). |
-| **Desktop** | Berjalan dari source lewat perintah yang terdokumentasi. Build/installer opsional. |
-| **Mobile** | Berjalan di emulator/simulator atau perangkat. Sertakan langkah menjalankan, dan **sangat disarankan** melampirkan APK/build di Release. |
-
-## A.3 Keamanan Repository
-
-Repo fork kelompok bersifat **public**, sehingga:
-
-- **Dilarang** meng-commit password, API key, token, `.env` asli, sertifikat/private key, atau data pribadi. Hal ini dapat mengurangi nilai.
-- Sediakan `.env.example` berisi nama variabel tanpa nilai rahasia, dan masukkan `.env` ke `.gitignore`.
-- Jika sudah terlanjur ter-commit, **cabut/ganti** kredensial tersebut. Menghapus commit saja tidak cukup.
-- Data uji/seed harus berupa data fiktif.
-
-## A.4 Struktur Folder
-
-Seluruh kode ditempatkan di `src/` pada repo fork. Jangan mengubah folder milestone lama.
-
-```
-src/                              # SELURUH kode implementasi
-	README.md                     # dokumentasi utama aplikasi (lihat A.5)
-	.env.example                  # jika memakai environment variable
-	<struktur kode kalian>        # bebas, mengikuti pola arsitektur DPPL
-	tests/                        # test case (jika ada)
-docs/
-	M9/
-		KXX_GYY_Implementasi.md   # laporan ini (Bagian B)
-		KXX_GYY_Form-Asistensi.md
-```
-
-Catatan:
-- `README.md` aplikasi diletakkan di **`src/README.md`**, bukan di root repo.
-- Jika kerangka kerja kalian mewajibkan struktur tertentu (misalnya Maven `src/main/java`, Flutter `lib/`, monorepo `frontend/` dan `backend/`), letakkan semuanya **di dalam `src/`**.
-- Nama file dan folder pada `docs/M9/` mengikuti aturan penamaan milestone sebelumnya (`KXX_GYY_...`).
-
-## A.5 Isi Minimal `src/README.md`
-
-README harus cukup bagi orang yang belum pernah melihat proyek kalian untuk menjalankan aplikasi dari nol. Minimal berisi:
-
-1. **Deskripsi singkat** aplikasi.
-2. **Teknologi yang digunakan** beserta versi (bahasa, framework, basis data).
-3. **Prasyarat dan instalasi** (software yang harus ada, perintah instalasi dependensi).
-4. **Konfigurasi** (environment variable, setup basis data, migrasi/seed) dan langkah demi langkah menjalankannya.
-5. **Cara menjalankan aplikasi** (dan cara menjalankan test, jika ada).
-6. **Akun/data uji** untuk mencoba tiap peran pengguna (jika ada login).
-7. **Daftar modul/fitur yang diimplementasi** beserta pembagian anggota.
-8. **Daftar tabel/koleksi basis data** beserta atributnya (atau tautan ke skema/ERD).
-
-## A.6 Best Practices
-
-Kalian dianjurkan menerapkan praktik berikut. Bukti penerapannya dirangkum pada Bagian B.2.
-
-### 1. Branching
-Sesuai aturan umum di README repository, `main` fork kelompok dijaga agar tetap bisa menerima sync dari asisten. Pada tugas ini **sangat disarankan** memakai branch per fitur dengan format `<tipe>/<nama-fitur>` (contoh: `feat/login-page`, `fix/null-cart`), lalu digabungkan ke `main` melalui Pull Request. Skema Gitflow penuh (dengan `develop`) boleh dipakai, tetapi tidak diwajibkan.
-
-### 2. Semantic Commit
-Gunakan format `<tipe>(<scope>): <deskripsi>`, misalnya `feat(auth): tambah validasi email`.
-
-| Tipe | Kegunaan |
-| :--- | :--- |
-| `feat` | Menambahkan fitur baru |
-| `fix` | Memperbaiki bug |
-| `docs` | Mengubah dokumentasi |
-| `style` | Perubahan format/spasi, tanpa mengubah logika |
-| `refactor` | Perubahan kode yang tidak menambah fitur atau memperbaiki bug |
-| `test` | Menambah/memperbaiki pengujian |
-| `chore` | Tugas rutin (build, dependensi, konfigurasi) |
-
-### 3. Track Tasks
-Gunakan **GitHub Issues** (dan opsional GitHub Projects) untuk membagi tugas dan melacak progres.
-- Pecah fitur besar menjadi issue yang lebih kecil dan tetapkan penanggung jawabnya.
-- Hubungkan PR dengan issue (`Closes #12`) dan tutup issue ketika selesai.
-
-### 4. Pull Request dan Code Review
-- Setiap PR berisi penjelasan deskriptif tentang apa yang dikerjakan, beserta bukti (tangkapan layar/rekaman/hasil test).
-- Setiap PR di-*review* minimal **1 anggota lain**, dengan komentar konstruktif atau approval.
-
-### 5. Pengujian dan Optimasi Performa
-- Tulis pengujian untuk logika inti (unit test dan/atau pengujian alur utama). Cakupan penuh tidak diwajibkan, tetapi pengujian pada logika utama dinilai.
-- Lakukan **profiling** pada setidaknya satu fitur yang berat (query besar, proses pengolahan data, render list panjang, dsb.), lalu catat temuan dan perbaikannya. Contoh alat:
-
-| Platform | Contoh alat |
-| :--- | :--- |
-| Web (frontend) | Chrome DevTools (Performance/Network), Lighthouse |
-| Web (backend) | Profiler bawaan bahasa, `EXPLAIN` pada query basis data, logging waktu respons |
-| Python | `cProfile`, `PyInstrument` |
-| Java | VisualVM, JProfiler |
-| Mobile | Android Studio Profiler, Flutter DevTools, Xcode Instruments |
-
-### 6. Penggunaan AI
-Penggunaan AI **tetap harus dicatat** pada `docs/KXX_GYY_AI-Usage.md` sesuai ketentuan yang sudah berlaku.
-
-## A.7 Pengumpulan
-
-Pengumpulan dinilai dari **tag release**, bukan commit terakhir.
-
-1. Pastikan seluruh pekerjaan sudah di-*commit* dan di-*push* ke `main` fork kelompok.
-2. Buat release dengan tag **`v9.0`** (revisi berikutnya `v9.1`, `v9.2`, dst.) dengan target branch `main`.
-3. Yang dinilai adalah **tag terakhir yang dibuat sebelum deadline**.
-
-## A.8 Aturan Tanya Jawab
-
-Agar semua kelompok mendapat jawaban yang sama, pertanyaan dibagi menjadi dua jalur:
-
-| Jenis Pertanyaan | Jalur |
-| :--- | :--- |
-| **Ketentuan tugas**, misalnya teknologi yang diperbolehkan, struktur folder, format pengumpulan, dan penilaian | **Sheets QnA:** *[tautan sheets QnA]* |
-| **Kendala teknis kelompok sendiri**, misalnya error, setup, dan penggunaan git | Grup kelompok bersama asisten masing-masing |
-
-Ketentuan:
-1. Pertanyaan tentang ketentuan tugas **wajib** diajukan melalui Sheets QnA. Periksa terlebih dahulu apakah pertanyaan serupa sudah dijawab.
-2. Jika pertanyaan tentang ketentuan tugas tetap diajukan langsung kepada asisten kelompok, asisten **berhak menolak menjawab** dan meminta kelompok memasukkan pertanyaannya ke Sheets QnA.
-3. Jika pertanyaan di Sheets QnA **belum dijawab dalam 24 jam**, kelompok boleh menghubungi asisten kelompok masing-masing. Cantumkan pertanyaan yang sudah diajukan di sheets tersebut.
-4. Jawaban pada Sheets QnA berlaku untuk **seluruh kelompok** dan menjadi acuan jika terjadi perbedaan pemahaman.
 
 ---
 
@@ -186,26 +34,32 @@ Ketentuan:
 
 ## B.1 Perubahan dari DPPL
 
-Catat semua perbedaan antara perancangan (DPPL) dan implementasi akhir. Jika tidak ada perubahan, tuliskan "Tidak ada perubahan".
-
 Tabel B.1. Perubahan dari DPPL
 
 | No | Bagian DPPL | Rancangan Awal | Implementasi Akhir | Alasan |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | *DBMS (Lingkungan Implementasi)* | *PostgreSQL 15* | *SQLite (better-sqlite3)* | *Mempermudah asisten dan anggota tim menjalankan aplikasi tanpa perlu instalasi server database lokal (zero-configuration)* |
-| 2 | *operasi C30 & C31* | *Tidak ada operasi penyimpanan profil* | *Menambah operasi simpanProfil() di models/PemilikFnB.js dan models/PerwakilanNGO.js* | *Algo-C23-01 menetapkan "simpan data profil sesuai tipe akun", tetapi operasinya belum didefinisikan di DPPL* |
-| 3 | *I-02 & I-03* | *Tidak ada input Jam Operasional dan Nomor Legalitas* | *Ditambahkan pada form F&B dan NGO* | *Diwajibkan Algo-C23-02 serta merupakan atribut C30 (jamOperasional) dan C31 (nomorLegalitas)* |
-| 4 | *Realisasi Use Case* | *Tidak ada Use Case (UC) khusus untuk Login/Logout dan manajemen sesi* | *Menambahkan Halaman Login (/masuk), manajemen sesi (express-session), dan Middleware pembatasan akses (Role-Based Access Control)* | *Ditambahkan sebagai penunjang (enabler) yang wajib ada agar UC02 (Verifikasi oleh Admin) dan UC03 (Cek Status oleh Pendaftar) dapat berjalan dengan benar.* |
-| 5 | *C04 Verifikasi Controller* | *Memiliki 3 operasi utama (tampilkanDaftarPendaftar, ambilDetailPendaftar, prosesVerifikasi)* | *Ditambah tampilkanHasilVerifikasi() dan sajikanDokumen()* | *Diperlukan untuk merender halaman konfirmasi (I-21/I-22) dan menangani proses penyajian berkas dokumen pendukung ke Admin* |
-| 6 | *C32 AdminSistem* | *Kelas dengan operasi verifikasiPendaftaran()* | *Tidak dibuat sebagai kelas terpisah; fungsinya diintegrasikan ke dalam middleware pengecekan peran (guard) dan VerifikasiController* | *Menyederhanakan struktur kode. Kewenangan Admin dinilai lebih efektif jika divalidasi di tingkat pembatasan akses (routing) sebelum proses verifikasi dijalankan* |
-| 7 | *I-04* | *Satu keadaan: "Pendaftaran Dikirim" dengan badge "Menunggu Verifikasi"* | *Empat keadaan dalam satu view: menunggu, diterima, ditolak, dan data tidak ditemukan* | *Menampung skenario alternatif UC03 beserta acceptance criteria "jika data pendaftaran tidak ditemukan"* |
-| 8 | *Q-C02-01 (`tanggal_daftar`)* | *Diisi `CURRENT_DATE`* | *Dihitung di aplikasi dengan zona `Asia/Jakarta`* | *`CURRENT_DATE` pada SQLite memakai UTC, sehingga pendaftaran pukul 00.00–06.59 WIB tercatat sehari sebelumnya* |
-| 9 | *Operasi C01 dan C02* | *C01 hanya `registrasi()`; C02 lima operasi* | *C01 ditambah `cariBerdasarkanEmail()` dan `cariKredensial()`; C02 ditambah `cariBerdasarkanAkun()`* | *Dibutuhkan untuk pemeriksaan email duplikat, verifikasi kata sandi saat masuk, dan pembacaan status berdasarkan akun pada UC03* |
-| 10 | *C23 `validasiFormatDokumen(berkas: Array)`* | *Menerima array berkas* | *Menerima satu objek berkas (`req.file`)* | *Formulir I-02 dan I-03 hanya memiliki satu slot unggah* |
-| 11 | *UC10 – Proses mengklaim produk surplus* | *Proses klaim mengikuti operasi kelas yang dirancang pada DPPL.* | *Proses klaim direalisasikan melalui route Express yang memanggil `KlaimController` dan model `DokumenKlaim`. Setelah klaim berhasil, pengguna diarahkan ke halaman konfirmasi keberhasilan klaim dengan kode klaim dinamis.* | *Menyesuaikan rancangan kelas dengan implementasi MVC.* |
-| 12 | *UC11 – Konfirmasi pengambilan produk surplus* | *NGO melakukan konfirmasi bahwa produk surplus telah diambil.* | *Konfirmasi direalisasikan melalui route dan `KlaimController.konfirmasiPengambilan()` dengan transaksi database. Status `produk_surplus` diubah menjadi `selesai`, sedangkan `dokumen_klaim.status_klaim` tetap `terklaim`.* | *Memisahkan status klaim dan status pengambilan produk.* |
-| 13 | *UC11 – Tampilan hasil konfirmasi pengambilan* | *Hasil konfirmasi ditampilkan kepada NGO setelah pengambilan produk.* | *Ditambahkan halaman khusus Pengambilan Selesai (N7) yang ditampilkan setelah konfirmasi berhasil. Daftar klaim juga menampilkan status pengambilan secara dinamis dan menyediakan tautan menuju detail klaim.* | *Memberikan informasi hasil pengambilan dan status klaim secara aktual.* |
-| *...* | *...* | *...* | *...* | *...* |
+| 1 | Lingkungan Implementasi (DBMS) | PostgreSQL 15 | SQLite (`better-sqlite3` 13.0.3) | Mempermudah asisten dan anggota tim menjalankan aplikasi tanpa instalasi server basis data lokal (*zero-configuration*) |
+| 2 | Operasi C30 dan C31 | Tidak ada operasi penyimpanan profil | `simpanProfil()` pada `models/PemilikFnB.js` dan `models/PerwakilanNGO.js` | Algo-C23-01 menetapkan "simpan data profil sesuai tipe akun", tetapi operasinya belum didefinisikan di DPPL |
+| 3 | I-02 dan I-03 | Tidak ada input Jam Operasional dan Nomor Legalitas | Ditambahkan pada formulir F&B dan NGO | Diwajibkan Algo-C23-02 serta merupakan atribut C30 (`jamOperasional`) dan C31 (`nomorLegalitas`) |
+| 4 | Realisasi Use Case | Tidak ada use case khusus Login/Logout dan manajemen sesi | Halaman masuk `/masuk`, `express-session`, dan middleware pembatasan akses berbasis peran | Penunjang (*enabler*) yang wajib ada agar UC02 dan UC03 dapat berjalan dengan benar |
+| 5 | C04 VerifikasiController | Tiga operasi utama | Ditambah `tampilkanHasilVerifikasi()` dan `sajikanDokumen()` | Diperlukan untuk merender halaman konfirmasi (I-21/I-22) dan menyajikan dokumen pendukung ke Admin |
+| 6 | C32 AdminSistem | Kelas dengan operasi `verifikasiPendaftaran()` | Tidak dibuat kelas terpisah; kewenangan divalidasi middleware `butuhPeran('admin_sistem')` dan prosesnya ada di `VerifikasiController` | Menyederhanakan struktur; kewenangan lebih efektif diperiksa di lapisan routing sebelum proses verifikasi |
+| 7 | I-04 | Satu keadaan "Menunggu Verifikasi" | Empat keadaan dalam satu view: menunggu, diterima, ditolak, dan data tidak ditemukan | Menampung skenario alternatif UC03 beserta acceptance criteria "jika data pendaftaran tidak ditemukan" |
+| 8 | Q-C02-01 (`tanggal_daftar`) | Diisi `CURRENT_DATE` | Dihitung di aplikasi dengan zona `Asia/Jakarta` | `CURRENT_DATE` pada SQLite memakai UTC, sehingga pendaftaran pukul 00.00–06.59 WIB tercatat sehari sebelumnya |
+| 9 | Operasi C01 dan C02 | C01 hanya `registrasi()`; C02 lima operasi | C01 ditambah `cariBerdasarkanEmail()` dan `cariKredensial()`; C02 ditambah `cariBerdasarkanAkun()` | Dibutuhkan untuk pemeriksaan email duplikat, verifikasi kata sandi saat masuk, dan pembacaan status berdasarkan akun pada UC03 |
+| 10 | C23 `validasiFormatDokumen(berkas: Array)` | Menerima array berkas | Menerima satu objek berkas (`req.file`) | Formulir I-02 dan I-03 hanya memiliki satu slot unggah |
+| 11 | C05, C08, C17 (UC06) | Hanya `simpanProdukSurplus()`, tanpa pengelolaan data induk produk | Ditambah `getSemuaProduk()`, `getProdukById()`, `tambahProduk()`, dan `updateProduk()` pada `models/ProdukSurplus.js`, beserta route `/surplus/produk/tambah` dan `/surplus/produk/:id/edit` | Formulir I-08 membutuhkan daftar produk yang bisa dipilih dan dikelola pemilik; tanpa operasi ini pemilik tidak dapat menambah produk baru |
+| 12 | C07, C25, C16 (UC05) | `simpanPrediksi()` dan `getHasilPrediksi()` | Ditambah `cekKecukupanData()`, `jalankanPrediksi()`, serta perhitungan rekomendasi `rataTerjual + 0,5 × rataTersisa` dari 7 hari data | Menentukan syarat minimal data (7 hari berbeda), menyimpan hasil prediksi, dan menampilkan dashboard beserta grafik 7 hari |
+| 13 | C09 (UC07) | Metode distribusi disimpan per `idDistribusi` | `simpanMetode(idProduk, jenisDistribusi, harga)` menyimpan metode per produk dengan `INSERT ... ON CONFLICT` | Satu produk hanya memiliki satu metode distribusi aktif, sehingga pendekatan *upsert* lebih sederhana dan mencegah data ganda |
+| 14 | C27 dan C34 (UC09) | C34 `PenyaringanController` berdiri sendiri | C34 tidak dibuat sebagai kelas terpisah; fungsi `saringKataKunci()`, `saringJenis()`, `saringJarak()`, dan `saringWaktu()` berada di `controllers/SurplusController.js` dan menerima parameter query `q`, `jenis`, `jarak`, `waktu` | Penyaringan dan pengambilan daftar selalu dipakai bersama pada satu halaman (I-12); memisahkannya menjadi dua kelas hanya menambah lapisan tanpa manfaat |
+| 15 | C28 dan C10 (UC10/UC11) | `setujuiKlaim()` dan `catatKlaim()` saja | Ditambah `cekTersedia()`, `ambilDetailPengambilan()`, `konfirmasiPengambilan()`, serta `getDaftarKlaim()` pada `models/DokumenKlaim.js` | Halaman N6/N7 membutuhkan daftar klaim milik NGO dan alur konfirmasi pengambilan; klaim disetujui dalam satu transaksi agar surplus terkunci |
+| 16 | C21 PengambilanPage | Popup konfirmasi dengan `tampilkanPopupKonfirmasi()`, `pilihYes()`, `pilihNo()` | Diwujudkan sebagai halaman detail pengambilan (`views/ngo/N7-KlaimSaya.ejs`, partial `N5-KonfirmasiKlaim.ejs`) dan `POST /ngo/klaim/:idKlaim/konfirmasi-pengambilan`, lalu halaman hasil `N7-PengambilanSelesai.ejs` | Aplikasi dirender di server (EJS) tanpa kerangka JavaScript; popup diganti halaman konfirmasi agar tetap dapat diakses dan diuji tanpa JavaScript |
+| 17 | C11 dan tabel `log_aktivitas` | Kolom `idLog`, `aktivitas`, `waktu`; operasi `getDaftarLog()`, `cariLog()` | Ditambah kolom `id_akun` (FK ke `akun_pengguna`) serta operasi `catatLog()` dan `adaLog()`; daftar dibatasi 100 baris terbaru dan diambil lewat CTE sebelum JOIN | I-23 meminta kolom "nama pengguna", sehingga log harus terhubung ke akun. Pembatasan 100 baris dan CTE adalah hasil profiling (B.2.1) |
+| 18 | C22 LogAktivitasPage | Atribut state `daftarLogTampil` dan filter di sisi halaman | Filter diwujudkan sebagai tautan query `?kategori=Semua|Klaim|Surplus|Verifikasi`; server mengirim daftar yang sudah tersaring | Halaman dirender server; state di URL membuat hasil filter dapat dibagikan dan diuji langsung lewat HTTP |
+| 19 | C29 LogController | `tampilkanLog()` dan `saringLog()` | Ditambah validasi kriteria; nilai di luar empat pilihan mengembalikan status HTTP 400 | DPPL belum mengatur perilaku untuk kriteria tidak dikenal; status 400 menjaga API tetap eksplisit |
+| 20 | Realisasi UC12 | Tidak ada pencatatan log otomatis | Log ditulis otomatis oleh aksi UC01, UC02, UC04, UC06, UC07, UC10, dan UC11 | Acceptance criteria UC12 membutuhkan riwayat aktivitas pengguna; tanpa penulisan otomatis halaman I-23 tidak akan terisi |
+| 21 | C33 GeolocationAdapter | `hitungJarak()` | Ditambah `ambilKoordinat()` dengan dukungan format "lat,lng", geocoding Nominatim (batas 4 detik) dan cache, lalu jarak dihitung dengan formula Haversine | Lokasi pemilik/NGO berupa alamat teks, bukan koordinat; jarak harus tetap dapat ditampilkan dan diurutkan |
+| 22 | Data uji dan akun demo | Tidak dirancang pada DPPL | Skrip `db:seed`, `db:seed:admin`, `db:seed:surplus` membuat akun dan data fiktif untuk tiga peran | Memudahkan asisten mencoba setiap peran dan memenuhi ketentuan A.3 (data uji fiktif, tanpa kredensial asli) |
 
 ## B.2 Bukti Penerapan Best Practices
 
@@ -213,29 +67,71 @@ Tabel B.2. Bukti Best Practices
 
 | Praktik | Bukti | Keterangan |
 | :--- | :--- | :--- |
-| Branching | [Daftar branch](https://github.com/Edbertf/IF2150-RPL-K03-G08/branches) | Menerapkan satu branch per pekerjaan dengan format `<tipe>/<nama-fitur>`, misalnya `feat/UC01-Registrasi` sampai `feat/UC12-Mengecek-Log-Aktivitas-Pengguna`, serta `fix/ui-pemilik` dan `fix/akses-status-pendaftaran`. Setiap branch digabungkan ke `develop` melalui Pull Request; `main` hanya menerima hasil akhir untuk pembuatan tag rilis |
-| Semantic commit | [Riwayat commit `develop`](https://github.com/Edbertf/IF2150-RPL-K03-G08/commits/develop) | Commit memakai format `tipe(scope): deskripsi`, antara lain `feat(UC01)`, `feat(model)`, `feat(akses)`, `fix(app)`, `fix(ui)`, `test(akses)`, `chore(deps)`, `refactor(config)`, dan `docs`. Setiap commit dibatasi pada satu tujuan agar mudah ditelusuri |
-| Track tasks | [Daftar issue](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues?q=is%3Aissue) | Setiap use case memiliki issue tersendiri dengan acceptance criteria, misalnya [#1 UC01](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/1), [#2 UC02](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/2), dan [#3 UC03](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/3). Pekerjaan penunjang juga dibuatkan issue tersendiri, seperti [#13 autentikasi](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/13), [#23 perbaikan UI](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/23), dan [#24 pembatasan akses](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/24). Issue diberi label `priority` dan `status`, lalu ditutup otomatis melalui `Closes #<nomor>` pada Pull Request |
-| Pull request dan review | [PR #12 UC01](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/12), [PR #20 UC02](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/20), [PR #21 UC03](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/21), [PR #25 perbaikan UI](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/25), [PR #26 pembatasan akses](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/26) | Setiap PR memuat ringkasan, daftar perubahan, langkah pengujian, tangkapan layar, dan hasil `npm test`. PR direview minimal oleh satu anggota lain. Catatan reviewer ditindaklanjuti melalui PR lanjutan, misalnya `idNgo` pada sesi, `SESSION_SECRET` pada `.env.example`, dan pembatasan akses berdasarkan status pendaftaran |
-| Pengujian | [Folder `src/tests/`](https://github.com/Edbertf/IF2150-RPL-K03-G08/tree/develop/src/tests) | Terdapat lima berkas tes dengan total **44 tes** dan dijalankan melalui `npm test` (`node --test tests/`). Cakupannya: unit test validasi formulir dan dokumen (`validasi.test.js`), integrasi alur registrasi dengan basis data dan penyimpanan sementara (`registrasi.test.js`), transisi status verifikasi (`verifikasi.test.js`), pembacaan status pendaftaran (`status.test.js`), serta pembatasan akses berdasarkan peran dan status (`akses.test.js`). Tes integrasi memakai `DB_PATH` dan `STORAGE_DIR` sementara sehingga tidak mengganggu data pengembangan |
+| Branching | [Daftar branch](https://github.com/Edbertf/IF2150-RPL-K03-G08/branches) | Satu branch per pekerjaan dengan format `<tipe>/<nama-fitur>`: `feat/UC01-Registrasi` … `feat/UC12-Mengecek-Log-Aktivitas-Pengguna`, `fix/ui-pemilik`, `fix/akses-status-pendaftaran`. Setiap branch digabungkan ke `develop` melalui Pull Request; `main` disiapkan untuk sinkronisasi dengan repositori asisten dan pembuatan tag rilis |
+| Semantic commit | [Riwayat commit `develop`](https://github.com/Edbertf/IF2150-RPL-K03-G08/commits/develop) | Format `tipe(scope): deskripsi`, misalnya `feat(UC01)`, `feat(model)`, `feat(akses)`, `fix(app)`, `fix(ui)`, `test(akses)`, `chore(deps)`, `refactor(config)`, dan `docs`. Setiap commit dibatasi pada satu tujuan |
+| Track tasks | [Daftar issue](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues?q=is%3Aissue) | Setiap use case memiliki issue dengan acceptance criteria: [#1 UC01](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/1), [#2 UC02](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/2), [#3 UC03](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/3), [#6 UC12](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/6), [#11 UC09](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/11). Pekerjaan penunjang juga dibuatkan issue: [#13 autentikasi](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/13), [#23 perbaikan UI](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/23), [#24 pembatasan akses](https://github.com/Edbertf/IF2150-RPL-K03-G08/issues/24). Issue diberi label `priority`/`status` dan ditutup melalui `Closes #<nomor>` pada Pull Request |
+| Pull request dan review | [PR #12 UC01](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/12), [PR #20 UC02](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/20), [PR #21 UC03](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/21), [PR #27 UC11](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/27), [PR #28 UC08](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/28), [PR #29 UC09](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/29), [PR #30 UC06](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/30), [PR #31 UC07](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/31), [PR #17 UC12](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/17), [PR #25 perbaikan UI](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/25), [PR #26 pembatasan akses](https://github.com/Edbertf/IF2150-RPL-K03-G08/pull/26) | Setiap PR memuat ringkasan, daftar perubahan, langkah pengujian, tangkapan layar, dan hasil `npm test`. PR direview minimal satu anggota lain; catatan reviewer ditindaklanjuti, antara lain `idNgo` pada sesi, `SESSION_SECRET` di `.env.example`, dan pembatasan akses berdasarkan status pendaftaran. Seluruh PR di atas berstatus *merged* |
+| Pengujian | [Folder `src/tests/`](https://github.com/Edbertf/IF2150-RPL-K03-G08/tree/develop/src/tests) | Delapan berkas tes dengan total **78 tes**, dijalankan melalui `npm test` (`node --test`). Rincian: `validasi.test.js` (20), `registrasi.test.js` (5), `verifikasi.test.js` (8), `akses.test.js` (6), `status.test.js` (5), `informasiSurplus.test.js` (14), `log.test.js` (13), dan `integrasi-log.test.js` (7). Tes integrasi memakai `DB_PATH` dan `STORAGE_DIR` sementara sehingga tidak menyentuh data pengembangan. Selain itu tersedia `tools/uji-manual-uc11.js` (uji manual dengan *rollback*) dan `tools/profil-log.js` (profiling) |
+| Keamanan repositori | [`.env.example`](https://github.com/Edbertf/IF2150-RPL-K03-G08/blob/develop/src/.env.example), `.gitignore` | `.env` diabaikan, `.env.example` hanya berisi nama variabel (`SESSION_SECRET`, `PORT`, `DB_PATH`, `STORAGE_DIR`), dan seluruh data seed bersifat fiktif (akun `@foodlink.test` dengan kata sandi demo). Tidak ada kredensial asli pada repositori |
 
 ### B.2.1 Profiling dan Optimasi
 
-Pilih minimal satu fitur yang diprofil.
-
 | Informasi | Keterangan |
 | :--- | :--- |
-| Fitur / proses yang diprofil | *[Nama fitur]* |
-| Alat | *[mis. Chrome DevTools, cProfile, EXPLAIN]* |
-| Temuan (sebelum) | *[Bottleneck yang ditemukan, sertakan angka/tangkapan layar]* |
-| Perbaikan | *[Yang diubah]* |
-| Hasil (sesudah) | *[Perbandingan dengan sebelumnya]* |
+| Fitur / proses yang diprofil | UC12 — daftar dan filter log aktivitas pada I-23 (`GET /admin/log`), termasuk pemeriksaan keberadaan log untuk membedakan "belum ada log" dan "filter tidak cocok" |
+| Alat | `EXPLAIN QUERY PLAN` SQLite melalui `better-sqlite3`, serta skrip pengukuran waktu `src/tools/profil-log.js` (`npm run profil:log`). Skrip mengisi database sementara dengan 20.000 log, lalu mengukur 30 iterasi (3 pemanasan) dan mencetak rencana eksekusi |
+| Temuan (sebelum) | Dengan 20.000 baris, query daftar lama memuat **20.000 baris** (median **12,229 ms**). Menambahkan `LIMIT 100` tidak menolong: median tetap **12,066 ms** karena rencana eksekusi menunjukkan `USE TEMP B-TREE FOR ORDER BY`, yaitu SQLite menyortir seluruh tabel lebih dulu. Index `idx_log_waktu` juga tidak dipakai selama JOIN ikut diurutkan. Pemeriksaan keberadaan log dengan memuat 100 baris memakan **0,147 ms** per permintaan filter |
+| Perbaikan | 1) Baris dibatasi lebih dulu melalui `WITH terbaru AS MATERIALIZED (SELECT id_log ... ORDER BY waktu DESC LIMIT 100)`, baru di-JOIN ke tabel akun/profil. 2) Pemeriksaan keberadaan diganti `SELECT 1 FROM log_aktivitas LIMIT 1` (`LogAktivitas.adaLog()`), sehingga controller tidak lagi memuat 100 baris hanya untuk mengecek apakah tabel kosong. 3) Daftar di UI tetap dibatasi 100 baris. Index komposit `(waktu DESC, id_log DESC)` sempat diuji, tetapi tidak memberi perbedaan (0,101 ms vs 0,098 ms), sehingga index lama dipertahankan |
+| Hasil (sesudah) | Daftar 100 log: **0,176 ms** (median) untuk 100 baris — sekitar **69× lebih cepat** dibanding query lama dengan `LIMIT`. Filter `Klaim`: **0,253 ms**. Pemeriksaan keberadaan: **0,038 ms** (sekitar 4× lebih cepat). Rencana eksekusi berubah menjadi `SCAN log_aktivitas USING COVERING INDEX idx_log_waktu` |
 
-Jika tidak ada perbaikan yang perlu dilakukan, jelaskan hasil profiling dan alasan kenapa fitur tersebut sudah memadai.
+Ringkasan pengukuran (20.000 log, mesin pengembangan):
+
+| Skenario | Baris | Median | Rata-rata | Min | Maks |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| Query lama tanpa `LIMIT` | 20.000 | 12,229 ms | 14,310 ms | 11,352 ms | 28,129 ms |
+| Query lama + `LIMIT 100` | 100 | 12,066 ms | 12,497 ms | 11,584 ms | 14,987 ms |
+| CTE + `LIMIT 100` (sekarang) | 100 | **0,176 ms** | 0,196 ms | 0,136 ms | 0,424 ms |
+| Filter "Klaim" (CTE) | 100 | 0,253 ms | 0,254 ms | 0,228 ms | 0,333 ms |
+| Cek keberadaan via 100 baris | 100 | 0,147 ms | 0,158 ms | 0,136 ms | 0,268 ms |
+| Cek keberadaan via `SELECT 1` (sekarang) | 1 | **0,038 ms** | 0,040 ms | 0,032 ms | 0,071 ms |
+
+Cuplikan `EXPLAIN QUERY PLAN`:
+
+```
+-- query lama + LIMIT 100
+SCAN log
+SEARCH akun USING INTEGER PRIMARY KEY (rowid=?)
+SCAN pemilik LEFT-JOIN
+SCAN ngo LEFT-JOIN
+USE TEMP B-TREE FOR ORDER BY
+
+-- CTE + LIMIT 100
+MATERIALIZE terbaru
+SCAN log_aktivitas USING COVERING INDEX idx_log_waktu
+SCAN terbaru
+SEARCH log USING INTEGER PRIMARY KEY (rowid=?)
+SEARCH akun USING INTEGER PRIMARY KEY (rowid=?)
+SCAN pemilik LEFT-JOIN
+SCAN ngo LEFT-JOIN
+USE TEMP B-TREE FOR ORDER BY   -- hanya 100 baris
+```
+
+Catatan hasil: filter memakai `LIKE '%kata%'`. Pola dengan *wildcard* di awal tidak dapat memakai index, sehingga filter tetap memindai index sampai 100 kecocokan ditemukan. Dengan batas 100 baris dampaknya kecil (0,253 ms); jika volume log tumbuh jauh lebih besar, alternatif berikutnya adalah tabel FTS5.
 
 ## B.3 Kendala dan Catatan Penting
 
-Tuliskan kendala yang ditemui, fitur yang belum sempurna (*known issues*), serta hal yang perlu diketahui asisten saat menjalankan atau menilai aplikasi (misalnya akun uji khusus, urutan menjalankan, atau batasan).
+1. **Build `better-sqlite3` di Windows.** Instalasi gagal (`gyp ERR! Could not find any Visual Studio`) bila Visual Studio Build Tools belum terpasang. Solusi sudah dicatat pada `src/README.md` bagian prasyarat.
+2. **Tanggal UTC vs WIB.** `CURRENT_DATE`/`CURRENT_TIMESTAMP` SQLite memakai UTC. Tanggal pendaftaran dan waktu log dihitung di aplikasi dengan zona `Asia/Jakarta` agar tidak bergeser sehari pada pukul 00.00–06.59 WIB.
+3. **Merge bertahap dan *squash merge*.** UC05 dan UC11 baru masuk ke `develop` setelah UC12. Akibatnya penulisan log untuk UC11 harus ditambahkan pasca-merge, dan branch UC12 perlu beberapa kali menyinkronkan `develop`. Konflik berulang muncul pada `KlaimController`, `README.md`, dan `seed.js`.
+4. **Berkas uji manual yang terbaca `node --test`.** `test-controller-uc11.js` semula berada di akar `src/`, sehingga otomatis dijalankan `npm test` dan bergantung pada database pengembangan (gagal bila tidak ada klaim berstatus `terklaim`). Berkas dipindahkan ke `tools/uji-manual-uc11.js` agar `npm test` tetap mandiri dan deterministik.
+5. **Filter log memakai pencarian teks.** Sesuai Q-C11-02, penyaringan memakai `LIKE '%kriteria%'`; index tidak dapat dipakai untuk *wildcard* di awal. Dampaknya dibatasi dengan 100 baris terbaru.
+6. **Seed bertahap.** `db:seed` sudah membuat akun demo F&B, Admin Sistem, dan NGO; `db:seed:admin` hanya memverifikasi akun demo, sedangkan `db:seed:surplus` menerima pendaftaran NGO dan menambahkan surplus. Seed dilewati bila data sudah ada; untuk mengulang, hapus `database/foodlink.db*` lalu jalankan seed berurutan.
+7. **`SQLITE_BUSY`.** Server dan proses seed/uji yang membuka database yang sama secara bersamaan dapat memicu `SQLITE_BUSY`. Hentikan server sebelum menjalankan seed atau `npm test`.
+8. **Geocoding membutuhkan jaringan.** `GeolocationAdapter` memakai Nominatim (batas 4 detik, hasil di-cache). Jika alamat gagal di-geocode, produk tetap tampil tanpa jarak dan diurutkan di akhir; filter jarak akan mengeluarkannya.
+9. **Prediksi membutuhkan 7 hari berbeda.** Sesuai UC05, dashboard menampilkan pesan data belum cukup bila riwayat kurang dari 7 hari. Seed kini menyediakan 7 hari agar dashboard demo langsung berfungsi.
+10. **Otomasi GitHub terbatas.** Lingkungan pengembangan tidak memiliki `gh` CLI maupun `GITHUB_TOKEN`, sehingga status checkbox pada issue #6 (UC12) diperbarui manual melalui web GitHub, bukan dari skrip.
+11. **Akun demo.** Pemilik: `demo@foodlink.test` / `password123` (jalankan `db:seed` lalu `db:seed:admin`); Admin: `admin@foodlink.test` / `admin123`; NGO: `ngo@foodlink.test` / `password123` (jalankan `db:seed` lalu `db:seed:surplus`). Urutan ini perlu diikuti agar halaman peran dapat diakses.
+12. **Kontribusi atas nama Yuhan Fanzuri Nizar.** Roster tugas mencantumkan NIM 13524123, tetapi hingga laporan ini tidak ditemukan commit kode atas nama tersebut pada branch `develop`; kontribusi yang tercatat berupa dokumentasi DPPL (commit `e936153`). Mohon dikonfirmasi bila ada yang terlewat.
 
 ## B.4 Kontribusi Anggota
 
@@ -243,31 +139,56 @@ Tabel B.4. Kontribusi Anggota
 
 | NIM | Nama | Modul / Fitur yang Dikerjakan | Persentase Kontribusi |
 | :--- | :--- | :--- | :--- |
-| *13525117* | *Abdur Rauuf Fawaaz* | *Use Case 10* | *90%* |
-| *13525117* | *Abdur Rauuf Fawaaz* | *Use Case 11* | *100%* |
-| *...* | *...* | *...* | *...* |
+| *13525114* | *Ernest Clarence Gunawan* | UC01 Registrasi Akun, UC02 Verifikasi Pendaftaran, UC03 Status Pendaftaran; login, manajemen sesi, middleware peran; pemisahan skema SQL | 26% |
+| *13525036* | *Dylan Frederico Ketaren* | UC08 Informasi Produk Surplus, UC12 Log Aktivitas Pengguna; profil & optimasi query log; README, laporan implementasi, integrasi lintas UC | 23% |
+| *13525111* | *Edbert Fernando* | UC04 Penjualan Harian, UC05 Prediksi Produksi, UC09 Penyaringan Produk Surplus | 21% |
+| *13525117* | *Abdur Rauuf Fawaaz* | UC10 Klaim Produk Surplus, UC11 Konfirmasi Pengambilan Produk Surplus | 17% |
+| *13525024* | *Excell Timothy Josua Tarigan* | UC06 Catat Produk Surplus, UC07 Atur Distribusi Surplus | 13% |
+| *13524123* | *Yuhan Fanzuri Nizar* | Dokumentasi DPPL (bagian 3.11–3.12, commit `e936153`) | — (lihat B.3 butir 12) |
+
+Persentase dihitung dari proporsi commit kode pada branch `develop` (Dylan 80, Edbert 71, Ernest 65, Rauuf 52, Excell 43) dan dibulatkan. Pembagian modul mengikuti *assignee* issue GitHub masing-masing use case. Pada `main` sebelumnya, Abdur Rauuf Fawaaz juga mencantumkan kontribusi per use case (UC10 90%, UC11 100%); tabel di atas menggabungkan kedua UC tersebut ke dalam satu baris rekap.
 
 ## B.5 Traceability Kelas Perancangan ke Implementasi
-
-Pemetaan dari **setiap kelas perancangan** pada DPPL (Tabel 4.1) ke wujud implementasinya. Bentuk implementasi bebas (kelas, fungsi, komponen, *route/handler*, *stored procedure*, skrip, dsb.), tetapi tiap kelas perancangan harus muncul pada tabel ini. Jika implementasi berupa kelas dengan nama yang sama, tetap dicantumkan.
 
 Tabel B.5. Traceability Kelas Perancangan ke Implementasi
 
 | ID Kelas | Nama Kelas Perancangan | Bentuk Implementasi | Lokasi (File dan Nama) | Keterangan |
 | :--- | :--- | :--- | :--- | :--- |
-| *[C01]* | *AkunPengguna* | *Modul model dan middleware autentikasi* | *`src/models/AkunPengguna.js`; `src/middleware/pengguna.js`; `src/middleware/peran.js`* | *Menyediakan identitas pengguna yang sedang login melalui `req.user` dan membatasi akses fitur NGO. Digunakan sebagai pendukung validasi akses pada UC11.* |
-| *[C05]* | *Produk* | *Modul model* | *`src/models/Produk.js`* | *Mengambil informasi produk yang terkait dengan produk surplus, seperti nama produk dan kategori. Digunakan pada UC10.* |
-| *[C08]* | *ProdukSurplus* | *Modul model* | *`src/models/ProdukSurplus.js`* | *Mengambil detail produk surplus dan memperbarui statusnya, termasuk dari `tersedia` menjadi `terklaim` pada UC10 dan `selesai` pada UC11.* |
-| *[C09]* | *MetodeDistribusiSurplus* | *Modul model* | *`src/models/MetodeDistribusiSurplus.js`* | *Mengambil informasi metode distribusi dan harga produk surplus untuk ditampilkan pada detail produk. Digunakan pada UC10.* |
-| *[C10]* | *DokumenKlaim* | *Modul model* | *`src/models/DokumenKlaim.js`* | *Mencatat klaim baru serta mengambil detail dan daftar klaim berdasarkan NGO. Digunakan pada UC10 dan UC11.* |
-| *[C20]* | *KlaimPage* | *Halaman EJS dan route Express* | *`src/views/ngo/I15-DetailProduk.ejs`; `src/views/ngo/N6-KlaimBerhasil.ejs`; `src/views/ngo/N7-KlaimSaya.ejs`; `src/routes/ngo.js`* | *Menampilkan detail produk, meneruskan pengajuan klaim, menampilkan hasil klaim beserta kode klaim, dan menampilkan daftar klaim NGO. Halaman daftar klaim merupakan tampilan pendukung yang ditambahkan pada implementasi. Digunakan pada UC10.* |
-| *[C21]* | *PengambilanPage* | *Halaman EJS, JavaScript sisi klien, dan route Express* | *`src/views/ngo/N6-KlaimBerhasil.ejs`; `src/views/ngo/N7-PengambilanSelesai.ejs`; `src/routes/ngo.js`* | *Menampilkan modal konfirmasi pengambilan, mengirim pilihan konfirmasi ke server, dan menampilkan hasil ketika pengambilan berhasil. Digunakan pada UC11.* |
-| *[C27]* | *SurplusController* | *Modul controller* | *`src/controllers/SurplusController.js`; `src/routes/ngo.js`* | *Mengambil daftar dan detail produk surplus, termasuk menggabungkan informasi produk, metode distribusi, dan pemilik usaha untuk ditampilkan pada halaman NGO. Digunakan pada UC10.* |
-| *[C28]* | *KlaimController* | *Modul controller* | *`src/controllers/KlaimController.js`; `src/routes/ngo.js`* | *Menangani pemeriksaan ketersediaan produk, proses persetujuan/penolakan klaim, pengambilan detail pengambilan, serta konfirmasi pengambilan. Digunakan pada UC10 dan UC11.* |
-| *[C30]* | *PemilikFnB* | *Modul model* | *`src/models/PemilikFnB.js`* | *Mengambil informasi usaha dan lokasi pemilik F&B yang terkait dengan produk surplus untuk ditampilkan pada detail produk dan detail pengambilan. Digunakan pada UC10 dan UC11.* |
-| *[C31]* | *PerwakilanNGO* | *Modul model dan data pengguna pada sesi* | *`src/models/PerwakilanNGO.js`; `src/middleware/pengguna.js`; `src/routes/ngo.js`* | *Menyediakan informasi NGO dan identitas NGO yang sedang login untuk proses klaim serta pemeriksaan kepemilikan klaim. Digunakan pada UC10 dan UC11.* |
-| *...* | *...* | *...* | *...* | *...* |
+| C01 | AkunPengguna | Model (modul fungsi) | `src/models/AkunPengguna.js` — `registrasi()`, `cariBerdasarkanEmail()`, `cariKredensial()` | Atribut menjadi kolom tabel `akun_pengguna`; penambahan operasi pencarian dicatat pada B.1 no. 9 |
+| C02 | Pendaftaran | Model (modul fungsi) | `src/models/Pendaftaran.js` — `ajukanPendaftaran()`, `getStatus()`, `getDaftarMenungguVerifikasi()`, `getDetailPendaftar()`, `updateStatus()`, `cariBerdasarkanAkun()` | Tabel `pendaftaran`; `tanggalDaftar` diisi dari tanggal Jakarta |
+| C03 | DokumenPendukung | Model (modul fungsi) | `src/models/DokumenPendukung.js` — `unggahDokumen()`, `getDokumen()`, `ambilPathBerkas()` | Berkas disimpan di `STORAGE_DIR`, metadata di tabel `dokumen_pendukung` |
+| C04 | VerifikasiController | Controller + route | `src/controllers/VerifikasiController.js`; `src/routes/admin.js` (`GET/POST /admin/verifikasi/...`) | Tiga operasi DPPL + `tampilkanHasilVerifikasi()` dan `sajikanDokumen()` |
+| C05 | Produk | Model (modul fungsi) | `src/models/Produk.js` — `getProduk()`, `getDetailProduk()` | Tabel `produk`; operasi `tambahProduk()`/`updateProduk()` berada di `models/ProdukSurplus.js` (B.1 no. 11) |
+| C06 | DataPenjualan | Model (modul fungsi) | `src/models/DataPenjualan.js` — `catatPenjualan()`, `getDataHistoris()`, `getPenjualanHarian()`, `hitungHariTerkumpul()` | Tabel `data_penjualan`; satu baris per produk per tanggal |
+| C07 | PrediksiProduksi | Model (modul fungsi) | `src/models/PrediksiProduksi.js` — `simpanPrediksi()`, `getHasilPrediksi()`, `hitungRekomendasi()` | Tabel `prediksi_produksi`; rekomendasi = rata-terjual + 0,5 × rata-tersisa |
+| C08 | ProdukSurplus | Model (modul fungsi) | `src/models/ProdukSurplus.js` — `simpanProdukSurplus()`, `setStatus()`, `getDetailSurplus()`, `getProdukSurplusTersedia()`, `getStatus()` | Tabel `produk_surplus`; status `tersedia` → `terklaim` → `selesai` |
+| C09 | MetodeDistribusiSurplus | Model (modul fungsi) | `src/models/MetodeDistribusiSurplus.js` — `simpanMetode()`, `getInfoDistribusi()`, `getJenisDistribusi()` | Tabel `metode_distribusi_surplus`; `getHarga()` dibaca melalui `getInfoDistribusi()` |
+| C10 | DokumenKlaim | Model (modul fungsi) | `src/models/DokumenKlaim.js` — `catatKlaim()`, `getDetailKlaim()`, `getDaftarKlaim()` | Tabel `dokumen_klaim`; `waktuKlaim`/`statusKlaim` menjadi kolom |
+| C11 | LogAktivitas | Model (modul fungsi) | `src/models/LogAktivitas.js` — `catatLog()`, `getDaftarLog()`, `cariLog()`, `adaLog()` | Tabel `log_aktivitas` + `idx_log_waktu`; `getDaftarLog()`/`cariLog()` dibatasi 100 baris |
+| C12 | RegistrasiPage | View EJS + route | `src/views/auth/I02-I03-Registrasi.ejs`; `src/routes/auth.js` (`GET/POST /daftar`) | Operasi halaman menjadi tautan, form HTML, dan render pesan berhasil/galat |
+| C13 | VerifikasiPage | View EJS + route | `src/views/admin/I19-VerifikasiPendaftar.ejs`, `I20-DetailPendaftar.ejs`, `I21-I22-HasilVerifikasi.ejs`; `src/routes/admin.js` | `pilihPendaftar()` menjadi tautan detail; `kirimKeputusan()` menjadi form POST |
+| C14 | StatusPendaftaranPage | View EJS + route | `src/views/auth/I04-StatusPendaftaran.ejs`; `src/routes/status.js` (`GET /status`) | Satu view menangani empat keadaan (B.1 no. 7) |
+| C15 | PenjualanPage | View EJS + route | `src/views/fnb/I06-PenjualanHarian.ejs`, `I07-PenjualanTersimpan.ejs`; `src/routes/fnb.js` | Form input per produk; halaman konfirmasi setelah simpan |
+| C16 | PrediksiPage | View EJS + controller | `src/views/fnb/I05-DashboardF&B.ejs`; `PrediksiController.tampilkanDashboard()` | Grafik 7 hari dirender sebagai elemen HTML/CSS dari data server |
+| C17 | ProdukSurplusPage | View EJS + controller | `src/views/surplus/I08-CatatSurplus.ejs`; `src/controllers/CatatSurplusController.js` | Form surplus sekaligus pengelolaan produk (tambah/ubah) |
+| C18 | DistribusiSurplusPage | View EJS + controller | `src/views/surplus/I09-AturDistribusi.ejs`, `I11-SuksesPublikasi.ejs`; `src/controllers/DistribusiSurplusController.js` | Opsi donasi/diskon; kolom harga muncul untuk diskon |
+| C19 | DaftarSurplusPage | View EJS + controller | `src/views/ngo/I12-DaftarSurplus.ejs`; `SurplusController.tampilkanDaftarSurplus()` | Atribut `lokasiPengguna`, `daftarSurplus`, `kataKunci`, `kriteriaFilter` menjadi data render dan parameter query |
+| C20 | KlaimPage | View EJS + route | `src/views/ngo/I15-DetailProduk.ejs`, `N6-KlaimBerhasil.ejs`; `src/routes/ngo.js` (`POST /ngo/surplus/:idSurplus/klaim`) | `idSurplusTerpilih` menjadi parameter URL; `pesanError` menjadi data view |
+| C21 | PengambilanPage | View EJS + route | `src/views/ngo/N7-KlaimSaya.ejs`, `N7-PengambilanSelesai.ejs`, `partials/N5-KonfirmasiKlaim.ejs`; `src/routes/ngo.js` | Popup diganti halaman konfirmasi (B.1 no. 16) |
+| C22 | LogAktivitasPage | View EJS | `src/views/admin/I23-LogAktivitas.ejs` | Empat chip filter, tabel log, dan dua pesan keadaan kosong; state filter ada di URL |
+| C23 | AuthController | Controller | `src/controllers/AuthController.js` — `registrasiAkun()`, `validasiKelengkapanData()`, `validasiFormatDokumen()`, `cekStatusPendaftaran()`, ditambah `masuk()`/`keluar()` | `validasiKelengkapanData()` mengembalikan daftar error; `validasiFormatDokumen()` menerima satu berkas |
+| C24 | PenjualanController | Controller | `src/controllers/PenjualanController.js` — `validasiInputPenjualan()`, `simpanDataPenjualan()`, `tampilkanFormPenjualan()`, `kirimDataPenjualan()` | Validasi angka dan tanggal sebelum menyimpan |
+| C25 | PrediksiController | Controller | `src/controllers/PrediksiController.js` — `cekKecukupanData()`, `jalankanPrediksi()`, `tampilkanDashboard()` | Menjalankan prediksi saat dashboard dibuka; error ditampilkan sebagai pesan |
+| C26 | ProdukSurplusController | Dua controller | `src/controllers/CatatSurplusController.js` (`tampilFormCatat()`, `simpanDataSurplus()`, `simpanProdukBaru()`, `simpanEditProduk()`) dan `src/controllers/DistribusiSurplusController.js` (`tampilFormDistribusi()`, `simpanDistribusi()`, `tampilSukses()`) | Kelas dipecah menjadi dua controller sesuai dua halaman (I-08 dan I-09); alasannya pada B.1 no. 11–13 |
+| C27 | SurplusController | Controller | `src/controllers/SurplusController.js` — `ambilDaftarSurplus()`, `ambilDetailSurplus()`, `urutkanBerdasarkanJarak()` | Sekaligus menampung fungsi penyaringan (lihat C34) |
+| C28 | KlaimController | Controller | `src/controllers/KlaimController.js` — `setujuiKlaim()`, `tolakKlaim()`, `cekKetersediaan()`, `kunciProduk()`, `ambilDetailPengambilan()`, `konfirmasiPengambilan()` | Persetujuan klaim mengunci surplus dalam transaksi database |
+| C29 | LogController | Controller + route | `src/controllers/LogController.js` — `tampilkanLog()`, `saringLog()`; `src/routes/log.js`; dipasang di `src/app.js` (`/admin/log`) | Kriteria tidak valid → status 400; route dijaga `butuhPeran('admin_sistem')` |
+| C30 | PemilikFnB | Model (modul fungsi) | `src/models/PemilikFnB.js` — `simpanProfil()`, `getLokasiUsaha()`, `getNamaUsaha()`, `getDataUsaha()`, `cariBerdasarkanAkun()` | Operasi `catatProdukSurplus()`, `aturDistribusiSurplus()`, `resetFormulir()` diwujudkan sebagai aksi pada controller I-08/I-09, bukan pada model profil |
+| C31 | PerwakilanNGO | Model (modul fungsi) | `src/models/PerwakilanNGO.js` — `simpanProfil()`, `cariBerdasarkanAkun()`, `getDataNgo()` | `lihatDaftarSurplus()` dan `ajukanKlaim()` diwujudkan oleh `SurplusController` dan `KlaimController` |
+| C32 | AdminSistem | Middleware guard | `src/middleware/peran.js` — `butuhPeran('admin_sistem')`, dipakai di `src/routes/admin.js` dan `src/routes/log.js` | Tidak ada kelas terpisah; alasan pada B.1 no. 6 |
+| C33 | GeolocationAdapter | Adapter (modul fungsi) | `src/models/GeolocationAdapter.js` — `ambilKoordinat()`, `hitungJarak()` | Koordinat dari format teks atau Nominatim; jarak Haversine dalam km dengan 2 desimal |
+| C34 | PenyaringanController | Fungsi dalam controller | `src/controllers/SurplusController.js` — `saringKataKunci()`, `saringJenis()`, `saringJarak()`, `saringWaktu()`, `validasiKriteria` (implisit pada penanganan parameter) | Digabung ke C27; alasan pada B.1 no. 14 |
 
 Catatan:
-- Satu kelas perancangan boleh diwujudkan oleh beberapa file/unit, dan satu file/unit boleh mewujudkan beberapa kelas perancangan. Tuliskan semuanya.
-- Kelas perancangan yang **tidak diimplementasikan** atau **digabung/dipecah** tetap dicantumkan, dan alasannya dicatat di Bagian B.1.
+- Seluruh kelas perancangan C01–C34 pada Tabel 4.1 DPPL dapat ditelusuri ke kode. Kelas yang dipecah atau digabung (C26, C32, C34) beserta alasannya tercatat pada Tabel B.1.
+- Tabel basis data dan kolomnya didefinisikan di `src/database/schema/` (12 berkas SQL); daftar tabel beserta atributnya juga tersedia pada `src/README.md` bagian 12.
