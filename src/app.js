@@ -6,20 +6,22 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));    
 
 app.use(require('./config/sesi'));
 app.use(require('./middleware/pengguna'));
 
 initDatabase();
 
+app.use('/', require('./routes/masuk'));
+
 app.get('/', (req, res) => {
     res.render('I01-SelamatDatang');
 });
 
-app.use('/', require('./routes/masuk'));
-
+app.use('/ngo', require('./routes/ngo'));
 app.use('/daftar', require('./routes/auth'));
 app.use('/status', require('./routes/status'));
 app.use('/fnb', require('./routes/fnb'));

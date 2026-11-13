@@ -282,22 +282,39 @@ function bangunIdentitas(akun) {
 }
 
 function tujuanSetelahMasuk(pengguna) {
+    // Admin langsung menuju halaman verifikasi.
     if (pengguna.role === 'admin_sistem') {
         return '/admin/verifikasi';
     }
 
-    // Sudah diverifikasi: pemilik langsung ke halaman kerjanya.
-    const pendaftaran = Pendaftaran.cariBerdasarkanAkun(pengguna.idAkun);
-    if (
+    // Periksa status verifikasi pendaftaran pengguna.
+    const pendaftaran = Pendaftaran.cariBerdasarkanAkun(
+        pengguna.idAkun
+    );
+
+    const sudahDiverifikasi =
         pendaftaran &&
-        pendaftaran.statusVerifikasi === 'diterima' &&
-        pengguna.role === 'pemilik_fnb'
-    ) {
+        pendaftaran.statusVerifikasi === 'diterima';
+
+    // Pengguna yang belum diverifikasi menuju halaman status.
+    if (!sudahDiverifikasi) {
+        return '/status';
+    }
+
+    // Pemilik FnB yang sudah diverifikasi.
+    if (pengguna.role === 'pemilik_fnb') {
         return '/fnb/penjualan';
+    }
+
+    // NGO yang sudah diverifikasi.
+    if (pengguna.role === 'perwakilan_ngo') {
+        // TODO: Arahkan ke /ngo/surplus setelah UC08 tersedia.
+        return '/';
     }
 
     return '/status';
 }
+
 exports.tampilkanHalamanMasuk = (req, res) => {
     if (req.user) {
         return res.redirect('/');
