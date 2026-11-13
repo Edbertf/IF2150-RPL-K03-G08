@@ -169,3 +169,5 @@
 | *10-11-2026* | *Edbert Fernando* | *Reviwe PR* | *1.5 jam* | *done* | *-* |
 | *11-11-2026* | *Edbert Fernando* | *Review PR* | *1.5 jam* | *done* | *-* |
 | *13-11-2026* | *Edbert Fernando* | *Review PR* | *1.5 jam* | *done* | *-* |
+| *13-11-2026* | *Ernest Clarence Gunawan* | *Realisasi UC01, 02,03* | *12 jam* | *done* | *-* |
+
