@@ -6,13 +6,13 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.urlencoded({ extended: true }));    
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-initDatabase(); 
+initDatabase();
 
 app.use(require('./config/sesi'));
-app.use(require('./middleware/pengguna'));;
+app.use(require('./middleware/pengguna'));
 
 app.use('/', require('./routes/masuk'));
 
@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
 app.use('/admin', require('./routes/admin'));
 app.use('/fnb', require('./routes/fnb'));
 app.use('/ngo', require('./routes/ngo'));
+app.use('/surplus', require('./routes/surplus'));
 app.use('/daftar', require('./routes/auth'));
 app.use('/status', require('./routes/status'));
 
