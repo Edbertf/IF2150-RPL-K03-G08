@@ -26,6 +26,7 @@ app.use('/ngo', require('./routes/ngo'));
 app.use('/surplus', require('./routes/surplus'));
 app.use('/daftar', require('./routes/auth'));
 app.use('/status', require('./routes/status'));
+app.use('/admin/log', require('./routes/log'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

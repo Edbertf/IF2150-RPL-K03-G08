@@ -1,6 +1,7 @@
 const ProdukSurplus = require('../models/ProdukSurplus');
 const Produk = require('../models/Produk');
 const MetodeDistribusiSurplus = require('../models/MetodeDistribusiSurplus');
+const LogAktivitas = require('../models/LogAktivitas');
 
 const ZONA_WAKTU = 'Asia/Jakarta';
 
@@ -89,6 +90,11 @@ class DistribusiSurplusController {
             surplus.idProduk,
             diskon ? 'Jual Diskon' : 'Donasi',
             diskon ? harga : 0
+        );
+
+        LogAktivitas.catatLog(
+            req.user.idAkun,
+            `Menetapkan distribusi surplus ${surplus.namaProduk} sebagai ${diskon ? `Jual Diskon Rp ${harga.toLocaleString('id-ID')}` : 'Donasi'}`
         );
 
         req.session.suksesDistribusi = {

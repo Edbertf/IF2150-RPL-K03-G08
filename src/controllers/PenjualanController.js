@@ -1,5 +1,6 @@
 const Produk = require('../models/Produk');
 const DataPenjualan = require('../models/DataPenjualan');
+const LogAktivitas = require('../models/LogAktivitas');
 
 const TARGET_HARI = 7;
 const BATAS_MAKS = 1000;
@@ -126,6 +127,7 @@ exports.kirimDataPenjualan = (req, res) => {
     }
 
     exports.simpanDataPenjualan(dataPenjualan);
+    LogAktivitas.catatLog(req.user.idAkun, 'Mencatat penjualan harian hari ini');
     res.redirect('/fnb/penjualan/tersimpan');
 };
 

@@ -4,7 +4,7 @@ Aplikasi web untuk mengurangi *food waste* dengan menghubungkan **Pemilik F&B** 
 
 Repository ini berisi implementasi Tugas Besar IF2150 Rekayasa Perangkat Lunak, Kelas 03, Kelompok 08 (**The Dragon Warrior**).
 
-> **Status:** Milestone 9 (implementasi). Sepuluh dari dua belas use case sudah berjalan di branch `develop`; UC11 dan UC12 masih berupa pull request. Lihat [Status Implementasi](#2-status-implementasi).
+> **Status:** Milestone 9 (implementasi). Seluruh dua belas use case sudah diimplementasikan di branch `develop`. Lihat [Status Implementasi](#2-status-implementasi).
 
 ---
 
@@ -39,8 +39,8 @@ Arsitektur mengikuti pola **MVC**: `routes/` → `controllers/` → `models/` �
 | UC08 Informasi Produk Surplus | Daftar dan detail surplus untuk NGO | Sudah di `develop` (PR #28) |
 | UC09 Menyaring Produk Surplus | Filter kata kunci, jenis, jarak, dan waktu | Sudah di `develop` (PR #29) |
 | UC10 Mengklaim Produk Surplus | Pengajuan klaim oleh NGO | Sudah di `develop` (PR #19) |
-| UC11 Mengonfirmasi Pengambilan Produk Surplus | Konfirmasi serah terima dan status selesai | Pull request #27 (terbuka) |
-| UC12 Mengecek Log Aktivitas Pengguna | Halaman log dan filter untuk admin | Pull request #17 (terbuka) |
+| UC11 Mengonfirmasi Pengambilan Produk Surplus | Konfirmasi serah terima dan status selesai | Sudah di `develop` (PR #27) |
+| UC12 Mengecek Log Aktivitas Pengguna | Halaman log dan filter untuk admin | Sudah di `develop` (PR #17) |
 
 Login dan manajemen sesi (pendukung UC01–UC03) sudah berjalan di `develop`. Fitur **Kelola Produk (F8)** tidak diimplementasikan karena tidak termasuk 12 use case pada DPPL.
 
@@ -169,10 +169,13 @@ rm -f database/foodlink.db*
 Data yang dibuat seed:
 
 - 1 Pemilik F&B: **Bakery Sinar Pagi** (`Jl. Dipatiukur, Bandung` setelah seed surplus)
-- 1 Perwakilan NGO: **NGO Pangan Peduli** (`Dago, Bandung`)
+- 1 Perwakilan NGO: **Yayasan Nurani Berbagi** (`Jl. Dago No. 10, Bandung`)
 - 1 Admin Sistem
 - 6 produk dan 24 baris penjualan (4 produk × 6 hari)
 - 3 produk surplus dengan metode **Donasi** atau **Jual Diskon** (Nasi Goreng Spesial, Es Teh Manis, Roti Tawar)
+- 7 baris log aktivitas contoh untuk halaman `/admin/log`
+
+`db:seed` membuat ketiga akun beserta data contoh dan log. `db:seed:admin` memastikan akun Admin Sistem ada dan menerima pendaftaran akun demo; `db:seed:surplus` menerima pendaftaran NGO serta menambahkan produk surplus.
 
 ---
 
@@ -203,7 +206,7 @@ Server berjalan di `http://localhost:3000`.
 | Klaim saya | `/ngo/klaim` | Perwakilan NGO |
 | Klaim berhasil | `/ngo/klaim/:idKlaim/berhasil` | Perwakilan NGO |
 | Verifikasi pendaftar | `/admin/verifikasi` | Admin Sistem |
-| Log aktivitas | `/admin/log` | Admin Sistem (PR #17) |
+| Log aktivitas | `/admin/log` | Admin Sistem |
 
 Nilai filter UC09: `jenis` = `Makanan` atau `Minuman`; `jarak` = `1`, `2`, `5`, atau `10` (km); `waktu` = `hari-ini` atau `besok`; `q` = kata kunci bebas. Contoh: `/ngo/surplus?jenis=Makanan&jarak=5&waktu=besok`.
 
@@ -216,8 +219,8 @@ Autentikasi memakai `express-session` dengan cookie `foodlink.sid` (httpOnly, sa
 | Peran | Email | Kata sandi | Seed yang diperlukan |
 | :--- | :--- | :--- | :--- |
 | Pemilik F&B | `demo@foodlink.test` | `password123` | `db:seed` + `db:seed:admin` |
-| Admin Sistem | `admin@foodlink.test` | `admin123` | `db:seed:admin` |
-| Perwakilan NGO | `ngo@foodlink.test` | `password123` | `db:seed:surplus` |
+| Admin Sistem | `admin@foodlink.test` | `admin123` | `db:seed` |
+| Perwakilan NGO | `ngo@foodlink.test` | `password123` | `db:seed` + `db:seed:surplus` |
 
 Catatan:
 
@@ -256,11 +259,14 @@ Catatan:
 | POST | `/ngo/surplus/:idSurplus/klaim` | Perwakilan NGO | Proses klaim |
 | GET | `/ngo/klaim` | Perwakilan NGO | Daftar klaim saya |
 | GET | `/ngo/klaim/:idKlaim/berhasil` | Perwakilan NGO | Konfirmasi klaim |
+| POST | `/ngo/klaim/:idKlaim/konfirmasi-pengambilan` | Perwakilan NGO | Konfirmasi serah terima |
+| GET | `/ngo/klaim/:idKlaim/pengambilan-selesai` | Perwakilan NGO | Halaman pengambilan selesai |
 | GET | `/admin/verifikasi` | Admin Sistem | Daftar pendaftar |
 | GET | `/admin/verifikasi/:idPendaftaran` | Admin Sistem | Detail pendaftar |
 | POST | `/admin/verifikasi/:idPendaftaran` | Admin Sistem | Setujui/tolak pendaftaran |
 | GET | `/admin/verifikasi/:idPendaftaran/hasil` | Admin Sistem | Hasil keputusan |
 | GET | `/admin/verifikasi/:idPendaftaran/dokumen/:idDokumen` | Admin Sistem | Unduh dokumen pendukung |
+| GET | `/admin/log` | Admin Sistem | Log aktivitas 100 terbaru, filter `?kategori=` |
 
 ---
 
@@ -280,8 +286,21 @@ Pengujian memakai `node:test` dengan database sementara di folder temp, sehingga
 | `tests/akses.test.js` | 6 | Pembatasan peran dan pengalihan pengguna yang belum diverifikasi |
 | `tests/status.test.js` | 5 | UC03: status pendaftaran untuk tiap keadaan |
 | `tests/informasiSurplus.test.js` | 14 | UC08: daftar/detail surplus dan jarak; UC09: filter jenis, jarak, waktu, kombinasi, nilai tidak valid |
+| `tests/log.test.js` | 12 | UC12: urutan log, filter teks, empat chip, kriteria tidak valid (400), admin 200, non-admin 403, dua keadaan kosong, batas 100 baris |
+| `tests/integrasi-log.test.js` | 7 | Penulisan log otomatis dari UC01 registrasi, UC02 verifikasi, UC04 penjualan, UC06 surplus/pengelolaan produk, UC07 distribusi, UC10 klaim, UC11 pengambilan |
 
-Total: **58 test** pada branch `develop`.
+Total: **78 test**, seluruhnya lulus (`npm test`).
+
+Contoh verifikasi manual UC12:
+
+```bash
+npm run db:seed
+npm start
+```
+
+1. Masuk sebagai `admin@foodlink.test` / `admin123`, buka `http://localhost:3000/admin/log` → daftar log dengan nama pengguna.
+2. Klik chip **Klaim**, **Surplus**, atau **Verifikasi** → daftar tersaring berdasarkan kata kunci.
+3. Buka `/admin/log?kategori=Akun` → status 400 dan pesan "Kriteria penyaringan tidak valid."
 
 ---
 
@@ -300,8 +319,9 @@ Total: **58 test** pada branch `develop`.
 | `metode_distribusi_surplus` | `id_distribusi`, `id_produk` (unik), `jenis_distribusi`, `harga` | `Donasi` atau `Jual Diskon` per produk |
 | `produk_surplus` | `id_surplus`, `id_produk`, `id_pemilik`, `jumlah`, `batas_waktu_pengambilan`, `status` | `tersedia`, `terklaim`, `selesai` |
 | `dokumen_klaim` | `id_klaim`, `id_ngo`, `id_surplus` (unik), `waktu_klaim`, `status_klaim` | Klaim yang diajukan NGO |
+| `log_aktivitas` | `id_log`, `id_akun`, `aktivitas`, `waktu` | Riwayat aktivitas pengguna; filter memakai kata kunci pada `aktivitas`, indeks `idx_log_waktu (waktu DESC)` |
 
-Tabel `log_aktivitas` ditambahkan oleh PR #17 (UC12).
+Tabel `log_aktivitas` diisi otomatis oleh aksi UC01, UC02, UC04, UC06, UC07, UC10, dan UC11.
 
 Relasi utama:
 
@@ -312,6 +332,7 @@ akun_pengguna 1—1 pendaftaran 1—N dokumen_pendukung
 produk 1—1 metode_distribusi_surplus
 produk 1—N produk_surplus 1—1 dokumen_klaim
 produk 1—N prediksi_produksi
+akun_pengguna 1—N log_aktivitas
 ```
 
 Seluruh definisi tabel terdapat di `database/schema/`.
@@ -343,3 +364,5 @@ Pembagian mengikuti *assignee* pada issue GitHub masing-masing use case.
 | Akun demo tidak bisa masuk halaman kerja | Pendaftaran belum diterima | Jalankan `npm run db:seed:admin` (pemilik) atau `npm run db:seed:surplus` (NGO) |
 | Dokumen registrasi ditolak | Format/ukuran tidak sesuai | Hanya PDF/JPG/PNG, maksimal 5 MB |
 | Daftar surplus kosong | Belum ada surplus tersedia atau filter terlalu sempit | Jalankan `npm run db:seed:surplus`, atau longgarkan filter |
+| Halaman `/admin/log` kosong | Belum ada log di database | Jalankan `npm run db:seed`, atau lakukan aksi yang tercatat (registrasi, verifikasi, penjualan, surplus, distribusi, klaim, pengambilan) |
+| Filter log menampilkan "Kriteria penyaringan tidak valid" | Nilai `kategori` di luar pilihan | Gunakan `Semua`, `Klaim`, `Surplus`, atau `Verifikasi` |

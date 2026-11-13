@@ -1,7 +1,9 @@
 const db = require('../config/db');
 
+const Produk = require('../models/Produk');
 const ProdukSurplus = require('../models/ProdukSurplus');
 const DokumenKlaim = require('../models/DokumenKlaim');
+const LogAktivitas = require('../models/LogAktivitas');
 const PemilikFnB = require('../models/PemilikFnB');
 const PerwakilanNGO = require('../models/PerwakilanNGO');
 
@@ -80,6 +82,15 @@ const KlaimController = {
       if (!Number.isSafeInteger(Number(idKlaim)) || Number(idKlaim) <= 0) {
         throw new Error('Dokumen klaim gagal dibuat.');
       }
+
+      const detailSurplus = ProdukSurplus.getDetailSurplus(id);
+      const produk = Produk.getProduk(detailSurplus.idProduk);
+      const satuan = produk.kategori === 'Minuman' ? 'gelas' : 'porsi';
+
+      LogAktivitas.catatLog(
+        ngo,
+        `Mengklaim ${produk.namaProduk} (${detailSurplus.jumlah} ${satuan})`
+      );
 
       return Number(idKlaim);
     });
@@ -190,7 +201,19 @@ const KlaimController = {
               'selesai'
           );
 
-          // 5. Mengembalikan pesan keberhasilan.
+          // 5. Mencatat aktivitas konfirmasi pengambilan.
+          const detailSurplus = ProdukSurplus.getDetailSurplus(
+              detailKlaim.idSurplus
+          );
+          const produk = Produk.getProduk(detailSurplus.idProduk);
+          const satuan = produk.kategori === 'Minuman' ? 'gelas' : 'porsi';
+
+          LogAktivitas.catatLog(
+              detailKlaim.idNgo,
+              `Mengonfirmasi pengambilan klaim ${produk.namaProduk} (${detailSurplus.jumlah} ${satuan})`
+          );
+
+          // 6. Mengembalikan pesan keberhasilan.
           return 'Pengambilan produk surplus berhasil dikonfirmasi.';
       });
 

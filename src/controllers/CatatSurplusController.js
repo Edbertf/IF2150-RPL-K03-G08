@@ -1,4 +1,5 @@
 const ProdukSurplus = require('../models/ProdukSurplus');
+const LogAktivitas = require('../models/LogAktivitas');
 
 const ZONA_WAKTU = '+07:00';
 
@@ -73,6 +74,11 @@ class CatatSurplusController {
             batasWaktu: batas
         });
 
+        LogAktivitas.catatLog(
+            req.user.idAkun,
+            `Mencatat surplus ${produk.nama_produk} (${jumlahAngka} ${produk.kategori === 'Minuman' ? 'gelas' : 'porsi'})`
+        );
+
         return res.redirect(`/surplus/${idSurplus}/donasi`);
     }
 
@@ -83,6 +89,10 @@ class CatatSurplusController {
 
         if (namaProduk) {
             ProdukSurplus.tambahProduk(idPemilik, namaProduk, kategori);
+            LogAktivitas.catatLog(
+                req.user.idAkun,
+                `Menambahkan produk ${namaProduk}`
+            );
         }
 
         return res.redirect('/surplus/catat');
@@ -112,6 +122,10 @@ class CatatSurplusController {
                 idPemilik,
                 namaProduk,
                 kategori
+            );
+            LogAktivitas.catatLog(
+                req.user.idAkun,
+                `Memperbarui produk ${namaProduk}`
             );
         }
 

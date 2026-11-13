@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const Pendaftaran = require('../models/Pendaftaran');
 const DokumenPendukung = require('../models/DokumenPendukung');
+const LogAktivitas = require('../models/LogAktivitas');
 
 const LABEL_TIPE = {
     pemilik_fnb: 'Pemilik F&B',
@@ -98,6 +99,15 @@ exports.prosesVerifikasi = (req, res) => {
         const pesan = encodeURIComponent('Pendaftaran tidak ditemukan atau sudah pernah diverifikasi.');
         return res.redirect(`/admin/verifikasi/${idPendaftaran}?pesan=${pesan}`);
     }
+
+    const detail = Pendaftaran.getDetailPendaftar(idPendaftaran);
+    const nama = detail.namaUsaha || detail.namaOrganisasi || detail.email;
+    const labelKeputusan = status === 'diterima' ? 'disetujui' : 'ditolak';
+
+    LogAktivitas.catatLog(
+        req.user.idAkun,
+        `Verifikasi pendaftaran ${nama} ${labelKeputusan}`
+    );
 
     return res.redirect(`/admin/verifikasi/${idPendaftaran}/hasil`);
 };
