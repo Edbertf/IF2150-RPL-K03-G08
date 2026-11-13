@@ -273,6 +273,7 @@ function bangunIdentitas(akun) {
     const profil = PerwakilanNGO.cariBerdasarkanAkun(akun.idAkun);
     return {
         idAkun: akun.idAkun,
+        idNgo: akun.idAkun,
         role: 'perwakilan_ngo',
         email: akun.email,
         nama: profil ? profil.namaOrganisasi : akun.email,
