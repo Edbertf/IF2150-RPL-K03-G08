@@ -1,5 +1,9 @@
 const db = require('./config/db');
 
+const bcrypt = require('bcryptjs');
+
+const passwordHash = bcrypt.hashSync('password-dummy', 10);
+
 try {
     const buatSurplusDummy = db.transaction(() => {
 
@@ -19,17 +23,28 @@ try {
 
         if (akun) {
             if (akun.tipe_akun !== 'pemilik_fnb') {
-                throw new Error('Email dummy sudah digunakan oleh tipe akun lain.');
+                throw new Error(
+                    'Email dummy sudah digunakan oleh tipe akun lain.'
+                );
             }
 
             idAkun = akun.id_akun;
+
+            db.prepare(`
+                UPDATE akun_pengguna
+                SET kata_sandi = ?
+                WHERE id_akun = ?
+            `).run(passwordHash, idAkun);
+
         } else {
             const hasilAkun = db.prepare(`
                 INSERT INTO akun_pengguna (
-                    email, kata_sandi, tipe_akun
+                    email,
+                    kata_sandi,
+                    tipe_akun
                 )
                 VALUES (?, ?, ?)
-            `).run(email, 'password-dummy', 'pemilik_fnb');
+            `).run(email, passwordHash, 'pemilik_fnb');
 
             idAkun = Number(hasilAkun.lastInsertRowid);
         }
@@ -131,6 +146,15 @@ try {
 
         if (surplus) {
             idSurplus = surplus.id_surplus;
+
+            // Perbarui batas waktu surplus yang masih tersedia.
+            db.prepare(`
+                UPDATE produk_surplus
+                SET batas_waktu_pengambilan =
+                    datetime('now', '+2 days', 'localtime')
+                WHERE id_surplus = ?
+                AND status = 'tersedia'
+            `).run(idSurplus);
         } else {
             const hasilSurplus = db.prepare(`
                 INSERT INTO produk_surplus (
@@ -140,12 +164,11 @@ try {
                     batas_waktu_pengambilan,
                     status
                 )
-                VALUES (?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, datetime('now', '+2 days', 'localtime'), ?)
             `).run(
                 idProduk,
                 idPemilik,
                 12,
-                '2026-11-12 20:00:00',
                 'tersedia'
             );
 

@@ -1,20 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
+const { butuhPeran } = require('../middleware/peran');
+
+router.use(butuhPeran('perwakilan_ngo'));
+
 const SurplusController = require('../controllers/SurplusController');
 const KlaimController = require('../controllers/KlaimController');
-
 const DokumenKlaim = require('../models/DokumenKlaim');
 
-// ==========================================
-// IDENTITAS NGO DUMMY
-// ==========================================
-
-const DUMMY_NGO = {
-    idNgo: 1,
-    namaOrganisasi: 'Yayasan Berbagi Kasih',
-    lokasi: 'Jl. Dipatiukur, Bandung'
-};
 
 // ==========================================
 // HELPER
@@ -75,7 +69,7 @@ function formatBatasWaktu(nilaiTanggal) {
 }
 
 // Mengubah hasil SurplusController menjadi objek yang digunakan EJS.
-function buatDataSurplus(detail) {
+function buatDataSurplus(detail, namaOrganisasi) {
     const batasWaktu = formatBatasWaktu(
         detail.detailSurplus.batasWaktuPengambilan
     );
@@ -102,7 +96,7 @@ function buatDataSurplus(detail) {
         batasWaktuTampil: batasWaktu,
         batasWaktuSingkat: batasWaktu,
 
-        namaOrganisasi: DUMMY_NGO.namaOrganisasi
+        namaOrganisasi
     };
 }
 
@@ -114,7 +108,7 @@ router.get('/surplus/:idSurplus', (req, res) => {
     try {
         const detail = SurplusController.ambilDetailSurplus(
             req.params.idSurplus,
-            DUMMY_NGO.lokasi
+            req.user.lokasi
         );
 
         // N4 hanya dapat dibuka jika surplus masih tersedia.
@@ -124,7 +118,7 @@ router.get('/surplus/:idSurplus', (req, res) => {
             );
         }
 
-        const surplus = buatDataSurplus(detail);
+        const surplus = buatDataSurplus(detail, req.user.nama);
 
         return res.render('ngo/N4-DetailProduk', {
             surplus
@@ -143,9 +137,11 @@ router.get('/surplus/:idSurplus', (req, res) => {
 
 router.post('/surplus/:idSurplus/klaim', (req, res) => {
     try {
+        const idNgo = req.user.idNgo ?? req.user.idAkun;
+
         const idKlaim = KlaimController.setujuiKlaim(
             req.params.idSurplus,
-            DUMMY_NGO.idNgo
+            idNgo
         );
 
         // Jika berhasil, arahkan NGO ke halaman N6.
@@ -181,7 +177,9 @@ router.get('/klaim/:idKlaim/berhasil', (req, res) => {
         }
 
         // Memastikan klaim tersebut milik NGO dummy yang sedang digunakan.
-        if (Number(detailKlaim.idNgo) !== DUMMY_NGO.idNgo) {
+        const idNgo = req.user.idNgo ?? req.user.idAkun;
+
+        if (Number(detailKlaim.idNgo) !== Number(idNgo)) {
             return res.status(403).send(
                 'Anda tidak memiliki akses ke dokumen klaim ini.'
             );
@@ -190,11 +188,11 @@ router.get('/klaim/:idKlaim/berhasil', (req, res) => {
         // Mengambil kembali detail surplus untuk kebutuhan N6.
         const detail = SurplusController.ambilDetailSurplus(
             detailKlaim.idSurplus,
-            DUMMY_NGO.lokasi
+            req.user.lokasi
         );
 
         const surplus = {
-            namaOrganisasi: DUMMY_NGO.namaOrganisasi,
+            namaOrganisasi: req.user.nama,
             namaProduk: detail.detailProduk.namaProduk,
             jumlah: detail.detailSurplus.jumlah,
             satuan: 'porsi',

@@ -1,4 +1,6 @@
 const db = require('./config/db');
+const bcrypt = require('bcryptjs');
+const passwordHash = bcrypt.hashSync('password-dummy', 10);
 
 try {
     const buatNgoDummy = db.transaction(() => {
@@ -15,12 +17,21 @@ try {
 
         if (akun) {
             if (akun.tipe_akun !== 'perwakilan_ngo') {
-                throw new Error('Email dummy sudah digunakan oleh tipe akun lain.');
+                throw new Error(
+                    'Email dummy sudah digunakan oleh tipe akun lain.'
+                );
             }
 
             idNgo = akun.id_akun;
+
+            // Memastikan akun dummy menggunakan password hash.
+            db.prepare(`
+                UPDATE akun_pengguna
+                SET kata_sandi = ?
+                WHERE id_akun = ?
+            `).run(passwordHash, idNgo);
+
         } else {
-            // 2. Buat akun NGO.
             const hasilAkun = db.prepare(`
                 INSERT INTO akun_pengguna (
                     email,
@@ -28,7 +39,7 @@ try {
                     tipe_akun
                 )
                 VALUES (?, ?, ?)
-            `).run(email, 'password-dummy', 'perwakilan_ngo');
+            `).run(email, passwordHash, 'perwakilan_ngo');
 
             idNgo = Number(hasilAkun.lastInsertRowid);
         }
