@@ -172,15 +172,44 @@ Tabel 3.1. Lingkungan Implementasi
 
 ## 3.2 Implementasi Modul
 
-Daftar modul/kelas yang **TELAH** diimplementasikan. Gunakan nama dan ID kelas yang sama dengan DPPL, dan konsisten dengan Tabel B.5 pada dokumen Implementasi (Tugas 9).
-
 Tabel 3.2. Implementasi Modul
 
 | No | ID Kelas | Nama Modul/Kelas | Nama File Fisik | Nama File Executable |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | *[C01]* | *[Nama modul/kelas]* | *[path/ke/file]* | *[Nama file executable, atau - jika tidak ada]* |
-| 2 | *[C02]* | *[Nama modul/kelas]* | *[path/ke/file]* | *[...]* |
-| ... | *...* | *...* | *...* | *...* |
+| 1 | *C01* | *AkunPengguna* | *src/models/AkunPengguna.js* | *-* |
+| 2 | *C02* | *Pendaftaran* | *src/models/Pendaftaran.js* | *-* |
+| 3 | *C03* | *DokumenPendukung* | *src/models/DokumenPendukung.js* | *-* |
+| 4 | *C04* | *VerifikasiController* | *src/controllers/VerifikasiController.js*, *src/routes/admin.js* | *-* |
+| 5 | *C05* | *Produk* | *src/models/Produk.js* | *-* |
+| 6 | *C06* | *DataPenjualan* | *src/models/DataPenjualan.js* | *-* |
+| 7 | *C07* | *PrediksiProduksi* | *src/models/PrediksiProduksi.js* | *-* |
+| 8 | *C08* | *ProdukSurplus* | *src/models/ProdukSurplus.js* | *-* |
+| 9 | *C09* | *MetodeDistribusiSurplus* | *src/models/MetodeDistribusiSurplus.js* | *-* |
+| 10 | *C10* | *DokumenKlaim* | *src/models/DokumenKlaim.js* | *-* |
+| 11 | *C11* | *LogAktivitas* | *src/models/LogAktivitas.js* | *-* |
+| 12 | *C12* | *RegistrasiPage* | *src/views/auth/I02-I03-Registrasi.ejs*, *src/routes/auth.js* | *-* |
+| 13 | *C13* | *VerifikasiPage* | *src/views/admin/I19-VerifikasiPendaftar.ejs*, *src/views/admin/I20-DetailPendaftar.ejs*, *src/views/admin/I21-I22-HasilVerifikasi.ejs*, *src/routes/admin.js* | *-* |
+| 14 | *C14* | *StatusPendaftaranPage* | *src/views/auth/I04-StatusPendaftaran.ejs*, *src/routes/status.js* | *-* |
+| 15 | *C15* | *PenjualanPage* | *src/views/fnb/I06-PenjualanHarian.ejs*, *src/views/fnb/I07-PenjualanTersimpan.ejs*, *src/routes/fnb.js* | *-* |
+| 16 | *C16* | *PrediksiPage* | *src/views/fnb/I05-DashboardF&B.ejs*, *src/controllers/PrediksiController.js* | *-* |
+| 17 | *C17* | *ProdukSurplusPage* | *src/views/surplus/I08-CatatSurplus.ejs*, *src/controllers/CatatSurplusController.js* | *-* |
+| 18 | *C18* | *DistribusiSurplusPage* | *src/views/surplus/I09-AturDistribusi.ejs*, *src/views/surplus/I11-SuksesPublikasi.ejs*, *src/controllers/DistribusiSurplusController.js* | *-* |
+| 19 | *C19* | *DaftarSurplusPage* | *src/views/ngo/I12-DaftarSurplus.ejs*, *src/controllers/SurplusController.js* | *-* |
+| 20 | *C20* | *KlaimPage* | *src/views/ngo/I15-DetailProduk.ejs*, *src/views/ngo/N6-KlaimBerhasil.ejs*, *src/routes/ngo.js* | *-* |
+| 21 | *C21* | *PengambilanPage* | *src/views/ngo/N7-KlaimSaya.ejs*, *src/views/ngo/N7-PengambilanSelesai.ejs*, *src/views/ngo/partials/N5-KonfirmasiKlaim.ejs*, *src/routes/ngo.js* | *-* |
+| 22 | *C22* | *LogAktivitasPage* | *src/views/admin/I23-LogAktivitas.ejs* | *-* |
+| 23 | *C23* | *AuthController* | *src/controllers/AuthController.js* | *-* |
+| 24 | *C24* | *PenjualanController* | *src/controllers/PenjualanController.js* | *-* |
+| 25 | *C25* | *PrediksiController* | *src/controllers/PrediksiController.js* | *-* |
+| 26 | *C26* | *ProdukSurplusController* | *src/controllers/CatatSurplusController.js*, *src/controllers/DistribusiSurplusController.js* | *-* |
+| 27 | *C27* | *SurplusController* | *src/controllers/SurplusController.js* | *-* |
+| 28 | *C28* | *KlaimController* | *src/controllers/KlaimController.js* | *-* |
+| 29 | *C29* | *LogController* | *src/controllers/LogController.js*, *src/routes/log.js* | *-* |
+| 30 | *C30* | *PemilikFnB* | *src/models/PemilikFnB.js* | *-* |
+| 31 | *C31* | *PerwakilanNGO* | *src/models/PerwakilanNGO.js* | *-* |
+| 32 | *C32* | *AdminSistem* | *src/middleware/peran.js*, *src/routes/admin.js*, *src/routes/log.js* | *-* |
+| 33 | *C33* | *GeolocationAdapter* | *src/models/GeolocationAdapter.js* | *-* |
+| 34 | *C34* | *PenyaringanController* | *src/controllers/SurplusController.js* | *-* |
 
 ## 3.3 Implementasi Antarmuka
 
