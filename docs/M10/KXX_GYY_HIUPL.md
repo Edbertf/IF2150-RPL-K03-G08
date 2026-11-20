@@ -1197,7 +1197,6 @@ Tabel 4.6. Bukti Hasil Pengujian
 | *C34-UT01 – C34-UT06* | *<img src="assets/Bukti-4.2/C34-UT.png">* |
 | *C34 (coverage)* | *<img src="assets/Bukti-4.2/C34-Coverage.png">* |
 | *INT-TC01* | *[Sisipkan bukti pengujian integrasi]* |
-<<<<<<< Updated upstream
 | *UC01-TC01* | *<img src="assets/Bukti-4.4/UC01-TC01.png">* |
 | *UC01-TC02* | *<img src="assets/Bukti-4.4/UC01-TC02.png">* |
 | *UC01-TC03* | *<img src="assets/Bukti-4.4/UC01-TC03.png">* |
@@ -1238,13 +1237,6 @@ Tabel 4.6. Bukti Hasil Pengujian
 | *UC12-TC02* | *<img src="assets/Bukti-4.4/UC12-TC02.png">* |
 | *UC12-TC03* | *<img src="assets/Bukti-4.4/UC12-TC03.png">* |
 | *UC12-TC04* | *Filter tanpa hasil: <img src="assets/Bukti-4.4/UC12-TC04-a.png"><br>Belum ada log: <img src="assets/Bukti-4.4/UC12-TC04-b.png">* |
-=======
-| *UC01-TC01* | *<img src="assets/Bukti-4.4/UC01/UC01-TC01.png">* |
-| *UC01-TC02* | *<img src="assets/Bukti-4.4/UC01/UC01-TC02.png">* |
-| *UC01-TC03* | *<img src="assets/Bukti-4.4/UC01/UC01-TC03.png">* |
-| *UC02-TC01* | *<img src="assets/Bukti-4.4/UC02/UC02-TC01.png">* |
-| *UC02-TC02* | *<img src="assets/Bukti-4.4/UC02/UC02-TC02.png">* |
->>>>>>> Stashed changes
 | *KNF01-TC01* | *[Sisipkan bukti pengukuran parameter KNF01-TC01]* |
 | *...* | *...* |
 
