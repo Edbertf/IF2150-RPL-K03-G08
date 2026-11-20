@@ -1168,7 +1168,7 @@ Tabel 4.4.9. Hasil Pengujian Use Case UC09
 
 | ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| *UC09-TC01* | *KF12* | *Normal* | *1. Masuk sebagai Perwakilan NGO.<br>2. Buka halaman daftar produk surplus.<br>3. Masukkan kata kunci "roti" dan pilih jenis "Makanan".<br>4. Terapkan penyaringan.* | *Kata kunci "roti"; jenis "Makanan".* | *Sistem menampilkan produk surplus yang sesuai dengan kata kunci dan seluruh kriteria, tetap diurutkan berdasarkan jarak terdekat.* | *Sesuai. Hanya produk makanan yang memuat kata kunci tampil dan urutan jarak tetap berlaku.* | *Pass* |
+| *UC09-TC01* | *KF12* | *Normal* | *1. Masuk sebagai Perwakilan NGO.<br>2. Buka halaman daftar produk surplus.<br>3. Masukkan kata kunci "roti" dan pilih jenis "Makanan".<br>4. Terapkan penyaringan.* | *Kata kunci "roti"; jenis "Makanan".* | *Sistem menampilkan produk surplus yang sesuai dengan kata kunci dan seluruh kriteria, tetap diurutkan berdasarkan jarak terdekat.* | *Sesuai. Menampilkan 3 hasil dari 5 produk yang tersedia; seluruhnya makanan yang memuat kata kunci "roti" dan urutan jarak tetap berlaku.* | *Pass* |
 | *UC09-TC02* | *KF12* | *Alternatif 1: Tidak Ada Produk yang Sesuai* | *1. Buka halaman daftar produk surplus.<br>2. Masukkan kata kunci yang tidak cocok dengan produk mana pun.<br>3. Terapkan penyaringan.* | *Kata kunci "tidakada".* | *Sistem menampilkan pesan bahwa tidak ada produk yang sesuai dan tetap menampilkan kata kunci serta kriteria yang digunakan.* | *Sesuai. Pesan kosong ditampilkan dan kata kunci tetap terlihat pada kolom pencarian.* | *Pass* |
 | *UC09-TC03* | *KF12* | *Batas: Kombinasi Filter Jarak dan Batas Waktu* | *1. Buka panel penyaringan.<br>2. Pilih jarak maksimal 2 km dan batas waktu "Besok".<br>3. Terapkan penyaringan.* | *Jarak maksimal 2 km; batas waktu "Besok".* | *Sistem menerapkan seluruh kriteria secara bersamaan dan hanya menampilkan produk yang memenuhi semuanya.* | *Sesuai. Hanya produk dalam radius 2 km yang berbatas waktu besok ditampilkan; filter jarak dan waktu bekerja bersamaan.* | *Pass* |
 
@@ -1208,7 +1208,7 @@ Tabel 4.4.12. Hasil Pengujian Use Case UC12
 | ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | *UC12-TC01* | *KF15* | *Normal* | *1. Masuk sebagai Admin Sistem.<br>2. Buka menu log aktivitas pengguna.<br>3. Terapkan penyaringan "Klaim".* | *Daftar log tanpa filter; filter "Klaim".* | *Sistem menampilkan daftar log aktivitas beserta pilihan penyaringan, lalu menampilkan log yang sesuai dengan kriteria.* | *Sesuai. Daftar awal menampilkan seluruh aktivitas dan filter "Klaim" menampilkan hanya aktivitas klaim.* | *Pass* |
-| *UC12-TC02* | *KF15* | *Negatif: Kriteria Penyaringan Tidak Dikenal* | *1. Buka menu log aktivitas.<br>2. Terapkan kriteria penyaringan di luar pilihan yang tersedia.* | *Nilai filter di luar empat pilihan.* | *Sistem menolak penyaringan dan menampilkan pesan galat.* | *Sesuai. Halaman menampilkan status 400 beserta pesan bahwa kategori filter tidak dikenal.* | *Pass* |
+| *UC12-TC02* | *KF15* | *Negatif: Kriteria Penyaringan Tidak Dikenal* | *1. Buka menu log aktivitas.<br>2. Terapkan kriteria penyaringan di luar pilihan yang tersedia.* | *Nilai filter di luar empat pilihan.* | *Sistem menolak penyaringan dan menampilkan pesan galat.* | *Sesuai. Permintaan ditolak dengan status 400; halaman log ditampilkan ulang dengan banner "Kriteria penyaringan tidak valid." tanpa menerapkan filter.* | *Pass* |
 | *UC12-TC03* | *KF15* | *Negatif: Aktor Bukan Admin Sistem* | *Buka menu log aktivitas menggunakan sesi Perwakilan NGO atau Pemilik F&B.* | *Sesi non-admin.* | *Sistem menolak akses pengguna yang bukan Admin Sistem.* | *Sesuai. Pengguna non-admin menerima status 403 dan tidak dapat melihat log.* | *Pass* |
 | *UC12-TC04* | *KF15* | *Alternatif 1: Tidak Ada Log yang Sesuai dengan Penyaringan* | *1. Buka menu log aktivitas.<br>2. Terapkan kriteria penyaringan yang tidak cocok dengan log mana pun.* | *Kriteria filter tanpa hasil.* | *Sistem menampilkan pesan bahwa tidak ada log aktivitas yang sesuai dengan kriteria tersebut.* | *Sesuai. Pesan bahwa tidak ada log yang sesuai ditampilkan dengan filter tetap aktif.* | *Pass* |
 | *UC12-TC05* | *KF15* | *Alternatif 2: Belum Ada Log Aktivitas* | *Buka menu log aktivitas ketika belum ada aktivitas pengguna yang tercatat.* | *Tabel log masih kosong.* | *Sistem menampilkan pesan bahwa belum ada log aktivitas pengguna yang tersedia.* | *Sesuai. Pesan khusus "belum ada log aktivitas" ditampilkan dan berbeda dari pesan filter tanpa hasil.* | *Pass* |
@@ -1295,21 +1295,21 @@ Tabel 4.6. Bukti Hasil Pengujian
 | *UC07-TC03* | *<img src="assets/Bukti-4.4/UC07-TC03.png">* |
 | *UC08-TC01* | *Daftar terurut jarak: <img src="assets/Bukti-4.4/UC08-TC01-a.png"><br>Detail produk: <img src="assets/Bukti-4.4/UC08-TC01-b.png">* |
 | *UC08-TC02* | *<img src="assets/Bukti-4.4/UC08-TC02.png">* |
-| *UC08-TC03* | *Sebelum klaim: <img src="assets/Bukti-4.4/UC08-TC03-a.png"><br>Sesudah klaim: <img src="assets/Bukti-4.4/UC08-TC03-b.png">* |
+| *UC08-TC03* | *Sebelum klaim (5 produk): <img src="assets/Bukti-4.4/UC08-TC03-a.png"><br>Sesudah klaim (3 produk): <img src="assets/Bukti-4.4/UC08-TC03-b.png">* |
 | *UC09-TC01* | *<img src="assets/Bukti-4.4/UC09-TC01.png">* |
 | *UC09-TC02* | *<img src="assets/Bukti-4.4/UC09-TC02.png">* |
 | *UC09-TC03* | *Hasil filter: <img src="assets/Bukti-4.4/UC09-TC03.png"><br>Panel filter: <img src="assets/Bukti-4.4/UC09-TC03-b.png">* |
 | *UC10-TC01* | *<img src="assets/Bukti-4.4/UC10-TC01.png">* |
-| *UC10-TC02* | *Respons klaim kedua: <img src="assets/Bukti-4.4/UC10-TC02-a.png"><br>Detail bagi NGO lain: <img src="assets/Bukti-4.4/UC10-TC02-b.png">* |
-| *UC10-TC03* | *<img src="assets/Bukti-4.4/UC10-TC03.png">* |
+| *UC10-TC02* | *Respons klaim kedua (409): <img src="assets/Bukti-4.4/UC10-TC02-a.png"><br>Detail bagi NGO lain: <img src="assets/Bukti-4.4/UC10-TC02-b.png">* |
+| *UC10-TC03* | *Klaim yang berhasil dari 12 permintaan serentak: <img src="assets/Bukti-4.4/UC10-TC03.png">* |
 | *UC11-TC01* | *<img src="assets/Bukti-4.4/UC11-TC01.png">* |
-| *UC11-TC02* | *Konfirmasi ganda: <img src="assets/Bukti-4.4/UC11-TC02-a.png"><br>NGO lain: <img src="assets/Bukti-4.4/UC11-TC02-b.png">* |
+| *UC11-TC02* | *Konfirmasi ganda (409): <img src="assets/Bukti-4.4/UC11-TC02-a.png"><br>NGO lain (403): <img src="assets/Bukti-4.4/UC11-TC02-b.png">* |
 | *UC11-TC03* | *Pop-up konfirmasi: <img src="assets/Bukti-4.4/UC11-TC03-a.png"><br>Setelah memilih "Tidak": <img src="assets/Bukti-4.4/UC11-TC03-b.png">* |
 | *UC12-TC01* | *Semua log: <img src="assets/Bukti-4.4/UC12-TC01-a.png"><br>Filter Klaim: <img src="assets/Bukti-4.4/UC12-TC01-b.png">* |
-| *UC12-TC02* | *<img src="assets/Bukti-4.4/UC12-TC02.png">* |
-| *UC12-TC03* | *<img src="assets/Bukti-4.4/UC12-TC03.png">* |
+| *UC12-TC02* | *Banner galat penyaringan: <img src="assets/Bukti-4.4/UC12-TC02.png">* |
+| *UC12-TC03* | *Respons 403: <img src="assets/Bukti-4.4/UC12-TC03.png">* |
 | *UC12-TC04* | *Filter tanpa hasil: <img src="assets/Bukti-4.4/UC12-TC04-a.png">* |
-| *UC12-TC05* | *Belum ada log: <img src="assets/Bukti-4.4/UC12-TC04-b.png">* |
+| *UC12-TC05* | *Belum ada log: <img src="assets/Bukti-4.4/UC12-TC05.png">* |
 | *KNF01-TC01* | *[Sisipkan bukti pengukuran parameter KNF01-TC01]* |
 | *...* | *...* |
 
