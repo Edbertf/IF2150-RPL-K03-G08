@@ -28,6 +28,7 @@
 * [Milestone 7](#milestone-7)
 * [Milestone 8](#milestone-8)
 * [Milestone 9](#milestone-9)
+* [Milestone 10](#milestone-10)
 
 ---
 
@@ -74,6 +75,13 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | *Chat GPT* | *Membantu refactor* | *"Memandu langkah-langkah untuk melakukan refactor"* | *Ngelakuin langkah-langkah dengan modifikasi lanjutan* |
 | *Chat GPT* | *Membantu testing* | *"Memandu langkah-langkah untuk melakukan testing"* | *Ngelakuin langkah-langkah dengan disertai pengecekan lanjutan* |
 | *Deepseek* | *Implementasi UC* | *"Bantu implementasi UC"* | *TEsting dan cek sesuai dengan DPPL2* |
+
+### Milestone 10
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+| :--- | :--- | :--- | :--- |
+| *DeepSeek* | *Membantu buat file untuk testing* | *"Bantu buatkan file testing untuk CXX"* | *Memastikan bahwa tesnya sesuai dengan class yang sedang diuji* |
+
+
 
 ---
 ### Pernyataan Integritas dan Persetujuan

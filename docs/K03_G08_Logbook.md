@@ -177,5 +177,6 @@
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
+| *17-11-2026* | *Edbert Fernando* | *Mengerjakan 3.3* | *30 menti* | *Done* | *-* |
 | *20-11-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian 4.3 Pengujian Integrasi* | *3 jam* | *Done* | *-* |
-
+| *20-11-2026* | *Edbert Fernando* | *Mengerjakan 3.2, 4.11, 4.2* | *8 jam* | *Done* | *-* |
