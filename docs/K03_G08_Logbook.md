@@ -183,3 +183,4 @@
 | *20-11-2026* | *Edbert Fernando* | *Mengerjakan 3.2, 4.11, 4.2* | *8 jam* | *Done* | *-* |
 | *20-11-2026* | *Abdur Rauuf Fawaaz* | *Mengerjakan 4.5 KNF01 - KNF06* | *5 jam* | *Done* | *-* |
 | *20-11-2026* | *Ernest Clarence Gunawan* | *Mengerjakan Bab 2 dan 4.4.1 - 4.4.6* | *5 jam 30 menit* | *Done* | *-* |
+| *20-11-2026* | *Ernest Clarence Gunawan* | *Mengerjakan uji tes KNF07 - KNF13* | *4 jam* | *Done* | *-* |

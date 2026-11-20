@@ -81,6 +81,7 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | :--- | :--- | :--- | :--- |
 | *DeepSeek* | *Membantu buat file untuk testing* | *"Bantu buatkan file testing untuk CXX"* | *Memastikan bahwa tesnya sesuai dengan class yang sedang diuji* |
 | *Chat GPT* | *Memandu pengujian KNF* | *"Berikan langkah-langkah yang tepat menguji KNF"* | *Memastikan bahwa pengujiannya sesuai* |
+| *Claude* | *Membantu menguji KNF* | *"Buatkan cara agar saya dapat menguji KNF"* | *Memastikan bahwa hasil pengujian sesuai* |
 
 
 
