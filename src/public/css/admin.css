@@ -117,6 +117,7 @@ body {
 .keluar:hover { border-color: var(--danger); color: var(--danger); }
 
 .main { flex: 1; min-width: 0; max-width: 1000px; padding: 34px 40px 60px; }
+.main.tengah { margin-inline: auto; }
 
 .top {
     display: flex;
