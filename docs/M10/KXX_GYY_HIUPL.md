@@ -382,11 +382,11 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 | *C20* | *KlaimPage* | *Tidak perlu* | *View-only untuk detail dan pengajuan klaim, logika di C28, diuji tidak langsung melalui UC* | |
 | *C21* | *PengambilanPage* | *Tidak perlu* | *View-only untuk detail dan konfirmasi pengambilan, logika di C28, diuji tidak langsung melalui UC* | |
 | *C22* | *LogAktivitasPage* | *Tidak perlu* | *View-only untuk dashboard log, logika di C29 dan C11, diuji tidak langsung melalui UC* | |
-| *C23* | *AuthController* | *Mendalam* | *Memvalidasi kelengkapan dan format registrasi serta mengecek status pendaftaran* | |
-| *C24* | *PenjualanController* | *Mendalam* | *Memvalidasi input penjualan dengan batas numerik lalu menyimpan data* | |
-| *C25* | *PrediksiController* | *Mendalam* | *Mengecek kecukupan data historis dan menjalankan prediksi produksi* | |
-| *C26* | *ProdukSurplusController* | *Mendalam* | *Memvalidasi data surplus dan metode distribusi lalu menyimpan keduanya* | |
-| *C27* | *SurplusController* | *Mendalam* | *Mengambil surplus tersedia, menghitung jarak lewat C33, dan mengurutkan hasil* | |
+| *C23* | *AuthController* | *Mendalam* | *Memvalidasi kelengkapan dan format registrasi serta mengecek status pendaftaran* | C23-UT01 s.d. C23-UT15 |
+| *C24* | *PenjualanController* | *Mendalam* | *Memvalidasi input penjualan dengan batas numerik lalu menyimpan data* | C24-UT01 s.d. C24-UT07 |
+| *C25* | *PrediksiController* | *Mendalam* | *Mengecek kecukupan data historis dan menjalankan prediksi produksi* | C25-UT01 s.d. C25-UT07 |
+| *C26* | *ProdukSurplusController* | *Mendalam* | *Memvalidasi data surplus dan metode distribusi lalu menyimpan keduanya* | C26-UT01 s.d. C26-UT16 |
+| *C27* | *SurplusController* | *Mendalam* | *Mengambil surplus tersedia, menghitung jarak lewat C33, dan mengurutkan hasil* | C27-UT01 s.d. C27-UT11 |
 | *C28* | *KlaimController* | *Mendalam* | *Mengelola persetujuan klaim, ketersediaan, penguncian, dan konfirmasi pengambilan* | |
 | *C29* | *LogController* | *Sedang* | *Hanya memilih kriteria filter dan mendelegasikan pencarian ke C11, diuji juga melalui integrasi* | |
 | *C30* | *PemilikFnB* | *Tidak perlu* | *Kelas peran/entity pemilik F&B yang menyimpan data dan mendelegasikan aksi ke controller/model, diuji tidak langsung melalui UC* | |
@@ -693,6 +693,165 @@ Tabel 4.2.10b. Ringkasan Cakupan Kelas LogAktivitas
 | ID Algoritma yang tercakup | *Algo-C11-01, Algo-C11-02* |
 | Coverage (wajib ≥ 70%) | *100% baris / 100% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
 
+### 4.2.11 Kelas AuthController
+
+**ID Kelas:** *C23*  
+**Nama Kelas:** *AuthController*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.11. Hasil Pengujian Unit Kelas AuthController
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C23-UT01* | *`registrasiAkun()`* | *Normal* | *Form F&B valid dengan dokumen PDF* | *Akun, profil F&B, pendaftaran, dokumen, dan log tersimpan; status `menunggu verifikasi`* | *Lulus, idAkun/idPendaftaran > 0, hash bcrypt, 1 dokumen PDF, log tercatat* | *Pass* |
+| *C23-UT02* | *`registrasiAkun()`* | *Batas* | *Form NGO dengan kata sandi 72 karakter; nama organisasi 120; nomor legalitas 120; lokasi 255* | *Akun dan profil NGO tersimpan dengan nilai batas; tabel F&B tidak bertambah; log tercatat* | *Lulus, profil dan log memakai nilai batas* | *Pass* |
+| *C23-UT03* | *`registrasiAkun()`* | *Negatif* | *Jam operasional kosong; dokumen tidak ada; dokumen `.exe`; email duplikat* | *`GalatRegistrasi` dengan field yang sesuai; tidak ada akun/berkas sisa* | *Lulus, seluruh error terdeteksi dan jumlah akun tetap* | *Pass* |
+| *C23-UT04* | *`validasiKelengkapanData()`* | *Normal* | *Form F&B dan NGO valid; isian berspasi dan email berhuruf besar* | *`true`; normalisasi memangkas spasi, lowercase email, dan sandi non-string menjadi kosong* | *Lulus, kedua formulir valid dan normalisasi sesuai* | *Pass* |
+| *C23-UT05* | *`validasiKelengkapanData()`* | *Batas* | *Email 257 karakter; sandi 73 karakter; alamat 256 karakter; lokasi NGO 256 karakter* | *`false` untuk tiap nilai di atas batas* | *Lulus, seluruh nilai di atas batas ditolak* | *Pass* |
+| *C23-UT06* | *`validasiKelengkapanData()`* | *Negatif* | *Tipe akun salah; email kosong/format salah; sandi kosong/pendek; field wajib kosong* | *`false`; `daftarErrorKelengkapan()` menunjuk field bermasalah* | *Lulus, seluruh input tidak valid ditolak* | *Pass* |
+| *C23-UT07* | *`validasiFormatDokumen()`* | *Normal* | *Berkas PDF, JPG, dan PNG valid* | *`true` untuk ketiga format* | *Lulus, tiga format diterima* | *Pass* |
+| *C23-UT08* | *`validasiFormatDokumen()`* | *Batas* | *Berkas 0 byte dan berkas 5 MB + 1 byte* | *`false` untuk keduanya* | *Lulus, berkas kosong dan melebihi batas ditolak* | *Pass* |
+| *C23-UT09* | *`validasiFormatDokumen()`* | *Negatif* | *Berkas tidak ada; `.exe`; MIME tidak cocok; tanpa ekstensi* | *`false` untuk seluruh berkas* | *Lulus, seluruh berkas tidak layak ditolak* | *Pass* |
+| *C23-UT10* | *`cekStatusPendaftaran()`* | *Normal* | *Pendaftaran berstatus `menunggu verifikasi`* | *Status dan tanggal daftar `YYYY-MM-DD` dikembalikan* | *Lulus, status dan tanggal sesuai* | *Pass* |
+| *C23-UT11* | *`cekStatusPendaftaran()`* | *Batas* | *Pendaftaran berstatus `diterima` dan `ditolak`* | *Status terbaru terbaca untuk keduanya* | *Lulus, status `diterima` dan `ditolak` sesuai* | *Pass* |
+| *C23-UT12* | *`cekStatusPendaftaran()`* | *Negatif* | *Akun tanpa pendaftaran* | *`{ ditemukan: false, pesan: 'Pendaftaran belum tersedia.' }`* | *Lulus, pesan tidak ditemukan sesuai* | *Pass* |
+| *C23-UT13* | *`tampilkanFormRegistrasi()`, `tampilkanFormRegistrasiDenganError()`, `kirimFormulirRegistrasi()`* | *Normal/Negatif* | *GET form F&B/NGO; POST valid; POST error* | *Form/error dirender; sukses dialihkan ke `/daftar/berhasil`; berkas error dihapus* | *Lulus, respons dan pembersihan berkas sesuai* | *Pass* |
+| *C23-UT14* | *`masuk()`* | *Normal/Negatif* | *Kredensial kosong/salah; akun admin, menunggu, diterima F&B/NGO, dan tanpa profil* | *Error atau redirect sesuai status dan peran* | *Lulus, seluruh cabang login sesuai* | *Pass* |
+| *C23-UT15* | *`keluar()`, `tampilkanHalamanMasuk()`, `tampilkanStatusPendaftaran()`, `tampilkanHalamanBerhasil()`* | *Normal/Negatif* | *Logout; halaman masuk; status menunggu; id status tidak ada; halaman berhasil* | *Sesi dihancurkan; halaman/redirect/404 sesuai* | *Lulus, respons halaman dan logout sesuai* | *Pass* |
+
+Tabel 4.2.11b. Ringkasan Cakupan Kelas AuthController
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`registrasiAkun()`, `validasiKelengkapanData()`, `validasiFormatDokumen()`, `cekStatusPendaftaran()`* |
+| Operasi yang diuji | *Empat operasi public di atas, ditambah `normalisasiFormulir()`, `daftarErrorKelengkapan()`, dan handler HTTP registrasi/masuk/keluar/status* |
+| ID Algoritma yang tercakup | *Algo-C23-01 s.d. Algo-C23-04* |
+| Coverage (wajib ≥ 70%) | *98.51% baris / 92.56% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.12 Kelas PenjualanController
+
+**ID Kelas:** *C24*  
+**Nama Kelas:** *PenjualanController*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.12. Hasil Pengujian Unit Kelas PenjualanController
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C24-UT01* | *`validasiInputPenjualan()`* | *Normal* | *Dua produk dengan `idProduk` terisi; `jumlahTerjual` 10 dan 0; `jumlahTersisa` 2 dan 5* | *`validasiInputPenjualan()` mengembalikan `true`* | *Lulus, kedua produk valid dan fungsi mengembalikan `true`* | *Pass* |
+| *C24-UT02* | *`validasiInputPenjualan()`* | *Batas* | *Nilai 0 dan 1000 pada kedua field; lalu 1001 pada `jumlahTerjual` dan `jumlahTersisa`* | *Nilai 0 dan 1000 diterima; nilai 1001 ditolak* | *Lulus, nilai 0 dan 1000 diterima; nilai 1001 ditolak* | *Pass* |
+| *C24-UT03* | *`validasiInputPenjualan()`* | *Negatif* | *Array kosong; non-array; `idProduk` null/undefined; jumlah desimal, negatif, dan NaN* | *`validasiInputPenjualan()` mengembalikan `false` untuk seluruh input* | *Lulus, seluruh input tidak valid mengembalikan `false`* | *Pass* |
+| *C24-UT04* | *`simpanDataPenjualan()`* | *Normal* | *Dua produk valid disimpan untuk tanggal hari ini* | *Dua baris tersimpan dengan jumlah terjual dan tersisa sesuai* | *Lulus, dua baris tersimpan dengan jumlah sesuai* | *Pass* |
+| *C24-UT05* | *`simpanDataPenjualan()`* | *Batas* | *Simpan nilai 0/0 lalu 1000/1000 untuk produk yang sama* | *Nilai batas diterima; baris yang sama diperbarui tanpa duplikasi* | *Lulus, nilai batas tersimpan; baris yang sama diperbarui tanpa duplikasi* | *Pass* |
+| *C24-UT06* | *`simpanDataPenjualan()`* | *Negatif* | *Array kosong; jumlah negatif; `idProduk` 999999* | *Galat validasi atau FOREIGN KEY; tidak ada baris baru* | *Lulus, galat validasi/FOREIGN KEY muncul dan tidak ada baris baru* | *Pass* |
+| *C24-UT07* | *`tampilkanFormPenjualan()`, `tampilkanPenjualanTersimpan()`, `kirimDataPenjualan()`* | *Normal/Negatif* | *Render form dan halaman tersimpan; POST dengan satu field kosong; POST dua produk valid* | *Form menampilkan produk, nilai tersimpan, progres 1/7, dan persen 14; halaman tersimpan dirender; input tidak valid menghasilkan 400; input valid menyimpan dua baris, mencatat log, dan redirect ke `/fnb/penjualan/tersimpan`* | *Lulus, form menampilkan 2 produk dengan progres 1/7 dan persen 14; halaman tersimpan dirender; submit tidak valid 400; submit valid menyimpan 2 baris, log tercatat, dan redirect sesuai* | *Pass* |
+
+Tabel 4.2.12b. Ringkasan Cakupan Kelas PenjualanController
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`validasiInputPenjualan()`, `simpanDataPenjualan()`* |
+| Operasi yang diuji | *`validasiInputPenjualan()`, `simpanDataPenjualan()`, `tampilkanFormPenjualan()`, `tampilkanPenjualanTersimpan()`, `kirimDataPenjualan()`* |
+| ID Algoritma yang tercakup | *Algo-C24-01, Algo-C24-02* |
+| Coverage (wajib ≥ 70%) | *100% baris / 97.83% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.13 Kelas PrediksiController
+
+**ID Kelas:** *C25*  
+**Nama Kelas:** *PrediksiController*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.13. Hasil Pengujian Unit Kelas PrediksiController
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C25-UT01* | *`cekKecukupanData()`* | *Normal* | *Dua produk masing-masing memiliki data pada tujuh tanggal unik dalam 7 hari terakhir* | *`cekKecukupanData()` mengembalikan `true`* | *Lulus, tujuh tanggal unik terdeteksi dan hasil `true`* | *Pass* |
+| *C25-UT02* | *`cekKecukupanData()`* | *Batas* | *Enam tanggal unik dengan 7 baris; lalu tambah satu tanggal menjadi tujuh tanggal unik* | *Enam tanggal unik menghasilkan `false`; tujuh tanggal unik menghasilkan `true`* | *Lulus, 7 baris/6 tanggal menghasilkan `false`; 7 tanggal unik menghasilkan `true`* | *Pass* |
+| *C25-UT03* | *`cekKecukupanData()`* | *Negatif* | *Tanpa data; hanya data lebih dari 7 hari lalu; `idPemilik` 999999* | *`cekKecukupanData()` mengembalikan `false` untuk seluruh input* | *Lulus, data kosong, data lama, dan id 999999 menghasilkan `false`* | *Pass* |
+| *C25-UT04* | *`jalankanPrediksi()`* | *Normal* | *Tujuh hari data untuk dua produk; rata-rata terjual/tersisa 10/2 dan 4/3* | *Dua hasil prediksi tersimpan dan dikembalikan; rekomendasi 11 dan 6; tren 1 dan 2* | *Lulus, dua hasil tersimpan dengan rekomendasi 11 dan 6 serta tren 1 dan 2* | *Pass* |
+| *C25-UT05* | *`jalankanPrediksi()`* | *Batas* | *Tepat tujuh hari dengan penjualan 0 dan tersisa 0; prediksi dijalankan dua kali* | *Rekomendasi 0; hasil tetap satu baris tanpa duplikasi* | *Lulus, rekomendasi 0; dijalankan dua kali tetap satu baris* | *Pass* |
+| *C25-UT06* | *`jalankanPrediksi()`* | *Negatif* | *Enam tanggal unik; 7 baris tetapi 6 tanggal; `idPemilik` 999999* | *Galat `Data historis belum memenuhi syarat minimal 7 hari.`; tidak ada prediksi tersimpan* | *Lulus, galat sesuai dan tidak ada prediksi tersimpan* | *Pass* |
+| *C25-UT07* | *`tampilkanDashboard()`* | *Normal/Negatif* | *Dashboard dengan tujuh hari data; dashboard dengan enam hari data* | *Dashboard penuh menampilkan hasil prediksi, progres 7/7, dan persen 100; dashboard kurang menampilkan `hasilPrediksi` kosong, pesan galat, progres 6/7, dan persen 86* | *Lulus, dashboard lengkap menampilkan hasil prediksi, progres 7/7, dan persen 100; dashboard kurang menampilkan hasil kosong, pesan galat, progres 6/7, dan persen 86* | *Pass* |
+
+Tabel 4.2.13b. Ringkasan Cakupan Kelas PrediksiController
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`cekKecukupanData()`, `jalankanPrediksi()`* |
+| Operasi yang diuji | *`cekKecukupanData()`, `jalankanPrediksi()`, `tampilkanDashboard()`* |
+| ID Algoritma yang tercakup | *Algo-C25-01, Algo-C25-02* |
+| Coverage (wajib ≥ 70%) | *98.23% baris / 91.30% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.14 Kelas ProdukSurplusController
+
+**ID Kelas:** *C26*  
+**Nama Kelas:** *ProdukSurplusController*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.14. Hasil Pengujian Unit Kelas ProdukSurplusController
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C26-UT01* | *`validasiDataSurplus()`* | *Normal* | *Produk Makanan, jumlah 5, batas waktu 2099-01-01 12.00* | *Data diterima, surplus tersimpan, dan pengguna diarahkan ke halaman donasi* | *Lulus, surplus tersimpan, redirect ke `/surplus/{id}/donasi`, id produk dan jumlah sesuai* | *Pass* |
+| *C26-UT02* | *`validasiDataSurplus()`* | *Batas* | *Produk Minuman, jumlah minimum 1, batas waktu 2099-01-01 12.00* | *Data diterima, surplus jumlah 1 tersimpan, dan log memakai satuan gelas* | *Lulus, jumlah 1 tersimpan dan log `(1 gelas)` tercatat* | *Pass* |
+| *C26-UT03* | *`validasiDataSurplus()`* | *Negatif* | *Isian kosong; jumlah 0 dan 1,5; batas waktu lampau; format tanggal salah; produk 999999* | *Setiap masukan ditolak dengan status 400 dan pesan yang sesuai; tidak ada surplus baru* | *Lulus, 8 kasus ditolak 400 dan jumlah surplus tetap* | *Pass* |
+| *C26-UT04* | *`simpanDataSurplus()`* | *Normal* | *Produk Makanan, jumlah 5, batas waktu valid* | *Surplus tersimpan dengan status `tersedia`, id pemilik benar, dan log porsi tercatat* | *Lulus, status `tersedia`, id pemilik benar, batas waktu dan log porsi sesuai* | *Pass* |
+| *C26-UT05* | *`simpanDataSurplus()`* | *Batas* | *Jumlah 1 dan batas waktu di masa depan* | *Surplus jumlah 1 tersimpan dengan status `tersedia`* | *Lulus, jumlah 1 dan status `tersedia` sesuai* | *Pass* |
+| *C26-UT06* | *`simpanDataSurplus()`* | *Negatif* | *Produk milik pemilik lain* | *Permintaan ditolak dengan status 400 dan pesan `Produk tidak ditemukan.`; tidak ada surplus baru* | *Lulus, 400 dengan pesan sesuai dan jumlah surplus tetap* | *Pass* |
+| *C26-UT07* | *`tampilkanFormDistribusi()`* | *Normal* | *Surplus milik pemilik, jumlah 4, batas waktu valid* | *Halaman distribusi dirender dengan nama produk, jumlah, dan batas waktu terformat* | *Lulus, view `surplus/I09-AturDistribusi`, ringkasan nama, jumlah, dan batas waktu sesuai* | *Pass* |
+| *C26-UT08* | *`tampilkanFormDistribusi()`* | *Batas* | *idSurplus 0; batas waktu kosong; batas waktu tidak valid* | *id 0 menghasilkan 404; batas kosong tampil `-`; batas tidak valid tampil apa adanya* | *Lulus, id 0 menghasilkan 404; batas kosong `-`; batas tidak valid tampil apa adanya* | *Pass* |
+| *C26-UT09* | *`tampilkanFormDistribusi()`* | *Negatif* | *idSurplus 999999 dan surplus milik pemilik lain* | *Halaman 404 dengan pesan `Produk surplus tidak ditemukan.`* | *Lulus, kedua kasus menghasilkan 404 dan pesan sesuai* | *Pass* |
+| *C26-UT10* | *`validasiMetodeDistribusi()`* | *Normal* | *Metode Donasi tanpa harga* | *Donasi diterima, metode tersimpan dengan harga 0, dan pengguna diarahkan ke halaman sukses* | *Lulus, Donasi harga 0 tersimpan dan redirect ke `/surplus/sukses`* | *Pass* |
+| *C26-UT11* | *`validasiMetodeDistribusi()`* | *Batas* | *Jual Diskon dengan harga minimum 1* | *Jual Diskon diterima dan harga 1 tersimpan* | *Lulus, Jual Diskon dan harga 1 tersimpan* | *Pass* |
+| *C26-UT12* | *`validasiMetodeDistribusi()`* | *Negatif* | *Diskon harga 0/kosong; surplus berstatus terklaim* | *Permintaan ditolak dengan status 400 dan pesan sesuai; tidak ada metode atau log baru* | *Lulus, seluruh kasus ditolak 400; metode dan log tidak bertambah* | *Pass* |
+| *C26-UT13* | *`simpanMetodeDistribusi()`* | *Normal* | *Donasi pada surplus jumlah 4* | *Metode Donasi tersimpan, sesi sukses terisi, dan log distribusi tercatat* | *Lulus, Donasi tersimpan, sesi sukses terisi, dan log tercatat* | *Pass* |
+| *C26-UT14* | *`simpanMetodeDistribusi()`* | *Batas* | *Jual Diskon dengan harga `Rp 8.000`* | *Harga diparsing menjadi 8000 dan tersimpan; log menampilkan `Rp 8.000`* | *Lulus, harga 8000 tersimpan dan log menampilkan `Rp 8.000`* | *Pass* |
+| *C26-UT15* | *`simpanMetodeDistribusi()`* | *Negatif* | *idSurplus 999999 dan surplus milik pemilik lain* | *Permintaan ditolak dengan status 404; tidak ada metode baru dan log tidak bertambah* | *Lulus, kedua kasus 404; metode dan log tidak bertambah* | *Pass* |
+| *C26-UT16* | *`tampilFormCatat()`, `simpanProdukBaru()`, `tampilEditProduk()`, `simpanEditProduk()`, `tampilSukses()`* | *Normal/Negatif* | *Form tanpa/edit produk; tambah produk valid dan kosong; edit produk valid dan kosong; halaman sukses tanpa/dengan sesi* | *Form dan produk edit dirender; produk valid bertambah/berubah beserta log; isian kosong tidak mengubah data; tanpa sesi dialihkan ke `/surplus/catat`; dengan sesi halaman sukses dirender dan sesi dihapus* | *Lulus, form/edit dirender; tambah/ubah produk dan log sesuai; input kosong tidak mengubah data; tanpa sesi redirect dan dengan sesi render serta sesi dihapus* | *Pass* |
+
+Catatan: kelas *C26 ProdukSurplusController* pada DPPL diimplementasikan sebagai dua controller, yaitu *CatatSurplusController* dan *DistribusiSurplusController*.
+
+Tabel 4.2.14b. Ringkasan Cakupan Kelas ProdukSurplusController
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`validasiDataSurplus()`, `simpanDataSurplus()`, `tampilkanFormDistribusi()`, `validasiMetodeDistribusi()`, `simpanMetodeDistribusi()`* |
+| Operasi yang diuji | *`validasiDataSurplus()` melalui `simpanDataSurplus()`, `simpanDataSurplus()`, `tampilkanFormDistribusi()` melalui `tampilFormDistribusi()`, `validasiMetodeDistribusi()` dan `simpanMetodeDistribusi()` melalui `simpanDistribusi()`, ditambah `tampilFormCatat()`, `simpanProdukBaru()`, `tampilEditProduk()`, `simpanEditProduk()`, `tampilSukses()`* |
+| ID Algoritma yang tercakup | *Algo-C26-01 s.d. Algo-C26-05* |
+| Coverage (wajib ≥ 70%) | *100% baris / 97.40% cabang gabungan; `CatatSurplusController.js` 100%/100%, `DistribusiSurplusController.js` 100%/95.24%, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.15 Kelas SurplusController
+
+**ID Kelas:** *C27*  
+**Nama Kelas:** *SurplusController*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.15. Hasil Pengujian Unit Kelas SurplusController
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C27-UT01* | *`ambilDaftarSurplus()`* | *Normal* | *Dua pemilik dengan jarak berbeda; satu surplus Donasi dan satu Jual Diskon; ditambah surplus lewat dan terklaim* | *Surplus tersedia yang belum lewat dikembalikan, diurutkan dari jarak terdekat, dan surplus lewat/terklaim tidak muncul* | *Lulus, surplus dekat dan jauh terurut, surplus lewat/terklaim tidak muncul, badge dan satuan sesuai* | *Pass* |
+| *C27-UT02* | *`ambilDaftarSurplus()`* | *Batas* | *Pemilik tanpa alamat; produk kategori Lainnya tanpa metode; lokasi pengguna kosong* | *Produk tanpa alamat berjarak `null` dan berada di urutan terakhir; lokasi kosong membuat jarak tidak dihitung* | *Lulus, usaha tanpa alamat berjarak `null` dan terakhir; lokasi kosong membuat seluruh jarak `null`* | *Pass* |
+| *C27-UT03* | *`ambilDaftarSurplus()`* | *Negatif* | *Hanya ada surplus lewat batas waktu dan surplus berstatus terklaim* | *Array kosong karena tidak ada surplus yang layak ditampilkan* | *Lulus, array kosong* | *Pass* |
+| *C27-UT04* | *`ambilDetailSurplus()`* | *Normal* | *Surplus Jual Diskon Rp 12.000, jumlah 3, pemilik beralamat koordinat* | *Detail memuat nama produk, jumlah, badge harga, dan jarak dalam km* | *Lulus, detail memuat nama, jumlah 3 porsi, badge Rp 12.000, dan jarak km* | *Pass* |
+| *C27-UT05* | *`ambilDetailSurplus()`* | *Batas* | *Batas waktu kosong; tanpa metode distribusi; pemilik tanpa alamat; surplus sudah lewat* | *Batas waktu tampil `-`, sisa waktu kosong, badge netral, jarak `null`, dan surplus lewat bertanda `sudah lewat`* | *Lulus, batas waktu kosong `-`, sisa waktu kosong, metode belum diatur, surplus lewat `sudah lewat`* | *Pass* |
+| *C27-UT06* | *`ambilDetailSurplus()`* | *Negatif* | *idSurplus 0; idSurplus `abc`; idSurplus 999999* | *Id tidak valid ditolak dengan pesan `ID produk surplus tidak valid.`; id tidak ada menghasilkan `Produk surplus tidak ditemukan.`* | *Lulus, id 0 dan `abc` ditolak; id 999999 tidak ditemukan* | *Pass* |
+| *C27-UT07* | *`urutkanBerdasarkanJarak()`* | *Normal* | *Tiga data dengan jarak 5, 1, dan 3* | *Urutan naik berdasarkan jarakProduk* | *Lulus, urutan `[2, 3, 1]`* | *Pass* |
+| *C27-UT08* | *`urutkanBerdasarkanJarak()`* | *Batas* | *Data dengan jarak `null`, 2, 2, dan `null`* | *Jarak `null` ditempatkan terakhir; jarak sama diurutkan berdasarkan idSurplus* | *Lulus, urutan `[2, 3, 1, 4]`* | *Pass* |
+| *C27-UT09* | *`urutkanBerdasarkanJarak()`* | *Negatif* | *Array kosong; array dengan jarak `null` dan 1* | *Array kosong menghasilkan array kosong; input asli tidak berubah* | *Lulus, array kosong dan input tidak berubah* | *Pass* |
+| *C27-UT10* | *`tampilkanDaftarSurplus()`* | *Normal/Negatif* | *Filter kata kunci, jenis, jarak, dan waktu; pencarian tanpa hasil; filter tidak valid* | *Filter diterapkan, hasil kosong ditampilkan tanpa galat, dan nilai filter tidak valid diabaikan* | *Lulus, filter menghasilkan C27 Uji Roti; pencarian kosong 0; filter tidak valid diabaikan* | *Pass* |
+| *C27-UT11* | *`tampilkanDetailSurplus()`* | *Normal/Negatif* | *Detail surplus valid; idSurplus 999999* | *Detail valid dirender dengan status 200; id tidak ada menghasilkan 404 dan `tidakDitemukan` bernilai `true`* | *Lulus, detail 200 dengan badge Rp 12.000; id 999999 404* | *Pass* |
+
+Tabel 4.2.15b. Ringkasan Cakupan Kelas SurplusController
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`ambilDaftarSurplus()`, `ambilDetailSurplus()`, `urutkanBerdasarkanJarak()`* |
+| Operasi yang diuji | *Ketiga operasi public di atas, ditambah `tampilkanDaftarSurplus()` dan `tampilkanDetailSurplus()`* |
+| ID Algoritma yang tercakup | *Algo-C27-01 s.d. Algo-C27-03* |
+| Coverage (wajib ≥ 70%) | *97.53% baris / 89.34% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+
 <br>
 
 ## 4.3 Pengujian Integrasi
@@ -826,6 +985,16 @@ Tabel 4.6. Bukti Hasil Pengujian
 | *C10 (coverage)* | *<img src="assets/Bukti-4.2/C10-Coverage.png">* |
 | *C11-UT01 – C11-UT09* | *<img src="assets/Bukti-4.2/C11-UT.png">* |
 | *C11 (coverage)* | *<img src="assets/Bukti-4.2/C11-Coverage.png">* |
+| *C23-UT01 – C23-UT15* | *<img src="assets/Bukti-4.2/C23-UT.png">* |
+| *C23 (coverage)* | *<img src="assets/Bukti-4.2/C23-Coverage.png">* |
+| *C24-UT01 – C24-UT07* | *<img src="assets/Bukti-4.2/C24-UT.png">* |
+| *C24 (coverage)* | *<img src="assets/Bukti-4.2/C24-Coverage.png">* |
+| *C25-UT01 – C25-UT07* | *<img src="assets/Bukti-4.2/C25-UT.png">* |
+| *C25 (coverage)* | *<img src="assets/Bukti-4.2/C25-Coverage.png">* |
+| *C26-UT01 – C26-UT16* | *<img src="assets/Bukti-4.2/C26-UT.png">* |
+| *C26 (coverage)* | *<img src="assets/Bukti-4.2/C26-Coverage.png">* |
+| *C27-UT01 – C27-UT11* | *<img src="assets/Bukti-4.2/C27-UT.png">* |
+| *C27 (coverage)* | *<img src="assets/Bukti-4.2/C27-Coverage.png">* |
 | *INT-TC01* | *[Sisipkan bukti pengujian integrasi]* |
 | *UC01-TC01* | *[Sisipkan tangkapan layar UC01-TC01 sesuai prosedur pengujian]* |
 | *UC01-TC02* | *[Sisipkan tangkapan layar UC01-TC02 sesuai prosedur pengujian]* |
