@@ -180,3 +180,4 @@
 | *17-11-2026* | *Edbert Fernando* | *Mengerjakan 3.3* | *30 menti* | *Done* | *-* |
 | *20-11-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian 4.3 Pengujian Integrasi* | *3 jam* | *Done* | *-* |
 | *20-11-2026* | *Edbert Fernando* | *Mengerjakan 3.2, 4.11, 4.2* | *8 jam* | *Done* | *-* |
+| *20-11-2026* | *Abdur Rauuf Fawaaz* | *Mengerjakan 4.5 KNF01 - KNF06* | *5 jam* | *Done* | *-* |
