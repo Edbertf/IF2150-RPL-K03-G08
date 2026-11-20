@@ -1286,7 +1286,11 @@ Tabel 4.6. Bukti Hasil Pengujian
 | *C33 (coverage)* | *<img src="assets/Bukti-4.2/C33-Coverage.png">* |
 | *C34-UT01 – C34-UT06* | *<img src="assets/Bukti-4.2/C34-UT.png">* |
 | *C34 (coverage)* | *<img src="assets/Bukti-4.2/C34-Coverage.png">* |
-| *INT-TC01* | *[Sisipkan bukti pengujian integrasi]* |
+| *INT-TC01 – INT-TC11, INT-TC24* | *Runner integrasi HTTP (`rute-terpadu.test.js`, 32/32 lolos): <img src="assets/Bukti-4.3/INT-http.png">* |
+| *INT-TC12 – INT-TC21* | *Runner Controller–Model (`kontroler.test.js`, 23/23 lolos): <img src="assets/Bukti-4.3/INT-kontroler.png"><br>Runner prediksi (`prediksi.test.js`, 12/12 lolos): <img src="assets/Bukti-4.3/INT-prediksi.png">* |
+| *INT-TC22* | *Runner guard peran (`akses.test.js`, 6/6 lolos): <img src="assets/Bukti-4.3/INT-akses.png">* |
+| *INT-TC23* | *Hasil panggilan Nominatim nyata dan cache: <img src="assets/Bukti-4.3/INT-nominatim.png">* |
+| *INT-TC25* | *Hasil unggah 5 MB, PDF +1 KB, dan DOCX (bagian `unggah`): <img src="assets/Bukti-4.3/INT-unggah.png">* |
 | *UC01-TC01* | *<img src="assets/Bukti-4.4/UC01/UC01-TC01.png">* |
 | *UC01-TC02* | *<img src="assets/Bukti-4.4/UC01/UC01-TC02.png">* |
 | *UC01-TC03* | *<img src="assets/Bukti-4.4/UC01/UC01-TC03.png">* |
