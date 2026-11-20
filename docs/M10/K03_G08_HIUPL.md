@@ -249,13 +249,14 @@ Tabel 3.1. Lingkungan Implementasi
 
 | Aspek | Keterangan |
 | :--- | :--- |
-| *Hardware* | *[Spesifikasi perangkat keras]* |
-| *Operating System* | *[Nama dan versi OS]* |
-| *Bahasa Pemrograman* | *[Bahasa dan versi]* |
-| *Framework/Library* | *[Daftar framework/library beserta versi]* |
-| *DBMS* | *[Nama dan versi DBMS]* |
-| *Development Tools* | *[IDE, version control, tools lain]* |
-| *Testing Tools* | *[Framework unit test, alat ukur performa, alat coverage]* |
+| *Hardware* | Laptop |
+| *Operating System* | Windows |
+| *Bahasa Pemrograman* | JavaScript (Node.js v24.22.1; minimum Node.js 20) di sisi server, HTML5/CSS/JavaScript di sisi klien |
+| *Framework/Library* | Express.js 5.3.0, EJS 7.0.2, better-sqlite3 13.0.3, bcryptjs 3.0.3, dotenv 18.0.9, express-session 1.19.0, multer 2.5.0; nodemon 3.1.14 untuk pengembangan |
+| *DBMS* | SQLite 3.53.4 melalui better-sqlite3 13.0.3 (menggantikan PostgreSQL 15 pada DPPL) |
+| *Development Tools* | Visual Studio Code 1.147.0, Git 2.52.0, GitHub, npm 11.20.0, draw.io |
+| *Testing Tools* | Unit dan integration test memakai `node:test` serta `node:assert/strict`; integration HTTP memakai `fetch` dan `node:child_process`; coverage memakai `--experimental-test-coverage`; pengujian manual antarmuka melalui browser; profiling query memakai `src/tools/profil-log.js` |
+ 
 
 ## 3.2 Implementasi Modul
 
@@ -341,8 +342,41 @@ Tabel 3.4. File Lain
 
 | No | Nama File | Keterangan |
 | :--- | :--- | :--- |
-| 1 | *[Nama file]* | *[Fungsi file]* |
-| ... | *...* | *...* |
+| 1 | `src/app.js` | Titik masuk aplikasi; mengatur EJS, file statis, sesi, middleware pengguna, pemasangan seluruh route, dan port server |
+| 2 | `src/config/db.js` | Membuka koneksi SQLite, mengaktifkan mode WAL dan foreign key, serta menentukan lokasi database melalui `DB_PATH` |
+| 3 | `src/config/sesi.js` | Konfigurasi `express-session`: cookie `foodlink.sid`, `httpOnly`, `sameSite=lax`, dan masa berlaku 8 jam |
+| 4 | `src/middleware/pengguna.js` | Mengisi `req.user` dan `res.locals.pengguna` dari sesi pada setiap request |
+| 5 | `src/middleware/peran.js` | Guard `butuhPeran` dan `butuhDiverifikasi` untuk membatasi akses berdasarkan peran dan status verifikasi |
+| 6 | `src/routes/masuk.js` | Route login, proses login, dan logout |
+| 7 | `src/routes/auth.js` | Route registrasi, konfigurasi unggah multer, dan penanganan error unggah dokumen |
+| 8 | `src/routes/status.js` | Route halaman status pendaftaran untuk Pemilik F&B dan Perwakilan NGO |
+| 9 | `src/routes/fnb.js` | Route dashboard prediksi serta pencatatan dan rekap penjualan; dilindungi guard peran dan verifikasi |
+| 10 | `src/routes/surplus.js` | Route pencatatan surplus, pengelolaan produk, dan pengaturan distribusi; dilindungi guard peran dan verifikasi |
+| 11 | `src/routes/ngo.js` | Route daftar/detail surplus, klaim, daftar klaim, dan konfirmasi pengambilan; dilindungi guard peran |
+| 12 | `src/routes/admin.js` | Route verifikasi pendaftar, detail, proses keputusan, hasil, dan penyajian dokumen; hanya untuk Admin Sistem |
+| 13 | `src/routes/log.js` | Route daftar dan filter log aktivitas; hanya untuk Admin Sistem |
+| 14 | `src/database/init.js` | Membaca seluruh berkas schema SQL secara berurutan dan menjalankannya dalam satu transaksi saat aplikasi mulai |
+| 15 | `src/database/schema/*.sql` | 12 berkas DDL untuk tabel `akun_pengguna`, `pendaftaran`, `dokumen_pendukung`, `pemilik_fnb`, `produk`, `data_penjualan`, `perwakilan_ngo`, `metode_distribusi_surplus`, `prediksi_produksi`, `produk_surplus`, `dokumen_klaim`, dan `log_aktivitas` |
+| 16 | `src/database/seed.js` | Seed akun demo, Pemilik F&B, Perwakilan NGO, Admin Sistem, produk, penjualan, dan log |
+| 17 | `src/database/seedAdmin.js` | Membuat akun Admin Sistem dan melengkapi pendaftaran akun demo |
+| 18 | `src/database/seedSurplus.js` | Membuat akun NGO, produk, metode distribusi, dan produk surplus contoh |
+| 19 | `src/seed-ngo-dummy.js` | Membuat akun NGO dummy untuk pengujian manual |
+| 20 | `src/seed-surplus-dummy.js` | Membuat akun Pemilik F&B dan produk surplus dummy untuk pengujian manual |
+| 21 | `src/cek-controller-klaim.js` | Skrip assertion manual untuk alur `KlaimController`; data pengujian dibersihkan setelah dijalankan |
+| 22 | `src/cek-model-pendukung.js` | Skrip assertion manual untuk `Produk`, `PemilikFnB`, `MetodeDistribusiSurplus`, dan `SurplusController`; data di-rollback |
+| 23 | `src/cek-model-uc10.js` | Skrip assertion manual untuk `ProdukSurplus` dan `DokumenKlaim`; data di-rollback |
+| 24 | `src/tools/uji-manual-uc11.js` | Verifikasi manual alur konfirmasi pengambilan UC11; perubahan data di-rollback setelah pengujian |
+| 25 | `src/tools/profil-log.js` | Profiling performa query log menggunakan database sementara berisi 20.000 data |
+| 26 | `src/tests/*.test.js` | 31 berkas pengujian otomatis: unit test kelas, integration test HTTP pada `rute-terpadu.test.js` dan `log.test.js`, serta pengujian regresi; seluruhnya memakai `node:test` |
+| 27 | `src/public/css/admin.css` | Gaya tampilan halaman Admin Sistem |
+| 28 | `src/public/css/ngo.css` | Gaya tampilan halaman Perwakilan NGO |
+| 29 | `src/public/assets/logo.png` | Aset logo FoodLink yang dipakai pada halaman aplikasi |
+| 30 | `src/views/admin/partials-sidebar.ejs` | Partial sidebar untuk navigasi halaman Admin Sistem |
+| 31 | `src/views/ngo/partials-sidebar.ejs` | Partial sidebar untuk navigasi halaman Perwakilan NGO |
+| 32 | `src/.env.example` | Contoh konfigurasi `PORT`, `DB_PATH`, `STORAGE_DIR`, dan `SESSION_SECRET` |
+| 33 | `src/package.json` | Definisi dependensi, devDependencies, dan skrip `start`, `dev`, seed, serta `test` |
+| 34 | `src/package-lock.json` | Lockfile versi dependensi agar instalasi konsisten |
+| 35 | `src/README.md` | Dokumentasi instalasi, cara menjalankan, struktur folder, dan konfigurasi aplikasi |
 
 <br>
 
@@ -994,65 +1028,127 @@ Tabel 4.2.20b. Ringkasan Cakupan Kelas PenyaringanController
 
 Pengujian integrasi memakai komponen nyata: server Express dijalankan sebagai proses terpisah dengan basis data SQLite sementara, lalu skenario dieksekusi lewat HTTP (`fetch`, cookie jar, `redirect: 'manual'`). Model dan skema tidak dipalsukan. Uji integrasi peta memanggil Nominatim sungguhan.
 
+Sesuai pedoman pengujian integrasi, setiap test case memeriksa tiga hal: (1) *data flow*, apakah data mengalir dari satu komponen ke komponen lain tanpa hambatan; (2) *interface coordination*, apakah antarmuka antarmodul cocok dari segi format dan parameter; serta (3) *communication protocol*, apakah aturan pertukaran data dan penanganan galat antarsistem sudah benar. Ketiga aspek tersebut tercermin pada kolom Prosedur/Masukan, Hasil yang Diharapkan, dan Hasil Pengujian pada Tabel 4.3.2.
+
 Tabel 4.3.1. Daftar Antarmuka Antarkomponen
 
 | ID Antarmuka | Komponen Asal | Komponen Tujuan | Jenis Batas | Test Case |
 | :--- | :--- | :--- | :--- | :--- |
-| *I-01* | *PendaftaranView (C12)* | *AuthController (C23)* | *View - Controller* | *INT-TC01* |
-| *I-02* | *VerifikasiView (C13)* | *VerifikasiController (C04)* | *View - Controller* | *INT-TC02* |
-| *I-03* | *PenjualanPrediksiView (C15/C16)* | *PenjualanController (C24)* | *View - Controller* | *INT-TC03* |
-| *I-04* | *PenjualanPrediksiView (C16)* | *PrediksiController (C25)* | *View - Controller* | *INT-TC04* |
-| *I-05* | *SurplusPemilikView (C17)* | *ProdukSurplusController (C26)* | *View - Controller* | *INT-TC05* |
-| *I-06* | *SurplusPemilikView (C18)* | *ProdukSurplusController (C26)* | *View - Controller* | *INT-TC06* |
-| *I-07* | *SurplusNGOView (C19)* | *SurplusController (C27)* | *View - Controller* | *INT-TC07* |
-| *I-08* | *SurplusNGOView (C19)* | *SurplusController/Penyaringan (C34)* | *View - Controller* | *INT-TC08* |
-| *I-09* | *SurplusNGOView (C20)* | *KlaimController (C28)* | *View - Controller* | *INT-TC09* |
-| *I-10* | *PengambilanView (C21)* | *KlaimController (C28)* | *View - Controller* | *INT-TC10* |
-| *I-11* | *LogView (C22)* | *LogController (C29)* | *View - Controller* | *INT-TC11* |
-| *I-12* | *AuthController (C23)* | *AkunModel (C01, C30, C31)* | *Controller - Model* | *INT-TC12* |
-| *I-13* | *AuthController (C23)* | *PendaftaranModel (C02, C03)* | *Controller - Model* | *INT-TC13* |
-| *I-14* | *VerifikasiController (C04)* | *PendaftaranModel (C02, C03)* | *Controller - Model* | *INT-TC14* |
-| *I-15* | *PenjualanController (C24)* | *PenjualanModel (C05, C06)* | *Controller - Model* | *INT-TC15* |
-| *I-16* | *PrediksiController (C25)* | *PenjualanModel/PrediksiModel (C06, C07)* | *Controller - Model* | *INT-TC16* |
-| *I-17* | *ProdukSurplusController (C26)* | *SurplusModel (C08, C09)* | *Controller - Model* | *INT-TC17* |
-| *I-18* | *SurplusController (C27)* | *SurplusModel + GeolocationAdapter (C08, C33)* | *Controller - Model - Eksternal* | *INT-TC18* |
-| *I-19* | *KlaimController (C28)* | *SurplusModel + KlaimModel (C08, C10)* | *Controller - Model* | *INT-TC19* |
-| *I-20* | *LogController (C29)* | *LogModel (C11)* | *Controller - Model* | *INT-TC20* |
-| *I-21* | *Seluruh Model* | *Database (SQLite)* | *Aplikasi - Basis data* | *INT-TC21* |
-| *I-22* | *Middleware pengguna/peran (C32)* | *Route aplikasi* | *Middleware - Route* | *INT-TC22* |
-| *I-23* | *GeolocationAdapter (C33)* | *Nominatim (sistem eksternal)* | *Aplikasi - Sistem eksternal* | *INT-TC23* |
-| *I-24* | *Aplikasi (server Express)* | *Klien HTTP/peramban* | *Aplikasi - Antarmuka jaringan* | *INT-TC24* |
-| *I-25* | *Penyimpanan dokumen (C03)* | *Sistem berkas* | *Aplikasi - Sistem berkas* | *INT-TC25* |
+| *I-01* | *PendaftaranView (C12)* | *AuthController (C23)* | *View - Controller* | *INT-TC01 – INT-TC04* |
+| *I-02* | *VerifikasiView (C13)* | *VerifikasiController (C04)* | *View - Controller* | *INT-TC05 – INT-TC07* |
+| *I-03* | *PenjualanPrediksiView (C15/C16)* | *PenjualanController (C24)* | *View - Controller* | *INT-TC08 – INT-TC10* |
+| *I-04* | *PenjualanPrediksiView (C16)* | *PrediksiController (C25)* | *View - Controller* | *INT-TC11 – INT-TC12* |
+| *I-05* | *SurplusPemilikView (C17)* | *ProdukSurplusController (C26)* | *View - Controller* | *INT-TC13 – INT-TC16* |
+| *I-06* | *SurplusPemilikView (C18)* | *ProdukSurplusController (C26)* | *View - Controller* | *INT-TC17 – INT-TC20* |
+| *I-07* | *SurplusNGOView (C19)* | *SurplusController (C27)* | *View - Controller* | *INT-TC21 – INT-TC22* |
+| *I-08* | *SurplusNGOView (C19)* | *SurplusController/Penyaringan (C34)* | *View - Controller* | *INT-TC23 – INT-TC25* |
+| *I-09* | *SurplusNGOView (C20)* | *KlaimController (C28)* | *View - Controller* | *INT-TC26 – INT-TC27* |
+| *I-10* | *PengambilanView (C21)* | *KlaimController (C28)* | *View - Controller* | *INT-TC28 – INT-TC30* |
+| *I-11* | *LogView (C22)* | *LogController (C29)* | *View - Controller* | *INT-TC31 – INT-TC34* |
+| *I-12* | *AuthController (C23)* | *AkunModel (C01, C30, C31)* | *Controller - Model* | *INT-TC35 – INT-TC37* |
+| *I-13* | *AuthController (C23)* | *PendaftaranModel (C02, C03)* | *Controller - Model* | *INT-TC38 – INT-TC42* |
+| *I-14* | *VerifikasiController (C04)* | *PendaftaranModel (C02, C03)* | *Controller - Model* | *INT-TC43 – INT-TC48* |
+| *I-15* | *PenjualanController (C24)* | *PenjualanModel (C05, C06)* | *Controller - Model* | *INT-TC49 – INT-TC51* |
+| *I-16* | *PrediksiController (C25)* | *PenjualanModel/PrediksiModel (C06, C07)* | *Controller - Model* | *INT-TC52 – INT-TC56* |
+| *I-17* | *ProdukSurplusController (C26)* | *SurplusModel (C08, C09)* | *Controller - Model* | *INT-TC57 – INT-TC64* |
+| *I-18* | *SurplusController (C27)* | *SurplusModel + GeolocationAdapter (C08, C33)* | *Controller - Model - Eksternal* | *INT-TC65 – INT-TC67* |
+| *I-19* | *KlaimController (C28)* | *SurplusModel + KlaimModel (C08, C10)* | *Controller - Model* | *INT-TC68 – INT-TC70* |
+| *I-20* | *LogController (C29)* | *LogModel (C11)* | *Controller - Model* | *INT-TC71 – INT-TC74* |
+| *I-21* | *Seluruh Model* | *Database (SQLite)* | *Aplikasi - Basis data* | *INT-TC75* |
+| *I-22* | *Middleware pengguna/peran (C32)* | *Route aplikasi* | *Middleware - Route* | *INT-TC76 – INT-TC77* |
+| *I-23* | *GeolocationAdapter (C33)* | *Nominatim (sistem eksternal)* | *Aplikasi - Sistem eksternal* | *INT-TC78 – INT-TC79* |
+| *I-24* | *Aplikasi (server Express)* | *Klien HTTP/peramban* | *Aplikasi - Antarmuka jaringan* | *INT-TC80* |
+| *I-25* | *Penyimpanan dokumen (C03)* | *Sistem berkas* | *Aplikasi - Sistem berkas* | *INT-TC81 – INT-TC83* |
 
 Tabel 4.3.2. Hasil Pengujian Integrasi
 
 | ID Pengujian | ID Antarmuka | Skenario | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| *INT-TC01* | *I-01* | *Normal dan negatif unggah* | *POST multipart `/daftar` pemilik; field kosong; `.docx`; email duplikat* | *302 berhasil; 400 dengan pesan per kasus* | *Sesuai (UC01-TC01 s.d. TC04)* | *Pass* |
-| *INT-TC02* | *I-02* | *Normal dan negatif keputusan* | *Admin membuka daftar/detail lalu menyetujui atau menolak* | *Status berubah; halaman hasil tampil* | *Sesuai (UC02-TC01 s.d. TC03)* | *Pass* |
-| *INT-TC03* | *I-03* | *Normal dan negatif simpan penjualan* | *POST form penjualan dengan angka valid, negatif, nol* | *Tersimpan; tolak negatif; terima nol* | *Sesuai (UC04-TC01 s.d. TC03)* | *Pass* |
-| *INT-TC04* | *I-04* | *Batas data historis* | *Dashboard 7 hari vs 2 hari* | *Rekomendasi tampil vs pesan terkunci* | *Sesuai (UC05-TC01/02)* | *Pass* |
-| *INT-TC05* | *I-05* | *Normal dan negatif surplus* | *POST surplus valid; jumlah 0; batas lampau; field kosong* | *Tersimpan + redirect; tiga penolakan* | *Sesuai (UC06-TC01 s.d. TC03)* | *Pass* |
-| *INT-TC06* | *I-06* | *Normal dan negatif distribusi* | *POST diskon 15.000; donasi; harga 0* | *Harga tersimpan; donasi tanpa harga; penolakan* | *Sesuai (UC07-TC01 s.d. TC03)* | *Pass* |
-| *INT-TC07* | *I-07* | *Normal dan alternatif lokasi* | *NGO buka daftar; NGO tanpa lokasi* | *Urut jarak; permintaan isi lokasi* | *Sesuai (UC08-TC01/02)* | *Pass* |
-| *INT-TC08* | *I-08* | *Penyaringan* | *Kata kunci + jenis; kriteria tanpa hasil* | *Daftar tersaring; pesan kosong* | *Sesuai (UC09-TC01/02)* | *Pass* |
-| *INT-TC09* | *I-09* | *Normal dan alternatif klaim* | *Dua NGO POST klaim produk yang sama* | *NGO pertama 302; kedua 409* | *Sesuai (UC10-TC01/02)* | *Pass* |
-| *INT-TC10* | *I-10* | *Normal dan batas konfirmasi* | *Konfirmasi pertama; ganda; akses NGO lain* | *Selesai; ditolak; 403* | *Sesuai (UC11-TC01/02)* | *Pass* |
-| *INT-TC11* | *I-11* | *Normal dan negatif filter* | *Admin membuka log; filter valid/tidak valid* | *Daftar; 400 pada filter asing* | *Sesuai (UC12-TC01/02)* | *Pass* |
-| *INT-TC12* | *I-12* | *Registrasi dan login* | *`registrasiAkun()` lewat HTTP; login dengan hash* | *Akun+profil tersimpan; sesi terisi* | *Sesuai (kontroler.test.js, UC01/UC02)* | *Pass* |
-| *INT-TC13* | *I-13* | *Pendaftaran + dokumen* | *Registrasi F&B/NGO; periksa tabel pendaftaran dan berkas* | *Satu baris; berkas di STORAGE_DIR* | *Sesuai (registrasi.test.js)* | *Pass* |
-| *INT-TC14* | *I-14* | *Keputusan verifikasi* | *`prosesVerifikasi()` lalu baca DB* | *Status sesuai keputusan* | *Sesuai (verifikasi.test.js)* | *Pass* |
-| *INT-TC15* | *I-15* | *Simpan penjualan* | *Panggil controller lalu baca `data_penjualan`* | *Nilai dan tanggal sesuai* | *Sesuai (kontroler.test.js)* | *Pass* |
-| *INT-TC16* | *I-16* | *Prediksi* | *Controller menghitung lalu menulis `prediksi_produksi`* | *Rekomendasi benar per produk besok* | *Sesuai (prediksi.test.js)* | *Pass* |
-| *INT-TC17* | *I-17* | *Surplus + distribusi* | *Simpan surplus lalu metode; baca ulang* | *Kedua tabel konsisten* | *Sesuai (kontroler.test.js)* | *Pass* |
-| *INT-TC18* | *I-18* | *Daftar + geolokasi* | *Daftar surplus dua pemilik, satu tanpa koordinat* | *Urutan jarak; yang tak terhitung di akhir* | *Sesuai (informasiSurplus.test.js)* | *Pass* |
-| *INT-TC19* | *I-19* | *Klaim atomik* | *Dua transaksi klaim pada produk yang sama* | *Satu dokumen klaim; status terklaim* | *Sesuai (UC10-TC02, KNF04)* | *Pass* |
-| *INT-TC20* | *I-20* | *Log* | *Tujuh aksi UC menulis log; query filter* | *Log tercatat dan terfilter* | *Sesuai (integrasi-log.test.js, log.test.js)* | *Pass* |
-| *INT-TC21* | *I-21* | *Persistensi* | *Tulis lewat model, baca dengan koneksi baru* | *Data bertahan; foreign key aktif* | *Data terbaca kembali; `PRAGMA foreign_keys = ON` dan `journal_mode = WAL` terpasang di `config/db.js`* | *Pass* |
-| *INT-TC22* | *I-22* | *Guard peran* | *Akses route terproteksi tanpa sesi/salah peran* | *Redirect/403* | *Sesuai (akses.test.js)* | *Pass* |
-| *INT-TC23* | *I-23* | *Nominatim nyata* | *`ambilKoordinat('Jl. Dago No. 10, Bandung')`; panggilan kedua; Haversine* | *Koordinat didapat; panggilan kedua 0 ms (cache); jarak 4,34 km* | *Sesuai (`geolokasi.json`: 140 ms panggilan pertama, 0 ms cache, 4,34 km)* | *Pass* |
-| *INT-TC24* | *I-24* | *HTTP* | *32 skenario fetch ke server proses anak* | *Status 200/302/400/403/404/409 sesuai skenario* | *Sesuai (rute-terpadu.test.js, 32/32 pass)* | *Pass* |
-| *INT-TC25* | *I-25* | *Berkas 5 MB* | *Unggah PDF 5 MB; PDF +1 KB; DOCX* | *Diterima; 400 pesan 5 MB; 400 format* | *Sesuai (`kinerja.json`)* | *Pass* |
+| *INT-TC01* | *I-01* | *Normal registrasi Pemilik F&B* | *1. Buka formulir daftar dan pilih tipe Pemilik F&B.<br>2. Isi seluruh kolom wajib dan unggah dokumen PDF.<br>3. Kirim `POST /daftar`.<br>Masukan: `tipeAkun=pemilik_fnb`, `email=daftar-http@foodlink.test`, `kataSandi=rahasia123`, `namaUsaha=Usaha Daftar HTTP`, `alamatUsaha=Jl. Uji HTTP No. 5`, `jamOperasional=08.00-20.00`, dokumen PDF.* | *302 ke `/daftar/berhasil`; akun dan pendaftaran tersimpan berstatus `menunggu verifikasi`.* | *Sesuai. Permintaan mendapat 302 serta baris `akun_pengguna` dan `pendaftaran` tersimpan (UC01-TC01).* | *Pass* |
+| *INT-TC02* | *I-01* | *Negatif isian wajib kosong* | *1. Buka formulir daftar Pemilik F&B.<br>2. Kosongkan `namaUsaha`, isi kolom lain dengan benar, lalu kirim.<br>Masukan: `namaUsaha` kosong, dokumen PDF.* | *400 dengan pesan `Nama usaha wajib diisi`; tidak ada akun tersimpan.* | *Sesuai. Status 400 dan pesan tampil pada formulir (UC01-TC02).* | *Pass* |
+| *INT-TC03* | *I-01* | *Negatif format dokumen DOCX* | *1. Buka formulir daftar Pemilik F&B.<br>2. Unggah `dokumen.docx` bertipe `application/msword` dan isi kolom lain dengan benar.<br>Masukan: berkas DOCX.* | *400 dengan pesan `Format dokumen harus PDF, JPG, atau PNG`.* | *Sesuai. Berkas DOCX ditolak dengan pesan format (UC01-TC03).* | *Pass* |
+| *INT-TC04* | *I-01* | *Negatif email sudah terdaftar* | *1. Daftarkan Pemilik F&B baru memakai email yang sudah ada.<br>2. Isi kolom lain dengan benar.<br>Masukan: `email=pemilik-http@foodlink.test`, dokumen PDF.* | *400 dengan pesan `Email sudah terdaftar`.* | *Sesuai. Email duplikat ditolak (UC01-TC04).* | *Pass* |
+| *INT-TC05* | *I-02* | *Normal admin menyetujui pendaftar* | *1. Masuk sebagai admin.<br>2. Buka `/admin/verifikasi`, detail pendaftar, dan dokumennya.<br>3. Kirim keputusan `terima` lalu buka halaman hasil.<br>Masukan: `email=admin-http@foodlink.test`, `kataSandi=rahasia123`, `keputusan=terima`.* | *Login 302 ke `/admin/verifikasi`; daftar, detail, dan dokumen 200; keputusan 302 ke halaman hasil yang memuat "diterima"; status pendaftaran menjadi `diterima`.* | *Sesuai. Halaman verifikasi dan detail tampil, keputusan tersimpan, dan status berubah (UC02-TC01).* | *Pass* |
+| *INT-TC06* | *I-02* | *Alternatif admin menolak pendaftar* | *1. Masuk sebagai admin dan buka detail pendaftar baru.<br>2. Kirim keputusan `tolak` lalu buka halaman hasil.<br>Masukan: `keputusan=tolak`.* | *302 ke halaman hasil yang memuat "ditolak"; status pendaftaran menjadi `ditolak`.* | *Sesuai. Penolakan tersimpan dan halaman hasil menampilkan statusnya (UC02-TC02).* | *Pass* |
+| *INT-TC07* | *I-02* | *Negatif keputusan tidak dikenal* | *1. Kirim `POST /admin/verifikasi/<id>` dengan nilai keputusan asing.<br>2. Baca status pendaftaran.<br>Masukan: `keputusan=entahlah`.* | *302 kembali ke halaman verifikasi dengan parameter pesan; status pendaftaran tetap `menunggu verifikasi`.* | *Sesuai. Keputusan asing diabaikan tanpa mengubah status (UC02-TC03).* | *Pass* |
+| *INT-TC08* | *I-03* | *Normal penyimpanan penjualan* | *1. Masuk sebagai Pemilik F&B lalu buka `/fnb/penjualan`.<br>2. Isi terjual 12 dan tersisa 3 untuk "Roti HTTP".<br>3. Kirim formulir.<br>Masukan: `terjual_<idProduk>=12`, `tersisa_<idProduk>=3`.* | *Form 200 memuat "Roti HTTP"; 302 ke `/fnb/penjualan/tersimpan`; baris hari ini menyimpan terjual 12.* | *Sesuai. Form tampil dan nilai tersimpan pada `data_penjualan` (UC04-TC01).* | *Pass* |
+| *INT-TC09* | *I-03* | *Negatif nilai terjual negatif* | *1. Buka `/fnb/penjualan` sebagai Pemilik F&B.<br>2. Isi terjual -5 dan tersisa 2 lalu kirim.<br>Masukan: `terjual_<idProduk>=-5`, `tersisa_<idProduk>=2`.* | *400 dengan pesan `bilangan bulat`; tidak ada data tersimpan.* | *Sesuai. Masukan negatif ditolak dan tidak mengubah data (UC04-TC02).* | *Pass* |
+| *INT-TC10* | *I-03* | *Batas nilai nol* | *1. Buka `/fnb/penjualan` sebagai Pemilik F&B.<br>2. Isi terjual 0 dan tersisa 0 lalu kirim.<br>Masukan: `terjual_<idProduk>=0`, `tersisa_<idProduk>=0`.* | *302 ke `/fnb/penjualan/tersimpan`; nilai nol diterima.* | *Sesuai. Batas nol diterima dan diarahkan ke halaman tersimpan (UC04-TC03).* | *Pass* |
+| *INT-TC11* | *I-04* | *Normal data historis cukup* | *1. Masuk sebagai pemilik yang memiliki riwayat tujuh hari.<br>2. Buka `/fnb/dashboard`.<br>Masukan: tujuh baris `data_penjualan` (10 terjual, 2 tersisa per hari) untuk "Roti HTTP".* | *200 dengan "Prediksi aktif" dan produk "Roti HTTP".* | *Sesuai. Dashboard menampilkan prediksi untuk data yang cukup (UC05-TC01).* | *Pass* |
+| *INT-TC12* | *I-04* | *Alternatif data historis kurang* | *1. Masuk sebagai pemilik baru tanpa riwayat penjualan.<br>2. Buka `/fnb/dashboard`.* | *200 dengan "Belum aktif" dan pesan `minimal 7 hari`.* | *Sesuai. Dashboard memberi pesan kekurangan data (UC05-TC02).* | *Pass* |
+| *INT-TC13* | *I-05* | *Normal pencatatan surplus* | *1. Buka `/surplus/catat`.<br>2. Isi surplus "Roti HTTP" jumlah 5 dan batas waktu dua hari ke depan pukul 20.00.<br>3. Kirim formulir.<br>Masukan: `idProduk=<idProduk>`, `jumlah=5`, `batasWaktu=<dua hari ke depan>`.* | *302 ke `/surplus/<id>/donasi`; baris `produk_surplus` berstatus `tersedia` dengan jumlah 5.* | *Sesuai. Surplus tersimpan dengan status dan jumlah tepat (UC06-TC01).* | *Pass* |
+| *INT-TC14* | *I-05* | *Negatif jumlah surplus nol* | *1. Buka `/surplus/catat`.<br>2. Kirim surplus dengan jumlah 0 dan batas waktu valid.<br>Masukan: `jumlah=0`.* | *400 dengan pesan `lebih dari 0`.* | *Sesuai. Jumlah nol ditolak (UC06-TC02).* | *Pass* |
+| *INT-TC15* | *I-05* | *Negatif batas waktu lampau* | *1. Buka `/surplus/catat`.<br>2. Kirim surplus dengan batas waktu lampau.<br>Masukan: `batasWaktu=2020-01-01 10:00`.* | *400 dengan pesan `masa lalu`.* | *Sesuai. Batas waktu lampau ditolak (UC06-TC02).* | *Pass* |
+| *INT-TC16* | *I-05* | *Negatif isian surplus tidak lengkap* | *1. Kirim `POST /surplus/catat` hanya dengan field jumlah.<br>Masukan: `jumlah=5` tanpa `idProduk` dan `batasWaktu`.* | *400 dengan pesan `wajib diisi`.* | *Sesuai. Isian tidak lengkap ditolak (UC06-TC03).* | *Pass* |
+| *INT-TC17* | *I-06* | *Normal distribusi jual diskon* | *1. Kirim `POST /surplus/<id>/distribusi` dengan metode diskon.<br>2. Buka `/surplus/sukses`.<br>Masukan: `metode=diskon`, `hargaJual=15000`.* | *302 ke `/surplus/sukses`; `metode_distribusi_surplus` menyimpan "Jual Diskon" harga 15.000; halaman sukses 200.* | *Sesuai. Metode dan harga tersimpan serta halaman sukses tampil (UC07-TC01).* | *Pass* |
+| *INT-TC18* | *I-06* | *Alternatif distribusi donasi* | *1. Catat surplus minuman baru.<br>2. Kirim `POST /surplus/<id>/distribusi` dengan metode donasi.<br>Masukan: `metode=donasi`.* | *302 ke `/surplus/sukses`; metode "Donasi" tersimpan dengan harga 0.* | *Sesuai. Donasi tersimpan tanpa harga (UC07-TC02).* | *Pass* |
+| *INT-TC19* | *I-06* | *Negatif harga diskon nol* | *1. Kirim `POST /surplus/<id>/distribusi` dengan metode diskon dan harga 0.<br>Masukan: `metode=diskon`, `hargaJual=0`.* | *400 dengan pesan `lebih dari 0`.* | *Sesuai. Harga diskon nol ditolak (UC07-TC03).* | *Pass* |
+| *INT-TC20* | *I-06* | *Alternatif halaman sukses tanpa data* | *1. Masuk dengan sesi baru sebagai Pemilik F&B.<br>2. Buka `/surplus/sukses` tanpa pernah mengatur distribusi.* | *302 ke `/surplus/catat`.* | *Sesuai. Halaman sukses tanpa data dialihkan ke form (UC07-TC03).* | *Pass* |
+| *INT-TC21* | *I-07* | *Normal NGO melihat daftar dan detail* | *1. Masuk sebagai Perwakilan NGO berlokasi `-6.9175,107.6191`.<br>2. Buka `/ngo/surplus`.<br>3. Buka detail salah satu surplus.<br>Masukan: sesi NGO "Yayasan HTTP".* | *Daftar 200 memuat "Roti HTTP" dan "Susu HTTP"; detail 200 memuat "Roti HTTP".* | *Sesuai. Daftar dan detail tampil untuk NGO (UC08-TC01).* | *Pass* |
+| *INT-TC22* | *I-07* | *Alternatif NGO tanpa lokasi* | *1. Masuk sebagai NGO dengan lokasi kosong.<br>2. Buka `/ngo/surplus`.* | *200 dengan elemen `info-lokasi` untuk mengisi lokasi.* | *Sesuai. Penanda isi lokasi tampil (UC08-TC02).* | *Pass* |
+| *INT-TC23* | *I-08* | *Pencarian kata kunci* | *1. Masuk sebagai NGO.<br>2. Buka `/ngo/surplus?q=Roti`.<br>Masukan: kata kunci `Roti`.* | *Hanya "Roti HTTP" yang tampil.* | *Sesuai. Pencarian menyaring daftar (UC09-TC01).* | *Pass* |
+| *INT-TC24* | *I-08* | *Penyaringan jenis produk* | *1. Masuk sebagai NGO.<br>2. Buka `/ngo/surplus?jenis=Minuman`.<br>Masukan: jenis `Minuman`.* | *Hanya "Susu HTTP" yang tampil.* | *Sesuai. Filter jenis menyaring daftar (UC09-TC01).* | *Pass* |
+| *INT-TC25* | *I-08* | *Kriteria tanpa hasil* | *1. Masuk sebagai NGO.<br>2. Buka `/ngo/surplus?q=tidakadayangcocok`.<br>Masukan: kata kunci `tidakadayangcocok`.* | *200 dengan pesan `Tidak ada produk surplus yang sesuai filter`.* | *Sesuai. Halaman kosong ditampilkan tanpa galat (UC09-TC02).* | *Pass* |
+| *INT-TC26* | *I-09* | *Normal klaim surplus* | *1. Masuk sebagai NGO pertama.<br>2. Kirim `POST /ngo/surplus/<id>/klaim`.<br>3. Buka halaman berhasil.<br>Masukan: surplus "Roti HTTP" berstatus tersedia.* | *302 ke `/ngo/klaim/<id>/berhasil`; halaman memuat "Klaim berhasil"; status produk menjadi `terklaim`.* | *Sesuai. Satu klaim terbentuk dan status berubah (UC10-TC01).* | *Pass* |
+| *INT-TC27* | *I-09* | *Alternatif produk sudah terklaim* | *1. Masuk sebagai NGO kedua.<br>2. Kirim klaim untuk surplus yang sudah diklaim.* | *409 dengan pesan `Klaim tidak dapat diproses`.* | *Sesuai. Klaim kedua ditolak (UC10-TC02).* | *Pass* |
+| *INT-TC28* | *I-10* | *Normal konfirmasi pengambilan* | *1. Masuk sebagai NGO pemilik klaim.<br>2. Kirim `POST /ngo/klaim/<id>/konfirmasi-pengambilan`.<br>3. Buka halaman selesai.* | *302 ke `/ngo/klaim/<id>/pengambilan-selesai`; halaman memuat "Pengambilan Selesai"; status produk menjadi `selesai`.* | *Sesuai. Status berubah sekali (UC11-TC01).* | *Pass* |
+| *INT-TC29* | *I-10* | *Alternatif konfirmasi ganda* | *1. Kirim ulang konfirmasi pengambilan dari sesi yang sama.* | *409.* | *Sesuai. Konfirmasi ulang ditolak (UC11-TC02).* | *Pass* |
+| *INT-TC30* | *I-10* | *Negatif konfirmasi oleh NGO lain* | *1. Kirim konfirmasi pengambilan dari akun NGO lain.* | *403.* | *Sesuai. NGO lain tidak berhak (UC11-TC02).* | *Pass* |
+| *INT-TC31* | *I-11* | *Normal admin melihat log* | *1. Masuk sebagai admin.<br>2. Buka `/admin/log`.* | *200 memuat aktivitas "Roti HTTP".* | *Sesuai. Log aktivitas tampil (UC12-TC01).* | *Pass* |
+| *INT-TC32* | *I-11* | *Penyaringan log kategori Klaim* | *1. Buka `/admin/log?kategori=Klaim`.<br>Masukan: `kategori=Klaim`.* | *200 memuat "Mengklaim".* | *Sesuai. Filter Klaim bekerja (UC12-TC01).* | *Pass* |
+| *INT-TC33* | *I-11* | *Penyaringan log kategori Verifikasi* | *1. Buka `/admin/log?kategori=Verifikasi`.<br>Masukan: `kategori=Verifikasi`.* | *200 memuat "Verifikasi pendaftaran".* | *Sesuai. Filter Verifikasi bekerja (UC12-TC01).* | *Pass* |
+| *INT-TC34* | *I-11* | *Negatif kategori log tidak dikenal* | *1. Buka `/admin/log?kategori=Ngawur`.<br>Masukan: `kategori=Ngawur`.* | *400 dengan pesan `Kriteria penyaringan tidak valid`.* | *Sesuai. Kategori asing ditolak (UC12-TC02).* | *Pass* |
+| *INT-TC35* | *I-12* | *Normal registrasi akun NGO* | *1. Panggil `AuthController.registrasiAkun` dengan formulir NGO lengkap dan berkas PDF.<br>2. Periksa `akun_pengguna` dan `perwakilan_ngo`.<br>Masukan: `email=ngo-daftar-<n>@foodlink.test`, `kataSandi=rahasia123`, `namaOrganisasi=Yayasan Uji`, `nomorLegalitas=AHU-99`, `lokasi=Jl. Braga No. 1`, berkas PDF.* | *Status `menunggu verifikasi`; profil NGO tersimpan dan dapat dicari lewat akun.* | *Sesuai. Data registrasi tersimpan di kedua tabel (kontroler.test.js).* | *Pass* |
+| *INT-TC36* | *I-12* | *Negatif login kredensial kosong atau salah* | *1. Panggil `AuthController.masuk` dengan body kosong.<br>2. Panggil dengan email tidak terdaftar dan kata sandi salah.* | *400 dengan pesan kredensial tidak sesuai.* | *Sesuai. Kredensial tidak valid ditolak (kontroler.test.js).* | *Pass* |
+| *INT-TC37* | *I-12* | *Normal login dan pengisian sesi* | *1. Panggil `AuthController.masuk` dengan akun terverifikasi.<br>2. Periksa sesi dan pengalihan.<br>Masukan: email dan kata sandi pemilik terverifikasi.* | *302 ke `/fnb/penjualan`; sesi berisi peran `pemilik_fnb`.* | *Sesuai. Sesi terisi setelah kredensial benar (kontroler.test.js).* | *Pass* |
+| *INT-TC38* | *I-13* | *Normal registrasi F&B menyimpan seluruh data* | *1. Registrasi Pemilik F&B lengkap dengan dokumen PDF.<br>2. Periksa `akun_pengguna`, `pemilik_fnb`, `pendaftaran`, dan `dokumen_pendukung`.<br>Masukan: formulir "Bakery Uji" (`fnb@foodlink.test`).* | *Satu akun, profil, pendaftaran `menunggu verifikasi`, dan satu dokumen PDF tersimpan; kata sandi berupa hash bcrypt.* | *Sesuai. Jumlah baris tiap tabel tepat (registrasi.test.js).* | *Pass* |
+| *INT-TC39* | *I-13* | *Normal registrasi NGO mengisi perwakilan* | *1. Registrasi Perwakilan NGO lengkap.<br>2. Periksa tabel `perwakilan_ngo`.<br>Masukan: formulir "Yayasan Uji" (`ngo@foodlink.test`).* | *Hanya `perwakilan_ngo` yang terisi.* | *Sesuai. Data NGO tersimpan pada tabel yang benar (registrasi.test.js).* | *Pass* |
+| *INT-TC40* | *I-13* | *Negatif email duplikat* | *1. Registrasi memakai email yang sudah terdaftar.* | *Galat pada field email; jumlah akun tidak bertambah.* | *Sesuai. Email dobel ditolak (registrasi.test.js).* | *Pass* |
+| *INT-TC41* | *I-13* | *Negatif validasi gagal tidak menyisakan data* | *1. Registrasi dengan `jamOperasional` kosong dan berkas terunggah.* | *Registrasi gagal; akun tidak tersimpan dan berkas sementara dihapus.* | *Sesuai. Tidak ada data atau berkas tersisa (registrasi.test.js).* | *Pass* |
+| *INT-TC42* | *I-13* | *Negatif dokumen tidak diunggah* | *1. Registrasi tanpa mengirim `berkas`.* | *Galat pada field dokumen.* | *Sesuai. Formulir tanpa dokumen ditolak (registrasi.test.js).* | *Pass* |
+| *INT-TC43* | *I-14* | *Normal daftar dan detail pendaftar* | *1. Ambil daftar pendaftar menunggu.<br>2. Buka detail salah satu pendaftar.<br>3. Sajikan dokumen pendukung.* | *Daftar memuat pendaftar baru; detail memuat profil dan satu dokumen; dokumen tersaji 200.* | *Sesuai. Jalur baca data verifikasi bekerja (verifikasi.test.js, kontroler.test.js).* | *Pass* |
+| *INT-TC44* | *I-14* | *Normal menyetujui pendaftaran* | *1. Kirim keputusan `terima` untuk pendaftar menunggu.<br>2. Baca status dan halaman hasil.* | *Status `diterima`; halaman hasil menandai berhasil.* | *Sesuai. Status tersimpan (verifikasi.test.js).* | *Pass* |
+| *INT-TC45* | *I-14* | *Alternatif menolak pendaftaran* | *1. Kirim keputusan `tolak` untuk pendaftar menunggu.* | *Status `ditolak`.* | *Sesuai. Status tersimpan (verifikasi.test.js).* | *Pass* |
+| *INT-TC46* | *I-14* | *Negatif keputusan kedua tidak menimpa* | *1. Kirim keputusan untuk pendaftar yang sudah diputuskan.* | *Keputusan pertama dipertahankan; keputusan kedua tidak mengubah status.* | *Sesuai. Keputusan ganda dicegah (verifikasi.test.js).* | *Pass* |
+| *INT-TC47* | *I-14* | *Negatif status keputusan asing* | *1. Kirim status `ragu` di luar daftar keputusan.* | *Status asing ditolak; status pendaftaran tidak berubah.* | *Sesuai. Nilai asing ditolak (verifikasi.test.js).* | *Pass* |
+| *INT-TC48* | *I-14* | *Negatif data atau dokumen tidak ditemukan* | *1. Buka detail pendaftaran ID 999999.<br>2. Sajikan dokumen yang berkasnya hilang.* | *404.* | *Sesuai. Jalur data hilang ditangani 404 (kontroler.test.js).* | *Pass* |
+| *INT-TC49* | *I-15* | *Validasi input penjualan* | *1. Uji `validasiInputPenjualan` dengan daftar kosong, nilai 1/0, -1/0, 1/1001, dan tanpa `idProduk`.<br>Masukan: daftar `{idProduk, jumlahTerjual, jumlahTersisa}`.* | *Daftar kosong, nilai negatif, nilai di atas 1000, dan baris tanpa `idProduk` ditolak; 1/0 diterima.* | *Sesuai. Seluruh aturan validasi dijalankan controller (kontroler.test.js).* | *Pass* |
+| *INT-TC50* | *I-15* | *Normal penyimpanan data penjualan* | *1. Panggil `simpanDataPenjualan` untuk 4 terjual dan 1 tersisa.<br>2. Baca tabel `data_penjualan`.* | *Satu baris tersimpan dengan nilai sesuai.* | *Sesuai. Data tersimpan dan terbaca (kontroler.test.js, DataPenjualan.test.js).* | *Pass* |
+| *INT-TC51* | *I-15* | *Negatif form penjualan tidak valid* | *1. Kirim body kosong ke handler penjualan.<br>2. Kirim nilai `abc` pada `terjual_<id>`.* | *400 dengan pesan `bilangan bulat` atau pesan validasi.* | *Sesuai. Masukan tidak valid ditolak (kontroler.test.js).* | *Pass* |
+| *INT-TC52* | *I-16* | *Normal prediksi dan penyimpanan hasil* | *1. Isi tujuh hari riwayat (10 terjual, 2 tersisa).<br>2. Jalankan `simpanPrediksi` lalu baca `getHasilPrediksi`.* | *Satu rekomendasi 11, tren +1, progres 7, dan grafik 7 titik.* | *Sesuai. Perhitungan dan penyimpanan prediksi benar (prediksi.test.js).* | *Pass* |
+| *INT-TC53* | *I-16* | *Batas jendela tujuh hari* | *1. Uji data enam hari.<br>2. Tambahkan satu baris tanggal hari ke-7 dengan terjual 99.* | *Enam hari ditolak `minimal 7 hari`; baris di luar jendela tidak ikut dihitung.* | *Sesuai. Jendela tujuh hari diterapkan (prediksi.test.js).* | *Pass* |
+| *INT-TC54* | *I-16* | *Penyimpanan ulang hasil prediksi* | *1. Simpan prediksi.<br>2. Ubah data menjadi 20 lalu simpan ulang.* | *Baris yang sama diperbarui; tidak ada hasil ganda.* | *Sesuai. Upsert `prediksi_produksi` bekerja (prediksi.test.js).* | *Pass* |
+| *INT-TC55* | *I-16* | *Alternatif dashboard data kurang* | *1. Buka dashboard pemilik tanpa riwayat tujuh hari.* | *Pesan kekurangan data dan progres yang sesuai.* | *Sesuai. Dashboard menangani data kurang (prediksi.test.js).* | *Pass* |
+| *INT-TC56* | *I-16* | *Normal dashboard data cukup* | *1. Buka dashboard pemilik dengan riwayat tujuh hari.* | *Prediksi tampil untuk produk yang datanya cukup.* | *Sesuai. Dashboard menampilkan hasil prediksi (prediksi.test.js).* | *Pass* |
+| *INT-TC57* | *I-17* | *Normal penyimpanan surplus* | *1. Simpan surplus valid.<br>2. Baca `produk_surplus`.<br>Masukan: `idProduk`, `jumlah=2`, `batasWaktu=2030-01-01T10:00`.* | *Tersimpan dan diarahkan ke `/surplus/<id>/donasi`.* | *Sesuai. Data surplus tersimpan (kontroler.test.js).* | *Pass* |
+| *INT-TC58* | *I-17* | *Negatif jumlah surplus nol* | *1. Simpan surplus dengan jumlah 0.* | *Ditolak.* | *Sesuai. Jumlah nol ditolak (kontroler.test.js).* | *Pass* |
+| *INT-TC59* | *I-17* | *Negatif batas waktu lampau* | *1. Simpan surplus dengan `batasWaktu=2020-01-01T10:00`.* | *Ditolak.* | *Sesuai. Batas lampau ditolak (kontroler.test.js).* | *Pass* |
+| *INT-TC60* | *I-17* | *Negatif produk bukan milik pemilik* | *1. Simpan surplus dengan `idProduk=999999`.* | *Ditolak.* | *Sesuai. Kepemilikan produk diverifikasi (kontroler.test.js).* | *Pass* |
+| *INT-TC61* | *I-17* | *Normal distribusi jual diskon* | *1. Simpan distribusi `metode=diskon` dengan `hargaJual=15000`.<br>2. Baca metode distribusi.* | *Metode "Jual Diskon" harga 15.000 tersimpan.* | *Sesuai. Distribusi diskon tersimpan (kontroler.test.js).* | *Pass* |
+| *INT-TC62* | *I-17* | *Alternatif distribusi donasi* | *1. Simpan distribusi `metode=donasi`.* | *Metode "Donasi" harga 0 tersimpan.* | *Sesuai. Donasi tersimpan (kontroler.test.js).* | *Pass* |
+| *INT-TC63* | *I-17* | *Negatif harga diskon nol* | *1. Simpan distribusi `metode=diskon` dengan `hargaJual=0`.* | *Ditolak.* | *Sesuai. Harga nol ditolak (kontroler.test.js).* | *Pass* |
+| *INT-TC64* | *I-17* | *Negatif distribusi surplus terklaim* | *1. Atur distribusi untuk surplus berstatus terklaim.* | *400 dengan pesan `tidak tersedia`.* | *Sesuai. Surplus terklaim tidak dapat diatur (kontroler.test.js).* | *Pass* |
+| *INT-TC65* | *I-18* | *Normal daftar hanya surplus tersedia* | *1. Buat surplus tersedia, terklaim, dan lewat batas waktu.<br>2. Panggil `SurplusController.ambilDaftarSurplus` dengan koordinat `-6.9,107.61`.* | *Daftar hanya memuat surplus tersedia yang belum lewat batas waktu.* | *Sesuai. Status dan batas waktu disaring (informasiSurplus.test.js).* | *Pass* |
+| *INT-TC66* | *I-18* | *Normal urutan jarak dan label distribusi* | *1. Buat surplus dari pemilik dekat (`-6.9001,107.6101`) dan jauh (`-6.95,107.65`).<br>2. Panggil daftar dan periksa urutan serta label.* | *Produk dekat muncul lebih dulu; jarak tidak menurun; label "Donasi"/"Rp 8.000" dan satuan tampil.* | *Sesuai. Urutan dan label benar (informasiSurplus.test.js).* | *Pass* |
+| *INT-TC67* | *I-18* | *Alternatif produk tanpa alamat* | *1. Buat surplus dari pemilik tanpa alamat.<br>2. Panggil daftar.* | *Produk berada di akhir dengan `jarakProduk=null` dan teks `Jarak belum tersedia`.* | *Sesuai. Alamat kosong ditangani (informasiSurplus.test.js).* | *Pass* |
+| *INT-TC68* | *I-19* | *Normal klaim surplus* | *1. Panggil `KlaimController.setujuiKlaim` untuk satu surplus.<br>2. Periksa `dokumen_klaim` dan status surplus.* | *Satu dokumen klaim terbentuk; status `terklaim`.* | *Sesuai. Klaim tersimpan (kontroler.test.js).* | *Pass* |
+| *INT-TC69* | *I-19* | *Negatif klaim ulang* | *1. Panggil klaim lagi dengan akun yang sama.<br>2. Panggil dengan akun lain.* | *Melempar `tidak dapat diproses`; tidak ada dokumen tambahan.* | *Sesuai. Klaim ganda dicegah (kontroler.test.js).* | *Pass* |
+| *INT-TC70* | *I-19* | *Klaim serentak (atomic)* | *1. Jalankan 12 permintaan klaim serentak.<br>2. Periksa kode status, `dokumen_klaim`, dan status surplus.* | *Satu 302 dan 11 409; satu dokumen klaim; status akhir `terklaim`.* | *Sesuai. Tepat satu 302 dan 11 409 dengan satu dokumen klaim; `kinerja.json` bagian `klaimBersamaan`.* | *Pass* |
+| *INT-TC71* | *I-20* | *Normal log lintas use case* | *1. Jalankan aksi UC01, UC02, UC04, UC06, UC07, UC10, dan UC11.<br>2. Baca `LogAktivitas`.* | *Setiap aksi menulis satu log berisi pelaku dan rincian aksi.* | *Sesuai. Ketujuh use case menulis log (integrasi-log.test.js).* | *Pass* |
+| *INT-TC72* | *I-20* | *Penyaringan log per kategori* | *1. Terapkan filter kategori Klaim dan Verifikasi.<br>Masukan: kategori `Klaim`, `Verifikasi`.* | *Log tersaring sesuai kata kunci; log terbaru tampil lebih dulu.* | *Sesuai. Filter log bekerja (log.test.js).* | *Pass* |
+| *INT-TC73* | *I-20* | *Negatif kategori log asing* | *1. Panggil daftar log dengan kategori asing.<br>Masukan: kategori `Ngawur`.* | *400.* | *Sesuai. Kategori asing ditolak (log.test.js).* | *Pass* |
+| *INT-TC74* | *I-20* | *Batas 100 baris log* | *1. Isi lebih dari 100 baris log.<br>2. Panggil daftar log.* | *Hanya 100 baris terbaru ditampilkan.* | *Sesuai. Batas baris diterapkan (log.test.js).* | *Pass* |
+| *INT-TC75* | *I-21* | *Normal persistensi dan pengaturan basis data* | *1. Jalankan suite dengan berkas SQLite sementara.<br>2. Tulis akun, profil, pendaftaran, produk, dan penjualan lewat model.<br>3. Baca kembali data.<br>4. Periksa PRAGMA.* | *Data terbaca kembali dengan nilai sama; `journal_mode = WAL` dan `foreign_keys = ON`.* | *Sesuai. Persistensi dan PRAGMA terpasang (config/db.js baris 11–12).* | *Pass* |
+| *INT-TC76* | *I-22* | *Guard status verifikasi* | *1. Jalankan `butuhDiverifikasi` untuk akun menunggu, ditolak, tanpa pendaftaran, diterima, admin, dan tanpa sesi.* | *Menunggu, ditolak, dan tanpa pendaftaran dialihkan ke `/status`; diterima dan admin dilanjutkan; tanpa sesi ke `/masuk`.* | *Sesuai (akses.test.js, 6/6).* | *Pass* |
+| *INT-TC77* | *I-22* | *Guard peran route* | *1. Akses route admin sebagai pemilik F&B.<br>2. Akses `/admin/log` sebagai non-admin.* | *403.* | *Sesuai. Guard peran menolak akses (rute-terpadu.test.js).* | *Pass* |
+| *INT-TC78* | *I-23* | *Nominatim nyata* | *1. Panggil `ambilKoordinat` untuk alamat `Jl. Dago No. 10, Bandung` ke Nominatim.<br>2. Hitung jarak ke koordinat "Bakery Sinar Pagi".* | *Koordinat `-6.8764383,107.6173457`; jarak 4,34 km; respons ratusan milidetik.* | *Sesuai `geolokasi.json`: 140 ms panggilan pertama, koordinat `-6.8764383,107.6173457`, dan jarak 4,34 km.* | *Pass* |
+| *INT-TC79* | *I-23* | *Cache geokodifikasi* | *1. Panggil ulang alamat yang sama dengan perbedaan huruf besar-kecil.* | *Koordinat sama; 0 ms tanpa permintaan HTTP baru.* | *Sesuai `geolokasi.json`: panggilan kedua 0 ms dari cache tanpa permintaan HTTP baru.* | *Pass* |
+| *INT-TC80* | *I-24* | *Antarmuka HTTP end-to-end* | *1. Jalankan `app.js` sebagai proses anak pada port acak dengan basis data sementara.<br>2. Jalankan 32 skenario `fetch` dengan cookie jar dan redirect manual.<br>3. Hentikan server dan hapus basis data sementara.* | *Server siap maksimal 15 detik; setiap permintaan memperoleh status 200/302/400/403/409 yang diharapkan; sesi bertahan.* | *Sesuai. Seluruh 32 skenario lulus pada server nyata (rute-terpadu.test.js, 32/32).* | *Pass* |
+| *INT-TC81* | *I-25* | *Batas ukuran berkas 5 MB* | *1. Kirim `POST /daftar` dengan PDF tepat 5 MB.<br>2. Periksa `STORAGE_DIR`.* | *302; berkas 5.242.880 byte tersimpan.* | *Sesuai `kinerja.json` bagian `unggah`: 302 dalam 213,73 ms dan satu berkas 5.242.880 byte tersimpan.* | *Pass* |
+| *INT-TC82* | *I-25* | *Negatif ukuran berkas melebihi 5 MB* | *1. Kirim PDF berukuran 5 MB + 1 KB.* | *400 dengan pesan batas 5 MB.* | *Sesuai `kinerja.json` bagian `unggah`: 400 dan pesan batas 5 MB.* | *Pass* |
+| *INT-TC83* | *I-25* | *Negatif format berkas DOCX* | *1. Kirim berkas DOCX bertipe `application/msword`.* | *400 dengan pesan format.* | *Sesuai `kinerja.json` bagian `unggah`: 400 dan pesan format PDF, JPG, atau PNG.* | *Pass* |
+
+Seluruh 25 antarmuka pada Tabel 4.3.1 memiliki minimal satu test case (83 INT-TC) dan seluruh INT-TC berkesimpulan Pass, sehingga data flow, interface coordination, dan communication protocol pada setiap batas komponen telah terverifikasi.
 
 <br>
 
@@ -1295,7 +1391,21 @@ Tabel 4.6. Bukti Hasil Pengujian
 | *C33 (coverage)* | *<img src="assets/Bukti-4.2/C33-Coverage.png">* |
 | *C34-UT01 – C34-UT06* | *<img src="assets/Bukti-4.2/C34-UT.png">* |
 | *C34 (coverage)* | *<img src="assets/Bukti-4.2/C34-Coverage.png">* |
-| *INT-TC01* | *[Sisipkan bukti pengujian integrasi]* |
+| *INT-TC01 – INT-TC34 dan INT-TC80* | *Runner integrasi HTTP (`rute-terpadu.test.js`, 32/32 lolos): <img src="assets/Bukti-4.3/INT-http.png">* |
+| *INT-TC35 – INT-TC37* | *Runner Controller–Model (`kontroler.test.js`, 23/23 lolos): <img src="assets/Bukti-4.3/INT-kontroler.png">* |
+| *INT-TC38 – INT-TC42* | *Runner registrasi (`registrasi.test.js`, 5/5 lolos): <img src="assets/Bukti-4.3/INT-registrasi.png">* |
+| *INT-TC43 – INT-TC48* | *Runner verifikasi (`verifikasi.test.js`, 8/8 lolos): <img src="assets/Bukti-4.3/INT-verifikasi.png">* |
+| *INT-TC49 – INT-TC51* | *Runner Controller–Model (`kontroler.test.js`, 23/23 lolos): <img src="assets/Bukti-4.3/INT-kontroler.png">* |
+| *INT-TC52 – INT-TC56* | *Runner prediksi (`prediksi.test.js`, 12/12 lolos): <img src="assets/Bukti-4.3/INT-prediksi.png">* |
+| *INT-TC57 – INT-TC64* | *Runner Controller–Model (`kontroler.test.js`, 23/23 lolos): <img src="assets/Bukti-4.3/INT-kontroler.png">* |
+| *INT-TC65 – INT-TC67* | *Runner informasi surplus (`informasiSurplus.test.js`, 14/14 lolos): <img src="assets/Bukti-4.3/INT-informasiSurplus.png">* |
+| *INT-TC68 – INT-TC70* | *Runner Controller–Model (`kontroler.test.js`, 23/23 lolos): <img src="assets/Bukti-4.3/INT-kontroler.png">* |
+| *INT-TC71* | *Runner integrasi log (`integrasi-log.test.js`, 7/7 lolos): <img src="assets/Bukti-4.3/INT-integrasi-log.png">* |
+| *INT-TC72 – INT-TC74* | *Runner log (`log.test.js`, 13/13 lolos): <img src="assets/Bukti-4.3/INT-log.png">* |
+| *INT-TC75* | *Runner persistensi SQLite (`2/2 lolos`): <img src="assets/Bukti-4.3/INT-persistensi.png">* |
+| *INT-TC76 – INT-TC77* | *Runner guard peran (`akses.test.js`, 6/6 lolos): <img src="assets/Bukti-4.3/INT-akses.png">* |
+| *INT-TC78 – INT-TC79* | *Hasil panggilan Nominatim nyata dan cache: [`geolokasi.json`](assets/Bukti-4.3/geolokasi.json)* |
+| *INT-TC81 – INT-TC83* | *Hasil unggah 5 MB, PDF + 1 KB, dan DOCX: [`kinerja.json`](assets/Bukti-4.3/kinerja.json) bagian `unggah`* |
 | *UC01-TC01* | *<img src="assets/Bukti-4.4/UC01/UC01-TC01.png">* |
 | *UC01-TC02* | *<img src="assets/Bukti-4.4/UC01/UC01-TC02.png">* |
 | *UC01-TC03* | *<img src="assets/Bukti-4.4/UC01/UC01-TC03.png">* |
