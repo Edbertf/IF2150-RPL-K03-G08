@@ -177,5 +177,5 @@
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
-| *11-11-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian 4.3 Pengujian Integrasi* | *3 jam* | *Done* | *-* |
+| *20-11-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian 4.3 Pengujian Integrasi* | *3 jam* | *Done* | *-* |
 
