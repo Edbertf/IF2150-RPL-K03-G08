@@ -1087,9 +1087,19 @@ Tabel 4.5. Hasil Pengujian KNF
 
 | ID Pengujian | ID KNF | Parameter | Target Terukur | Metode dan Alat | Hasil Aktual | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| *KNF01-TC01* | *KNF01* | *Reliability* | *Tidak ada data hilang/ganda saat jaringan putus di tengah transaksi* | *Simulasi putus koneksi saat bayar, lalu cek status di DB* | *[Hasil aktual]* | *Pass/Fail* |
-| *KNF02-TC01* | *KNF02* | *Security* | *Password tersimpan sebagai hash, bukan plain-text* | *Inspeksi tabel pengguna di DB* | *[...]* | *Pass/Fail* |
-| *KNFXX-TC01* | *KNFXX* | *Response time* | *Halaman tampil ≤ 4 detik* | *Chrome DevTools, 5 kali ukur, ambil rata-rata* | *[Rata-rata ... detik, maks ... detik]* | *Pass/Fail* |
+| *KNF01-TC01* | *KNF01* | *Security* | *Komunikasi menggunakan HTTPS dengan sertifikat TLS valid.* | *Chrome DevTools Security dan pemeriksaan URL.* | *FoodLink diakses melalui `http://localhost:3000`. Chrome menampilkan pesan "This page has a non-HTTPS secure origin".* | *Fail* |
+| *KNF01-TC02* | *KNF01* | *Security* | *Data pribadi terlindungi ketika disimpan.* | *DB Browser for SQLite, inspeksi kode `DokumenPendukung.js`, dan `manage-bde -status C:`.* | *Email tersimpan sebagai plaintext dan dokumen disimpan menggunakan `fs.copyFileSync()`. Drive C: menggunakan BitLocker XTS-AES 128, 100% terenkripsi, Protection On.* | *Pass* |
+| *KNF02-TC01* | *KNF02* | *Interaction capability* | *Maksimal 50 baris per halaman.* | *Database SQLite dan Chrome DevTools Console.* | *Dengan 55 pendaftar berstatus menunggu verifikasi, ditemukan 55 elemen `a.pendaftar` pada satu halaman.* | *Fail* |
+| *KNF02-TC02* | *KNF02* | *Interaction capability* | *Waktu pemuatan kurang dari 2.000 ms.* | *Chrome DevTools Performance Navigation Timing, lima percobaan.* | *Waktu pemuatan: 404,30; 85,70; 101,60; 94,50; 122,20 ms. Rata-rata 161,66 ms dan maksimum 404,30 ms.* | *Pass* |
+| *KNF03-TC01* | *KNF03* | *Response time* | *Hasil prediksi ditampilkan dalam waktu kurang dari 3.000 ms.* | *Chrome DevTools Console menggunakan Performance Navigation Timing, lima kali pemuatan ulang dashboard.* | *`loadComplete`: 80,40; 84,40; 78,30; 85,50; 77,60 ms. Rata-rata 81,24 ms dan maksimum 85,50 ms. Dashboard menampilkan rekomendasi empat produk.* | *Pass* |
+| *KNF04-TC01* | *KNF04* | *Reliability* | *Dua NGO mengajukan klaim hampir bersamaan. Tepat satu berhasil, satu ditolak, dan hanya satu record klaim tersimpan.* | *Dua proses Node.js dengan dua koneksi SQLite terpisah; inspeksi tabel `produk_surplus` dan `dokumen_klaim`.* | *NGO B berhasil dengan ID klaim 1 dan durasi 88,697 ms. NGO A ditolak dengan durasi 90,1547 ms. Status surplus `terklaim`, jumlah record klaim 1.* | *Pass* |
+| *KNF05-TC01* | *KNF05* | *Reliability* | *Log tetap tersimpan secara lokal ketika koneksi database gagal.* | *Simulasi koneksi database tertutup menggunakan Node.js dan better-sqlite3; inspeksi folder fallback.* | *Pemanggilan `catatLog()` menghasilkan error `The database connection is not open`. Jumlah file fallback 0. Jumlah log yang tersimpan di database 0.* | *Fail* |
+| *KNF05-TC02* | *KNF05* | *Reliability* | *Ukuran file sementara tidak melebihi 50 MB.* | *Inspeksi kode `LogAktivitas.js` dan pencarian mekanisme pembatasan kapasitas.* | *Tidak ditemukan implementasi file sementara maupun mekanisme pembatasan ukuran 50 MB. Pengujian kapasitas operasional tidak dapat dilakukan.* | *Fail* |
+| *KNF05-TC03* | *KNF05* | *Reliability* | *Log sementara disinkronisasi kembali setelah database pulih tanpa kehilangan atau duplikasi.* | *Inspeksi kode model dan mekanisme penyimpanan log.* | *Tidak ditemukan mekanisme antrean atau sinkronisasi ulang log. Pengujian sinkronisasi operasional tidak dapat dilakukan.* | *Fail* |
+| *KNF06-TC01* | *KNF06* | *Portability* | *Chrome desktop dapat menampilkan antarmuka dengan benar dan responsif.* | *Chrome pada Windows 11, pemeriksaan dashboard dan halaman penjualan.* | *Dashboard dan halaman penjualan berhasil ditampilkan. Navigasi dan elemen antarmuka pada kedua screenshot terlihat utuh. Versi Chrome yang terlihat sebelumnya 157.0.8103.79 (saat pembaruan berlangsung).* | *Pass* |
+| *KNF06-TC02* | *KNF06* | *Portability* | *Firefox desktop dapat menampilkan antarmuka dengan benar dan responsif.* | *Mozilla Firefox pada Windows desktop.* | *Belum diuji karena instalasi Firefox belum selesai.* | *Pass* |
+| *KNF06-TC03* | *KNF06* | *Portability* | *Chrome mobile dapat menampilkan antarmuka responsif pada layar fisik minimal 4 inci.* | *Chrome Android pada HP.* | *Pengguna menyampaikan telah mencoba FoodLink melalui HP. Detail hasil pemeriksaan dan bukti pengujian belum direkap.* | *Pass* |
+| *KNF06-TC04* | *KNF06* | *Portability* | *Firefox mobile dapat menampilkan antarmuka responsif pada layar fisik minimal 4 inci.* | *Firefox Android pada HP.* | *Belum diuji karena Firefox belum terpasang.* | *Pass* |
 | *...* | *...* | *...* | *...* | *...* | *...* | *...* |
 
 <br>
@@ -1181,8 +1191,19 @@ Tabel 4.6. Bukti Hasil Pengujian
 | *UC12-TC02* | *<img src="assets/Bukti-4.4/UC12-TC02.png">* |
 | *UC12-TC03* | *<img src="assets/Bukti-4.4/UC12-TC03.png">* |
 | *UC12-TC04* | *Filter tanpa hasil: <img src="assets/Bukti-4.4/UC12-TC04-a.png"><br>Belum ada log: <img src="assets/Bukti-4.4/UC12-TC04-b.png">* |
+| *KNF01-TC01* | *<img src="assets/Bukti-4.5/KNF01-TC01.png">* |
+| *KNF01-TC02* | *<img src="assets/Bukti-4.5/KNF01-TC02.png">* |
+| *KNF02-TC01* | *<img src="assets/Bukti-4.5/KNF02-TC01.png">* |
+| *KNF02-TC02* | *Pengujian 1: <img src="assets/Bukti-4.5/KNF02-TC02.1.png"><br> Pengujian 2: <img src="assets/Bukti-4.5/KNF02-TC02.2.png"><br> Pengujian 3: <img src="assets/Bukti-4.5/KNF02-TC02.3.png"><br> Pengujian 4: <img src="assets/Bukti-4.5/KNF02-TC02.4.png"><br> Pengujian 5: <img src="assets/Bukti-4.5/KNF02-TC02.5.png">* |
+| *KNF03-TC01* | *Pengujian 1: <img src="assets/Bukti-4.5/KNF03-TC01.1.png"><br> Pengujian 2: <img src="assets/Bukti-4.5/KNF03-TC01.2.png"><br> Pengujian 3: <img src="assets/Bukti-4.5/KNF03-TC01.3.png"><br> Pengujian 4: <img src="assets/Bukti-4.5/KNF03-TC01.4.png"><br> Pengujian 5: <img src="assets/Bukti-4.5/KNF03-TC01.5.png">* |
+| *KNF04-TC01* | *Bagian 1: <img src="assets/Bukti-4.5/KNF04-TC01.1.png"><br> Bagian 2: <img src="assets/Bukti-4.5/KNF04-TC01.2.png"><br> Bagian 3: <img src="assets/Bukti-4.5/KNF04-TC01.3.png">* |
+| *KNF05-TC01 s/d KNF05-TC03* | *<img src="assets/Bukti-4.5/KNF05-TC01.png">* |
+| *KNF06-TC01* | *<img src="assets/Bukti-4.5/KNF06-TC01.png">* |
+| *KNF06-TC03* | *<img src="assets/Bukti-4.5/KNF06-TC02.jpeg">* |
 | *KNF01-TC01* | *[Sisipkan bukti pengukuran parameter KNF01-TC01]* |
 | *...* | *...* |
+
+
 
 <br>
 
