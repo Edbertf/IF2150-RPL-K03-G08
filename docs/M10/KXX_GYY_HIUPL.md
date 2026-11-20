@@ -1060,22 +1060,78 @@ Tabel 4.3.2. Hasil Pengujian Integrasi
 
 Pengujian use case dilakukan pada seluruh skenario normal dan alternatif sesuai Subbab 4.4 SKPL, dengan minimal satu test case untuk setiap skenario. Kolom ID KF menunjukkan KF yang diverifikasi oleh test case tersebut.
 
-### 4.4.1 Use Case [Nama Use Case 1]
+### 4.4.1 Use Case Melakukan Registrasi Akun
 
-**ID Use Case:** *[UC01 sesuai SKPL]*  
-**Nama Use Case:** *[Nama use case sesuai SKPL]*
+**ID Use Case:** *UC01*  
+**Nama Use Case:** *Melakukan Registrasi Akun*
 
-Tabel 4.4.1. Hasil Pengujian Use Case [UC01]
+Tabel 4.4.1. Hasil Pengujian Use Case UC01
 
 | ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| *UC01-TC01* | *KF01* | *Normal* | *1. Buka halaman login.<br>2. Masukkan kredensial.<br>3. Klik tombol "Login".* | *User: rpl@gmail.com<br>Pass: 123456* | *Pengguna diarahkan ke Halaman Dashboard.* | *Pengguna diarahkan ke Halaman Dashboard sesuai hasil yang diharapkan.* | *Pass* |
-| *UC01-TC02* | *KF01* | *Alternatif 1: [Nama skenario]* | *[Langkah-langkah pengujian]* | *[Data masukan]* | *[Hasil yang diharapkan]* | *[Hasil aktual]* | *[Pass/Fail. Jika Fail: penjelasan dan solusi]* |
-| *...* | *...* | *...* | *...* | *...* | *...* | *...* | *...* |
+| *UC01-TC01* | *KF01* | *Normal* | *1. Buka halaman registrasi. (Daftar sekarang)<br>2. Pilih tipe akun Pemilik F&B atau Perwakilan NGO.<br>3. Isi seluruh kolom wajib dan unggah dokumen pendukung.<br>4. Klik tombol "Daftar".* | *Data akun yang valid dan dokumen pendukung yang sesuai.* | *Sistem menyimpan akun, profil, pendaftaran, dan dokumen, lalu menampilkan status pendaftaran "menunggu verifikasi".* | *Sesuai. Data pendaftaran tersimpan dan status berubah menjadi "menunggu verifikasi".* | *Pass* |
+| *UC01-TC02* | *KF01* | *Alternatif 1: Data Tidak Lengkap* | *1. Buka halaman registrasi. (Daftar sekarang)<br>2. Kosongkan salah satu kolom wajib.<br>3. Isi data lain dengan valid.<br>4. Klik tombol "Daftar".* | *Data wajib tidak lengkap.* | *Sistem membatalkan pendaftaran dan menampilkan pesan error pada kolom terkait.* | *Sesuai. Formulir ditampilkan ulang dengan pesan error dan tidak ada akun baru yang tersimpan.* | *Pass* |
+| *UC01-TC03* | *KF01* | *Alternatif 1: Dokumen Tidak Valid* | *1. Buka halaman registrasi. (Daftar sekarang)<br>2. Isi seluruh kolom wajib.<br>3. Unggah dokumen dengan format atau ukuran yang tidak valid.<br>4. Klik tombol "Daftar".* | *Dokumen tidak sesuai format atau melebihi 5 MB.* | *Sistem membatalkan pendaftaran dan menampilkan pesan error dokumen.* | *Sesuai. Dokumen ditolak dan tidak ada akun baru yang tersimpan.* | *Pass* |
 
-### 4.4.2 Use Case [Nama Use Case 2]
+### 4.4.2 Use Case Memverifikasi Pendaftaran Akun
 
-*[Lanjutkan untuk seluruh use case dengan pola yang sama, hingga 4.4.N.]*
+**ID Use Case:** *UC02*  
+**Nama Use Case:** *Memverifikasi Pendaftaran Akun*
+
+Tabel 4.4.2. Hasil Pengujian Use Case UC02
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *UC02-TC01* | *KF02, KF03* | *Normal* | *1. Masuk sebagai Admin Sistem.<br>2. Buka halaman verifikasi pendaftaran.<br>3. Pilih salah satu pendaftar.<br>4. Periksa data dan dokumen pendukung.<br>5. Klik tombol "Setujui".* | *Pendaftar berstatus "menunggu verifikasi" beserta dokumen pendukung.* | *Sistem menampilkan detail pendaftar, mengubah status menjadi "diterima", dan menampilkan halaman hasil verifikasi.* | *Sesuai. Status pendaftaran berubah menjadi "diterima", pendaftar hilang dari daftar menunggu, dan aktivitas verifikasi tercatat.* | *Pass* |
+| *UC02-TC02* | *KF02, KF03* | *Alternatif 1: Pendaftaran Ditolak* | *1. Masuk sebagai Admin Sistem.<br>2. Buka halaman verifikasi pendaftaran.<br>3. Pilih salah satu pendaftar.<br>4. Periksa data dan dokumen pendukung.<br>5. Klik tombol "Tolak".* | *Pendaftar dengan dokumen yang tidak valid atau tidak relevan.* | *Sistem mengubah status pendaftaran menjadi "ditolak" dan menampilkan halaman hasil verifikasi.* | *Sesuai. Status pendaftaran berubah menjadi "ditolak", pendaftar hilang dari daftar menunggu, dan aktivitas verifikasi tercatat.* | *Pass* |
+
+### 4.4.3 Use Case Menampilkan Status Pendaftaran
+
+**ID Use Case:** *UC03*  
+**Nama Use Case:** *Menampilkan Status Pendaftaran*
+
+Tabel 4.4.3. Hasil Pengujian Use Case UC03
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *UC03-TC01* | *KF04* | *Normal* | *1. Masuk sebagai Pemilik F&B atau Perwakilan NGO.<br>2. Buka halaman status pendaftaran.<br>3. Lihat hasil verifikasi.* | *Akun dengan status pendaftaran "diterima".* | *Sistem menampilkan status pendaftaran "Diterima" beserta informasi bahwa akun telah diverifikasi.* | *Sesuai. Halaman status menampilkan badge "Diterima" dan tombol menuju halaman utama sesuai peran pengguna.* | *Pass* |
+| *UC03-TC02* | *KF04* | *Alternatif 1: Status Pendaftaran Ditolak* | *1. Masuk sebagai Pemilik F&B atau Perwakilan NGO.<br>2. Buka halaman status pendaftaran.<br>3. Lihat hasil verifikasi.* | *Akun dengan status pendaftaran "ditolak".* | *Sistem menampilkan status pendaftaran "Ditolak" dan menyarankan pendaftar memperbaiki dokumen lalu mendaftar ulang.* | *Sesuai. Halaman status menampilkan badge "Ditolak" beserta pesan untuk memperbaiki dokumen dan melakukan pendaftaran ulang.* | *Pass* |
+
+### 4.4.4 Use Case Mencatat Data Penjualan Harian
+
+**ID Use Case:** *UC04*  
+**Nama Use Case:** *Mencatat Data Penjualan Harian*
+
+Tabel 4.4.4. Hasil Pengujian Use Case UC04
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *UC04-TC01* | *KF05* | *Normal* | *1. Masuk sebagai Pemilik F&B.<br>2. Buka menu Penjualan Harian.<br>3. Isi jumlah terjual dan tersisa untuk minimal satu produk.<br>4. Klik tombol simpan.* | *Jumlah terjual dan tersisa berupa bilangan bulat yang valid.* | *Sistem memvalidasi input, menyimpan data per produk dan tanggal, lalu menampilkan halaman penjualan tersimpan.* | *Sesuai. Data tersimpan, pengguna diarahkan ke halaman penjualan tersimpan, dan aktivitas pencatatan masuk ke log.* | *Pass* |
+| *UC04-TC02* | *KF05* | *Alternatif 1: Format Isian Tidak Valid* | *1. Buka menu Penjualan Harian.<br>2. Isi jumlah terjual dengan nilai negatif.<br>3. Klik tombol simpan.* | *Jumlah terjual negatif, misalnya -5.* | *Sistem membatalkan penyimpanan dan menampilkan pesan error bahwa jumlah harus berupa bilangan bulat nol atau positif.* | *Sesuai. Formulir ditampilkan kembali dengan pesan validasi dan data tidak tersimpan.* | *Pass* |
+
+### 4.4.5 Use Case Melihat Hasil Prediksi Produksi
+
+**ID Use Case:** *UC05*  
+**Nama Use Case:** *Melihat Hasil Prediksi Produksi*
+
+Tabel 4.4.5. Hasil Pengujian Use Case UC05
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *UC05-TC01* | *KF06, KF07* | *Normal* | *1. Masuk sebagai Pemilik F&B.<br>2. Buka dashboard.<br>3. Tunggu sistem memuat hasil prediksi.<br>4. Lihat rekomendasi produksi.* | *Data penjualan historis minimal tujuh hari.* | *Sistem menjalankan prediksi dan menampilkan rekomendasi produksi dalam tabel atau grafik.* | *Sesuai. Sistem menghitung rekomendasi dari data tujuh hari, menyimpan hasilnya, dan menampilkannya pada dashboard.* | *Pass* |
+| *UC05-TC02* | *KF06, KF07* | *Alternatif 1: Data Historis Belum Memenuhi Syarat Minimal* | *1. Masuk sebagai Pemilik F&B.<br>2. Buka dashboard dengan data historis kurang dari tujuh hari.<br>3. Lihat bagian prediksi.* | *Data penjualan historis kurang dari tujuh hari.* | *Sistem menampilkan pesan bahwa prediksi belum dapat dilakukan sampai data penjualan tujuh hari terpenuhi.* | *Sesuai. Dashboard menampilkan pesan “Data historis belum memenuhi syarat minimal 7 hari.” dan daftar prediksi kosong.* | *Pass* |
+
+### 4.4.6 Use Case Mencatat Produk Surplus
+
+**ID Use Case:** *UC06*  
+**Nama Use Case:** *Mencatat Produk Surplus*
+
+Tabel 4.4.6. Hasil Pengujian Use Case UC06
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *UC06-TC01* | *KF08* | *Normal* | *1. Masuk sebagai Pemilik F&B.<br>2. Buka menu Catat Surplus.<br>3. Pilih produk, isi jumlah surplus, dan tentukan batas waktu pengambilan.<br>4. Klik tombol "Lanjut: Atur Distribusi".* | *Produk valid, jumlah surplus berupa bilangan bulat lebih dari 0, dan batas waktu setelah waktu sekarang.* | *Sistem menyimpan produk surplus beserta jumlah dan batas waktu pengambilannya, lalu memberi umpan balik bahwa pencatatan berhasil.* | *Sesuai. Data surplus tersimpan dengan status "tersedia", aktivitas pencatatan masuk ke log, dan pengguna diarahkan ke halaman pengaturan distribusi.* | *Pass* |
+| *UC06-TC02* | *KF08* | *Alternatif 1: Mereset Isian Formulir* | *1. Buka menu Catat Surplus.<br>2. Isi produk, jumlah surplus, dan batas waktu pengambilan.<br>3. Klik tombol "Reset".* | *Formulir terisi sebagian atau seluruhnya.* | *Sistem membatalkan pengisian dan mengembalikan formulir ke keadaan kosong.* | *Sesuai. Seluruh isian terhapus, formulir kembali kosong, dan tidak ada data surplus yang tersimpan.* | *Pass* |
 
 <br>
 
