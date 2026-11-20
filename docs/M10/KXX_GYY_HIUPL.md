@@ -249,13 +249,14 @@ Tabel 3.1. Lingkungan Implementasi
 
 | Aspek | Keterangan |
 | :--- | :--- |
-| *Hardware* | *[Spesifikasi perangkat keras]* |
-| *Operating System* | *[Nama dan versi OS]* |
-| *Bahasa Pemrograman* | *[Bahasa dan versi]* |
-| *Framework/Library* | *[Daftar framework/library beserta versi]* |
-| *DBMS* | *[Nama dan versi DBMS]* |
-| *Development Tools* | *[IDE, version control, tools lain]* |
-| *Testing Tools* | *[Framework unit test, alat ukur performa, alat coverage]* |
+| *Hardware* | Laptop |
+| *Operating System* | Windows |
+| *Bahasa Pemrograman* | JavaScript (Node.js v24.22.1; minimum Node.js 20) di sisi server, HTML5/CSS/JavaScript di sisi klien |
+| *Framework/Library* | Express.js 5.3.0, EJS 7.0.2, better-sqlite3 13.0.3, bcryptjs 3.0.3, dotenv 18.0.9, express-session 1.19.0, multer 2.5.0; nodemon 3.1.14 untuk pengembangan |
+| *DBMS* | SQLite 3.53.4 melalui better-sqlite3 13.0.3 (menggantikan PostgreSQL 15 pada DPPL) |
+| *Development Tools* | Visual Studio Code 1.147.0, Git 2.52.0, GitHub, npm 11.20.0, draw.io |
+| *Testing Tools* | Unit dan integration test memakai `node:test` serta `node:assert/strict`; integration HTTP memakai `fetch` dan `node:child_process`; coverage memakai `--experimental-test-coverage`; pengujian manual antarmuka melalui browser; profiling query memakai `src/tools/profil-log.js` |
+ 
 
 ## 3.2 Implementasi Modul
 
@@ -341,8 +342,41 @@ Tabel 3.4. File Lain
 
 | No | Nama File | Keterangan |
 | :--- | :--- | :--- |
-| 1 | *[Nama file]* | *[Fungsi file]* |
-| ... | *...* | *...* |
+| 1 | `src/app.js` | Titik masuk aplikasi; mengatur EJS, file statis, sesi, middleware pengguna, pemasangan seluruh route, dan port server |
+| 2 | `src/config/db.js` | Membuka koneksi SQLite, mengaktifkan mode WAL dan foreign key, serta menentukan lokasi database melalui `DB_PATH` |
+| 3 | `src/config/sesi.js` | Konfigurasi `express-session`: cookie `foodlink.sid`, `httpOnly`, `sameSite=lax`, dan masa berlaku 8 jam |
+| 4 | `src/middleware/pengguna.js` | Mengisi `req.user` dan `res.locals.pengguna` dari sesi pada setiap request |
+| 5 | `src/middleware/peran.js` | Guard `butuhPeran` dan `butuhDiverifikasi` untuk membatasi akses berdasarkan peran dan status verifikasi |
+| 6 | `src/routes/masuk.js` | Route login, proses login, dan logout |
+| 7 | `src/routes/auth.js` | Route registrasi, konfigurasi unggah multer, dan penanganan error unggah dokumen |
+| 8 | `src/routes/status.js` | Route halaman status pendaftaran untuk Pemilik F&B dan Perwakilan NGO |
+| 9 | `src/routes/fnb.js` | Route dashboard prediksi serta pencatatan dan rekap penjualan; dilindungi guard peran dan verifikasi |
+| 10 | `src/routes/surplus.js` | Route pencatatan surplus, pengelolaan produk, dan pengaturan distribusi; dilindungi guard peran dan verifikasi |
+| 11 | `src/routes/ngo.js` | Route daftar/detail surplus, klaim, daftar klaim, dan konfirmasi pengambilan; dilindungi guard peran |
+| 12 | `src/routes/admin.js` | Route verifikasi pendaftar, detail, proses keputusan, hasil, dan penyajian dokumen; hanya untuk Admin Sistem |
+| 13 | `src/routes/log.js` | Route daftar dan filter log aktivitas; hanya untuk Admin Sistem |
+| 14 | `src/database/init.js` | Membaca seluruh berkas schema SQL secara berurutan dan menjalankannya dalam satu transaksi saat aplikasi mulai |
+| 15 | `src/database/schema/*.sql` | 12 berkas DDL untuk tabel `akun_pengguna`, `pendaftaran`, `dokumen_pendukung`, `pemilik_fnb`, `produk`, `data_penjualan`, `perwakilan_ngo`, `metode_distribusi_surplus`, `prediksi_produksi`, `produk_surplus`, `dokumen_klaim`, dan `log_aktivitas` |
+| 16 | `src/database/seed.js` | Seed akun demo, Pemilik F&B, Perwakilan NGO, Admin Sistem, produk, penjualan, dan log |
+| 17 | `src/database/seedAdmin.js` | Membuat akun Admin Sistem dan melengkapi pendaftaran akun demo |
+| 18 | `src/database/seedSurplus.js` | Membuat akun NGO, produk, metode distribusi, dan produk surplus contoh |
+| 19 | `src/seed-ngo-dummy.js` | Membuat akun NGO dummy untuk pengujian manual |
+| 20 | `src/seed-surplus-dummy.js` | Membuat akun Pemilik F&B dan produk surplus dummy untuk pengujian manual |
+| 21 | `src/cek-controller-klaim.js` | Skrip assertion manual untuk alur `KlaimController`; data pengujian dibersihkan setelah dijalankan |
+| 22 | `src/cek-model-pendukung.js` | Skrip assertion manual untuk `Produk`, `PemilikFnB`, `MetodeDistribusiSurplus`, dan `SurplusController`; data di-rollback |
+| 23 | `src/cek-model-uc10.js` | Skrip assertion manual untuk `ProdukSurplus` dan `DokumenKlaim`; data di-rollback |
+| 24 | `src/tools/uji-manual-uc11.js` | Verifikasi manual alur konfirmasi pengambilan UC11; perubahan data di-rollback setelah pengujian |
+| 25 | `src/tools/profil-log.js` | Profiling performa query log menggunakan database sementara berisi 20.000 data |
+| 26 | `src/tests/*.test.js` | 31 berkas pengujian otomatis: unit test kelas, integration test HTTP pada `rute-terpadu.test.js` dan `log.test.js`, serta pengujian regresi; seluruhnya memakai `node:test` |
+| 27 | `src/public/css/admin.css` | Gaya tampilan halaman Admin Sistem |
+| 28 | `src/public/css/ngo.css` | Gaya tampilan halaman Perwakilan NGO |
+| 29 | `src/public/assets/logo.png` | Aset logo FoodLink yang dipakai pada halaman aplikasi |
+| 30 | `src/views/admin/partials-sidebar.ejs` | Partial sidebar untuk navigasi halaman Admin Sistem |
+| 31 | `src/views/ngo/partials-sidebar.ejs` | Partial sidebar untuk navigasi halaman Perwakilan NGO |
+| 32 | `src/.env.example` | Contoh konfigurasi `PORT`, `DB_PATH`, `STORAGE_DIR`, dan `SESSION_SECRET` |
+| 33 | `src/package.json` | Definisi dependensi, devDependencies, dan skrip `start`, `dev`, seed, serta `test` |
+| 34 | `src/package-lock.json` | Lockfile versi dependensi agar instalasi konsisten |
+| 35 | `src/README.md` | Dokumentasi instalasi, cara menjalankan, struktur folder, dan konfigurasi aplikasi |
 
 <br>
 
