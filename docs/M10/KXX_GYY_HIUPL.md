@@ -1141,8 +1141,46 @@ Tabel 4.6. Bukti Hasil Pengujian
 | *C34-UT01 – C34-UT06* | *<img src="assets/Bukti-4.2/C34-UT.png">* |
 | *C34 (coverage)* | *<img src="assets/Bukti-4.2/C34-Coverage.png">* |
 | *INT-TC01* | *[Sisipkan bukti pengujian integrasi]* |
-| *UC01-TC01* | *[Sisipkan tangkapan layar UC01-TC01 sesuai prosedur pengujian]* |
-| *UC01-TC02* | *[Sisipkan tangkapan layar UC01-TC02 sesuai prosedur pengujian]* |
+| *UC01-TC01* | *<img src="assets/Bukti-4.4/UC01-TC01.png">* |
+| *UC01-TC02* | *<img src="assets/Bukti-4.4/UC01-TC02.png">* |
+| *UC01-TC03* | *<img src="assets/Bukti-4.4/UC01-TC03.png">* |
+| *UC01-TC04* | *<img src="assets/Bukti-4.4/UC01-TC04.png">* |
+| *UC02-TC01* | *<img src="assets/Bukti-4.4/UC02-TC01.png">* |
+| *UC02-TC02* | *<img src="assets/Bukti-4.4/UC02-TC02.png">* |
+| *UC02-TC03* | *<img src="assets/Bukti-4.4/UC02-TC03.png">* |
+| *UC02-TC04* | *<img src="assets/Bukti-4.4/UC02-TC04.png">* |
+| *UC03-TC01* | *Menunggu: <img src="assets/Bukti-4.4/UC03-TC01-a.png"><br>Ditolak: <img src="assets/Bukti-4.4/UC03-TC01-b.png">* |
+| *UC03-TC02* | *<img src="assets/Bukti-4.4/UC03-TC02.png">* |
+| *UC03-TC03* | *<img src="assets/Bukti-4.4/UC03-TC03.png">* |
+| *UC04-TC01* | *Halaman tersimpan: <img src="assets/Bukti-4.4/UC04-TC01.png"><br>Isian tersimpan (8 terjual, 2 tersisa): <img src="assets/Bukti-4.4/UC04-TC01-b.png">* |
+| *UC04-TC02* | *<img src="assets/Bukti-4.4/UC04-TC02.png">* |
+| *UC04-TC03* | *<img src="assets/Bukti-4.4/UC04-TC03.png">* |
+| *UC05-TC01* | *<img src="assets/Bukti-4.4/UC05-TC01.png">* |
+| *UC05-TC02* | *<img src="assets/Bukti-4.4/UC05-TC02.png">* |
+| *UC06-TC01* | *<img src="assets/Bukti-4.4/UC06-TC01.png">* |
+| *UC06-TC02* | *Jumlah 0: <img src="assets/Bukti-4.4/UC06-TC02-a.png"><br>Batas waktu lampau: <img src="assets/Bukti-4.4/UC06-TC02-b.png">* |
+| *UC06-TC03* | *<img src="assets/Bukti-4.4/UC06-TC03.png">* |
+| *UC06-TC04* | *Sebelum reset: <img src="assets/Bukti-4.4/UC06-TC04-a.png"><br>Sesudah reset: <img src="assets/Bukti-4.4/UC06-TC04-b.png">* |
+| *UC07-TC01* | *<img src="assets/Bukti-4.4/UC07-TC01.png">* |
+| *UC07-TC02* | *<img src="assets/Bukti-4.4/UC07-TC02.png">* |
+| *UC07-TC03* | *<img src="assets/Bukti-4.4/UC07-TC03.png">* |
+| *UC08-TC01* | *Daftar terurut jarak: <img src="assets/Bukti-4.4/UC08-TC01-a.png"><br>Detail produk: <img src="assets/Bukti-4.4/UC08-TC01-b.png">* |
+| *UC08-TC02* | *<img src="assets/Bukti-4.4/UC08-TC02.png">* |
+| *UC08-TC03* | *Sebelum klaim: <img src="assets/Bukti-4.4/UC08-TC03-a.png"><br>Sesudah klaim: <img src="assets/Bukti-4.4/UC08-TC03-b.png">* |
+| *UC09-TC01* | *<img src="assets/Bukti-4.4/UC09-TC01.png">* |
+| *UC09-TC02* | *<img src="assets/Bukti-4.4/UC09-TC02.png">* |
+| *UC09-TC03* | *Hasil filter: <img src="assets/Bukti-4.4/UC09-TC03.png"><br>Panel filter: <img src="assets/Bukti-4.4/UC09-TC03-b.png">* |
+| *UC10-TC01* | *<img src="assets/Bukti-4.4/UC10-TC01.png">* |
+| *UC10-TC02* | *Respons klaim kedua: <img src="assets/Bukti-4.4/UC10-TC02-a.png"><br>Detail bagi NGO lain: <img src="assets/Bukti-4.4/UC10-TC02-b.png">* |
+| *UC10-TC03* | *<img src="assets/Bukti-4.4/UC10-TC03.png">* |
+| *UC11-TC01* | *<img src="assets/Bukti-4.4/UC11-TC01.png">* |
+| *UC11-TC02* | *Konfirmasi ganda: <img src="assets/Bukti-4.4/UC11-TC02-a.png"><br>NGO lain: <img src="assets/Bukti-4.4/UC11-TC02-b.png">* |
+| *UC11-TC03* | *Pop-up konfirmasi: <img src="assets/Bukti-4.4/UC11-TC03-a.png"><br>Setelah memilih "Tidak": <img src="assets/Bukti-4.4/UC11-TC03-b.png">* |
+| *UC11-TC04* | *<img src="assets/Bukti-4.4/UC11-TC04.png">* |
+| *UC12-TC01* | *Semua log: <img src="assets/Bukti-4.4/UC12-TC01-a.png"><br>Filter Klaim: <img src="assets/Bukti-4.4/UC12-TC01-b.png">* |
+| *UC12-TC02* | *<img src="assets/Bukti-4.4/UC12-TC02.png">* |
+| *UC12-TC03* | *<img src="assets/Bukti-4.4/UC12-TC03.png">* |
+| *UC12-TC04* | *Filter tanpa hasil: <img src="assets/Bukti-4.4/UC12-TC04-a.png"><br>Belum ada log: <img src="assets/Bukti-4.4/UC12-TC04-b.png">* |
 | *KNF01-TC01* | *[Sisipkan bukti pengukuran parameter KNF01-TC01]* |
 | *...* | *...* |
 
