@@ -1133,6 +1133,86 @@ Tabel 4.4.6. Hasil Pengujian Use Case UC06
 | *UC06-TC01* | *KF08* | *Normal* | *1. Masuk sebagai Pemilik F&B.<br>2. Buka menu Catat Surplus.<br>3. Pilih produk, isi jumlah surplus, dan tentukan batas waktu pengambilan.<br>4. Klik tombol "Lanjut: Atur Distribusi".* | *Produk valid, jumlah surplus berupa bilangan bulat lebih dari 0, dan batas waktu setelah waktu sekarang.* | *Sistem menyimpan produk surplus beserta jumlah dan batas waktu pengambilannya, lalu memberi umpan balik bahwa pencatatan berhasil.* | *Sesuai. Data surplus tersimpan dengan status "tersedia", aktivitas pencatatan masuk ke log, dan pengguna diarahkan ke halaman pengaturan distribusi.* | *Pass* |
 | *UC06-TC02* | *KF08* | *Alternatif 1: Mereset Isian Formulir* | *1. Buka menu Catat Surplus.<br>2. Isi produk, jumlah surplus, dan batas waktu pengambilan.<br>3. Klik tombol "Reset".* | *Formulir terisi sebagian atau seluruhnya.* | *Sistem membatalkan pengisian dan mengembalikan formulir ke keadaan kosong.* | *Sesuai. Seluruh isian terhapus, formulir kembali kosong, dan tidak ada data surplus yang tersimpan.* | *Pass* |
 
+### 4.4.7 Use Case Mengatur Metode Distribusi Surplus
+
+**ID Use Case:** *UC07*  
+**Nama Use Case:** *Mengatur Metode Distribusi Surplus*
+
+Tabel 4.4.7. Hasil Pengujian Use Case UC07
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *UC07-TC01* | *KF09* | *Normal* | *1. Masuk sebagai Pemilik F&B.<br>2. Buka halaman pengaturan distribusi untuk produk surplus yang baru dicatat.<br>3. Pilih opsi "Jual Diskon".<br>4. Isi harga jual dengan 15000.<br>5. Klik tombol "Simpan".* | *Metode jual diskon dengan harga 15000.* | *Sistem memeriksa kelengkapan dan kevalidan harga, menyimpan metode distribusi beserta harga produk, lalu menampilkan pesan bahwa pengaturan berhasil disimpan.* | *Sesuai. Surplus dipublikasikan dengan metode "Jual Diskon" dan halaman konfirmasi menampilkan detail produk, jumlah, metode, serta batas waktu pengambilan.* | *Pass* |
+| *UC07-TC02* | *KF09* | *Alternatif 1: Memilih Donasi* | *1. Masuk sebagai Pemilik F&B.<br>2. Buka halaman pengaturan distribusi.<br>3. Pilih opsi "Donasi".<br>4. Biarkan kolom harga kosong.<br>5. Klik tombol "Simpan".* | *Metode donasi tanpa harga.* | *Sistem tidak mewajibkan pengisian harga, menyimpan metode distribusi sebagai donasi tanpa biaya, lalu menampilkan pesan bahwa pengaturan berhasil disimpan.* | *Sesuai. Metode donasi tersimpan dengan harga 0 dan halaman konfirmasi menampilkan metode "Donasi".* | *Pass* |
+| *UC07-TC03* | *KF09* | *Alternatif 2: Harga Penjualan Tidak Valid* | *1. Masuk sebagai Pemilik F&B.<br>2. Buka halaman pengaturan distribusi.<br>3. Pilih opsi "Jual Diskon".<br>4. Kosongkan atau isi harga dengan 0.<br>5. Klik tombol "Simpan".* | *Harga kosong atau 0.* | *Sistem menolak penyimpanan dan meminta harga berupa angka lebih dari nol.* | *Sesuai. Halaman pengaturan ditampilkan ulang dengan pesan "Harga jual diskon harus lebih dari 0." dan tidak ada pengaturan yang tersimpan.* | *Pass* |
+
+### 4.4.8 Use Case Melihat Informasi Produk Surplus
+
+**ID Use Case:** *UC08*  
+**Nama Use Case:** *Melihat Informasi Produk Surplus*
+
+Tabel 4.4.8. Hasil Pengujian Use Case UC08
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *UC08-TC01* | *KF10, KF11* | *Normal* | *1. Masuk sebagai Perwakilan NGO dengan lokasi tersedia.<br>2. Buka halaman daftar produk surplus.<br>3. Amati urutan daftar.<br>4. Pilih salah satu produk untuk melihat detail.* | *NGO berlokasi; beberapa produk surplus tersedia.* | *Sistem menampilkan daftar produk tersedia yang diurutkan dari jarak terdekat, lalu detail berisi jenis, jumlah, lokasi, batas waktu, metode distribusi, dan harga apabila produk dijual.* | *Sesuai. Daftar terurut dari produk terdekat dan halaman detail menampilkan jenis, jumlah, jarak, batas waktu, serta metode distribusi.* | *Pass* |
+| *UC08-TC02* | *KF10, KF11* | *Alternatif 1: Lokasi Pengguna Belum Tersedia* | *1. Masuk sebagai Perwakilan NGO yang belum mengisi lokasi.<br>2. Buka halaman daftar produk surplus.* | *Lokasi pengguna kosong.* | *Sistem meminta Perwakilan NGO memberikan lokasi agar produk dapat diurutkan berdasarkan jarak terdekat; daftar produk tetap ditampilkan tanpa informasi jarak.* | *Sesuai. Muncul ajakan mengisi lokasi dan daftar produk tetap tampil tanpa informasi jarak.* | *Pass* |
+| *UC08-TC03* | *KF10, KF11* | *Batas: Produk Tidak Lagi Tersedia* | *1. Buka daftar produk surplus yang memuat produk tersedia, terklaim, dan kedaluwarsa.<br>2. Klaim dua produk.<br>3. Buka kembali daftar.* | *Lima produk tersedia; dua produk diklaim; satu produk melewati batas waktu.* | *Produk yang berstatus terklaim atau melewati batas waktu tidak lagi ditampilkan pada daftar.* | *Sesuai. Daftar menyusut dari lima menjadi tiga produk; produk terklaim dan kedaluwarsa tidak tampil.* | *Pass* |
+
+### 4.4.9 Use Case Menyaring Informasi Produk Surplus
+
+**ID Use Case:** *UC09*  
+**Nama Use Case:** *Menyaring Informasi Produk Surplus*
+
+Tabel 4.4.9. Hasil Pengujian Use Case UC09
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *UC09-TC01* | *KF12* | *Normal* | *1. Masuk sebagai Perwakilan NGO.<br>2. Buka halaman daftar produk surplus.<br>3. Masukkan kata kunci "roti" dan pilih jenis "Makanan".<br>4. Terapkan penyaringan.* | *Kata kunci "roti"; jenis "Makanan".* | *Sistem menampilkan produk surplus yang sesuai dengan kata kunci dan seluruh kriteria, tetap diurutkan berdasarkan jarak terdekat.* | *Sesuai. Hanya produk makanan yang memuat kata kunci tampil dan urutan jarak tetap berlaku.* | *Pass* |
+| *UC09-TC02* | *KF12* | *Alternatif 1: Tidak Ada Produk yang Sesuai* | *1. Buka halaman daftar produk surplus.<br>2. Masukkan kata kunci yang tidak cocok dengan produk mana pun.<br>3. Terapkan penyaringan.* | *Kata kunci "tidakada".* | *Sistem menampilkan pesan bahwa tidak ada produk yang sesuai dan tetap menampilkan kata kunci serta kriteria yang digunakan.* | *Sesuai. Pesan kosong ditampilkan dan kata kunci tetap terlihat pada kolom pencarian.* | *Pass* |
+| *UC09-TC03* | *KF12* | *Batas: Kombinasi Filter Jarak dan Batas Waktu* | *1. Buka panel penyaringan.<br>2. Pilih jarak maksimal 2 km dan batas waktu "Besok".<br>3. Terapkan penyaringan.* | *Jarak maksimal 2 km; batas waktu "Besok".* | *Sistem menerapkan seluruh kriteria secara bersamaan dan hanya menampilkan produk yang memenuhi semuanya.* | *Sesuai. Hanya produk dalam radius 2 km yang berbatas waktu besok ditampilkan; filter jarak dan waktu bekerja bersamaan.* | *Pass* |
+
+### 4.4.10 Use Case Mengklaim Produk Surplus
+
+**ID Use Case:** *UC10*  
+**Nama Use Case:** *Mengklaim Produk Surplus*
+
+Tabel 4.4.10. Hasil Pengujian Use Case UC10
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *UC10-TC01* | *KF13* | *Normal* | *1. Masuk sebagai Perwakilan NGO.<br>2. Pilih produk surplus yang ingin diklaim.<br>3. Buka detail produk.<br>4. Klik tombol "Klaim".* | *Produk surplus berstatus tersedia.* | *Sistem memeriksa ketersediaan, menyetujui klaim, mencatat NGO yang mengklaim, mengubah status produk menjadi "terklaim", lalu menampilkan hasil pengajuan.* | *Sesuai. Halaman klaim berhasil tampil dengan informasi pengambilan dan status produk berubah menjadi "terklaim".* | *Pass* |
+| *UC10-TC02* | *KF13* | *Alternatif 1: Produk Sudah Diklaim NGO Lain* | *1. Masuk sebagai Perwakilan NGO lain.<br>2. Buka produk yang sudah diklaim NGO pertama.<br>3. Klik tombol "Klaim".* | *Produk surplus yang sudah berstatus terklaim.* | *Sistem menolak pengajuan, menampilkan pesan bahwa produk sudah diklaim, dan mempertahankan klaim yang telah berhasil sebelumnya.* | *Sesuai. Permintaan klaim kedua ditolak dengan status 409 beserta pesan bahwa produk sudah diklaim; klaim NGO pertama tetap berlaku.* | *Pass* |
+| *UC10-TC03* | *KF13* | *Batas: Klaim Serentak oleh Banyak NGO* | *Kirim 12 permintaan klaim secara paralel dari 12 sesi Perwakilan NGO berbeda pada produk yang sama.* | *Dua belas sesi NGO; satu produk tersedia.* | *Tepat satu klaim berhasil, klaim lainnya ditolak, dan hanya satu dokumen klaim yang tersimpan.* | *Sesuai. Satu sesi menerima halaman klaim berhasil (302) dan 11 sesi lainnya menerima penolakan (409).* | *Pass* |
+
+### 4.4.11 Use Case Mengonfirmasi Pengambilan Produk Surplus
+
+**ID Use Case:** *UC11*  
+**Nama Use Case:** *Mengonfirmasi Pengambilan Produk Surplus*
+
+Tabel 4.4.11. Hasil Pengujian Use Case UC11
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *UC11-TC01* | *KF14* | *Normal* | *1. Masuk sebagai Perwakilan NGO pemilik klaim.<br>2. Buka detail pengambilan produk.<br>3. Klik tombol konfirmasi pengambilan.<br>4. Pilih "Yes" pada pop-up konfirmasi.* | *Klaim berstatus terklaim dan belum selesai.* | *Sistem menampilkan pop-up konfirmasi; setelah memilih "Yes" status pengambilan berubah menjadi "selesai" dan pesan keberhasilan ditampilkan.* | *Sesuai. Status pengambilan berubah menjadi "selesai" dan halaman pengambilan selesai ditampilkan.* | *Pass* |
+| *UC11-TC02* | *KF14* | *Negatif/Batas: Konfirmasi Ganda dan Akses NGO Lain* | *1. Konfirmasi pengambilan untuk kedua kalinya.<br>2. Buka detail klaim yang sama dari sesi Perwakilan NGO lain.* | *ID klaim yang sama; sesi NGO lain.* | *Konfirmasi ganda ditolak dan NGO lain tidak diizinkan mengakses detail klaim.* | *Sesuai. Konfirmasi kedua ditolak dengan pesan bahwa pengambilan sudah dikonfirmasi, sedangkan NGO lain menerima status 403.* | *Pass* |
+| *UC11-TC03* | *KF14* | *Alternatif 1: Memilih "No" pada Pop-up Konfirmasi* | *1. Buka detail pengambilan.<br>2. Klik tombol konfirmasi pengambilan.<br>3. Pilih "No" pada pop-up konfirmasi.* | *Pop-up konfirmasi pengambilan.* | *Sistem menutup pop-up dan kembali menampilkan detail pengambilan tanpa mengubah status.* | *Sesuai. Pop-up tertutup dan status pengambilan tidak berubah.* | *Pass* |
+
+### 4.4.12 Use Case Mengecek Log Aktivitas Pengguna
+
+**ID Use Case:** *UC12*  
+**Nama Use Case:** *Mengecek Log Aktivitas Pengguna*
+
+Tabel 4.4.12. Hasil Pengujian Use Case UC12
+
+| ID Pengujian | ID KF | Skenario | Prosedur Pengujian | Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *UC12-TC01* | *KF15* | *Normal* | *1. Masuk sebagai Admin Sistem.<br>2. Buka menu log aktivitas pengguna.<br>3. Terapkan penyaringan "Klaim".* | *Daftar log tanpa filter; filter "Klaim".* | *Sistem menampilkan daftar log aktivitas beserta pilihan penyaringan, lalu menampilkan log yang sesuai dengan kriteria.* | *Sesuai. Daftar awal menampilkan seluruh aktivitas dan filter "Klaim" menampilkan hanya aktivitas klaim.* | *Pass* |
+| *UC12-TC02* | *KF15* | *Negatif: Kriteria Penyaringan Tidak Dikenal* | *1. Buka menu log aktivitas.<br>2. Terapkan kriteria penyaringan di luar pilihan yang tersedia.* | *Nilai filter di luar empat pilihan.* | *Sistem menolak penyaringan dan menampilkan pesan galat.* | *Sesuai. Halaman menampilkan status 400 beserta pesan bahwa kategori filter tidak dikenal.* | *Pass* |
+| *UC12-TC03* | *KF15* | *Negatif: Aktor Bukan Admin Sistem* | *Buka menu log aktivitas menggunakan sesi Perwakilan NGO atau Pemilik F&B.* | *Sesi non-admin.* | *Sistem menolak akses pengguna yang bukan Admin Sistem.* | *Sesuai. Pengguna non-admin menerima status 403 dan tidak dapat melihat log.* | *Pass* |
+| *UC12-TC04* | *KF15* | *Alternatif 1: Tidak Ada Log yang Sesuai dengan Penyaringan* | *1. Buka menu log aktivitas.<br>2. Terapkan kriteria penyaringan yang tidak cocok dengan log mana pun.* | *Kriteria filter tanpa hasil.* | *Sistem menampilkan pesan bahwa tidak ada log aktivitas yang sesuai dengan kriteria tersebut.* | *Sesuai. Pesan bahwa tidak ada log yang sesuai ditampilkan dengan filter tetap aktif.* | *Pass* |
+| *UC12-TC05* | *KF15* | *Alternatif 2: Belum Ada Log Aktivitas* | *Buka menu log aktivitas ketika belum ada aktivitas pengguna yang tercatat.* | *Tabel log masih kosong.* | *Sistem menampilkan pesan bahwa belum ada log aktivitas pengguna yang tersedia.* | *Sesuai. Pesan khusus "belum ada log aktivitas" ditampilkan dan berbeda dari pesan filter tanpa hasil.* | *Pass* |
+
 <br>
 
 ## 4.5 Pengujian Kebutuhan Non-Fungsional (KNF)
@@ -1197,26 +1277,19 @@ Tabel 4.6. Bukti Hasil Pengujian
 | *C34-UT01 – C34-UT06* | *<img src="assets/Bukti-4.2/C34-UT.png">* |
 | *C34 (coverage)* | *<img src="assets/Bukti-4.2/C34-Coverage.png">* |
 | *INT-TC01* | *[Sisipkan bukti pengujian integrasi]* |
-| *UC01-TC01* | *<img src="assets/Bukti-4.4/UC01-TC01.png">* |
-| *UC01-TC02* | *<img src="assets/Bukti-4.4/UC01-TC02.png">* |
-| *UC01-TC03* | *<img src="assets/Bukti-4.4/UC01-TC03.png">* |
-| *UC01-TC04* | *<img src="assets/Bukti-4.4/UC01-TC04.png">* |
-| *UC02-TC01* | *<img src="assets/Bukti-4.4/UC02-TC01.png">* |
-| *UC02-TC02* | *<img src="assets/Bukti-4.4/UC02-TC02.png">* |
-| *UC02-TC03* | *<img src="assets/Bukti-4.4/UC02-TC03.png">* |
-| *UC02-TC04* | *<img src="assets/Bukti-4.4/UC02-TC04.png">* |
-| *UC03-TC01* | *Menunggu: <img src="assets/Bukti-4.4/UC03-TC01-a.png"><br>Ditolak: <img src="assets/Bukti-4.4/UC03-TC01-b.png">* |
-| *UC03-TC02* | *<img src="assets/Bukti-4.4/UC03-TC02.png">* |
-| *UC03-TC03* | *<img src="assets/Bukti-4.4/UC03-TC03.png">* |
+| *UC01-TC01* | *<img src="assets/Bukti-4.4/UC01/UC01-TC01.png">* |
+| *UC01-TC02* | *<img src="assets/Bukti-4.4/UC01/UC01-TC02.png">* |
+| *UC01-TC03* | *<img src="assets/Bukti-4.4/UC01/UC01-TC03.png">* |
+| *UC02-TC01* | *<img src="assets/Bukti-4.4/UC02/UC02-TC01.png">* |
+| *UC02-TC02* | *<img src="assets/Bukti-4.4/UC02/UC02-TC02.png">* |
+| *UC03-TC01* | *Status diterima: <img src="assets/Bukti-4.4/UC03-TC01.png">* |
+| *UC03-TC02* | *Status ditolak: <img src="assets/Bukti-4.4/UC03-TC02.png">* |
 | *UC04-TC01* | *Halaman tersimpan: <img src="assets/Bukti-4.4/UC04-TC01.png"><br>Isian tersimpan (8 terjual, 2 tersisa): <img src="assets/Bukti-4.4/UC04-TC01-b.png">* |
-| *UC04-TC02* | *<img src="assets/Bukti-4.4/UC04-TC02.png">* |
-| *UC04-TC03* | *<img src="assets/Bukti-4.4/UC04-TC03.png">* |
+| *UC04-TC02* | *Pesan validasi: <img src="assets/Bukti-4.4/UC04-TC02.png">* |
 | *UC05-TC01* | *<img src="assets/Bukti-4.4/UC05-TC01.png">* |
 | *UC05-TC02* | *<img src="assets/Bukti-4.4/UC05-TC02.png">* |
 | *UC06-TC01* | *<img src="assets/Bukti-4.4/UC06-TC01.png">* |
-| *UC06-TC02* | *Jumlah 0: <img src="assets/Bukti-4.4/UC06-TC02-a.png"><br>Batas waktu lampau: <img src="assets/Bukti-4.4/UC06-TC02-b.png">* |
-| *UC06-TC03* | *<img src="assets/Bukti-4.4/UC06-TC03.png">* |
-| *UC06-TC04* | *Sebelum reset: <img src="assets/Bukti-4.4/UC06-TC04-a.png"><br>Sesudah reset: <img src="assets/Bukti-4.4/UC06-TC04-b.png">* |
+| *UC06-TC02* | *Sebelum reset: <img src="assets/Bukti-4.4/UC06-TC02-a.png"><br>Sesudah reset: <img src="assets/Bukti-4.4/UC06-TC02-b.png">* |
 | *UC07-TC01* | *<img src="assets/Bukti-4.4/UC07-TC01.png">* |
 | *UC07-TC02* | *<img src="assets/Bukti-4.4/UC07-TC02.png">* |
 | *UC07-TC03* | *<img src="assets/Bukti-4.4/UC07-TC03.png">* |
@@ -1232,11 +1305,11 @@ Tabel 4.6. Bukti Hasil Pengujian
 | *UC11-TC01* | *<img src="assets/Bukti-4.4/UC11-TC01.png">* |
 | *UC11-TC02* | *Konfirmasi ganda: <img src="assets/Bukti-4.4/UC11-TC02-a.png"><br>NGO lain: <img src="assets/Bukti-4.4/UC11-TC02-b.png">* |
 | *UC11-TC03* | *Pop-up konfirmasi: <img src="assets/Bukti-4.4/UC11-TC03-a.png"><br>Setelah memilih "Tidak": <img src="assets/Bukti-4.4/UC11-TC03-b.png">* |
-| *UC11-TC04* | *<img src="assets/Bukti-4.4/UC11-TC04.png">* |
 | *UC12-TC01* | *Semua log: <img src="assets/Bukti-4.4/UC12-TC01-a.png"><br>Filter Klaim: <img src="assets/Bukti-4.4/UC12-TC01-b.png">* |
 | *UC12-TC02* | *<img src="assets/Bukti-4.4/UC12-TC02.png">* |
 | *UC12-TC03* | *<img src="assets/Bukti-4.4/UC12-TC03.png">* |
-| *UC12-TC04* | *Filter tanpa hasil: <img src="assets/Bukti-4.4/UC12-TC04-a.png"><br>Belum ada log: <img src="assets/Bukti-4.4/UC12-TC04-b.png">* |
+| *UC12-TC04* | *Filter tanpa hasil: <img src="assets/Bukti-4.4/UC12-TC04-a.png">* |
+| *UC12-TC05* | *Belum ada log: <img src="assets/Bukti-4.4/UC12-TC04-b.png">* |
 | *KNF01-TC01* | *[Sisipkan bukti pengukuran parameter KNF01-TC01]* |
 | *...* | *...* |
 
