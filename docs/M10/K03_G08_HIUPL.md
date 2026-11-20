@@ -1475,16 +1475,39 @@ Tabel 5.1. Matriks Kerunutan KF terhadap Implementasi dan Pengujian
 
 | KF ID | KNF Terkait | Use Case ID | Kelas Terkait | Implementasi File Terkait | Test Case (UC) | Test Case (Unit/Integrasi/KNF) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| *KF05* | *KNF01* | *UC03* | *C02 - Pesanan* | *`src/...`* | *UC03-TC01* | *C02-UT05, INT-TC04, KNF01-TC01* |
-| *KF01* | *-* | *UC01<br>UC02* | *[C01 - Nama kelas]<br>[C02 - Nama kelas]* | *[path/ke/file1]<br>[path/ke/file2]* | *UC01-TC01, UC01-TC02<br>UC02-TC01* | *-* |
-| *KF02* | *[KNFXX atau -]* | *[UCXX]* | *[CXX - Nama kelas]* | *[path/ke/file]* | *[UCXX-TCYY]* | *[CXX-UTYY, INT-TCYY, KNFXX-TCYY atau -]* |
-| *KFXX* | *-* | *[UCXX atau -]* | *[CXX - Nama kelas atau -]* | *Tidak diimplementasikan: [alasan]* | *-* | *-* |
-| *...* | *...* | *...* | *...* | *...* | *...* | *...* |
+| *KF01* | *KNF01, KNF08, KNF13* | *UC01* | *C01 AkunPengguna<br>C02 Pendaftaran<br>C03 DokumenPendukung<br>C12 RegistrasiPage<br>C23 AuthController<br>C30 PemilikFnB<br>C31 PerwakilanNGO* | *`src/models/AkunPengguna.js`<br>`src/models/Pendaftaran.js`<br>`src/models/DokumenPendukung.js`<br>`src/views/auth/I02-I03-Registrasi.ejs`<br>`src/controllers/AuthController.js`* | *UC01-TC01 – UC01-TC03* | *C01-UT01 – C01-UT05<br>C02-UT01 – C02-UT18<br>C03-UT01 – C03-UT10<br>C23-UT01 – C23-UT15<br>INT-TC01 – INT-TC04<br>INT-TC35 – INT-TC42<br>INT-TC81 – INT-TC83<br>KNF01-TC01 – KNF01-TC02<br>KNF08-TC01<br>KNF13-TC01 – KNF13-TC03* |
+| *KF02* | *KNF02* | *UC02* | *C01 AkunPengguna<br>C02 Pendaftaran<br>C03 DokumenPendukung<br>C04 VerifikasiController<br>C13 VerifikasiPage<br>C32 AdminSistem* | *`src/controllers/VerifikasiController.js`<br>`src/models/Pendaftaran.js`<br>`src/views/admin/I19-VerifikasiPendaftar.ejs`<br>`src/views/admin/I20-DetailPendaftar.ejs`* | *UC02-TC01 – UC02-TC02* | *C01-UT01 – C01-UT05<br>C02-UT01 – C02-UT18<br>C03-UT01 – C03-UT10<br>C04-UT01 – C04-UT07<br>C32-UT01 – C32-UT06<br>INT-TC05 – INT-TC07<br>INT-TC43 – INT-TC48<br>KNF02-TC01 – KNF02-TC02<br>KNF09-TC01* |
+| *KF03* | *KNF02* | *UC02* | *C01 AkunPengguna<br>C02 Pendaftaran<br>C03 DokumenPendukung<br>C04 VerifikasiController<br>C13 VerifikasiPage<br>C32 AdminSistem* | *`src/controllers/VerifikasiController.js`<br>`src/models/Pendaftaran.js`<br>`src/views/admin/I21-I22-HasilVerifikasi.ejs`* | *UC02-TC01 – UC02-TC02* | *C01-UT01 – C01-UT05<br>C02-UT01 – C02-UT18<br>C03-UT01 – C03-UT10<br>C04-UT01 – C04-UT07<br>C32-UT01 – C32-UT06<br>INT-TC05 – INT-TC07<br>INT-TC43 – INT-TC48<br>KNF02-TC01 – KNF02-TC02<br>KNF09-TC01* |
+| *KF04* | *KNF06* | *UC03* | *C01 AkunPengguna<br>C02 Pendaftaran<br>C14 StatusPendaftaranPage<br>C23 AuthController* | *`src/views/auth/I04-StatusPendaftaran.ejs`<br>`src/routes/status.js`<br>`src/controllers/AuthController.js`* | *UC03-TC01 – UC03-TC02* | *C01-UT01 – C01-UT05<br>C02-UT01 – C02-UT18<br>C23-UT01 – C23-UT15<br>INT-TC76<br>KNF06-TC01 – KNF06-TC04* |
+| *KF05* | *KNF06* | *UC04* | *C05 Produk<br>C06 DataPenjualan<br>C15 PenjualanPage<br>C24 PenjualanController<br>C30 PemilikFnB* | *`src/views/fnb/I06-PenjualanHarian.ejs`<br>`src/models/DataPenjualan.js`<br>`src/models/Produk.js`<br>`src/controllers/PenjualanController.js`* | *UC04-TC01 – UC04-TC02* | *C06-UT01 – C06-UT08<br>C24-UT01 – C24-UT07<br>INT-TC08 – INT-TC10<br>INT-TC49 – INT-TC51<br>KNF06-TC01 – KNF06-TC04* |
+| *KF06* | *KNF03* | *UC05* | *C05 Produk<br>C06 DataPenjualan<br>C07 PrediksiProduksi<br>C16 PrediksiPage<br>C25 PrediksiController* | *`src/models/PrediksiProduksi.js`<br>`src/models/DataPenjualan.js`<br>`src/views/fnb/I05-DashboardF&B.ejs`<br>`src/controllers/PrediksiController.js`* | *UC05-TC01 – UC05-TC02* | *C06-UT01 – C06-UT08<br>C07-UT01 – C07-UT08<br>C25-UT01 – C25-UT07<br>INT-TC11 – INT-TC12<br>INT-TC52 – INT-TC56<br>KNF03-TC01* |
+| *KF07* | *KNF03, KNF06* | *UC05* | *C05 Produk<br>C06 DataPenjualan<br>C07 PrediksiProduksi<br>C16 PrediksiPage<br>C25 PrediksiController* | *`src/views/fnb/I05-DashboardF&B.ejs`<br>`src/models/PrediksiProduksi.js`<br>`src/controllers/PrediksiController.js`* | *UC05-TC01 – UC05-TC02* | *C06-UT01 – C06-UT08<br>C07-UT01 – C07-UT08<br>C25-UT01 – C25-UT07<br>INT-TC11 – INT-TC12<br>INT-TC52 – INT-TC56<br>KNF03-TC01<br>KNF06-TC01 – KNF06-TC04* |
+| *KF08* | *KNF06* | *UC06* | *C05 Produk<br>C08 ProdukSurplus<br>C17 ProdukSurplusPage<br>C26 ProdukSurplusController* | *`src/views/surplus/I08-CatatSurplus.ejs`<br>`src/models/ProdukSurplus.js`<br>`src/controllers/CatatSurplusController.js`* | *UC06-TC01 – UC06-TC02* | *C08-UT01 – C08-UT16<br>C26-UT01 – C26-UT16<br>INT-TC13 – INT-TC16<br>INT-TC57 – INT-TC64<br>KNF06-TC01 – KNF06-TC04* |
+| *KF09* | *KNF06* | *UC07* | *C08 ProdukSurplus<br>C09 MetodeDistribusiSurplus<br>C18 DistribusiSurplusPage<br>C26 ProdukSurplusController* | *`src/views/surplus/I09-AturDistribusi.ejs`<br>`src/models/MetodeDistribusiSurplus.js`<br>`src/controllers/DistribusiSurplusController.js`* | *UC07-TC01 – UC07-TC03* | *C08-UT01 – C08-UT16<br>C09-UT01 – C09-UT09<br>C26-UT01 – C26-UT16<br>INT-TC17 – INT-TC20<br>INT-TC57 – INT-TC64<br>KNF06-TC01 – KNF06-TC04* |
+| *KF10* | *KNF06, KNF07* | *UC08* | *C08 ProdukSurplus<br>C19 DaftarSurplusPage<br>C27 SurplusController* | *`src/views/ngo/I12-DaftarSurplus.ejs`<br>`src/models/ProdukSurplus.js`<br>`src/controllers/SurplusController.js`* | *UC08-TC01 – UC08-TC03* | *C08-UT01 – C08-UT16<br>C27-UT01 – C27-UT11<br>INT-TC21 – INT-TC22<br>INT-TC65 – INT-TC67<br>KNF06-TC01 – KNF06-TC04<br>KNF07-TC01, KNF07-TC02* |
+| *KF11* | *KNF06, KNF07* | *UC08* | *C08 ProdukSurplus<br>C19 DaftarSurplusPage<br>C27 SurplusController<br>C33 GeolocationAdapter* | *`src/views/ngo/I12-DaftarSurplus.ejs`<br>`src/models/ProdukSurplus.js`<br>`src/models/GeolocationAdapter.js`<br>`src/controllers/SurplusController.js`* | *UC08-TC01 – UC08-TC03* | *C08-UT01 – C08-UT16<br>C27-UT01 – C27-UT11<br>C33-UT01 – C33-UT06<br>INT-TC21 – INT-TC22<br>INT-TC65 – INT-TC67<br>INT-TC78 – INT-TC79<br>KNF06-TC01 – KNF06-TC04* |
+| *KF12* | *KNF06* | *UC09* | *C09 MetodeDistribusiSurplus<br>C19 DaftarSurplusPage<br>C27 SurplusController<br>C34 PenyaringanController* | *`src/views/ngo/I12-DaftarSurplus.ejs`<br>`src/models/MetodeDistribusiSurplus.js`<br>`src/controllers/SurplusController.js`* | *UC09-TC01 – UC09-TC03* | *C09-UT01 – C09-UT09<br>C27-UT01 – C27-UT11<br>C34-UT01 – C34-UT06<br>INT-TC23 – INT-TC25<br>KNF06-TC01 – KNF06-TC04* |
+| *KF13* | *KNF04, KNF10, KNF11* | *UC10* | *C08 ProdukSurplus<br>C10 DokumenKlaim<br>C20 KlaimPage<br>C28 KlaimController<br>C31 PerwakilanNGO* | *`src/views/ngo/I15-DetailProduk.ejs`<br>`src/models/DokumenKlaim.js`<br>`src/models/ProdukSurplus.js`<br>`src/controllers/KlaimController.js`* | *UC10-TC01 – UC10-TC03* | *C08-UT01 – C08-UT16<br>C10-UT01 – C10-UT09<br>C28-UT01 – C28-UT18<br>INT-TC26 – INT-TC27<br>INT-TC68 – INT-TC70<br>KNF04-TC01<br>KNF10-TC01<br>KNF11-TC01* |
+| *KF14* | *KNF06* | *UC11* | *C10 DokumenKlaim<br>C21 PengambilanPage<br>C28 KlaimController<br>C31 PerwakilanNGO* | *`src/views/ngo/N7-KlaimSaya.ejs`<br>`src/views/ngo/N7-PengambilanSelesai.ejs`<br>`src/controllers/KlaimController.js`* | *UC11-TC01 – UC11-TC03* | *C10-UT01 – C10-UT09<br>C28-UT01 – C28-UT18<br>INT-TC28 – INT-TC30<br>KNF06-TC01 – KNF06-TC04* |
+| *KF15* | *KNF05, KNF09, KNF12* | *UC12* | *C11 LogAktivitas<br>C22 LogAktivitasPage<br>C29 LogController* | *`src/views/admin/I23-LogAktivitas.ejs`<br>`src/models/LogAktivitas.js`<br>`src/controllers/LogController.js`* | *UC12-TC01 – UC12-TC05* | *C11-UT01 – C11-UT09<br>C29-UT01 – C29-UT06<br>INT-TC31 – INT-TC34<br>INT-TC71 – INT-TC74<br>INT-TC77<br>KNF05-TC01 – KNF05-TC03<br>KNF09-TC01<br>KNF12-TC01* |
+
+INT-TC75 (batas model–basis data, I-21) dan INT-TC80 (antarmuka HTTP end-to-end, I-24) menguji batas lintas modul sehingga tidak dipetakan ke satu KF tunggal.
 
 Tabel 5.2. Matriks Kerunutan KNF terhadap Pengujian
 
 | ID KNF | Parameter | KF/UC Terkait | Test Case |
 | :--- | :--- | :--- | :--- |
-| *KNF01* | *Reliability* | *KF05 / UC03* | *KNF01-TC01* |
-| *KNFXX* | *[Parameter]* | *[KFXX / UCXX atau -]* | *[KNFXX-TCYY]* |
-| *...* | *...* | *...* | *...* |
+| *KNF01* | *Security* | *KF01 / UC01* | *KNF01-TC01, KNF01-TC02* |
+| *KNF02* | *Interaction capability* | *KF02, KF03 / UC02* | *KNF02-TC01, KNF02-TC02* |
+| *KNF03* | *Response time* | *KF06, KF07 / UC05* | *KNF03-TC01* |
+| *KNF04* | *Reliability* | *KF13 / UC10* | *KNF04-TC01* |
+| *KNF05* | *Reliability* | *KF15 / UC12* | *KNF05-TC01 – KNF05-TC03* |
+| *KNF06* | *Portability* | *KF04, KF05, KF07–KF12, KF14 / UC03–UC05, UC08–UC11* | *KNF06-TC01 – KNF06-TC04* |
+| *KNF07* | *Availability* | *KF10, KF11 / UC08* | *KNF07-TC01, KNF07-TC02* |
+| *KNF08* | *Capacity / Constraints* | *KF01 / UC01* | *KNF08-TC01* |
+| *KNF09* | *Security* | *KF02, KF03, KF15 / UC02, UC12* | *KNF09-TC01* |
+| *KNF10* | *Reliability* | *KF13 / UC10* | *KNF10-TC01* |
+| *KNF11* | *Ergonomy* | *KF13 / UC10* | *KNF11-TC01* |
+| *KNF12* | *Maintainability* | *KF01–KF15 / seluruh UC* | *KNF12-TC01* |
+| *KNF13* | *Legal* | *KF01 / UC01* | *KNF13-TC01 – KNF13-TC03* |
+
