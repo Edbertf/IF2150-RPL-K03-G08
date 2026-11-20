@@ -273,11 +273,11 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 
 | ID Kelas | Nama Kelas | Tingkat | Alasan | Test Case Terkait |
 | :--- | :--- | :--- | :--- | :--- |
-| *C01* | *AkunPengguna* | *Mendalam* | *Menyimpan kata sandi sebagai hash dan memvalidasi data registrasi akun* | |
-| *C02* | *Pendaftaran* | *Mendalam* | *Memvalidasi data pendaftaran dan mengelola transisi status verifikasi* | |
-| *C03* | *DokumenPendukung* | *Mendalam* | *Memvalidasi tipe dan ukuran berkas serta menyimpan dokumen pendukung* | |
-| *C04* | *VerifikasiController* | *Sedang* | *Mengoordinasikan tampilan verifikasi dan mendelegasikan perubahan status ke C02, diuji juga melalui integrasi* | |
-| *C05* | *Produk* | *Tidak perlu* | *Entity produk tanpa logika, hanya menyimpan atribut dan getter, diuji tidak langsung melalui UC* | |
+| *C01* | *AkunPengguna* | *Mendalam* | *Menyimpan kata sandi sebagai hash dan memvalidasi data registrasi akun* | C01-UT01 s.d. C01-UT05 |
+| *C02* | *Pendaftaran* | *Mendalam* | *Memvalidasi data pendaftaran dan mengelola transisi status verifikasi* | C02-UT01 s.d. C02-UT18 |
+| *C03* | *DokumenPendukung* | *Mendalam* | *Memvalidasi tipe dan ukuran berkas serta menyimpan dokumen pendukung* | C03-UT01 s.d. C03-UT10 |
+| *C04* | *VerifikasiController* | *Sedang* | *Mengoordinasikan tampilan verifikasi dan mendelegasikan perubahan status ke C02, diuji juga melalui integrasi* | C04-UT01 s.d. C04-UT07 |
+| *C05* | *Produk* | *Tidak perlu* | *Entity produk tanpa logika, hanya menyimpan atribut dan getter, diuji tidak langsung melalui UC* | C06-UT01 s.d. C06-UT08 |
 | *C06* | *DataPenjualan* | *Mendalam* | *Memvalidasi input penjualan dan menghitung sisa stok harian* | |
 | *C07* | *PrediksiProduksi* | *Mendalam* | *Menjalankan dan menyimpan prediksi produksi beserta rekomendasi jumlah* | |
 | *C08* | *ProdukSurplus* | *Mendalam* | *Memvalidasi data surplus dan mengelola status ketersediaan* | |
@@ -316,35 +316,144 @@ Cara menjalankan unit test: *[tuliskan perintah, mis. `pytest src/tests/`]*.
 
 Lokasi file test: *[path, mis. `src/tests/`]*.
 
-### 4.2.1 Kelas [Nama Kelas 1]
+### 4.2.1 Kelas AkunPengguna
 
-**ID Kelas:** *[C02]*  
-**Nama Kelas:** *[Pesanan]*  
-**Tingkat:** *[Mendalam]*
+**ID Kelas:** *C01*  
+**Nama Kelas:** *AkunPengguna*  
+**Tingkat:** *Mendalam*
 
-Tabel 4.2.1. Hasil Pengujian Unit Kelas [C02]
+Tabel 4.2.1. Hasil Pengujian Unit Kelas AkunPengguna
 
 | ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| *C02-UT01* | *`hitungTotal(): Decimal`* | *Normal* | *Pesanan berisi 2 item: 10.000 x 2 dan 5.000 x 1* | *Total = 25.000* | *[Hasil aktual]* | *Pass/Fail* |
-| *C02-UT02* | *`hitungTotal(): Decimal`* | *Batas* | *Pesanan berisi tepat 1 item dengan jumlah 1* | *Total = harga item tersebut* | *[...]* | *Pass/Fail* |
-| *C02-UT03* | *`hitungTotal(): Decimal`* | *Negatif* | *Pesanan tanpa item* | *Total = 0 atau melempar kesalahan sesuai rancangan* | *[...]* | *Pass/Fail* |
-| *...* | *...* | *...* | *...* | *...* | *...* | *...* |
+| *C01-UT01* | *`registrasi()`* | *Normal* | *Registrasi akun F&B dengan email unik dan kata sandi `rahasia123`* | *Akun tersimpan, idAkun dikembalikan, kata sandi berupa hash dan cocok dengan `bcrypt.compareSync()`* | *Lulus, akun tersimpan dan hash bcrypt terverifikasi* | *Pass* |
+| *C01-UT02* | *`registrasi()`* | *Batas* | *Kata sandi tepat 72 karakter* | *Akun tersimpan dan hash tetap dapat diverifikasi* | *Lulus, kata sandi 72 karakter ter-hash dan dapat diverifikasi* | *Pass* |
+| *C01-UT03* | *`registrasi()`* | *Negatif* | *Email yang sudah terdaftar didaftarkan ulang* | *Operasi gagal karena UNIQUE constraint dan jumlah akun tidak bertambah* | *Lulus, error UNIQUE constraint terdeteksi dan jumlah akun tetap* | *Pass* |
+| *C01-UT04* | *`cariBerdasarkanEmail()`* | *Normal/Negatif* | *Email terdaftar dan email yang tidak terdaftar* | *Data akun dikembalikan untuk email terdaftar, `null` untuk email tidak terdaftar* | *Lulus, akun ditemukan dan `null` untuk email tidak terdaftar* | *Pass* |
+| *C01-UT05* | *`cariKredensial()`* | *Normal/Negatif* | *Email terdaftar dan email yang tidak terdaftar* | *Hash kata sandi dikembalikan dan cocok, `null` untuk email tidak terdaftar* | *Lulus, hash cocok dan `null` untuk email tidak terdaftar* | *Pass* |
 
-Khusus kelas **Mendalam**:
-
-Tabel 4.2.1b. Ringkasan Cakupan Kelas [C02]
+Tabel 4.2.1b. Ringkasan Cakupan Kelas AkunPengguna
 
 | Informasi | Keterangan |
 | :--- | :--- |
-| Daftar operasi public pada DPPL | *[op1(), op2(), ...]* |
-| Operasi yang diuji | *[op1(), op2(), ...]* |
-| ID Algoritma yang tercakup | *[Algo-001, ...]* |
-| Coverage (wajib ≥ 70%) | *[% baris / % cabang, alat dan bukti pada 4.6]* |
+| Daftar operasi public pada DPPL | *`registrasi()`* |
+| Operasi yang diuji | *`registrasi()`, `cariBerdasarkanEmail()`, `cariKredensial()`* |
+| ID Algoritma yang tercakup | *Algo-C01-01* |
+| Coverage (wajib ≥ 70%) | *100% baris / 100% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
 
-### 4.2.2 Kelas [Nama Kelas 2]
+### 4.2.2 Kelas Pendaftaran
 
-*[Ulangi pola 4.2.1 untuk setiap kelas bertingkat Mendalam atau Sedang.]*
+**ID Kelas:** *C02*  
+**Nama Kelas:** *Pendaftaran*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.2. Hasil Pengujian Unit Kelas Pendaftaran
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C02-UT01* | *`ajukanPendaftaran()`* | *Normal* | *Akun F&B valid yang belum memiliki pendaftaran* | *idPendaftaran dikembalikan dan baris tersimpan dengan status `menunggu verifikasi` serta tanggal Jakarta hari ini* | *Lulus, idPendaftaran > 0, status dan tanggal sesuai* | *Pass* |
+| *C02-UT02* | *`ajukanPendaftaran()`* | *Batas* | *Akun yang sudah memiliki pendaftaran diajukan lagi* | *INSERT ditolak oleh UNIQUE constraint dan jumlah pendaftaran tidak bertambah* | *Lulus, error UNIQUE `pendaftaran.id_akun` terdeteksi* | *Pass* |
+| *C02-UT03* | *`ajukanPendaftaran()`* | *Negatif* | *idAkun 999999 yang tidak terdaftar* | *INSERT ditolak oleh FOREIGN KEY constraint dan jumlah pendaftaran tidak bertambah* | *Lulus, error FOREIGN KEY terdeteksi* | *Pass* |
+| *C02-UT04* | *`getDaftarMenungguVerifikasi()`* | *Normal* | *Satu pendaftar F&B dan satu pendaftar NGO berstatus menunggu* | *Keduanya muncul dengan nama usaha/organisasi dan status `menunggu verifikasi`* | *Lulus, kedua baris dan nama sesuai* | *Pass* |
+| *C02-UT05* | *`getDaftarMenungguVerifikasi()`* | *Batas* | *Satu pendaftaran diterima dan satu ditolak* | *Keduanya tidak muncul dalam daftar* | *Lulus, hanya status menunggu yang diambil* | *Pass* |
+| *C02-UT06* | *`getDaftarMenungguVerifikasi()`* | *Negatif* | *Seluruh isi tabel pendaftaran dihapus sementara dalam transaksi* | *Daftar yang dikembalikan berupa array kosong* | *Lulus, hasil `[]` dan transaksi dibatalkan* | *Pass* |
+| *C02-UT07* | *`getDetailPendaftar()`* | *Normal* | *idPendaftaran milik pemilik F&B* | *Data akun, status, tanggal, nama usaha, alamat, dan jam operasional terisi; field NGO `null`* | *Lulus, data F&B lengkap dan field NGO `null`* | *Pass* |
+| *C02-UT08* | *`getDetailPendaftar()`* | *Batas* | *idPendaftaran milik perwakilan NGO* | *Data akun, status, tanggal, nama organisasi, nomor legalitas, dan lokasi terisi; field F&B `null`* | *Lulus, data NGO lengkap dan field F&B `null`* | *Pass* |
+| *C02-UT09* | *`getDetailPendaftar()`* | *Negatif* | *idPendaftaran 999999 yang tidak ada* | *Operasi mengembalikan `null`* | *Lulus, hasil `null`* | *Pass* |
+| *C02-UT10* | *`updateStatus()`* | *Normal* | *Pendaftaran menunggu dengan status `diterima`* | *Operasi mengembalikan `true` dan status berubah menjadi `diterima`* | *Lulus, return `true` dan status `diterima`* | *Pass* |
+| *C02-UT11* | *`updateStatus()`* | *Normal* | *Pendaftaran menunggu dengan status `ditolak`* | *Operasi mengembalikan `true` dan status berubah menjadi `ditolak`* | *Lulus, return `true` dan status `ditolak`* | *Pass* |
+| *C02-UT12* | *`updateStatus()`* | *Batas* | *Pendaftaran yang sudah diterima diubah lagi menjadi `ditolak`* | *Operasi mengembalikan `false` dan status tetap `diterima`* | *Lulus, keputusan pertama tidak tertimpa* | *Pass* |
+| *C02-UT13* | *`updateStatus()`* | *Negatif* | *Status `pending` pada pendaftaran menunggu; status `diterima` pada idPendaftaran 999999* | *Operasi mengembalikan `false` untuk keduanya dan status awal tidak berubah* | *Lulus, kedua input ditolak tanpa perubahan* | *Pass* |
+| *C02-UT14* | *`getStatus()`* | *Normal* | *Pendaftaran baru yang masih menunggu* | *Mengembalikan `menunggu verifikasi`* | *Lulus, status awal terbaca* | *Pass* |
+| *C02-UT15* | *`getStatus()`* | *Batas* | *Pendaftaran tepat setelah diputuskan diterima* | *Mengembalikan `diterima`* | *Lulus, status hasil keputusan terbaca* | *Pass* |
+| *C02-UT16* | *`getStatus()`* | *Negatif* | *idPendaftaran 999999 yang tidak ada* | *Mengembalikan `null`* | *Lulus, hasil `null`* | *Pass* |
+| *C02-UT17* | *`cariBerdasarkanAkun()`* | *Normal* | *idAkun yang memiliki pendaftaran* | *Objek berisi idPendaftaran, tanggalDaftar, dan statusVerifikasi* | *Lulus, data pendaftaran milik akun sesuai* | *Pass* |
+| *C02-UT18* | *`cariBerdasarkanAkun()`* | *Negatif* | *idAkun yang belum memiliki pendaftaran* | *Mengembalikan `null`* | *Lulus, hasil `null`* | *Pass* |
+ 
+Tabel 4.2.2b. Ringkasan Cakupan Kelas Pendaftaran
+ 
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`ajukanPendaftaran()`, `getDaftarMenungguVerifikasi()`, `getDetailPendaftar()`, `updateStatus()`, `getStatus()`* |
+| Operasi yang diuji | *`ajukanPendaftaran()`, `getDaftarMenungguVerifikasi()`, `getDetailPendaftar()`, `updateStatus()`, `getStatus()`, `cariBerdasarkanAkun()`* |
+| ID Algoritma yang tercakup | *Algo-C02-01 s.d. Algo-C02-05* |
+| Coverage (wajib ≥ 70%) | *100% baris / 100% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.3 Kelas DokumenPendukung
+
+**ID Kelas:** *C03*  
+**Nama Kelas:** *DokumenPendukung*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.3. Hasil Pengujian Unit Kelas DokumenPendukung
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C03-UT01* | *`unggahDokumen()`* | *Normal* | *Unggah berkas `NIB.pdf` untuk pendaftaran valid* | *idDokumen dikembalikan, metadata tersimpan, berkas tersalin ke storage, berkas sementara dihapus* | *Lulus, metadata dan berkas tujuan sesuai* | *Pass* |
+| *C03-UT02* | *`unggahDokumen()`* | *Batas* | *Nama berkas `Laporan NIB (Final).PDF`* | *Ekstensi dinormalkan menjadi `.pdf` dan nama disanitasi menjadi `Laporan_NIB__Final_.pdf`* | *Lulus, nama dan tipe dokumen sesuai* | *Pass* |
+| *C03-UT03* | *`unggahDokumen()`* | *Negatif* | *Berkas `virus.exe` dengan ekstensi tidak didukung* | *Operasi gagal, tidak ada baris baru, folder dokumen tidak dibuat* | *Lulus, error ekstensi tidak didukung* | *Pass* |
+| *C03-UT04* | *`unggahDokumen()`* | *Batas* | *Dua berkas dengan nama asli `NIB.pdf` pada pendaftaran yang sama* | *Berkas pertama `NIB.pdf`, berkas kedua mendapat nama `NIB-1.pdf`* | *Lulus, akhiran unik ditambahkan* | *Pass* |
+| *C03-UT05* | *`unggahDokumen()`* | *Negatif* | *idPendaftaran 999999 yang tidak ada* | *INSERT gagal karena FOREIGN KEY dan berkas hasil salinan dibersihkan* | *Lulus, folder kosong dan berkas sementara terhapus* | *Pass* |
+| *C03-UT06* | *`getDokumen()`* | *Normal* | *Dua dokumen diunggah untuk satu pendaftaran* | *Kedua dokumen dikembalikan urut berdasarkan idDokumen beserta nama dan tipe* | *Lulus, urutan dan metadata sesuai* | *Pass* |
+| *C03-UT07* | *`getDokumen()`* | *Batas* | *Dua pendaftaran, dokumen hanya dimiliki pendaftaran A* | *Pendaftaran A mengembalikan dokumennya, pendaftaran B mengembalikan array kosong* | *Lulus, dokumen tidak bocor antar pendaftaran* | *Pass* |
+| *C03-UT08* | *`getDokumen()`* | *Negatif* | *idPendaftaran 999999 yang tidak ada* | *Mengembalikan array kosong* | *Lulus, hasil `[]`* | *Pass* |
+| *C03-UT09* | *`ambilPathBerkas()`* | *Normal* | *idPendaftaran 12 dan nama `NIB.pdf`* | *Path berada di folder `12` dalam akar storage* | *Lulus, path sesuai* | *Pass* |
+| *C03-UT10* | *`ambilPathBerkas()`* | *Batas* | *Nama berkas `../../evil.pdf`* | *Komponen traversal dibuang dan path tetap di folder pendaftaran* | *Lulus, path tetap aman* | *Pass* |
+
+Tabel 4.2.3b. Ringkasan Cakupan Kelas DokumenPendukung
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`unggahDokumen()`, `getDokumen()`* |
+| Operasi yang diuji | *`unggahDokumen()`, `getDokumen()`, `ambilPathBerkas()`* |
+| ID Algoritma yang tercakup | *Algo-C03-01, Algo-C03-02* |
+| Coverage (wajib ≥ 70%) | *100% baris / 85.71% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.4 Kelas VerifikasiController
+
+**ID Kelas:** *C04*  
+**Nama Kelas:** *VerifikasiController*  
+**Tingkat:** *Sedang*
+
+Tabel 4.2.4. Hasil Pengujian Unit Kelas VerifikasiController
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C04-UT01* | *`tampilkanDaftarPendaftar()`* | *Normal* | *Ada pendaftar F&B dan NGO berstatus menunggu* | *Halaman daftar dirender dengan nama, label tipe, dan tanggal pendaftar* | *Lulus, kedua pendaftar tampil dengan label yang sesuai* | *Pass* |
+| *C04-UT02* | *`tampilkanDaftarPendaftar()`* | *Negatif* | *Tidak ada pendaftaran berstatus menunggu* | *Halaman tetap dirender dengan daftar kosong* | *Lulus, daftar berisi array kosong* | *Pass* |
+| *C04-UT03* | *`ambilDetailPendaftar()`* | *Normal* | *idPendaftaran valid dan memiliki satu dokumen* | *Halaman detail dirender dengan data pendaftar dan status dokumen `tersedia`* | *Lulus, detail dan dokumen tampil* | *Pass* |
+| *C04-UT04* | *`ambilDetailPendaftar()`* | *Negatif* | *idPendaftaran 999999 yang tidak ada* | *Respons 404 dengan pesan `Pendaftaran tidak ditemukan.`* | *Lulus, status 404 dan pesan sesuai* | *Pass* |
+| *C04-UT05* | *`prosesVerifikasi()`* | *Normal* | *Keputusan `terima` untuk pendaftaran F&B yang menunggu* | *Status menjadi `diterima`, log verifikasi dicatat, dan diarahkan ke halaman hasil* | *Lulus, status, log, dan redirect sesuai* | *Pass* |
+| *C04-UT06* | *`prosesVerifikasi()`* | *Normal* | *Keputusan `tolak` untuk pendaftaran NGO yang menunggu* | *Status menjadi `ditolak`, log verifikasi dicatat, dan diarahkan ke halaman hasil* | *Lulus, status, log, dan redirect sesuai* | *Pass* |
+| *C04-UT07* | *`prosesVerifikasi()`* | *Negatif* | *Keputusan `ubah` yang tidak dikenal* | *Status tidak berubah, tidak ada log baru, dan diarahkan kembali ke detail dengan pesan error* | *Lulus, keputusan ditolak tanpa perubahan* | *Pass* |
+
+### 4.2.5 Kelas DataPenjualan
+
+**ID Kelas:** *C06*  
+**Nama Kelas:** *DataPenjualan*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.5. Hasil Pengujian Unit Kelas DataPenjualan
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C06-UT01* | *`catatPenjualan()`* | *Normal* | *Satu produk dengan jumlah terjual 12 dan tersisa 3* | *Satu baris tersimpan pada tanggal Jakarta hari ini dan tanggal dikembalikan* | *Lulus, baris dan tanggal sesuai* | *Pass* |
+| *C06-UT02* | *`catatPenjualan()`* | *Batas* | *Array kosong, nilai 0/0, lalu produk dan tanggal yang sama dicatat ulang dengan nilai 7/8* | *Array kosong tidak menambah baris; nilai 0 diterima; baris yang sama diperbarui tanpa duplikasi* | *Lulus, jumlah baris tetap dan nilai terbaru tersimpan* | *Pass* |
+| *C06-UT03* | *`catatPenjualan()`* | *Negatif* | *Jumlah terjual -1, jumlah tersisa -1, lalu produk valid diikuti idProduk 999999* | *Operasi gagal karena CHECK atau FOREIGN KEY dan seluruh transaksi dibatalkan* | *Lulus, error terdeteksi dan tidak ada baris tersimpan* | *Pass* |
+| *C06-UT04* | *`getDataHistoris()`* | *Normal* | *Data hari ini, 2 hari lalu, 6 hari lalu, 7 hari lalu, dan data pemilik lain* | *Hanya 5 baris dalam 7 hari milik pemilik, urut tanggal lalu idProduk* | *Lulus, filter, jumlah, dan urutan sesuai* | *Pass* |
+| *C06-UT05* | *`getDataHistoris()`* | *Batas* | *`batasHari` 1 dan 2 dengan data hari ini, kemarin, dan dua hari lalu* | *`batasHari=1` hanya hari ini; `batasHari=2` hari ini dan kemarin* | *Lulus, batas inklusif sesuai* | *Pass* |
+| *C06-UT06* | *`getDataHistoris()`* | *Negatif* | *Pemilik tanpa data dan idPemilik 999999* | *Mengembalikan array kosong* | *Lulus, hasil `[]`* | *Pass* |
+| *C06-UT07* | *`getPenjualanHarian()`* | *Normal/Negatif* | *Dua produk hari ini, data kemarin, dan pemilik lain; lalu tanggal tanpa data dan idPemilik 999999* | *Dua baris hari ini milik pemilik urut idProduk; array kosong untuk data yang tidak ada* | *Lulus, filter dan urutan sesuai, hasil kosong sesuai* | *Pass* |
+| *C06-UT08* | *`hitungHariTerkumpul()`* | *Normal/Negatif* | *Data hari ini, kemarin, dua hari lalu, tujuh hari lalu, dan pemilik lain; lalu pemilik tanpa data dan idPemilik 999999* | *Menghitung 3 hari unik dalam 7 hari; `batasHari=2` menghasilkan 2; data kosong menghasilkan 0* | *Lulus, hari unik, batas, dan hasil kosong sesuai* | *Pass* |
+
+Tabel 4.2.5b. Ringkasan Cakupan Kelas DataPenjualan
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`getDataHistoris()`, `catatPenjualan()`* |
+| Operasi yang diuji | *`getDataHistoris()`, `catatPenjualan()`, `getPenjualanHarian()`, `hitungHariTerkumpul()`; `tanggalHariIni()` tercakup melalui `catatPenjualan()`* |
+| ID Algoritma yang tercakup | *Algo-C06-01, Algo-C06-02* |
+| Coverage (wajib ≥ 70%) | *100% baris / 100% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
 
 <br>
 
@@ -419,8 +528,15 @@ Tabel 4.6. Bukti Hasil Pengujian
 
 | ID Pengujian | Bukti Hasil Pengujian |
 | :--- | :--- |
-| *C02-UT01 – C02-UT08* | *[Sisipkan hasil keluaran unit test]* |
-| *C02 (coverage)* | *[Sisipkan laporan coverage kelas C02]* |
+| *C01-UT01 – C01-UT05* | *<img src="assets/Bukti-4.2/C01-UT.png">* |
+| *C01 (coverage)* | *<img src="assets/Bukti-4.2/C01-Coverage.png">* |
+| *C02-UT01 – C02-UT18* | *<img src="assets/Bukti-4.2/C02-UT.png">* |
+| *C02 (coverage)* | *<img src="assets/Bukti-4.2/C02-Coverage.png">* |
+| *C03-UT01 – C03-UT10* | *<img src="assets/Bukti-4.2/C03-UT.png">* |
+| *C03 (coverage)* | *<img src="assets/Bukti-4.2/C03-Coverage.png">* |
+| *C04-UT01 – C04-UT07* | *<img src="assets/Bukti-4.2/C04-UT.png">* |
+| *C06-UT01 – C06-UT08* | *<img src="assets/Bukti-4.2/C06-UT.png">* |
+| *C06 (coverage)* | *<img src="assets/Bukti-4.2/C06-Coverage.png">* |
 | *INT-TC01* | *[Sisipkan bukti pengujian integrasi]* |
 | *UC01-TC01* | *[Sisipkan tangkapan layar UC01-TC01 sesuai prosedur pengujian]* |
 | *UC01-TC02* | *[Sisipkan tangkapan layar UC01-TC02 sesuai prosedur pengujian]* |
