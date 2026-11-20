@@ -1,0 +1,7 @@
+{
+  "knf": "KNF09",
+  "sumber": "Header Set-Cookie saat masuk sebagai admin@foodlink.test (POST /masuk), server uji port 3100",
+  "waktuMasuk": "2026-11-20T13:03:04.098Z",
+  "setCookieSaatMasuk": "foodlink.sid=<disamarkan>; Path=/; Expires=Fri, 20 Nov 2026 21:03:04 GMT; HttpOnly; SameSite=Lax",
+  "konfigurasi": "src/config/sesi.js -> cookie.maxAge = 8 * 60 * 60 * 1000 (28.800.000 ms), tanpa opsi rolling"
+}

@@ -1,0 +1,15 @@
+{
+  "knf": "KNF07",
+  "durasiDetik": 1800,
+  "totalPermintaan": 5307,
+  "permintaanGagal": 0,
+  "ketersediaanPersen": 100,
+  "waktuResponsMs": {
+    "n": 5307,
+    "min": 0.39,
+    "rata": 3.42,
+    "p95": 8.78,
+    "maks": 57.22
+  },
+  "galat": []
+}
