@@ -697,26 +697,67 @@ Tabel 4.2.10b. Ringkasan Cakupan Kelas LogAktivitas
 
 ## 4.3 Pengujian Integrasi
 
-Pengujian integrasi memeriksa interaksi antarkomponen yang melewati batas, yaitu *Controller* ke *Model*, aplikasi ke basis data, dan aplikasi ke sistem eksternal. Daftar antarmuka mengacu pada dokumen DPPL, dengan minimal satu test case untuk setiap antarmuka. Pengujian memakai komponen nyata, bukan *mock*. Apabila ada antarmuka tambahan yang belum didaftarkan pada dokumen DPPL, cantumkan juga.
+Pengujian integrasi memakai komponen nyata: server Express dijalankan sebagai proses terpisah dengan basis data SQLite sementara, lalu skenario dieksekusi lewat HTTP (`fetch`, cookie jar, `redirect: 'manual'`). Model dan skema tidak dipalsukan. Uji integrasi peta memanggil Nominatim sungguhan.
 
 Tabel 4.3.1. Daftar Antarmuka Antarkomponen
 
 | ID Antarmuka | Komponen Asal | Komponen Tujuan | Jenis Batas | Test Case |
 | :--- | :--- | :--- | :--- | :--- |
-| *I-01* | *KeranjangController* | *Keranjang (Model)* | *Controller - Model* | *INT-TC01, INT-TC02* |
-| *I-02* | *Pesanan (Model)* | *Database* | *Aplikasi - Basis data* | *INT-TC03* |
-| *I-03* | *PaymentGatewayAdapter* | *Payment Gateway (dummy)* | *Aplikasi - Sistem eksternal* | *INT-TC04, INT-TC05* |
-| *[I-XX]* | *[Komponen asal]* | *[Komponen tujuan]* | *[Jenis batas]* | *[ID test case]* |
-| *...* | *...* | *...* | *...* | *...* |
+| *I-01* | *PendaftaranView (C12)* | *AuthController (C23)* | *View - Controller* | *INT-TC01* |
+| *I-02* | *VerifikasiView (C13)* | *VerifikasiController (C04)* | *View - Controller* | *INT-TC02* |
+| *I-03* | *PenjualanPrediksiView (C15/C16)* | *PenjualanController (C24)* | *View - Controller* | *INT-TC03* |
+| *I-04* | *PenjualanPrediksiView (C16)* | *PrediksiController (C25)* | *View - Controller* | *INT-TC04* |
+| *I-05* | *SurplusPemilikView (C17)* | *ProdukSurplusController (C26)* | *View - Controller* | *INT-TC05* |
+| *I-06* | *SurplusPemilikView (C18)* | *ProdukSurplusController (C26)* | *View - Controller* | *INT-TC06* |
+| *I-07* | *SurplusNGOView (C19)* | *SurplusController (C27)* | *View - Controller* | *INT-TC07* |
+| *I-08* | *SurplusNGOView (C19)* | *SurplusController/Penyaringan (C34)* | *View - Controller* | *INT-TC08* |
+| *I-09* | *SurplusNGOView (C20)* | *KlaimController (C28)* | *View - Controller* | *INT-TC09* |
+| *I-10* | *PengambilanView (C21)* | *KlaimController (C28)* | *View - Controller* | *INT-TC10* |
+| *I-11* | *LogView (C22)* | *LogController (C29)* | *View - Controller* | *INT-TC11* |
+| *I-12* | *AuthController (C23)* | *AkunModel (C01, C30, C31)* | *Controller - Model* | *INT-TC12* |
+| *I-13* | *AuthController (C23)* | *PendaftaranModel (C02, C03)* | *Controller - Model* | *INT-TC13* |
+| *I-14* | *VerifikasiController (C04)* | *PendaftaranModel (C02, C03)* | *Controller - Model* | *INT-TC14* |
+| *I-15* | *PenjualanController (C24)* | *PenjualanModel (C05, C06)* | *Controller - Model* | *INT-TC15* |
+| *I-16* | *PrediksiController (C25)* | *PenjualanModel/PrediksiModel (C06, C07)* | *Controller - Model* | *INT-TC16* |
+| *I-17* | *ProdukSurplusController (C26)* | *SurplusModel (C08, C09)* | *Controller - Model* | *INT-TC17* |
+| *I-18* | *SurplusController (C27)* | *SurplusModel + GeolocationAdapter (C08, C33)* | *Controller - Model - Eksternal* | *INT-TC18* |
+| *I-19* | *KlaimController (C28)* | *SurplusModel + KlaimModel (C08, C10)* | *Controller - Model* | *INT-TC19* |
+| *I-20* | *LogController (C29)* | *LogModel (C11)* | *Controller - Model* | *INT-TC20* |
+| *I-21* | *Seluruh Model* | *Database (SQLite)* | *Aplikasi - Basis data* | *INT-TC21* |
+| *I-22* | *Middleware pengguna/peran (C32)* | *Route aplikasi* | *Middleware - Route* | *INT-TC22* |
+| *I-23* | *GeolocationAdapter (C33)* | *Nominatim (sistem eksternal)* | *Aplikasi - Sistem eksternal* | *INT-TC23* |
+| *I-24* | *Aplikasi (server Express)* | *Klien HTTP/peramban* | *Aplikasi - Antarmuka jaringan* | *INT-TC24* |
+| *I-25* | *Penyimpanan dokumen (C03)* | *Sistem berkas* | *Aplikasi - Sistem berkas* | *INT-TC25* |
 
 Tabel 4.3.2. Hasil Pengujian Integrasi
 
 | ID Pengujian | ID Antarmuka | Skenario | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| *INT-TC01* | *I-01* | *Normal: tambah item ke keranjang* | *Panggil `tambahItem()` melalui KeranjangController dengan produk valid* | *Item tersimpan pada Keranjang dan tampil pada daftar item* | *[Hasil aktual]* | *Pass/Fail* |
-| *INT-TC03* | *I-02* | *Normal: simpan pesanan* | *Buat pesanan, lalu baca ulang langsung dari basis data* | *Baris pesanan ada dengan nilai total dan status yang sama* | *[...]* | *Pass/Fail* |
-| *INT-TC05* | *I-03* | *Gagal: gateway mengembalikan status gagal* | *Kirim otorisasi dengan saldo dummy tidak cukup* | *Status pesanan tidak berubah menjadi "Lunas", pesan gagal diteruskan ke pengguna* | *[...]* | *Pass/Fail* |
-| *...* | *...* | *...* | *...* | *...* | *...* | *...* |
+| *INT-TC01* | *I-01* | *Normal dan negatif unggah* | *POST multipart `/daftar` pemilik; field kosong; `.docx`; email duplikat* | *302 berhasil; 400 dengan pesan per kasus* | *Sesuai (UC01-TC01 s.d. TC04)* | *Pass* |
+| *INT-TC02* | *I-02* | *Normal dan negatif keputusan* | *Admin membuka daftar/detail lalu menyetujui atau menolak* | *Status berubah; halaman hasil tampil* | *Sesuai (UC02-TC01 s.d. TC03)* | *Pass* |
+| *INT-TC03* | *I-03* | *Normal dan negatif simpan penjualan* | *POST form penjualan dengan angka valid, negatif, nol* | *Tersimpan; tolak negatif; terima nol* | *Sesuai (UC04-TC01 s.d. TC03)* | *Pass* |
+| *INT-TC04* | *I-04* | *Batas data historis* | *Dashboard 7 hari vs 2 hari* | *Rekomendasi tampil vs pesan terkunci* | *Sesuai (UC05-TC01/02)* | *Pass* |
+| *INT-TC05* | *I-05* | *Normal dan negatif surplus* | *POST surplus valid; jumlah 0; batas lampau; field kosong* | *Tersimpan + redirect; tiga penolakan* | *Sesuai (UC06-TC01 s.d. TC03)* | *Pass* |
+| *INT-TC06* | *I-06* | *Normal dan negatif distribusi* | *POST diskon 15.000; donasi; harga 0* | *Harga tersimpan; donasi tanpa harga; penolakan* | *Sesuai (UC07-TC01 s.d. TC03)* | *Pass* |
+| *INT-TC07* | *I-07* | *Normal dan alternatif lokasi* | *NGO buka daftar; NGO tanpa lokasi* | *Urut jarak; permintaan isi lokasi* | *Sesuai (UC08-TC01/02)* | *Pass* |
+| *INT-TC08* | *I-08* | *Penyaringan* | *Kata kunci + jenis; kriteria tanpa hasil* | *Daftar tersaring; pesan kosong* | *Sesuai (UC09-TC01/02)* | *Pass* |
+| *INT-TC09* | *I-09* | *Normal dan alternatif klaim* | *Dua NGO POST klaim produk yang sama* | *NGO pertama 302; kedua 409* | *Sesuai (UC10-TC01/02)* | *Pass* |
+| *INT-TC10* | *I-10* | *Normal dan batas konfirmasi* | *Konfirmasi pertama; ganda; akses NGO lain* | *Selesai; ditolak; 403* | *Sesuai (UC11-TC01/02)* | *Pass* |
+| *INT-TC11* | *I-11* | *Normal dan negatif filter* | *Admin membuka log; filter valid/tidak valid* | *Daftar; 400 pada filter asing* | *Sesuai (UC12-TC01/02)* | *Pass* |
+| *INT-TC12* | *I-12* | *Registrasi dan login* | *`registrasiAkun()` lewat HTTP; login dengan hash* | *Akun+profil tersimpan; sesi terisi* | *Sesuai (kontroler.test.js, UC01/UC02)* | *Pass* |
+| *INT-TC13* | *I-13* | *Pendaftaran + dokumen* | *Registrasi F&B/NGO; periksa tabel pendaftaran dan berkas* | *Satu baris; berkas di STORAGE_DIR* | *Sesuai (registrasi.test.js)* | *Pass* |
+| *INT-TC14* | *I-14* | *Keputusan verifikasi* | *`prosesVerifikasi()` lalu baca DB* | *Status sesuai keputusan* | *Sesuai (verifikasi.test.js)* | *Pass* |
+| *INT-TC15* | *I-15* | *Simpan penjualan* | *Panggil controller lalu baca `data_penjualan`* | *Nilai dan tanggal sesuai* | *Sesuai (kontroler.test.js)* | *Pass* |
+| *INT-TC16* | *I-16* | *Prediksi* | *Controller menghitung lalu menulis `prediksi_produksi`* | *Rekomendasi benar per produk besok* | *Sesuai (prediksi.test.js)* | *Pass* |
+| *INT-TC17* | *I-17* | *Surplus + distribusi* | *Simpan surplus lalu metode; baca ulang* | *Kedua tabel konsisten* | *Sesuai (kontroler.test.js)* | *Pass* |
+| *INT-TC18* | *I-18* | *Daftar + geolokasi* | *Daftar surplus dua pemilik, satu tanpa koordinat* | *Urutan jarak; yang tak terhitung di akhir* | *Sesuai (informasiSurplus.test.js)* | *Pass* |
+| *INT-TC19* | *I-19* | *Klaim atomik* | *Dua transaksi klaim pada produk yang sama* | *Satu dokumen klaim; status terklaim* | *Sesuai (UC10-TC02, KNF04)* | *Pass* |
+| *INT-TC20* | *I-20* | *Log* | *Tujuh aksi UC menulis log; query filter* | *Log tercatat dan terfilter* | *Sesuai (integrasi-log.test.js, log.test.js)* | *Pass* |
+| *INT-TC21* | *I-21* | *Persistensi* | *Tulis lewat model, baca dengan koneksi baru* | *Data bertahan; foreign key aktif* | *Data terbaca kembali; `PRAGMA foreign_keys = ON` dan `journal_mode = WAL` terpasang di `config/db.js`* | *Pass* |
+| *INT-TC22* | *I-22* | *Guard peran* | *Akses route terproteksi tanpa sesi/salah peran* | *Redirect/403* | *Sesuai (akses.test.js)* | *Pass* |
+| *INT-TC23* | *I-23* | *Nominatim nyata* | *`ambilKoordinat('Jl. Dago No. 10, Bandung')`; panggilan kedua; Haversine* | *Koordinat didapat; panggilan kedua 0 ms (cache); jarak 4,34 km* | *Sesuai (`geolokasi.json`: 140 ms panggilan pertama, 0 ms cache, 4,34 km)* | *Pass* |
+| *INT-TC24* | *I-24* | *HTTP* | *32 skenario fetch ke server proses anak* | *Status 200/302/400/403/404/409 sesuai skenario* | *Sesuai (rute-terpadu.test.js, 32/32 pass)* | *Pass* |
+| *INT-TC25* | *I-25* | *Berkas 5 MB* | *Unggah PDF 5 MB; PDF +1 KB; DOCX* | *Diterima; 400 pesan 5 MB; 400 format* | *Sesuai (`kinerja.json`)* | *Pass* |
 
 <br>
 
