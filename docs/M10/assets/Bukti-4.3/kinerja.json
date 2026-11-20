@@ -1,0 +1,95 @@
+{
+  "loginAdmin": {
+    "status": 302,
+    "cookieMaxAge": "foodlink.sid=s%3AhhQR0kD2KY7AAZzgx6a5evXEhYrpLgN-.yWkB9zWQkkIFMGh9wXeMGU5mE2z%2B86Y9u5HkYI54Nvo; Path=/; Expires=Thu, 19 Nov 2026 22:43:54 GMT; HttpOnly; SameSite=Lax"
+  },
+  "verifikasi": {
+    "status": "ok",
+    "barisTampil": 55,
+    "waktuMs": [
+      26.4813,
+      6.9427,
+      5.9957,
+      7.14,
+      7.959
+    ],
+    "medianMs": 7.14
+  },
+  "log": {
+    "barisTampil": 0,
+    "waktuMs": [
+      5.243,
+      6.416,
+      3.0735,
+      2.2941,
+      1.8654
+    ],
+    "medianMs": 3.0735
+  },
+  "dashboard": {
+    "responsOk": 5,
+    "waktuMs": [
+      10.5474,
+      4.4911,
+      3.9624,
+      3.9355,
+      5.3396
+    ],
+    "medianMs": 4.4911
+  },
+  "unggah": {
+    "limaMB": {
+      "status": 302,
+      "ms": 213.7304
+    },
+    "limaMBSeratus": {
+      "status": 400,
+      "pesanCocok": true
+    },
+    "formatDocx": {
+      "status": 400,
+      "pesanCocok": true
+    }
+  },
+  "klaimBersamaan": {
+    "jumlahPeserta": 12,
+    "kodeStatus": {
+      "302": 1,
+      "409": 11
+    },
+    "jumlahDokumenKlaim": 1,
+    "statusAkhirSurplus": "terklaim",
+    "durasiTiapMs": [
+      53,
+      66,
+      65,
+      65,
+      64,
+      63,
+      63,
+      61,
+      60,
+      59,
+      59,
+      59
+    ],
+    "durasiMaksMs": 65.7069,
+    "totalMs": 77.945
+  },
+  "sesi": {
+    "setCookie": "foodlink.sid=s%3AhhQR0kD2KY7AAZzgx6a5evXEhYrpLgN-.yWkB9zWQkkIFMGh9wXeMGU5mE2z%2B86Y9u5HkYI54Nvo; Path=/; Expires=Thu, 19 Nov 2026 22:43:54 GMT; HttpOnly; SameSite=Lax",
+    "expires": "Thu, 19 Nov 2026 22:43:54 GMT",
+    "selisihJam": 8
+  },
+  "sandi": {
+    "awalanHash": "$2b$10$",
+    "panjang": 60,
+    "memuatTeksAsli": false
+  },
+  "storage": {
+    "jumlahBerkas": 1,
+    "contoh": "69\\lima.pdf",
+    "ukuranByte": 5242880,
+    "memuatTeksAsliPDF": false
+  }
+}
