@@ -360,11 +360,11 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 
 | ID Kelas | Nama Kelas | Tingkat | Alasan | Test Case Terkait |
 | :--- | :--- | :--- | :--- | :--- |
-| *C01* | *AkunPengguna* | *Mendalam* | *Menyimpan kata sandi sebagai hash dan memvalidasi data registrasi akun* | C01-UT01 s.d. C01-UT05 |
-| *C02* | *Pendaftaran* | *Mendalam* | *Memvalidasi data pendaftaran dan mengelola transisi status verifikasi* | C02-UT01 s.d. C02-UT18 |
-| *C03* | *DokumenPendukung* | *Mendalam* | *Memvalidasi tipe dan ukuran berkas serta menyimpan dokumen pendukung* | C03-UT01 s.d. C03-UT10 |
-| *C04* | *VerifikasiController* | *Sedang* | *Mengoordinasikan tampilan verifikasi dan mendelegasikan perubahan status ke C02, diuji juga melalui integrasi* | C04-UT01 s.d. C04-UT07 |
-| *C05* | *Produk* | *Tidak perlu* | *Entity produk tanpa logika, hanya menyimpan atribut dan getter, diuji tidak langsung melalui UC* | C06-UT01 s.d. C06-UT08 |
+| *C01* | *AkunPengguna* | *Mendalam* | *Menyimpan kata sandi sebagai hash dan memvalidasi data registrasi akun* | *C01-UT01 s.d. C01-UT05* |
+| *C02* | *Pendaftaran* | *Mendalam* | *Memvalidasi data pendaftaran dan mengelola transisi status verifikasi* | *C02-UT01 s.d. C02-UT18* |
+| *C03* | *DokumenPendukung* | *Mendalam* | *Memvalidasi tipe dan ukuran berkas serta menyimpan dokumen pendukung* | *C03-UT01 s.d. C03-UT10* |
+| *C04* | *VerifikasiController* | *Sedang* | *Mengoordinasikan tampilan verifikasi dan mendelegasikan perubahan status ke C02, diuji juga melalui integrasi* | *C04-UT01 s.d. C04-UT07* |
+| *C05* | *Produk* | *Tidak perlu* | *Entity produk tanpa logika, hanya menyimpan atribut dan getter, diuji tidak langsung melalui UC* | |
 | *C06* | *DataPenjualan* | *Mendalam* | *Memvalidasi input penjualan dan menghitung sisa stok harian* | *C06-UT01 s.d. C06-UT08* |
 | *C07* | *PrediksiProduksi* | *Mendalam* | *Menjalankan dan menyimpan prediksi produksi beserta rekomendasi jumlah* | *C07-UT01 s.d. C07-UT08* |
 | *C08* | *ProdukSurplus* | *Mendalam* | *Memvalidasi data surplus dan mengelola status ketersediaan* | *C08-UT01 s.d. C08-UT16* |
@@ -382,18 +382,18 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 | *C20* | *KlaimPage* | *Tidak perlu* | *View-only untuk detail dan pengajuan klaim, logika di C28, diuji tidak langsung melalui UC* | |
 | *C21* | *PengambilanPage* | *Tidak perlu* | *View-only untuk detail dan konfirmasi pengambilan, logika di C28, diuji tidak langsung melalui UC* | |
 | *C22* | *LogAktivitasPage* | *Tidak perlu* | *View-only untuk dashboard log, logika di C29 dan C11, diuji tidak langsung melalui UC* | |
-| *C23* | *AuthController* | *Mendalam* | *Memvalidasi kelengkapan dan format registrasi serta mengecek status pendaftaran* | C23-UT01 s.d. C23-UT15 |
-| *C24* | *PenjualanController* | *Mendalam* | *Memvalidasi input penjualan dengan batas numerik lalu menyimpan data* | C24-UT01 s.d. C24-UT07 |
-| *C25* | *PrediksiController* | *Mendalam* | *Mengecek kecukupan data historis dan menjalankan prediksi produksi* | C25-UT01 s.d. C25-UT07 |
-| *C26* | *ProdukSurplusController* | *Mendalam* | *Memvalidasi data surplus dan metode distribusi lalu menyimpan keduanya* | C26-UT01 s.d. C26-UT16 |
-| *C27* | *SurplusController* | *Mendalam* | *Mengambil surplus tersedia, menghitung jarak lewat C33, dan mengurutkan hasil* | C27-UT01 s.d. C27-UT11 |
-| *C28* | *KlaimController* | *Mendalam* | *Mengelola persetujuan klaim, ketersediaan, penguncian, dan konfirmasi pengambilan* | |
-| *C29* | *LogController* | *Sedang* | *Hanya memilih kriteria filter dan mendelegasikan pencarian ke C11, diuji juga melalui integrasi* | |
+| *C23* | *AuthController* | *Mendalam* | *Memvalidasi kelengkapan dan format registrasi serta mengecek status pendaftaran* | *C23-UT01 s.d. C23-UT15* |
+| *C24* | *PenjualanController* | *Mendalam* | *Memvalidasi input penjualan dengan batas numerik lalu menyimpan data* | *C24-UT01 s.d. C24-UT07* |
+| *C25* | *PrediksiController* | *Mendalam* | *Mengecek kecukupan data historis dan menjalankan prediksi produksi* | *C25-UT01 s.d. C25-UT07* |
+| *C26* | *ProdukSurplusController* | *Mendalam* | *Memvalidasi data surplus dan metode distribusi lalu menyimpan keduanya* | *C26-UT01 s.d. C26-UT16* |
+| *C27* | *SurplusController* | *Mendalam* | *Mengambil surplus tersedia, menghitung jarak lewat C33, dan mengurutkan hasil* | *C27-UT01 s.d. C27-UT11* |
+| *C28* | *KlaimController* | *Mendalam* | *Mengelola persetujuan klaim, ketersediaan, penguncian, dan konfirmasi pengambilan* | *C28-UT01 s.d. C28-UT18* |
+| *C29* | *LogController* | *Sedang* | *Hanya memilih kriteria filter dan mendelegasikan pencarian ke C11, diuji juga melalui integrasi* | *C29-UT01 s.d. C29-UT06* |
 | *C30* | *PemilikFnB* | *Tidak perlu* | *Kelas peran/entity pemilik F&B yang menyimpan data dan mendelegasikan aksi ke controller/model, diuji tidak langsung melalui UC* | |
 | *C31* | *PerwakilanNGO* | *Tidak perlu* | *Kelas peran/entity NGO yang menyimpan data dan mendelegasikan aksi ke controller/model, diuji tidak langsung melalui UC* | |
-| *C32* | *AdminSistem* | *Mendalam* | *Guard otorisasi peran dan status verifikasi akun* | |
-| *C33* | *GeolocationAdapter* | *Mendalam* | *Adapter integrasi geocoding dan perhitungan jarak* | |
-| *C34* | *PenyaringanController* | *Mendalam* | *Memvalidasi kriteria dan menyaring produk berdasarkan jenis, jarak, dan waktu* | |
+| *C32* | *AdminSistem* | *Mendalam* | *Guard otorisasi peran dan status verifikasi akun* | *C32-UT01 s.d. C32-UT06* |
+| *C33* | *GeolocationAdapter* | *Mendalam* | *Adapter integrasi geocoding dan perhitungan jarak* | *C33-UT01 s.d. C33-UT06* |
+| *C34* | *PenyaringanController* | *Mendalam* | *Memvalidasi kriteria dan menyaring produk berdasarkan jenis, jarak, dan waktu* | *C34-UT01 s.d. C34-UT06* |
 
 ## 4.2 Pengujian Unit Kelas
 
@@ -851,6 +851,142 @@ Tabel 4.2.15b. Ringkasan Cakupan Kelas SurplusController
 | ID Algoritma yang tercakup | *Algo-C27-01 s.d. Algo-C27-03* |
 | Coverage (wajib ≥ 70%) | *97.53% baris / 89.34% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
 
+### 4.2.16 Kelas KlaimController
+
+**ID Kelas:** *C28*  
+**Nama Kelas:** *KlaimController*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.16. Hasil Pengujian Unit Kelas KlaimController
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C28-UT01* | *`cekKetersediaan()`* | *Normal* | *Surplus berstatus `tersedia`* | *Mengembalikan `true`* | *Lulus, mengembalikan `true`* | *Pass* |
+| *C28-UT02* | *`cekKetersediaan()`* | *Batas* | *Surplus berstatus `terklaim` dan `selesai`; ID 999999* | *Mengembalikan `false` untuk ketiganya* | *Lulus, ketiganya mengembalikan `false`* | *Pass* |
+| *C28-UT03* | *`cekKetersediaan()`* | *Negatif* | *ID 0, -1, 1.5, dan `'abc'`* | *Galat `ID surplus tidak valid.`* | *Lulus, seluruh ID tidak valid ditolak* | *Pass* |
+| *C28-UT04* | *`kunciProduk()`* | *Normal* | *Surplus berstatus `tersedia`* | *Mengembalikan `true`; status berubah menjadi `terklaim`* | *Lulus, `true` dan status `terklaim`* | *Pass* |
+| *C28-UT05* | *`kunciProduk()`* | *Batas* | *Surplus berstatus `terklaim`* | *Galat `Produk surplus sudah tidak tersedia.`; status tetap `terklaim`* | *Lulus, galat sesuai dan status tetap `terklaim`* | *Pass* |
+| *C28-UT06* | *`kunciProduk()`* | *Negatif* | *ID 0 dan ID 999999* | *ID 0 ditolak `ID surplus tidak valid.`; ID 999999 ditolak `Produk surplus sudah tidak tersedia.`* | *Lulus, kedua kasus ditolak dengan pesan sesuai* | *Pass* |
+| *C28-UT07* | *`setujuiKlaim()`* | *Normal* | *Surplus Minuman jumlah 3; NGO valid* | *Klaim tersimpan; surplus `terklaim`; log `Mengklaim ... (3 gelas)`* | *Lulus, idKlaim > 0, status `terklaim`, detail klaim sesuai, dan 1 log `3 gelas`* | *Pass* |
+| *C28-UT08* | *`setujuiKlaim()`* | *Batas* | *Klaim kedua pada surplus yang sama* | *Galat status `terklaim`; jumlah klaim, status, dan log tidak bertambah* | *Lulus, galat sesuai; 1 klaim, status `terklaim`, dan 1 log* | *Pass* |
+| *C28-UT09* | *`setujuiKlaim()`* | *Negatif* | *ID surplus 0; ID NGO 0; surplus 999999; ID NGO 999999* | *Galat validasi/`Produk surplus tidak ditemukan.`/FOREIGN KEY; transaksi rollback* | *Lulus, status tetap `tersedia`, 0 klaim, dan 0 log* | *Pass* |
+| *C28-UT10* | *`tolakKlaim()`* | *Normal* | *Surplus berstatus `terklaim`* | *Pesan `Klaim tidak dapat diproses karena produk surplus berstatus "terklaim".`* | *Lulus, pesan sesuai* | *Pass* |
+| *C28-UT11* | *`tolakKlaim()`* | *Batas* | *Surplus berstatus `selesai`; ID 999999* | *Pesan status `selesai`; ID 999999 menghasilkan `Produk surplus tidak ditemukan.`* | *Lulus, kedua pesan sesuai* | *Pass* |
+| *C28-UT12* | *`tolakKlaim()`* | *Negatif* | *ID 0 dan `'abc'`* | *Galat `ID surplus tidak valid.`* | *Lulus, keduanya ditolak* | *Pass* |
+| *C28-UT13* | *`ambilDetailPengambilan()`* | *Normal* | *Klaim pada surplus Minuman jumlah 3; data pemilik dan NGO lengkap* | *Objek detail klaim, surplus, usaha, dan NGO* | *Lulus, seluruh field detail, jumlah 3, nama/alamat usaha, dan data NGO sesuai* | *Pass* |
+| *C28-UT14* | *`ambilDetailPengambilan()`* | *Batas* | *ID klaim 999999* | *Galat `Dokumen klaim tidak ditemukan.`* | *Lulus, galat sesuai* | *Pass* |
+| *C28-UT15* | *`ambilDetailPengambilan()`* | *Negatif* | *ID klaim 0, -1, 1.5, dan `'abc'`* | *Galat `ID klaim tidak valid.`* | *Lulus, seluruh ID tidak valid ditolak* | *Pass* |
+| *C28-UT16* | *`konfirmasiPengambilan()`* | *Normal* | *Klaim pada surplus Makanan jumlah 4* | *Status surplus `selesai`; pesan keberhasilan; log `Mengonfirmasi pengambilan klaim ... (4 porsi)`* | *Lulus, status `selesai`, pesan sesuai, dan 1 log `4 porsi`* | *Pass* |
+| *C28-UT17* | *`konfirmasiPengambilan()`* | *Batas* | *Konfirmasi kedua pada klaim yang sama; surplus Minuman jumlah 2* | *Galat `Pengambilan produk surplus sudah dikonfirmasi.`; status tetap `selesai`; log tidak bertambah* | *Lulus, galat sesuai, status `selesai`, dan 1 log `2 gelas`* | *Pass* |
+| *C28-UT18* | *`konfirmasiPengambilan()`* | *Negatif* | *ID klaim 0 dan 999999* | *ID 0 ditolak `ID klaim tidak valid.`; ID 999999 menghasilkan `Dokumen klaim tidak ditemukan.`* | *Lulus, kedua kasus ditolak dengan pesan sesuai* | *Pass* |
+
+Tabel 4.2.16b. Ringkasan Cakupan Kelas KlaimController
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`cekKetersediaan()`, `kunciProduk()`, `setujuiKlaim()`, `tolakKlaim()`, `ambilDetailPengambilan()`, `konfirmasiPengambilan()`* |
+| Operasi yang diuji | *Keenam operasi public di atas* |
+| ID Algoritma yang tercakup | *Algo-C28-01 s.d. Algo-C28-06* |
+| Coverage (wajib ≥ 70%) | *95.54% baris / 86.49% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.17 Kelas LogController
+
+**ID Kelas:** *C29*  
+**Nama Kelas:** *LogController*  
+**Tingkat:** *Sedang*
+
+Tabel 4.2.17. Hasil Pengujian Unit Kelas LogController
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C29-UT01* | *`tampilkanLog()`* | *Normal* | *Tiga log dengan waktu 10.00, 09.00, dan 08.00* | *Status 200; seluruh log terurut terbaru; `waktuTampil` berformat `HH.MM`; empat pilihan filter; `filterAktif` `Semua`; `adaLogKeseluruhan` bernilai `true`* | *Lulus, 3 log terurut, format waktu sesuai, pilihan filter lengkap, dan `adaLogKeseluruhan` `true`* | *Pass* |
+| *C29-UT02* | *`tampilkanLog()`* | *Batas* | *Basis data log kosong* | *Status 200; `daftar` berupa array kosong; `adaLogKeseluruhan` bernilai `false`* | *Lulus, daftar kosong dan `adaLogKeseluruhan` `false`* | *Pass* |
+| *C29-UT03* | *`tampilkanLog()`* | *Negatif* | *Log dengan nilai `waktu` `'tanpa-jam'`* | *Halaman tetap dirender tanpa galat; `waktuTampil` menjadi `'-'`* | *Lulus, baris tetap tampil dengan `waktuTampil` `'-'`* | *Pass* |
+| *C29-UT04* | *`saringLog()`* | *Normal* | *Kategori `Klaim`* | *Status 200; hanya log yang memuat kata `Klaim`; `filterAktif` `Klaim`; `adaLogKeseluruhan` bernilai `true`* | *Lulus, 1 log Klaim, filter aktif sesuai, dan format waktu `10.00`* | *Pass* |
+| *C29-UT05* | *`saringLog()`* | *Batas* | *Kategori `'  kLaIm  '`, `Semua`, dan `Verifikasi` tanpa hasil* | *Trim dan case-insensitive untuk `Klaim`; `Semua` mengembalikan seluruh log; `Verifikasi` menghasilkan daftar kosong dengan `adaLogKeseluruhan` `true`* | *Lulus, ketiga skenario menghasilkan daftar dan filter aktif yang sesuai* | *Pass* |
+| *C29-UT06* | *`saringLog()`* | *Negatif* | *Kategori `Akun`; kategori berupa array `['Klaim']`* | *Status 400; pesan `Kriteria penyaringan tidak valid.`; seluruh log tetap dikirim; `filterAktif` `Semua`* | *Lulus, kedua masukan ditolak 400 dengan pesan dan data log yang sesuai* | *Pass* |
+
+### 4.2.18 Kelas AdminSistem
+
+**ID Kelas:** *C32*  
+**Nama Kelas:** *AdminSistem*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.18. Hasil Pengujian Unit Kelas AdminSistem
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C32-UT01* | *`butuhPeran()`* | *Normal* | *Peran `admin_sistem` pada guard route admin* | *`next()` dipanggil; tidak ada redirect atau status 403* | *Lulus, request dilanjutkan tanpa respons penolakan* | *Pass* |
+| *C32-UT02* | *`butuhPeran()`* | *Batas* | *Daftar peran `pemilik_fnb` dan `perwakilan_ngo`; pengguna berperan `perwakilan_ngo`* | *`next()` dipanggil karena peran pengguna termasuk daftar yang diizinkan* | *Lulus, request dilanjutkan* | *Pass* |
+| *C32-UT03* | *`butuhPeran()`* | *Negatif* | *Pengguna belum masuk; pengguna `pemilik_fnb` mengakses guard `admin_sistem`* | *Pengguna belum masuk dialihkan ke `/masuk`; peran salah mendapat status 403 dengan pesan `Halaman ini tidak tersedia untuk peran Anda.`; `next()` tidak dipanggil* | *Lulus, redirect dan 403 sesuai, serta request tidak dilanjutkan* | *Pass* |
+| *C32-UT04* | *`butuhDiverifikasi()`* | *Normal* | *Akun pemilik dengan pendaftaran berstatus `diterima`; akun `admin_sistem` tanpa pendaftaran* | *Keduanya boleh melanjutkan karena sudah diterima atau dikecualikan sebagai admin* | *Lulus, akun diterima dan admin sama-sama dilanjutkan* | *Pass* |
+| *C32-UT05* | *`butuhDiverifikasi()`* | *Batas* | *Pendaftaran berstatus `menunggu verifikasi`, pendaftaran `ditolak`, dan akun tanpa pendaftaran* | *Ketiganya dialihkan ke `/status`; `next()` tidak dipanggil* | *Lulus, ketiga skenario dialihkan ke `/status`* | *Pass* |
+| *C32-UT06* | *`butuhDiverifikasi()`* | *Negatif* | *Pengguna belum masuk* | *Dialihkan ke `/masuk`; `next()` tidak dipanggil* | *Lulus, redirect `/masuk` dan request tidak dilanjutkan* | *Pass* |
+
+Catatan: implementasi C32 tidak berupa kelas AdminSistem eksplisit. Kewenangan admin diwujudkan oleh butuhPeran('admin_sistem') pada routes/admin.js dan routes/log.js, sedangkan status verifikasi akun oleh butuhDiverifikasi() pada route F&B/NGO.
+
+Tabel 4.2.18b. Ringkasan Cakupan Kelas AdminSistem
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`verifikasiPendaftaran()`* |
+| Operasi yang diuji | *`butuhPeran()` dan `butuhDiverifikasi()` sebagai guard implementasi C32; operasi `verifikasiPendaftaran()` didelegasikan ke C04 dan diuji melalui integrasi* |
+| ID Algoritma yang tercakup | *Algo-C32-01 bagian pemeriksaan kewenangan admin* |
+| Coverage (wajib ≥ 70%) | *100% baris / 100% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.19 Kelas GeolocationAdapter
+
+**ID Kelas:** *C33*  
+**Nama Kelas:** *GeolocationAdapter*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.19. Hasil Pengujian Unit Kelas GeolocationAdapter
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C33-UT01* | *`hitungJarak()`* | *Normal* | *Koordinat `0,0` dan `0,1`* | *Jarak dihitung memakai formula Haversine dan dibulatkan dua desimal* | *Lulus, jarak `111.19` km* | *Pass* |
+| *C33-UT02* | *`hitungJarak()`* | *Batas* | *Koordinat dengan spasi; koordinat batas `-90,-180` dan `90,180`* | *Spasi diabaikan; koordinat batas diterima; jarak dihitung dengan benar* | *Lulus, jarak koordinat sama `0` km dan jarak antipodal `20015.09` km* | *Pass* |
+| *C33-UT03* | *`hitungJarak()`* | *Negatif* | *Lokasi pengguna kosong; lokasi pemilik kosong; geocoding alamat gagal* | *Galat `Lokasi harus diisi.` untuk lokasi kosong; galat `Lokasi tidak ditemukan: ...` saat geocoding gagal* | *Lulus, seluruh kasus ditolak dengan pesan yang sesuai* | *Pass* |
+| *C33-UT04* | *`ambilKoordinat()`* | *Normal* | *String koordinat `' -6.9175, 107.6191 '`* | *Koordinat langsung diparse tanpa memanggil layanan geocoding* | *Lulus, menghasilkan `{ lat: -6.9175, lng: 107.6191 }`* | *Pass* |
+| *C33-UT05* | *`ambilKoordinat()`* | *Batas* | *Alamat teks yang sama dipanggil dua kali dengan perbedaan huruf besar/kecil* | *Panggilan pertama memakai geocoding; panggilan kedua memakai cache; `fetch` hanya dipanggil sekali* | *Lulus, hasil kedua sama dan jumlah panggilan `fetch` tetap 1* | *Pass* |
+| *C33-UT06* | *`ambilKoordinat()`* | *Negatif* | *Input `null` dan kosong; respons HTTP gagal; hasil kosong; `lat`/`lon` tidak numerik; koordinat di luar batas; `AbortError`; galat jaringan* | *Galat `Lokasi harus diisi.` atau `Lokasi tidak ditemukan: ...` sesuai kasus; galat jaringan diteruskan* | *Lulus, seluruh respons tidak valid ditolak dengan pesan yang sesuai* | *Pass* |
+
+Tabel 4.2.19b. Ringkasan Cakupan Kelas GeolocationAdapter
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`hitungJarak()`, `ambilKoordinat()`* |
+| Operasi yang diuji | *Kedua operasi public di atas* |
+| ID Algoritma yang tercakup | *Algo-C33-01, Algo-C33-02* |
+| Coverage (wajib ≥ 70%) | *100% baris / 94.44% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.20 Kelas PenyaringanController
+
+**ID Kelas:** *C34*  
+**Nama Kelas:** *PenyaringanController*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.20. Hasil Pengujian Unit Kelas PenyaringanController
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C34-UT01* | *`saringProdukSurplus()`* | *Normal* | *Kata kunci `c34 NASI` dengan spasi, jenis `Makanan`, jarak maksimum 2 km, dan waktu `hari-ini`; tersedia produk dekat Makanan, dekat Minuman, serta jauh Makanan besok* | *Seluruh kriteria digabung dengan operator AND; hanya produk dekat berkategori Makanan yang tampil* | *Lulus, hanya `C34 Nasi Rendang` yang tampil; `totalTersedia` 3, `totalDitampilkan` 1, dan `adaFilter` `true`* | *Pass* |
+| *C34-UT02* | *`saringProdukSurplus()`* | *Batas* | *Tanpa filter; kata kunci berisi spasi; jarak maksimum 10 km dengan waktu `besok`* | *Tanpa filter seluruh produk tampil; kata kunci spasi dianggap kosong; batas jarak 10 km dan waktu besok hanya menampilkan produk besok* | *Lulus, 2 produk tampil tanpa filter; kata kunci spasi menghasilkan 2 produk; filter 10 km dan besok hanya menghasilkan `C34 Besok`* | *Pass* |
+| *C34-UT03* | *`saringProdukSurplus()`* | *Negatif* | *Jenis `Lainnya`, jarak `3`, dan waktu `kemarin`; kemudian kata kunci `zzz-tidak-ada`* | *Kriteria tidak valid diabaikan sehingga produk valid tetap tampil; pencarian tanpa hasil mengembalikan daftar kosong tanpa galat* | *Lulus, kriteria tidak valid diabaikan dan `C34 Produk Valid` tampil; pencarian `zzz-tidak-ada` menghasilkan 0 hasil dengan `galat` `null`* | *Pass* |
+| *C34-UT04* | *`cariProdukSurplus()`* | *Normal* | *Kata kunci `ayam GEPREK` pada produk `C34 Ayam Geprek` dan `C34 Kopi Susu`* | *Pencarian nama produk tidak membedakan huruf besar/kecil dan hanya mengembalikan produk yang cocok* | *Lulus, hanya `C34 Ayam Geprek` tampil; `totalTersedia` 2 dan `totalDitampilkan` 1* | *Pass* |
+| *C34-UT05* | *`cariProdukSurplus()`* | *Batas* | *Kata kunci kosong, kata kunci berisi spasi saja, dan kata kunci `  ayam  `* | *Kata kunci kosong atau spasi mengembalikan seluruh daftar; spasi di awal dan akhir kata kunci diabaikan* | *Lulus, kata kunci kosong dan spasi menghasilkan 2 produk; kata kunci `  ayam  ` hanya menghasilkan `C34 Ayam Geprek`* | *Pass* |
+| *C34-UT06* | *`cariProdukSurplus()`* | *Negatif* | *Kata kunci `tidak-ada-produk-ini`* | *Tidak ada produk yang cocok sehingga daftar hasil kosong dan halaman tetap dirender tanpa galat* | *Lulus, `totalTersedia` 1, `totalDitampilkan` 0, daftar kosong, dan `galat` `null`* | *Pass* |
+
+Catatan: kelas *C34 PenyaringanController* diimplementasikan sebagai helper privat di `SurplusController.js`, sehingga pengujian dijalankan melalui `tampilkanDaftarSurplus()`. Nilai kriteria yang tidak termasuk pilihan valid dinormalkan atau diabaikan, bukan dilempar sebagai galat.
+
+Tabel 4.2.20b. Ringkasan Cakupan Kelas PenyaringanController
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`saringProdukSurplus()`, `cariProdukSurplus()`* |
+| Operasi yang diuji | *Kedua operasi public di atas melalui `tampilkanDaftarSurplus()`, mencakup pencarian kata kunci, penyaringan jenis, jarak, waktu, serta penanganan kriteria tidak valid* |
+| ID Algoritma yang tercakup | *Algo-C34-01 s.d. Algo-C34-06* |
+| Coverage (wajib ≥ 70%) | *97.53% baris / 90.32% cabang gabungan dengan C27 pada `SurplusController.js`; `node --test --experimental-test-coverage --test-coverage-include="**/controllers/SurplusController.js" tests/SurplusController.test.js tests/PenyaringanController.test.js`, bukti pada 4.6* |
 
 <br>
 
@@ -995,6 +1131,15 @@ Tabel 4.6. Bukti Hasil Pengujian
 | *C26 (coverage)* | *<img src="assets/Bukti-4.2/C26-Coverage.png">* |
 | *C27-UT01 – C27-UT11* | *<img src="assets/Bukti-4.2/C27-UT.png">* |
 | *C27 (coverage)* | *<img src="assets/Bukti-4.2/C27-Coverage.png">* |
+| *C28-UT01 – C28-UT18* | *<img src="assets/Bukti-4.2/C28-UT.png">* |
+| *C28 (coverage)* | *<img src="assets/Bukti-4.2/C28-Coverage.png">* |
+| *C29-UT01 – C29-UT06* | *<img src="assets/Bukti-4.2/C29-UT.png">* |
+| *C32-UT01 – C32-UT06* | *<img src="assets/Bukti-4.2/C32-UT.png">* |
+| *C32 (coverage)* | *<img src="assets/Bukti-4.2/C32-Coverage.png">* |
+| *C33-UT01 – C33-UT06* | *<img src="assets/Bukti-4.2/C33-UT.png">* |
+| *C33 (coverage)* | *<img src="assets/Bukti-4.2/C33-Coverage.png">* |
+| *C34-UT01 – C34-UT06* | *<img src="assets/Bukti-4.2/C34-UT.png">* |
+| *C34 (coverage)* | *<img src="assets/Bukti-4.2/C34-Coverage.png">* |
 | *INT-TC01* | *[Sisipkan bukti pengujian integrasi]* |
 | *UC01-TC01* | *[Sisipkan tangkapan layar UC01-TC01 sesuai prosedur pengujian]* |
 | *UC01-TC02* | *[Sisipkan tangkapan layar UC01-TC02 sesuai prosedur pengujian]* |
