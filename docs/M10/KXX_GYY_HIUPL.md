@@ -135,18 +135,105 @@ Dokumen HIUPL ini disusun dalam lima bab. **Bab 1** memuat pendahuluan yang menj
 
 # BAB 2: Deskripsi Umum Perangkat Lunak
 
-Bagian ini diisi dengan *System Overview*, dalam bentuk gambar dan narasi yang memberikan gambaran tentang aplikasi dan konteksnya. **Batasan dan keterkaitan** antara sistem yang dibangun dengan sistem lain di luarnya harus jelas. Deskripsi umum sistem perlu dilengkapi dengan pemodelan kasus yang dihadapi, seperti *use case diagram*. Berikan narasi yang jelas untuk setiap gambar yang ditampilkan.
+## 2.1 Gambaran Umum Sistem (System Overview)
 
-Bagian ini dapat menyalin atau meringkas dari dokumen SKPL atau DPPL.
+FoodLink merupakan aplikasi berbasis web yang menghubungkan Pemilik F&B dengan Perwakilan NGO untuk mengurangi makanan surplus. Pemilik F&B mencatat data penjualan harian dan sisa produk; data tersebut diolah sistem menjadi rekomendasi produksi untuk hari berikutnya. Apabila masih terdapat makanan berlebih, Pemilik F&B mencatat produk surplus dan menentukan metode distribusinya, yaitu donasi atau penjualan dengan harga diskon. Perwakilan NGO melihat informasi produk surplus, menyaringnya berdasarkan jenis, jarak, dan batas waktu pengambilan, lalu mengajukan klaim. Admin Sistem memverifikasi pendaftaran akun dan memantau log aktivitas pengguna.
+
+FoodLink dibangun dengan pola arsitektur MVC (*Model-View-Controller*). *View* menampilkan halaman dan meneruskan aksi pengguna, *Controller* memvalidasi masukan dan mengatur alur use case, sedangkan *Model* mengelola data ke basis data. Gambar 2.1 menunjukkan rancangan arsitektur MVC yang menjadi acuan implementasi.
 
 <p align="center">
-<img alt="System Overview / Use Case Diagram" src="./assets/contoh-uc-diagram.webp" width="90%">
+<img alt="Arsitektur MVC FoodLink" src="../M8/assets/diagram/Gambar%201.%20Arsitektur%20MVC%20FoodLink.jpg" width="70%">
 </p>
 <p align="center">
-<i>Gambar 2.1. Use Case Diagram [Nama P/L]</i>
+<i>Gambar 2.1. Arsitektur MVC FoodLink (sumber: M8 DPPL2, Subbab 2.2.1)</i>
 </p>
 
 <br>
+
+Gambar diatas memperlihatkan hubungan antara *View*, *Controller*, dan *Model*. *View* mengirim aksi pengguna ke *Controller* dan menerima perubahan tampilan; *Controller* mengakses *Model* untuk membaca atau mengubah data; *Model* memberi notifikasi perubahan dan melayani permintaan data. Pemisahan ini memungkinkan beberapa halaman memakai logika yang sama, misalnya data produk surplus digunakan oleh halaman Pemilik F&B dan Perwakilan NGO.
+
+## 2.2 Batas Sistem dan Keterkaitan dengan Sistem Eksternal
+
+Batas FoodLink mencakup seluruh proses pengelolaan akun, data penjualan, prediksi produksi, produk surplus, klaim, konfirmasi pengambilan, dan log aktivitas.
+
+Beberapa batasan utama FoodLink adalah sebagai berikut.
+
+1. FoodLink tidak terintegrasi dengan *payment gateway*. Sistem hanya mencatat metode distribusi, yaitu donasi atau penjualan dengan harga diskon; pembayaran dilakukan langsung antara Pemilik F&B dan Perwakilan NGO di luar sistem.
+2. FoodLink tidak menyediakan layanan pengiriman. Produk surplus harus diambil langsung di lokasi Pemilik F&B sebelum batas waktu pengambilan.
+3. Dokumen pendaftaran hanya dapat diunggah dalam format PDF, JPG, atau PNG dengan ukuran maksimal 5 MB per dokumen. Akun baru dapat digunakan setelah diverifikasi secara manual oleh Admin Sistem.
+4. Prediksi produksi hanya dapat dijalankan apabila tersedia minimal tujuh hari data penjualan.
+5. Satu produk surplus hanya dapat diklaim oleh satu Perwakilan NGO. Klaim diproses secara atomik agar tidak terjadi klaim ganda.
+6. Pengelolaan data pribadi pengguna mengikuti UU No. 27 Tahun 2022 tentang Pelindungan Data Pribadi.
+
+
+Tabel 2.1. Keterkaitan FoodLink dengan Sistem Eksternal
+
+| Komponen/Sistem | Posisi | Keterkaitan dengan FoodLink |
+| :--- | :--- | :--- |
+| *Browser modern* | Di luar sistem, sisi klien | Menampilkan antarmuka FoodLink. |
+| *OpenStreetMap Nominatim* | Di luar sistem, layanan pihak ketiga | Mengubah alamat kantor Perwakilan NGO dan alamat usaha Pemilik F&B menjadi koordinat. |
+| *Basis data SQLite* | Di dalam deployment FoodLink | Menyimpan data secara lokal menggunakan `better-sqlite3`. Rancangan DPPL memakai PostgreSQL 15, tetapi implementasi memakai SQLite (M9 Tabel B.1 no.1). |
+
+<br>
+
+<p align="center">
+<img alt="Logical View FoodLink" src="../M8/assets/diagram/Gambar%202.%20Logical%20View%20FoodLink.jpg" width="100%">
+</p>
+<p align="center">
+<i>Gambar 2.2. Logical View FoodLink (sumber: M8 DPPL2, Subbab 2.4.1)</i>
+</p>
+
+
+Gambar diatas menegaskan batas sistem dari sisi komponen. *View*, *Controller*, *Model*, dan basis data berada di dalam FoodLink, sedangkan komponen integrasi eksternal *GeolocationAdapter* menghubungkan sistem dengan layanan peta di luar FoodLink. Pada gambar, basis data masih berlabel PostgreSQL 15 karena gambar berasal dari DPPL; implementasi akhir menggunakan SQLite sebagaimana tercatat pada M9 Tabel B.1 no.1. Adapter geolocation diimplementasikan menggunakan Nominatim dengan batas waktu dan cache (M9 Tabel B.1 no.21).
+
+## 2.3 Aktor dan Pemodelan Kasus
+
+FoodLink memiliki tiga aktor yang berinteraksi langsung dengan sistem.
+
+Tabel 2.2. Aktor FoodLink
+
+| ID Aktor | Aktor | Peran Utama |
+| :--- | :--- | :--- |
+| *A01* | *Pemilik F&B* | Mencatat data penjualan harian, melihat hasil prediksi produksi, mencatat produk surplus, dan mengatur metode distribusi surplus. |
+| *A02* | *Perwakilan NGO* | Melihat dan menyaring informasi produk surplus, mengajukan klaim, serta mengonfirmasi pengambilan produk. |
+| *A03* | *Admin Sistem* | Memverifikasi pendaftaran akun dan mengecek log aktivitas pengguna. |
+
+<br>
+
+Interaksi aktor dengan sistem dimodelkan dalam 12 use case utama.
+
+Tabel 2.3. Daftar Use Case FoodLink
+
+| ID UC | Nama Use Case | Aktor | ID KF |
+| :--- | :--- | :--- | :--- |
+| *UC01* | *Melakukan Registrasi Akun* | *A01, A02* | *KF01* |
+| *UC02* | *Memverifikasi Pendaftaran Akun* | *A03* | *KF02, KF03* |
+| *UC03* | *Melihat Status Pendaftaran* | *A01, A02* | *KF04* |
+| *UC04* | *Mencatat Data Penjualan Harian* | *A01* | *KF05* |
+| *UC05* | *Melihat Hasil Prediksi Produksi* | *A01* | *KF06, KF07* |
+| *UC06* | *Mencatat Produk Surplus* | *A01* | *KF08* |
+| *UC07* | *Mengatur Metode Distribusi Surplus* | *A01* | *KF09* |
+| *UC08* | *Melihat Informasi Produk Surplus* | *A02* | *KF10, KF11* |
+| *UC09* | *Menyaring Informasi Produk Surplus* | *A02* | *KF12* |
+| *UC10* | *Mengklaim Produk Surplus* | *A02* | *KF13* |
+| *UC11* | *Mengonfirmasi Pengambilan Produk Surplus* | *A01, A02* | *KF14* |
+| *UC12* | *Mengecek Log Aktivitas Pengguna* | *A03* | *KF15* |
+
+## 2.4 Use Case Diagram
+
+Gambar dibawah menunjukkan *use case diagram* FoodLink yang memperlihatkan aktor, batas sistem, dan hubungan antar-use case.
+
+<p align="center">
+<img alt="Use Case Diagram FoodLink" src="../M5/assets/diagram/Use%20Case%20Diagram-Revisi.jpg" width="70%">
+</p>
+<p align="center">
+<i>Gambar 2.3. Use Case Diagram FoodLink (sumber: M5 SKPL, Subbab 4.3)</i>
+</p>
+
+<br>
+
+
+
 
 ---
 
