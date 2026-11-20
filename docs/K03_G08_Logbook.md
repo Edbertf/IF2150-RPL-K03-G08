@@ -171,3 +171,11 @@
 | *13-11-2026* | *Edbert Fernando* | *Review PR* | *1.5 jam* | *done* | *-* |
 | *13-11-2026* | *Ernest Clarence Gunawan* | *Realisasi UC01, 02,03* | *12 jam* | *done* | *-* |
 | *13-11-2026* | *Excell Timothy Josua Tarigan* | *implementasi UC06-07* | *12 jam* | *Done* | *kebingungan mengikuti konvensi kode dari teman* |
+
+### Milestone 10
+**Periode:** 13 November 2026 - 20 November 2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
+| :--- | :--- | :--- | :--- | :--- | :--- | 
+| *11-11-2026* | *Dylan Frederico Ketaren* | *mengerjakan bagian 4.3 Pengujian Integrasi* | *3 jam* | *Done* | *-* |
+
