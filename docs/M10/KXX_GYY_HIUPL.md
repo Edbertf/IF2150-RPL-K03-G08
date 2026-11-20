@@ -278,12 +278,12 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 | *C03* | *DokumenPendukung* | *Mendalam* | *Memvalidasi tipe dan ukuran berkas serta menyimpan dokumen pendukung* | C03-UT01 s.d. C03-UT10 |
 | *C04* | *VerifikasiController* | *Sedang* | *Mengoordinasikan tampilan verifikasi dan mendelegasikan perubahan status ke C02, diuji juga melalui integrasi* | C04-UT01 s.d. C04-UT07 |
 | *C05* | *Produk* | *Tidak perlu* | *Entity produk tanpa logika, hanya menyimpan atribut dan getter, diuji tidak langsung melalui UC* | C06-UT01 s.d. C06-UT08 |
-| *C06* | *DataPenjualan* | *Mendalam* | *Memvalidasi input penjualan dan menghitung sisa stok harian* | |
-| *C07* | *PrediksiProduksi* | *Mendalam* | *Menjalankan dan menyimpan prediksi produksi beserta rekomendasi jumlah* | |
-| *C08* | *ProdukSurplus* | *Mendalam* | *Memvalidasi data surplus dan mengelola status ketersediaan* | |
-| *C09* | *MetodeDistribusiSurplus* | *Mendalam* | *Menentukan metode distribusi serta perhitungan harga atau gratis* | |
-| *C10* | *DokumenKlaim* | *Mendalam* | *Mencatat klaim dan mengelola transisi status klaim* | |
-| *C11* | *LogAktivitas* | *Mendalam* | *Mencari dan menyaring log dengan query serta validasi kriteria* | |
+| *C06* | *DataPenjualan* | *Mendalam* | *Memvalidasi input penjualan dan menghitung sisa stok harian* | *C06-UT01 s.d. C06-UT08* |
+| *C07* | *PrediksiProduksi* | *Mendalam* | *Menjalankan dan menyimpan prediksi produksi beserta rekomendasi jumlah* | *C07-UT01 s.d. C07-UT08* |
+| *C08* | *ProdukSurplus* | *Mendalam* | *Memvalidasi data surplus dan mengelola status ketersediaan* | *C08-UT01 s.d. C08-UT16* |
+| *C09* | *MetodeDistribusiSurplus* | *Mendalam* | *Menentukan metode distribusi serta perhitungan harga atau gratis* | *C09-UT01 s.d. C09-UT09* |
+| *C10* | *DokumenKlaim* | *Mendalam* | *Mencatat klaim dan mengelola transisi status klaim* | *C10-UT01 s.d. C10-UT09* |
+| *C11* | *LogAktivitas* | *Mendalam* | *Mencari dan menyaring log dengan query serta validasi kriteria* | *C11-UT01 s.d. C11-UT09* |
 | *C12* | *RegistrasiPage* | *Tidak perlu* | *View-only untuk formulir registrasi, logika di C23, diuji tidak langsung melalui UC* | |
 | *C13* | *VerifikasiPage* | *Tidak perlu* | *View-only untuk daftar dan detail verifikasi, logika di C04, diuji tidak langsung melalui UC* | |
 | *C14* | *StatusPendaftaranPage* | *Tidak perlu* | *View-only untuk status pendaftaran, logika di C02, diuji tidak langsung melalui UC* | |
@@ -312,9 +312,9 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 
 Pengujian unit dilakukan pada kelas bertingkat Mendalam dan Sedang. Kelas Mendalam diuji pada seluruh operasi public dengan kasus normal, batas, dan negatif, serta mencapai *coverage* minimal 70%. Kelas Sedang diuji minimal dengan satu kasus normal dan satu kasus gagal pada operasi public utama.
 
-Cara menjalankan unit test: *[tuliskan perintah, mis. `pytest src/tests/`]*.
+Cara menjalankan unit test: *tambahkan `--experimental-test-coverage --test-coverage-include="**/<Folder>/<NamaKelas>.js"` pada perintah tersebut, misalnya `node --test --experimental-test-coverage --test-coverage-include="**/models/PrediksiProduksi.js" tests/PrediksiProduksi.test.js` untuk C07*.
 
-Lokasi file test: *[path, mis. `src/tests/`]*.
+Lokasi file test: *`src/tests/`*.
 
 ### 4.2.1 Kelas AkunPengguna
 
@@ -455,6 +455,157 @@ Tabel 4.2.5b. Ringkasan Cakupan Kelas DataPenjualan
 | ID Algoritma yang tercakup | *Algo-C06-01, Algo-C06-02* |
 | Coverage (wajib ≥ 70%) | *100% baris / 100% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
 
+### 4.2.6 Kelas PrediksiProduksi
+
+**ID Kelas:** *C07*  
+**Nama Kelas:** *PrediksiProduksi*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.6. Hasil Pengujian Unit Kelas PrediksiProduksi
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C07-UT01* | *`simpanPrediksi()`* | *Normal* | *Dua baris data untuk satu produk: 10/4 dan 20/0* | *Satu prediksi tersimpan untuk tanggal besok dengan rata-rata terjual 15 dan tersisa 2, sehingga rekomendasi 16* | *Lulus, tanggal dan nilai rekomendasi sesuai* | *Pass* |
+| *C07-UT02* | *`simpanPrediksi()`* | *Batas* | *Dua produk berbeda, lalu produk A dicatat ulang pada tanggal prediksi yang sama* | *Produk A dan B masing-masing mendapat prediksi; pencatatan ulang A memperbarui baris tanpa duplikasi* | *Lulus, jumlah baris tetap dan nilai terbaru tersimpan* | *Pass* |
+| *C07-UT03* | *`simpanPrediksi()`* | *Negatif* | *Array kosong, `null`, string, lalu produk valid diikuti idProduk 999999* | *Input kosong dan FOREIGN KEY ditolak; transaksi dibatalkan sehingga tidak ada prediksi tersimpan* | *Lulus, error terdeteksi dan tidak ada baris tersimpan* | *Pass* |
+| *C07-UT04* | *`getHasilPrediksi()`* | *Normal* | *Prediksi dua produk milik satu pemilik; produk A memiliki penjualan terakhir 10* | *Dua baris dikembalikan urut idProduk; produk A memiliki rekomendasi 12, penjualan terakhir 10, dan tren 2* | *Lulus, filter, urutan, dan tren sesuai* | *Pass* |
+| *C07-UT05* | *`getHasilPrediksi()`* | *Batas* | *Prediksi produk tanpa data penjualan dan prediksi milik pemilik lain* | *Hanya prediksi pemilik yang dikembalikan; `terjualTerakhir` dan `tren` bernilai `null`* | *Lulus, data pemilik lain tidak ikut dan nilai null sesuai* | *Pass* |
+| *C07-UT06* | *`getHasilPrediksi()`* | *Negatif* | *Prediksi tersimpan untuk tanggal hari ini dan idPemilik 999999* | *Mengembalikan array kosong karena prediksi harus bertanggal besok dan milik pemilik yang diminta* | *Lulus, hasil `[]`* | *Pass* |
+| *C07-UT07* | *`hitungRekomendasi()`* | *Normal/Batas/Negatif* | *Nilai 10/4, 10.4/0, 10.5/0, -10/0, `Infinity`, dan `NaN`* | *Hasil 12, 10, 11, 0, 0, dan 0 sesuai pembulatan serta batas bawah* | *Lulus, pembulatan dan penanganan nilai tidak valid sesuai* | *Pass* |
+| *C07-UT08* | *`tanggalBesok()`* | *Normal* | *Memanggil helper tanggal besok* | *Tanggal Jakarta berformat `YYYY-MM-DD` satu hari setelah hari ini* | *Lulus, format dan tanggal sesuai* | *Pass* |
+
+Tabel 4.2.6b. Ringkasan Cakupan Kelas PrediksiProduksi
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`simpanPrediksi()`, `getHasilPrediksi()`* |
+| Operasi yang diuji | *`simpanPrediksi()`, `getHasilPrediksi()`, `hitungRekomendasi()`, `tanggalBesok()`* |
+| ID Algoritma yang tercakup | *Algo-C07-01, Algo-C07-02* |
+| Coverage (wajib ≥ 70%) | *100% baris / 100% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.7 Kelas ProdukSurplus
+
+**ID Kelas:** *C08*  
+**Nama Kelas:** *ProdukSurplus*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.7. Hasil Pengujian Unit Kelas ProdukSurplus
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C08-UT01* | *`simpanProdukSurplus()`* | *Normal* | *Produk valid, jumlah 3, batas waktu 2099-01-01 12:00* | *idSurplus dikembalikan dan baris tersimpan dengan status `tersedia` serta atribut sesuai* | *Lulus, id dan seluruh atribut sesuai* | *Pass* |
+| *C08-UT02* | *`simpanProdukSurplus()`* | *Batas* | *Jumlah tepat 1* | *Surplus tetap tersimpan karena jumlah minimum yang diterima constraint adalah 1* | *Lulus, jumlah 1 tersimpan* | *Pass* |
+| *C08-UT03* | *`simpanProdukSurplus()`* | *Negatif* | *Jumlah 0, jumlah -1, lalu idProduk 999999* | *CHECK dan FOREIGN KEY menolak penyimpanan; jumlah baris tidak bertambah* | *Lulus, error constraint terdeteksi dan tidak ada baris baru* | *Pass* |
+| *C08-UT04* | *`setStatus()`* | *Normal* | *Surplus tersedia diubah menjadi `terklaim`* | *Status berubah menjadi `terklaim`* | *Lulus, status tersimpan* | *Pass* |
+| *C08-UT05* | *`setStatus()`* | *Batas* | *Surplus terklaim diubah menjadi `selesai`* | *Status berubah menjadi `selesai`* | *Lulus, status akhir sesuai* | *Pass* |
+| *C08-UT06* | *`setStatus()`* | *Negatif* | *Status `diproses`; lalu status `selesai` untuk idSurplus 999999* | *Status tidak valid ditolak tanpa perubahan; id yang tidak ada memunculkan error* | *Lulus, kedua kesalahan terdeteksi* | *Pass* |
+| *C08-UT07* | *`getDetailSurplus()`* | *Normal* | *idSurplus valid dengan jumlah 5* | *Seluruh atribut surplus dikembalikan sesuai baris database* | *Lulus, id, jumlah, batas waktu, dan status sesuai* | *Pass* |
+| *C08-UT08* | *`getDetailSurplus()`* | *Batas* | *Surplus dengan batas waktu 2020-01-01 12:00* | *Detail tetap dikembalikan karena penyaringan waktu dilakukan di C27* | *Lulus, detail tersedia meskipun batas waktu lewat* | *Pass* |
+| *C08-UT09* | *`getDetailSurplus()`* | *Negatif* | *idSurplus 999999 dan 0* | *Mengembalikan `null`* | *Lulus, hasil `null`* | *Pass* |
+| *C08-UT10* | *`getProdukSurplusTersedia()`* | *Normal* | *Dua surplus tersedia, satu terklaim, dan satu selesai* | *Hanya dua surplus tersedia yang dikembalikan, urut idSurplus* | *Lulus, filter status dan urutan sesuai* | *Pass* |
+| *C08-UT11* | *`getProdukSurplusTersedia()`* | *Batas* | *Satu surplus tersedia dengan batas waktu 2020-01-01 12:00* | *Model tetap mengembalikannya; penyaringan batas waktu dilakukan C27* | *Lulus, baris tersedia dikembalikan* | *Pass* |
+| *C08-UT12* | *`getProdukSurplusTersedia()`* | *Negatif* | *Tabel surplus dikosongkan* | *Mengembalikan array kosong* | *Lulus, hasil `[]`* | *Pass* |
+| *C08-UT13* | *`getStatus()`* | *Normal* | *Surplus baru berstatus tersedia* | *Mengembalikan `tersedia`* | *Lulus, status sesuai* | *Pass* |
+| *C08-UT14* | *`getStatus()`* | *Batas* | *Status diubah menjadi `selesai` lalu dibaca kembali* | *Mengembalikan `selesai`* | *Lulus, status terbaru terbaca* | *Pass* |
+| *C08-UT15* | *`getStatus()`* | *Negatif* | *idSurplus 999999 dan 0* | *Mengembalikan `null`* | *Lulus, hasil `null`* | *Pass* |
+| *C08-UT16* | *`tambahProduk()`, `getSemuaProduk()`, `getProdukById()`, `updateProduk()`* | *Normal/Negatif* | *Tambah produk, baca daftar/detail, ubah produk, lalu akses id 999999* | *Produk bertambah dan berubah; id yang tidak ada menghasilkan `null`; update id tidak ada ditolak* | *Lulus, seluruh operasi pendukung sesuai* | *Pass* |
+
+Tabel 4.2.7b. Ringkasan Cakupan Kelas ProdukSurplus
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`simpanProdukSurplus()`, `setStatus()`, `getDetailSurplus()`, `getProdukSurplusTersedia()`, `getStatus()`* |
+| Operasi yang diuji | *`simpanProdukSurplus()`, `setStatus()`, `getDetailSurplus()`, `getProdukSurplusTersedia()`, `getStatus()`, operasi pendukung `tambahProduk()`, `getSemuaProduk()`, `getProdukById()`, `updateProduk()`* |
+| ID Algoritma yang tercakup | *Algo-C08-01 s.d. Algo-C08-05* |
+| Coverage (wajib ≥ 70%) | *100% baris / 100% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.8 Kelas MetodeDistribusiSurplus
+
+**ID Kelas:** *C09*  
+**Nama Kelas:** *MetodeDistribusiSurplus*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.8. Hasil Pengujian Unit Kelas MetodeDistribusiSurplus
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C09-UT01* | *`simpanMetode()`* | *Normal* | *Produk valid dengan jenis `Donasi` dan harga 0* | *Satu baris metode tersimpan dengan jenis `Donasi` dan harga 0* | *Lulus, data metode sesuai* | *Pass* |
+| *C09-UT02* | *`simpanMetode()`* | *Batas* | *Produk yang sudah memiliki metode `Donasi` diubah menjadi `Jual Diskon` dengan harga 8000* | *Baris yang sama diperbarui, tidak ada duplikasi, dan idDistribusi tetap* | *Lulus, jumlah baris tetap dan nilai terbaru tersimpan* | *Pass* |
+| *C09-UT03* | *`simpanMetode()`* | *Negatif* | *Jenis `Gratis`; idProduk 999999; lalu harga -1 untuk `Jual Diskon`* | *Jenis ditolak validasi; relasi ditolak FOREIGN KEY; harga negatif ditolak CHECK; tidak ada baris baru* | *Lulus, seluruh error terdeteksi* | *Pass* |
+| *C09-UT04* | *`getInfoDistribusi()`* | *Normal* | *Produk dengan metode `Donasi` dan harga 0* | *Mengembalikan objek berisi `jenisDistribusi` dan `harga`* | *Lulus, objek sesuai* | *Pass* |
+| *C09-UT05* | *`getInfoDistribusi()`* | *Batas* | *Metode diubah dari `Donasi` menjadi `Jual Diskon` dengan harga 12000* | *Mengembalikan jenis dan harga terbaru* | *Lulus, data terbaru terbaca* | *Pass* |
+| *C09-UT06* | *`getInfoDistribusi()`* | *Negatif* | *idProduk 999999 dan 0* | *Mengembalikan `null`* | *Lulus, hasil `null`* | *Pass* |
+| *C09-UT07* | *`getJenisDistribusi()`* | *Normal* | *Produk dengan metode `Donasi`* | *Mengembalikan string `Donasi`* | *Lulus, jenis sesuai* | *Pass* |
+| *C09-UT08* | *`getJenisDistribusi()`* | *Batas* | *Metode diubah dari `Donasi` menjadi `Jual Diskon`* | *Mengembalikan string `Jual Diskon`* | *Lulus, jenis terbaru terbaca* | *Pass* |
+| *C09-UT09* | *`getJenisDistribusi()`* | *Negatif* | *idProduk 999999 dan 0* | *Mengembalikan `null`* | *Lulus, hasil `null`* | *Pass* |
+
+Tabel 4.2.8b. Ringkasan Cakupan Kelas MetodeDistribusiSurplus
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`pilihMetodeDistribusi()`, `getInfoDistribusi()`, `getJenisDistribusi()`* |
+| Operasi yang diuji | *`simpanMetode()` sebagai implementasi `pilihMetodeDistribusi()`, `getInfoDistribusi()`, `getJenisDistribusi()`* |
+| ID Algoritma yang tercakup | *Algo-C09-01 s.d. Algo-C09-03* |
+| Coverage (wajib ≥ 70%) | *100% baris / 100% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.9 Kelas DokumenKlaim
+
+**ID Kelas:** *C10*  
+**Nama Kelas:** *DokumenKlaim*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.9. Hasil Pengujian Unit Kelas DokumenKlaim
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C10-UT01* | *`catatKlaim()`* | *Normal* | *NGO valid mengklaim satu produk surplus* | *idKlaim dikembalikan; baris tersimpan dengan status `terklaim` dan waktu klaim valid* | *Lulus, id, status, dan waktu sesuai* | *Pass* |
+| *C10-UT02* | *`catatKlaim()`* | *Batas* | *Satu NGO mengklaim dua produk surplus berbeda* | *Dua klaim tersimpan dengan idKlaim berbeda dan status `terklaim`* | *Lulus, kedua klaim tersimpan* | *Pass* |
+| *C10-UT03* | *`catatKlaim()`* | *Negatif* | *Klaim ulang produk yang sama; idNgo 999999; idSurplus 999999* | *Duplikasi ditolak UNIQUE; relasi tidak valid ditolak FOREIGN KEY; jumlah klaim tidak bertambah* | *Lulus, seluruh error terdeteksi* | *Pass* |
+| *C10-UT04* | *`getDetailKlaim()`* | *Normal* | *idKlaim valid* | *Mengembalikan idKlaim, idNgo, idSurplus, waktuKlaim, dan statusKlaim* | *Lulus, seluruh atribut sesuai* | *Pass* |
+| *C10-UT05* | *`getDetailKlaim()`* | *Batas* | *Dua klaim berbeda, lalu mengambil klaim kedua* | *Dokumen yang dikembalikan sesuai idKlaim yang diminta, bukan klaim pertama* | *Lulus, idKlaim dan idSurplus sesuai* | *Pass* |
+| *C10-UT06* | *`getDetailKlaim()`* | *Negatif* | *idKlaim 999999 dan 0* | *Melempar error `Dokumen klaim tidak ditemukan.`* | *Lulus, error sesuai* | *Pass* |
+| *C10-UT07* | *`getDaftarKlaim()`* | *Normal* | *Dua klaim milik satu NGO dengan waktu berbeda* | *Klaim terbaru muncul lebih dulu dan data produk, kategori, status surplus, jumlah, serta nama usaha terisi* | *Lulus, urutan dan data gabungan sesuai* | *Pass* |
+| *C10-UT08* | *`getDaftarKlaim()`* | *Batas* | *Dua klaim milik NGO yang diuji dengan waktu sama, dan satu klaim milik NGO lain* | *Hanya klaim NGO yang diuji yang dikembalikan; waktu sama diurutkan idKlaim terbesar lebih dulu* | *Lulus, filter NGO dan pemecah urutan sesuai* | *Pass* |
+| *C10-UT09* | *`getDaftarKlaim()`* | *Negatif* | *idNgo 999999 dan NGO tanpa klaim* | *Mengembalikan array kosong* | *Lulus, hasil `[]`* | *Pass* |
+
+Tabel 4.2.9b. Ringkasan Cakupan Kelas DokumenKlaim
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`catatKlaim()`, `getDetailKlaim()`, `getWaktuKlaim()`, `getStatusKlaim()`* |
+| Operasi yang diuji | *`catatKlaim()`, `getDetailKlaim()` (mencakup `waktuKlaim` dan `statusKlaim`), `getDaftarKlaim()`* |
+| ID Algoritma yang tercakup | *Algo-C10-01, Algo-C10-02; Algo-C10-03/04 tercakup melalui `getDetailKlaim()`* |
+| Coverage (wajib ≥ 70%) | *96.92% baris / 85.71% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
+### 4.2.10 Kelas LogAktivitas
+
+**ID Kelas:** *C11*  
+**Nama Kelas:** *LogAktivitas*  
+**Tingkat:** *Mendalam*
+
+Tabel 4.2.10. Hasil Pengujian Unit Kelas LogAktivitas
+
+| ID Pengujian | Operasi yang Diuji | Jenis Kasus | Prosedur/Masukan | Hasil yang Diharapkan | Hasil Pengujian | Kesimpulan |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *C11-UT01* | *`catatLog()`* | *Normal* | *Akun pemilik valid dengan aktivitas `Mencatat penjualan C11`* | *Satu log tersimpan dengan waktu berformat `YYYY-MM-DD HH:mm:ss`* | *Lulus, aktivitas dan format waktu sesuai* | *Pass* |
+| *C11-UT02* | *`catatLog()`* | *Negatif* | *idAkun 999999 yang tidak terdaftar* | *INSERT ditolak FOREIGN KEY dan jumlah log tidak bertambah* | *Lulus, error relasi terdeteksi* | *Pass* |
+| *C11-UT03* | *`getDaftarLog()`* | *Normal* | *Enam log milik admin, pemilik, dan NGO dengan waktu berbeda* | *Log terbaru lebih dulu dan kolom pengguna berisi `Admin Sistem`, nama usaha, atau nama organisasi* | *Lulus, urutan dan nama pengguna sesuai* | *Pass* |
+| *C11-UT04* | *`getDaftarLog()`* | *Batas* | *120 log tambahan dimasukkan setelah data awal* | *Hanya 100 log terbaru yang dikembalikan; baris teratas adalah `Aktivitas tambahan 119`* | *Lulus, batas 100 diterapkan* | *Pass* |
+| *C11-UT05* | *`getDaftarLog()`* | *Negatif* | *Tabel log dikosongkan* | *Mengembalikan array kosong* | *Lulus, hasil `[]`* | *Pass* |
+| *C11-UT06* | *`cariLog()`* | *Normal* | *Kata kunci `Klaim`, `Surplus`, dan `Verifikasi`* | *`Klaim` dan `Surplus` masing-masing mengembalikan satu log; `Verifikasi` mengembalikan dua log, seluruhnya memuat nama pengguna* | *Lulus, hasil filter sesuai* | *Pass* |
+| *C11-UT07* | *`cariLog()`* | *Batas* | *Kata kunci `klaim` dan `SURPLUS`* | *Pencarian tetap menemukan log yang sama tanpa membedakan huruf besar/kecil* | *Lulus, pencarian case-insensitive* | *Pass* |
+| *C11-UT08* | *`cariLog()`* | *Negatif* | *Kata kunci `TidakAda`* | *Mengembalikan array kosong* | *Lulus, hasil `[]`* | *Pass* |
+| *C11-UT09* | *`adaLog()`* | *Normal/Negatif* | *Tabel berisi log, lalu dikosongkan sementara dalam transaksi* | *Mengembalikan `true` saat berisi dan `false` saat kosong; perubahan dibatalkan* | *Lulus, kedua kondisi sesuai* | *Pass* |
+
+Tabel 4.2.10b. Ringkasan Cakupan Kelas LogAktivitas
+
+| Informasi | Keterangan |
+| :--- | :--- |
+| Daftar operasi public pada DPPL | *`getDaftarLog()`, `cariLog()`* |
+| Operasi yang diuji | *`getDaftarLog()`, `cariLog()`, `catatLog()`, `adaLog()`* |
+| ID Algoritma yang tercakup | *Algo-C11-01, Algo-C11-02* |
+| Coverage (wajib ≥ 70%) | *100% baris / 100% cabang, `node --test --experimental-test-coverage`, bukti pada 4.6* |
+
 <br>
 
 ## 4.3 Pengujian Integrasi
@@ -537,6 +688,16 @@ Tabel 4.6. Bukti Hasil Pengujian
 | *C04-UT01 – C04-UT07* | *<img src="assets/Bukti-4.2/C04-UT.png">* |
 | *C06-UT01 – C06-UT08* | *<img src="assets/Bukti-4.2/C06-UT.png">* |
 | *C06 (coverage)* | *<img src="assets/Bukti-4.2/C06-Coverage.png">* |
+| *C07-UT01 – C07-UT08* | *<img src="assets/Bukti-4.2/C07-UT.png">* |
+| *C07 (coverage)* | *<img src="assets/Bukti-4.2/C07-Coverage.png">* |
+| *C08-UT01 – C08-UT16* | *<img src="assets/Bukti-4.2/C08-UT.png">* |
+| *C08 (coverage)* | *<img src="assets/Bukti-4.2/C08-Coverage.png">* |
+| *C09-UT01 – C09-UT09* | *<img src="assets/Bukti-4.2/C09-UT.png">* |
+| *C09 (coverage)* | *<img src="assets/Bukti-4.2/C09-Coverage.png">* |
+| *C10-UT01 – C10-UT09* | *<img src="assets/Bukti-4.2/C10-UT.png">* |
+| *C10 (coverage)* | *<img src="assets/Bukti-4.2/C10-Coverage.png">* |
+| *C11-UT01 – C11-UT09* | *<img src="assets/Bukti-4.2/C11-UT.png">* |
+| *C11 (coverage)* | *<img src="assets/Bukti-4.2/C11-Coverage.png">* |
 | *INT-TC01* | *[Sisipkan bukti pengujian integrasi]* |
 | *UC01-TC01* | *[Sisipkan tangkapan layar UC01-TC01 sesuai prosedur pengujian]* |
 | *UC01-TC02* | *[Sisipkan tangkapan layar UC01-TC02 sesuai prosedur pengujian]* |
